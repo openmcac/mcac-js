@@ -1,5 +1,7 @@
 # Mcac
 
+[![Build Status](https://travis-ci.org/openmcac/mcac-js.svg)](https://travis-ci.org/openmcac/mcac-js)
+
 This README outlines the details of collaborating on this Ember application.
 A short introduction of this app could easily go here.
 
