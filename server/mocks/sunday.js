@@ -1,18 +1,8 @@
 module.exports = function(app) {
   var express = require('express');
-  var bulletinsRouter = express.Router();
+  var sundayRouter = express.Router();
 
-  bulletinsRouter.get('/', function(req, res) {
-    res.send({
-      "bulletins": []
-    });
-  });
-
-  bulletinsRouter.post('/', function(req, res) {
-    res.status(201).end();
-  });
-
-  bulletinsRouter.get('/:id', function(req, res) {
+  sundayRouter.get('/', function(req, res) {
     res.send({
       "bulletin": {
         "id": 1,
@@ -38,17 +28,5 @@ module.exports = function(app) {
     });
   });
 
-  bulletinsRouter.put('/:id', function(req, res) {
-    res.send({
-      "bulletins": {
-        "id": req.params.id
-      }
-    });
-  });
-
-  bulletinsRouter.delete('/:id', function(req, res) {
-    res.status(204).end();
-  });
-
-  app.use('/api/v1/bulletins', bulletinsRouter);
+  app.use('/api/v1/sunday', sundayRouter);
 };
