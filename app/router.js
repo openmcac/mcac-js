@@ -10,6 +10,8 @@ Router.map(function() {
     this.resource('bulletin', { path: 'bulletins/:bulletin_id' }, function() {
     });
   });
+  this.route('bulletin/sunday', { path: '/sunday' }, function() {
+  });
 });
 
 export default Router;
