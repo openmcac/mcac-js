@@ -14,6 +14,9 @@
     "handlebars": "~1.3.0",
     "jquery": "^1.11.1",
     "loader.js": "stefanpenner/loader.js#1.0.1",
-    "qunit": "~1.15.0"
+    "qunit": "~1.15.0",
+    "eonasdan-bootstrap-datetimepicker": "~3.1.3",
+    "moment": "~2.8.4",
+    "ember-cli-moment-shim": "~0.0.2"
   }
 }
