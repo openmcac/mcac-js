@@ -9,6 +9,10 @@ Router.map(function() {
   this.resource('group', { path: 'groups/:group_id' }, function() {
     this.resource('bulletin', { path: 'bulletins/:bulletin_id' }, function() {
     });
+
+    this.resource('bulletins', { path: 'bulletins' }, function() {
+      this.route('new');
+    });
   });
   this.route('bulletin/sunday', { path: '/sunday' }, function() {
   });

@@ -16,7 +16,8 @@ module.exports = function(app) {
     res.send({
       "group": {
         "id": req.params.id,
-        "name": "English Service"
+        "name": "English Service",
+        "slug": "english-service"
       }
     });
   });
