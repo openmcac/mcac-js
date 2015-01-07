@@ -15,8 +15,8 @@ function hasServiceStarted(now) {
 }
 
 export default Ember.Route.extend({
-  model: function(forDate) {
-    var now = forDate || new Date();
+  model: function() {
+    var now = arguments[0] || new Date();
     var publishedAt = upcomingSunday(now);
     var englishService = this.store.find('group', 1);
 
