@@ -28,7 +28,7 @@ moduleFor('route:bulletins/new', 'BulletinsNewRoute', {
 });
 
 test('it populates model with a new bulletin', function() {
-  expect(11);
+  expect(7);
 
   var route = this.subject();
   route.store = {
@@ -43,16 +43,57 @@ test('it populates model with a new bulletin', function() {
       equal(objectHash.group, englishService);
 
       // default publishedAt is a Sunday, 9:30am
-      equal(objectHash.publishedAt.getDay(), 0);
-      equal(objectHash.publishedAt.getHours(), 9);
-      equal(objectHash.publishedAt.getMinutes(), 30);
-      equal(objectHash.publishedAt.getSeconds(), 0);
-      equal(objectHash.publishedAt.getMilliseconds(), 0);
-      ok(objectHash.publishedAt.getTime() > new Date().getTime());
+      equal(objectHash.publishedAt.toUTCString(),
+            new Date("2012-12-23T09:30:00-05:00").toUTCString());
+
+      equal(objectHash.description, "December 23rd 2012, 9:30 am");
 
       return newBulletin;
     }
   };
 
-  equal(route.model(), newBulletin);
+  var tuesday = "2012-12-18T03:51:57-05:00";
+  equal(route.model(tuesday), newBulletin);
+});
+
+test('publishedAt will use next Sunday when currently Sunday', function() {
+  expect(1);
+
+  var route = this.subject();
+  route.store = {
+    find: function(model, id) {
+      return englishService;
+    },
+    createRecord: function(model, objectHash) {
+      // default publishedAt is a Sunday, 9:30am
+      equal(objectHash.publishedAt.toUTCString(),
+            new Date("2012-12-30T09:30:00-05:00").toUTCString());
+
+      return newBulletin;
+    }
+  };
+
+  var sunday = "2012-12-23T09:32:00-05:00";
+  route.model(sunday);
+});
+
+test('publishedAt will use current Sunday when not yet 9:30 am', function() {
+  expect(1);
+
+  var route = this.subject();
+  route.store = {
+    find: function(model, id) {
+      return englishService;
+    },
+    createRecord: function(model, objectHash) {
+      // default publishedAt is a Sunday, 9:30am
+      equal(objectHash.publishedAt.toUTCString(),
+            new Date("2012-12-23T09:30:00-05:00").toUTCString());
+
+      return newBulletin;
+    }
+  };
+
+  var sunday = "2012-12-23T09:29:00-05:00";
+  route.model(sunday);
 });
