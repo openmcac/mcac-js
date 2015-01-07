@@ -1,13 +1,18 @@
 import Ember from 'ember';
 
-function upcomingSunday(now) {
+function getMontrealMoment(now) {
   var nowMoment = moment(now);
+  return nowMoment.zone(nowMoment.isDST() ? '-04:00' : '-05:00');
+}
 
-  if (hasServiceStarted(nowMoment)) {
-    nowMoment = nowMoment.endOf('week').add(1, 'day');
+function upcomingSunday(now) {
+  var montrealMoment = getMontrealMoment(now);
+
+  if (hasServiceStarted(montrealMoment)) {
+    montrealMoment = montrealMoment.endOf('week').add(1, 'day');
   }
 
-  return nowMoment.hours(9).minutes(30).seconds(0).milliseconds(0);
+  return montrealMoment.hours(9).minutes(30).seconds(0).milliseconds(0);
 }
 
 function hasServiceStarted(now) {
