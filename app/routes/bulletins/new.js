@@ -1,12 +1,7 @@
 import Ember from 'ember';
 
-function getMontrealMoment(now) {
-  var nowMoment = moment(now);
-  return nowMoment.zone(nowMoment.isDST() ? '-04:00' : '-05:00');
-}
-
 function upcomingSunday(now) {
-  var montrealMoment = getMontrealMoment(now);
+  var montrealMoment = moment(now).tz('America/Montreal');
 
   if (hasServiceStarted(montrealMoment)) {
     montrealMoment = montrealMoment.endOf('week').add(1, 'day');
