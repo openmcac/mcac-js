@@ -56,28 +56,26 @@ test('it populates model with a new bulletin', function() {
   equal(route.model(tuesday), newBulletin);
 });
 
-// TODO - Support regions that do not follow daylight savings
-//        https://github.com/openmcac/mcac-js/issues/8
-// test('publishedAt will use next Sunday when currently Sunday (DST)', function() {
-//   expect(1);
-// 
-//   var route = this.subject();
-//   route.store = {
-//     find: function(model, id) {
-//       return englishService;
-//     },
-//     createRecord: function(model, objectHash) {
-//       // default publishedAt is a Sunday, 9:30am
-//       equal(objectHash.publishedAt.toUTCString(),
-//             new Date("2012-10-21T09:30:00-04:00").toUTCString());
-// 
-//       return newBulletin;
-//     }
-//   };
-// 
-//   var sunday = "2012-10-14T09:32:00-04:00";
-//   route.model(sunday);
-// });
+test('publishedAt will use next Sunday when currently Sunday (DST)', function() {
+  expect(1);
+
+  var route = this.subject();
+  route.store = {
+    find: function(model, id) {
+      return englishService;
+    },
+    createRecord: function(model, objectHash) {
+      // default publishedAt is a Sunday, 9:30am
+      equal(objectHash.publishedAt.toUTCString(),
+            new Date("2012-10-21T09:30:00-04:00").toUTCString());
+
+      return newBulletin;
+    }
+  };
+
+  var sunday = "2012-10-14T09:32:00-04:00";
+  route.model(sunday);
+});
 
 test('publishedAt will use next Sunday when currently Sunday', function() {
   expect(1);
