@@ -6,9 +6,16 @@ module.exports = function(app) {
     res.send({
       "bulletin": {
         "id": 1,
-        "publishedAt": "2014-12-21T13:58:27-05:00",
+        "publishedAt": "2014-12-21T09:30:00-05:00",
         "name": "Sunday Service",
-        "serviceOrder": "This is the service order.",
+        "serviceOrder": " - Call to Worship\n" +
+                        " - Praise & Worship\n" +
+                        " - Announcements\n" +
+                        " - Offering\n" +
+                        " - Sermon\n" +
+                        " - Holy Communion\n" +
+                        " - Doxology\n" +
+                        " - Benediction",
         "description": "This is a service bulletin.",
         "group": {
           "id": 1,
