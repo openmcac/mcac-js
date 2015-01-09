@@ -13,4 +13,13 @@ var App = Ember.Application.extend({
 
 loadInitializers(App, config.modulePrefix);
 
+Ember.TextArea.reopen({
+  attributeBindings: ['data-provide'],
+  didInsertElement: function() {
+    Ember.$('textarea').each(function() {
+      Ember.$(this).markdown();
+    });
+  }
+});
+
 export default App;
