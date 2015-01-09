@@ -14,9 +14,14 @@
     </div>
     <div class="form-group">
       <label for="serviceOrder">Order</label>
-      {{textarea data-provide="markdown" id="serviceOrder" value=serviceOrder class="form-control" rows="10"}}
+      {{markdown-textarea id="serviceOrder"
+                          value=serviceOrder
+                          class="form-control"
+                          rows="10"}}
     </div>
-    <button type="submit" {{action 'save'}} class="btn btn-default">Save</button>
+    <button type="submit" {{action 'save'}} class="btn btn-default">
+      Save
+    </button>
   </form>
 </div>
 {{outlet}}
