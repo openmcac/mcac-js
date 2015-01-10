@@ -16,6 +16,11 @@ You will need the following things properly installed on your computer.
 * [Git](http://git-scm.com/)
 * [Node.js](http://nodejs.org/) (with NPM) and [Bower](http://bower.io/)
 
+*If you need help installing these prerequisites on Ubuntu, see the
+[Getting Started][gs] guide.*
+
+[gs]: GETTING_STARTED-UBUNTU.md
+
 ## Installation
 
 * `git clone git@github.com:openmcac/mcac-js` this repository
