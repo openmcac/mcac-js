@@ -2,9 +2,23 @@ module.exports = function(app) {
   var express = require('express');
   var groupsRouter = express.Router();
 
+  var englishService = {
+    "group": {
+      "id": 1,
+      "name": "English Service",
+      "slug": "english-service"
+    }
+  };
+
   groupsRouter.get('/', function(req, res) {
+    var groups = [];
+
+    if (!!req.query || req.query.slug === 'english-service') {
+      groups.push(englishService.group);
+    }
+
     res.send({
-      "groups": []
+      "groups": groups
     });
   });
 
@@ -13,13 +27,7 @@ module.exports = function(app) {
   });
 
   groupsRouter.get('/:id', function(req, res) {
-    res.send({
-      "group": {
-        "id": req.params.id,
-        "name": "English Service",
-        "slug": "english-service"
-      }
-    });
+    res.send(englishService);
   });
 
   groupsRouter.put('/:id', function(req, res) {
