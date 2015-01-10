@@ -19,6 +19,7 @@
     "moment": "~2.8.4",
     "ember-cli-moment-shim": "~0.0.2",
     "moment-timezone": "~0.2.5",
-    "bootstrap-markdown": "~2.8.0"
+    "bootstrap-markdown": "~2.8.0",
+    "marked": "~0.3.2"
   }
 }
