@@ -3,5 +3,8 @@
 blanket.options({
    filter: "//.*mcac/.*/",
    antifilter: "//.*(tests).*/",
-   loaderExclusions: ["ember-bootstrap-datetimepicker"]
+   loaderExclusions: [
+     "ember-bootstrap-datetimepicker",
+     "ember-marked"
+   ]
 });
