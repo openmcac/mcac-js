@@ -1,3 +1,5 @@
+import Ember from 'ember';
+
 import {
   moduleForModel,
   test
@@ -8,8 +10,16 @@ moduleForModel('bulletin', 'Bulletin', {
   needs: []
 });
 
-test('it exists', function() {
-  var model = this.subject();
-  // var store = this.store();
-  ok(!!model);
+test('serviceOrderHtml: converts markdown serviceOrder into HTML', function() {
+  expect(1);
+
+  var serviceOrder = '<div>this is markdown</div>';
+  var serviceOrderHtml = 'fake service order rendered in html';
+  var model = this.subject({ serviceOrder: serviceOrder });
+
+  window.marked = function(markdown) {
+    return serviceOrderHtml;
+  };
+
+  equal(serviceOrderHtml, model.get('serviceOrderHtml'));
 });
