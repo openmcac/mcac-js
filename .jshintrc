@@ -2,6 +2,7 @@
   "predef": [
     "-Promise",
     "document",
+    "marked",
     "moment",
     "window"
   ],
