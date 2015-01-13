@@ -3,23 +3,29 @@ module.exports = function(app) {
   var groupsRouter = express.Router();
 
   var englishService = {
-    "group": {
-      "id": 1,
-      "name": "English Service",
-      "slug": "english-service"
-    }
+    "id": 1,
+    "name": "English Service",
+    "slug": "english-service"
   };
 
-  groupsRouter.get('/', function(req, res) {
-    var groups = [];
+  var groups = [englishService];
 
-    if (!!req.query || req.query.slug === 'english-service') {
-      groups.push(englishService.group);
+  groupsRouter.get('/', function(req, res) {
+    if (typeof req.query.slug === 'undefined') {
+      return res.send({ groups: groups });
     }
 
-    res.send({
-      "groups": groups
-    });
+    var filteredGroups = [];
+
+    for (var i = 0; i < groups.length; i++) {
+      var group = groups[i];
+
+      if (req.query.slug === group.slug) {
+        filteredGroups.push(group);
+      }
+    }
+
+    res.send({ "groups": filteredGroups });
   });
 
   groupsRouter.post('/', function(req, res) {
