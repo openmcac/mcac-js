@@ -1,11 +1,13 @@
-
 import Ember from 'ember';
 import config from './config/environment';
 
 var Router = Ember.Router.extend({
   location: config.locationType
+  afterModel: function(){
+	if (currentPath == '/'){
+	this.transitionTo('bulletin/sunday');
+}
 });
-
 
 Router.map(function() {
   this.resource('group', { path: ':group_slug' }, function() {
@@ -16,9 +18,10 @@ Router.map(function() {
       this.route('new');
     });
   });
-  this.route('bulletin/sunday', { path: '/sunday' }, function() {
+     this.route('bulletin/sunday', { path: '/sunday' }, function() {
   });
-
+ // this.route('bulletin/sunday', { path: '/'}, function(){
+ // });
 });
 
 export default Router;

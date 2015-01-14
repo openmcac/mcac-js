@@ -1,0 +1,11 @@
+
+import Ember from 'ember';
+
+//I added this
+var IndexRoute = Ember.Route.extend({
+  beforeModel: function() {
+    this.transitionTo('bulletin/sunday');
+  }
+});
+
+export default IndexRoute;

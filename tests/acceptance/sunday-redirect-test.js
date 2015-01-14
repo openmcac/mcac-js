@@ -3,7 +3,7 @@ import startApp from '../helpers/start-app';
 
 var application;
 
-module('Acceptance: SundayRedidirect', {
+module('Acceptance: SundayRedirect', {
   setup: function() {
     application = startApp();
   },
