@@ -18,7 +18,7 @@ export default Ember.Route.extend({
   model: function() {
     var now = arguments[0] || new Date();
     var publishedAt = upcomingSunday(now);
-    var englishService = this.store.find('group', 1);
+    var englishService = this.store.find('group', { slug: 'english-service' });
 
     return this.store.createRecord('bulletin', {
       publishedAt: publishedAt.toDate(),
