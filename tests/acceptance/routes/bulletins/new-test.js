@@ -5,8 +5,6 @@ import startApp from '../../../helpers/start-app';
 
 var application,
     testHelper,
-    store,
-    make,
     englishService,
     TestHelper = Ember.Object.createWithMixins(FactoryGuyTestMixin);
 
@@ -29,7 +27,7 @@ module('Acceptance: Route - bulletins/new', {
 });
 
 test('it populates a default bulletin', function() {
-  expect(5);
+  expect(6);
 
   testHelper.handleFindQuery('group', ['slug'], [englishService]);
   visit('/english-service/bulletins/new');
@@ -42,7 +40,7 @@ test('it populates a default bulletin', function() {
     equal(model.get('name'), 'Sunday Worship Service');
 
     // it sets the group to English Service
-    // equal(model.get('group'), englishService);
+    equal(model.get('group'), englishService);
 
     // publishedAt is the following sunday @ 9:30
     publishedAtEqualsOnDate(new Date("2012-12-23T09:30:00-05:00"),
@@ -67,7 +65,7 @@ test('it populates a default bulletin', function() {
 });
 
 function publishedAtEqualsOnDate(expected, currentTime, route) {
-  var model = route.model(currentTime);
+  var model = route.model({ currentTime: currentTime });
   var publishedAt = model.get('publishedAt').getTime();
   equal(model.get('publishedAt').getTime(), expected.getTime());
 }

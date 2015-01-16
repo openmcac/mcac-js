@@ -5,7 +5,7 @@ import {
 
 moduleForModel('group', 'Group', {
   // Specify the other units that are required for this test.
-  needs: []
+  needs: ['model:bulletin']
 });
 
 test('it stores the group name', function() {

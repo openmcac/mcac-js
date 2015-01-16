@@ -16,16 +16,16 @@ function hasServiceStarted(now) {
 
 export default Ember.Route.extend({
   model: function() {
-    var now = arguments[0] || new Date();
+    var now = (arguments[0] && arguments[0].currentTime) || new Date();
     var publishedAt = upcomingSunday(now);
-    var englishService = this.store.find('group', { slug: 'english-service' });
+    var group = this.modelFor('group');
 
     return this.store.createRecord('bulletin', {
       publishedAt: publishedAt.toDate(),
       name: 'Sunday Worship Service',
       description: publishedAt.format('MMMM Do YYYY, h:mm a'),
       serviceOrder: 'Default service order',
-      group: englishService
+      group: group
     });
   }
 });
