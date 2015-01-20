@@ -12,6 +12,38 @@ module.exports = function(app) {
     res.status(201).end();
   });
 
+  announcementsRouter.get('/latest', function(req, res) {
+    if (typeof req.query.group_id === 'undefined') {
+      return res.status(500).end();
+    }
+
+    res.send({
+      "announcements": [
+        {
+          "id": 1,
+          "description": "This is the first announcement",
+          "bulletin": 1,
+          "post": 1,
+          "position": 1
+        },
+        {
+          "id": 2,
+          "description": "This is the second announcement",
+          "bulletin": 1,
+          "post": 2,
+          "position": 2
+        },
+        {
+          "id": 3,
+          "description": "This is the third announcement",
+          "bulletin": 1,
+          "post": 3,
+          "position": 3
+        }
+      ]
+    });
+  });
+
   announcementsRouter.get('/:id', function(req, res) {
     res.send({
       'announcements': {
@@ -32,5 +64,5 @@ module.exports = function(app) {
     res.status(204).end();
   });
 
-  app.use('/api/announcements', announcementsRouter);
+  app.use('/api/v1/announcements', announcementsRouter);
 };
