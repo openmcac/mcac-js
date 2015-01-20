@@ -20,12 +20,21 @@ export default Ember.Route.extend({
     var publishedAt = upcomingSunday(now);
     var group = this.modelFor('group');
 
-    return this.store.createRecord('bulletin', {
+    var defaultBulletin = this.store.createRecord('bulletin', {
       publishedAt: publishedAt.toDate(),
       name: 'Sunday Worship Service',
       description: publishedAt.format('MMMM Do YYYY, h:mm a'),
       serviceOrder: 'Default service order',
       group: group
     });
+
+    // defaultBulletin.get('announcements').then(function(announcements) {
+    //   announcements.pushObject(this.store.createRecord('announcement', {
+    //     description: 'welcome to mcac',
+    //     position: 1
+    //   }));
+    // });
+
+    return defaultBulletin;
   }
 });

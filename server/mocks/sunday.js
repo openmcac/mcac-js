@@ -24,7 +24,16 @@ module.exports = function(app) {
         "id": 1,
         "slug": "english-service",
         "name": "English Service"
-      }
+      },
+      "announcements": [
+        {
+          "id": 1,
+          "description": "This is the first announcement",
+          "bulletin": 1,
+          "post": 1,
+          "position": 1
+        }
+      ]
     });
   });
 
