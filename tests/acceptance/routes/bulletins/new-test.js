@@ -2,13 +2,14 @@ import FactoryGuy from 'factory-guy';
 import { testMixin as FactoryGuyTestMixin } from 'factory-guy';
 import Ember from 'ember';
 import startApp from '../../../helpers/start-app';
+import { defineFixture } from 'ic-ajax';
 
 var application,
     testHelper,
     englishService,
     TestHelper = Ember.Object.createWithMixins(FactoryGuyTestMixin);
 
-module('Acceptance: Route - bulletins/new', {
+module('Acceptance: /english-service/bulletins/new', {
   needs: ['model:bulletin'],
   setup: function() {
     application = startApp();
@@ -16,6 +17,33 @@ module('Acceptance: Route - bulletins/new', {
     englishService = testHelper.make('group', {
       name: 'English Service',
       slug: 'english-service'
+    });
+    defineFixture('/api/v1/announcements/latest', {
+      response: {
+        "announcements": [
+          {
+            "id": 1,
+            "description": "This is the first announcement",
+            "bulletin": 1,
+            "post": 1,
+            "position": 1
+          },
+          {
+            "id": 2,
+            "description": "This is the second announcement",
+            "bulletin": 1,
+            "post": 2,
+            "position": 2
+          },
+          {
+            "id": 3,
+            "description": "This is the third announcement",
+            "bulletin": 1,
+            "post": 3,
+            "position": 3
+          }
+        ]
+      }
     });
   },
   teardown: function() {
@@ -27,45 +55,49 @@ module('Acceptance: Route - bulletins/new', {
 });
 
 test('it populates a default bulletin', function() {
-  expect(6);
+  expect(11);
 
   testHelper.handleFindQuery('group', ['slug'], [englishService]);
-  visit('/english-service/bulletins/new');
+  // visit('/english-service/bulletins/new');
 
   andThen(function() {
-    // it defaults the bulletin name to Sunday Worship Service
     var route = application.__container__.lookup('route:bulletins/new');
     var tuesday = "2012-12-18T03:51:57-05:00";
-    var model = route.model(tuesday);
-    equal(model.get('name'), 'Sunday Worship Service');
 
-    // it sets the group to English Service
-    equal(model.get('group'), englishService);
+    route.modelFor = function(model) {
+      return englishService;
+    };
 
-    // publishedAt is the following sunday @ 9:30
-    publishedAtEqualsOnDate(new Date("2012-12-23T09:30:00-05:00"),
-                            new Date("2012-12-18T03:51:57-05:00"), // tuesday
-                            route);
+    route.model(tuesday).then(function(model) {
+      // it defaults the bulletin name to Sunday Worship Service
+      equal(model.get('name'), 'Sunday Worship Service');
 
-    // publishedAt is next Sunday when currently Sunday (DST)
-    publishedAtEqualsOnDate(new Date("2012-10-21T09:30:00-04:00"),
-                            new Date("2012-10-14T09:32:00-04:00"),
-                            route);
+      // it sets the group to English Service
+      equal(model.get('group'), englishService);
 
-    // publishedAt is next Sunday when currently Sunday
-    publishedAtEqualsOnDate(new Date("2012-12-30T09:30:00-05:00"),
-                            new Date("2012-12-23T09:32:00-05:00"),
-                            route);
-
-    // publishedAt is current Sunday when not yet 9:30am
-    publishedAtEqualsOnDate(new Date("2012-12-23T09:30:00-05:00"),
-                            new Date("2012-12-23T09:29:00-05:00"),
-                            route);
+      // it copies the latest announcements for current bulletin
+      var announcements = model.get('announcements');
+      announcementEqual(announcements.objectAt(0), {
+        id: null,
+        description: 'This is the first announcement',
+        position: 1
+      });
+      announcementEqual(announcements.objectAt(1), {
+        id: null,
+        description: 'This is the second announcement',
+        position: 2
+      });
+      announcementEqual(announcements.objectAt(2), {
+        id: null,
+        description: 'This is the third announcement',
+        position: 3
+      });
+    });
   });
 });
 
-function publishedAtEqualsOnDate(expected, currentTime, route) {
-  var model = route.model({ currentTime: currentTime });
-  var publishedAt = model.get('publishedAt').getTime();
-  equal(model.get('publishedAt').getTime(), expected.getTime());
+function announcementEqual(announcement, hash) {
+  Object.keys(hash).forEach(function(key) {
+    equal(announcement.get(key), hash[key]);
+  });
 }
