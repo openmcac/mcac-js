@@ -9,7 +9,7 @@ var application,
     englishService,
     TestHelper = Ember.Object.createWithMixins(FactoryGuyTestMixin);
 
-module('Acceptance: /english-service/bulletins/new', {
+module('Acceptance: Route - bulletins/new', {
   needs: ['model:bulletin'],
   setup: function() {
     application = startApp();
@@ -55,40 +55,35 @@ module('Acceptance: /english-service/bulletins/new', {
 });
 
 test('it populates a default bulletin', function() {
-  expect(11);
+  expect(8);
 
   testHelper.handleFindQuery('group', ['slug'], [englishService]);
-  // visit('/english-service/bulletins/new');
+  visit('/english-service/bulletins/new');
 
   andThen(function() {
     var route = application.__container__.lookup('route:bulletins/new');
-    var tuesday = "2012-12-18T03:51:57-05:00";
 
-    route.modelFor = function(model) {
+    route.modelFor = function() {
       return englishService;
     };
 
-    route.model(tuesday).then(function(model) {
+    route.model().then(function(model) {
       // it defaults the bulletin name to Sunday Worship Service
       equal(model.get('name'), 'Sunday Worship Service');
 
       // it sets the group to English Service
       equal(model.get('group'), englishService);
 
-      // it copies the latest announcements for current bulletin
       var announcements = model.get('announcements');
       announcementEqual(announcements.objectAt(0), {
-        id: null,
         description: 'This is the first announcement',
         position: 1
       });
       announcementEqual(announcements.objectAt(1), {
-        id: null,
         description: 'This is the second announcement',
         position: 2
       });
       announcementEqual(announcements.objectAt(2), {
-        id: null,
         description: 'This is the third announcement',
         position: 3
       });

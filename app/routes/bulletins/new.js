@@ -1,25 +1,12 @@
 import Ember from 'ember';
 import request from 'ic-ajax';
-
-function upcomingSunday(now) {
-  var montrealMoment = moment(now).tz('America/Montreal');
-
-  if (hasServiceStarted(montrealMoment)) {
-    montrealMoment = montrealMoment.endOf('week').add(1, 'day');
-  }
-
-  return montrealMoment.hours(9).minutes(30).seconds(0).milliseconds(0);
-}
-
-function hasServiceStarted(now) {
-  return now.day() > 0 || now.hours() > 9 || now.minutes() >= 30;
-}
+import nextService from 'mcac/utils/next-service';
 
 export default Ember.Route.extend({
   model: function() {
     var _this = this;
     var now = (arguments[0] && arguments[0].currentTime) || new Date();
-    var publishedAt = upcomingSunday(now);
+    var publishedAt = nextService(now);
     var group = this.modelFor('group');
     var latestAnnouncementsEndpoint =
         '/api/v1/announcements/latest?group_id=' + group.id;
