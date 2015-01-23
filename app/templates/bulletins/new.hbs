@@ -19,7 +19,10 @@
                           class="form-control"
                           rows="10"}}
     </div>
-    <button type="submit" {{action 'save'}} class="btn btn-default">
+    <div class="form-group">
+    {{#link-to 'bulletins.new.announcements' class='btn btn-default'}}Add announcements{{/link-to}}
+    </div>
+    <button type="submit" {{action 'save'}} class="btn btn-primary">
       Save
     </button>
   </form>
