@@ -2,6 +2,22 @@ import Ember from 'ember';
 import request from 'ic-ajax';
 import nextService from 'mcac/utils/next-service';
 
+function addAnnouncementsToBulletin(store, announcmentsHash, bulletin) {
+  announcmentsHash.forEach(function(currentAnnouncement) {
+    var announcement = createAnnouncementForBulletin(store,
+                                                     currentAnnouncement,
+                                                     bulletin);
+    bulletin.get('announcements').addObject(announcement);
+  });
+}
+
+function createAnnouncementForBulletin(store, announcementHash, bulletin) {
+  var announcement = Ember.copy(announcementHash);
+  delete announcement.id;
+  announcement.bulletin = bulletin;
+  return store.createRecord('announcement', announcement);
+}
+
 export default Ember.Route.extend({
   model: function() {
     var _this = this;
@@ -22,13 +38,7 @@ export default Ember.Route.extend({
         group: group
       });
 
-      hash.forEach(function(currentAnnouncement) {
-        var announcement = Ember.copy(currentAnnouncement);
-        announcement.bulletin = defaultBulletin;
-        delete announcement.id;
-        announcement = _this.store.createRecord('announcement', announcement);
-        defaultBulletin.get('announcements').addObject(announcement);
-      });
+      addAnnouncementsToBulletin(_this.store, hash, defaultBulletin);
 
       return defaultBulletin;
     });
