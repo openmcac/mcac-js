@@ -6,6 +6,7 @@ export default DS.Model.extend({
   serviceOrder: DS.attr('string'),
   description: DS.attr('string'),
   group: DS.belongsTo('group'),
+  announcements: DS.hasMany('announcement'),
   serviceOrderHtml: function() {
     return marked(this.get('serviceOrder'));
   }.property('serviceOrder')

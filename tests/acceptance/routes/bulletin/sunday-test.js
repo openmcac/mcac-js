@@ -10,7 +10,7 @@ var application,
     TestHelper = Ember.Object.createWithMixins(FactoryGuyTestMixin);
 
 module('Acceptance: /sunday route', {
-  needs: ['model:bulletin'],
+  needs: ['model:bulletin', 'model:announcement'],
   setup: function() {
     defineFixture('/api/v1/sunday', {
       response: {
@@ -21,21 +21,36 @@ module('Acceptance: /sunday route', {
           "serviceOrder": "This is the service order.",
           "description": "This is a service bulletin.",
           "group": 1,
-          "announcements": [
-            {
-              "id": 1,
-              "description": "This is an announcement",
-              "bulletinId": 1,
-              "postId": 1,
-              "position": 1
-            }
-          ]
+          "announcements": [1, 2, 3]
         },
         "group": {
           "id": 1,
           "slug": "english-service",
           "name": "English Service"
-        }
+        },
+        "announcements": [
+          {
+            "id": 1,
+            "description": "This is the first announcement",
+            "bulletin": 1,
+            "post": 1,
+            "position": 1
+          },
+          {
+            "id": 2,
+            "description": "This is the second announcement",
+            "bulletin": 1,
+            "post": 2,
+            "position": 2
+          },
+          {
+            "id": 3,
+            "description": "This is the third announcement",
+            "bulletin": 1,
+            "post": 3,
+            "position": 3
+          }
+        ]
       }
     });
 
@@ -55,19 +70,43 @@ module('Acceptance: /sunday route', {
 });
 
 test('route returns model from /api/v1/sunday', function() {
-  expect(4);
+  expect(10);
   visit('/sunday');
 
   andThen(function() {
     var controller = application.__container__
                                 .lookup('controller:bulletin/sunday/index');
+
+    // it populates the bulletin attributes
     var model = controller.model;
     equal(model.get('name'), 'Sunday Service');
     equal(model.get('publishedAt').getTime(),
           new Date('2014-12-21T13:58:27-05:00').getTime());
 
+    // it populates the bulletin's group
     var group = model.get('group');
     equal(group.get('name'), 'English Service');
     equal(group.get('slug'), 'english-service');
+
+    // it populates the bulletin's announcements
+    var announcements = model.get('announcements');
+    announcementEqual(announcements.objectAt(0), {
+      description: 'This is the first announcement',
+      position: 1
+    });
+    announcementEqual(announcements.objectAt(1), {
+      description: 'This is the second announcement',
+      position: 2
+    });
+    announcementEqual(announcements.objectAt(2), {
+      description: 'This is the third announcement',
+      position: 3
+    });
   });
 });
+
+function announcementEqual(announcement, hash) {
+  Object.keys(hash).forEach(function(key) {
+    equal(announcement.get(key), hash[key]);
+  });
+}

@@ -1,31 +1,46 @@
 import Ember from 'ember';
+import request from 'ic-ajax';
+import nextService from 'mcac/utils/next-service';
 
-function upcomingSunday(now) {
-  var montrealMoment = moment(now).tz('America/Montreal');
-
-  if (hasServiceStarted(montrealMoment)) {
-    montrealMoment = montrealMoment.endOf('week').add(1, 'day');
-  }
-
-  return montrealMoment.hours(9).minutes(30).seconds(0).milliseconds(0);
+function addAnnouncementsToBulletin(store, announcmentsHash, bulletin) {
+  announcmentsHash.forEach(function(currentAnnouncement) {
+    var announcement = createAnnouncementForBulletin(store,
+                                                     currentAnnouncement,
+                                                     bulletin);
+    bulletin.get('announcements').addObject(announcement);
+  });
 }
 
-function hasServiceStarted(now) {
-  return now.day() > 0 || now.hours() > 9 || now.minutes() >= 30;
+function createAnnouncementForBulletin(store, announcementHash, bulletin) {
+  var announcement = Ember.copy(announcementHash);
+  delete announcement.id;
+  announcement.bulletin = bulletin;
+  return store.createRecord('announcement', announcement);
 }
 
 export default Ember.Route.extend({
   model: function() {
-    var now = (arguments[0] && arguments[0].currentTime) || new Date();
-    var publishedAt = upcomingSunday(now);
+    var _this = this;
+    var publishedAt = nextService();
     var group = this.modelFor('group');
+    var latestAnnouncementsEndpoint =
+        '/api/v1/announcements/latest?group_id=' + group.id;
 
-    return this.store.createRecord('bulletin', {
-      publishedAt: publishedAt.toDate(),
-      name: 'Sunday Worship Service',
-      description: publishedAt.format('MMMM Do YYYY, h:mm a'),
-      serviceOrder: 'Default service order',
-      group: group
+    return request(latestAnnouncementsEndpoint).then(function(data) {
+      var hash = _this.store.normalize('announcement', data.announcements);
+      _this.store.pushMany('announcement', hash);
+
+      var defaultBulletin = _this.store.createRecord('bulletin', {
+        publishedAt: publishedAt.toDate(),
+        name: 'Sunday Worship Service',
+        description: publishedAt.format('MMMM Do YYYY, h:mm a'),
+        serviceOrder: 'Default service order',
+        group: group
+      });
+
+      addAnnouncementsToBulletin(_this.store, hash, defaultBulletin);
+
+      return defaultBulletin;
     });
   }
 });
