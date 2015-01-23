@@ -1,6 +1,7 @@
 import FactoryGuy from 'factory-guy';
 import { testMixin as FactoryGuyTestMixin } from 'factory-guy';
 import Ember from 'ember';
+import { moduleFor, test } from 'ember-qunit';
 import startApp from '../../../helpers/start-app';
 import { defineFixture } from 'ic-ajax';
 
@@ -9,7 +10,7 @@ var application,
     englishService,
     TestHelper = Ember.Object.createWithMixins(FactoryGuyTestMixin);
 
-module('Acceptance: Route - bulletins/new', {
+moduleFor('route:bulletins/new', 'BulletinsNewRoute', {
   needs: ['model:bulletin'],
   setup: function() {
     application = startApp();
@@ -18,7 +19,7 @@ module('Acceptance: Route - bulletins/new', {
       name: 'English Service',
       slug: 'english-service'
     });
-    defineFixture('/api/v1/announcements/latest', {
+    defineFixture('/api/v1/announcements/latest?group_id=' + englishService.id, {
       response: {
         "announcements": [
           {
@@ -55,17 +56,14 @@ module('Acceptance: Route - bulletins/new', {
 });
 
 test('it populates a default bulletin', function() {
-  expect(8);
+  expect(11);
 
   testHelper.handleFindQuery('group', ['slug'], [englishService]);
   visit('/english-service/bulletins/new');
 
   andThen(function() {
     var route = application.__container__.lookup('route:bulletins/new');
-
-    route.modelFor = function() {
-      return englishService;
-    };
+    route.store = testHelper.getStore();
 
     route.model().then(function(model) {
       // it defaults the bulletin name to Sunday Worship Service
@@ -74,16 +72,20 @@ test('it populates a default bulletin', function() {
       // it sets the group to English Service
       equal(model.get('group'), englishService);
 
+      // it populates bulletin with latest announcements
       var announcements = model.get('announcements');
       announcementEqual(announcements.objectAt(0), {
+        id: null,
         description: 'This is the first announcement',
         position: 1
       });
       announcementEqual(announcements.objectAt(1), {
+        id: null,
         description: 'This is the second announcement',
         position: 2
       });
       announcementEqual(announcements.objectAt(2), {
+        id: null,
         description: 'This is the third announcement',
         position: 3
       });

@@ -5,8 +5,7 @@ import nextService from 'mcac/utils/next-service';
 export default Ember.Route.extend({
   model: function() {
     var _this = this;
-    var now = (arguments[0] && arguments[0].currentTime) || new Date();
-    var publishedAt = nextService(now);
+    var publishedAt = nextService();
     var group = this.modelFor('group');
     var latestAnnouncementsEndpoint =
         '/api/v1/announcements/latest?group_id=' + group.id;
@@ -24,9 +23,10 @@ export default Ember.Route.extend({
       });
 
       hash.forEach(function(currentAnnouncement) {
-        delete currentAnnouncement.id;
-        currentAnnouncement.bulletin = defaultBulletin;
-        var announcement = _this.store.createRecord('announcement', currentAnnouncement);
+        var announcement = Ember.copy(currentAnnouncement);
+        announcement.bulletin = defaultBulletin;
+        delete announcement.id;
+        announcement = _this.store.createRecord('announcement', announcement);
         defaultBulletin.get('announcements').addObject(announcement);
       });
 
