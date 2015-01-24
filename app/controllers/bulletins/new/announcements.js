@@ -13,6 +13,11 @@ export default Ember.Controller.extend({
       var announcements = this.model.get('announcements');
       announcements.insertAt(index, this.store.createRecord('announcement', {}));
       syncPositions(announcements);
+    },
+    removeAnnouncement: function(index) {
+      var announcements = this.model.get('announcements');
+      announcements.removeAt(index);
+      syncPositions(announcements);
     }
   }
 });

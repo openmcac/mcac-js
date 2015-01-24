@@ -4,7 +4,8 @@
   {{#each announcement in model.announcements}}
     <li>
       {{announcement-editor announcement=announcement
-                            add-announcement="addAnnouncement"}}
+                            add-announcement="addAnnouncement"
+                            remove-announcement="removeAnnouncement"}}
     </li>
   {{/each}}
 </ul>
