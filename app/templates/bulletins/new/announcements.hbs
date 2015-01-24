@@ -1,2 +1,12 @@
 <h1>Announcements</h1>
+
+<ul>
+  {{#each announcement in model.announcements}}
+    <li>
+      {{announcement-editor announcement=announcement
+                            add-announcement="addAnnouncement"}}
+    </li>
+  {{/each}}
+</ul>
+
 {{outlet}}
