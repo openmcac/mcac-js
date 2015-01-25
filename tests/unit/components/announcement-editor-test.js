@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import Announcement from 'mcac/models/announcement';
 import {
   moduleForComponent,
   test
