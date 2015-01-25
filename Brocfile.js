@@ -23,6 +23,7 @@ app.import('bower_components/moment-timezone/builds/moment-timezone-with-data-20
 app.import('bower_components/bootstrap-markdown/js/bootstrap-markdown.js');
 app.import('bower_components/bootstrap-markdown/css/bootstrap-markdown.min.css');
 app.import('bower_components/marked/lib/marked.js');
+app.import('bower_components/html.sortable/dist/html.sortable.min.js');
 
 var mergeTrees = require('broccoli-merge-trees');
 var pickFiles = require('broccoli-static-compiler');
