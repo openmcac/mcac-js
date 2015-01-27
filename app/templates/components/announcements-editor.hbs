@@ -1,0 +1,11 @@
+<ul id="announcements-editor">
+  {{#each announcement in announcements}}
+    <li>
+      {{announcement-editor description=announcement.description
+                            position=announcement.position
+                            add-announcement="addAnnouncement"
+                            remove-announcement="removeAnnouncement"}}
+    </li>
+  {{/each}}
+</ul>
+{{yield}}

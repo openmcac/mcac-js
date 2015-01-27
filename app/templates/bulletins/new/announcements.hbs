@@ -1,14 +1,5 @@
 <h1>Announcements</h1>
 
-<ul>
-  {{#each announcement in model.announcements}}
-    <li>
-      {{announcement-editor description=announcement.description
-                            position=announcement.position
-                            add-announcement="addAnnouncement"
-                            remove-announcement="removeAnnouncement"}}
-    </li>
-  {{/each}}
-</ul>
+{{announcements-editor announcements=model.announcements}}
 
 {{outlet}}
