@@ -12,7 +12,7 @@ module('Acceptance: SundayRedirect', {
   }
 });
 
-test('app/index.js should redirect root path to sunday', function() {
+test('app/index.js redirects root path to /sunday', function() {
   visit('/');
 
   andThen(function() {

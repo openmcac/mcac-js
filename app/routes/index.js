@@ -1,5 +1,3 @@
-
-//chun added this
 import Ember from 'ember';
 
 var IndexRoute = Ember.Route.extend({
