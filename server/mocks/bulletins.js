@@ -1,66 +1,57 @@
+var bodyParser = require('body-parser');
+
 module.exports = function(app) {
   var express = require('express');
   var bulletinsRouter = express.Router();
+  app.use(bodyParser.json());
+
+  var bulletins = [
+    {
+      "id": 1,
+      "publishedAt": "2014-12-21T13:58:27-05:00",
+      "name": "Sunday Service",
+      "serviceOrder": "This is the service order.",
+      "description": "This is a service bulletin.",
+      "group": {
+        "id": 1,
+        "name": "English Service",
+        "createdAt": "2014-12-21T13:58:27-05:00"
+      },
+      "announcements": []
+    }
+  ];
 
   bulletinsRouter.get('/', function(req, res) {
     res.send({
-      "bulletins": []
+      "bulletins": bulletins
     });
   });
 
   bulletinsRouter.post('/', function(req, res) {
-    res.send({
-      "bulletin": {
-        "id": 1,
-        "publishedAt": "2014-12-21T13:58:27-05:00",
-        "name": "Sunday Service",
-        "serviceOrder": "This is the service order.",
-        "description": "This is a service bulletin.",
-        "group": {
-          "id": 1,
-          "name": "English Service",
-          "createdAt": "2014-12-21T13:58:27-05:00"
-        },
-        "announcements": []
-      }
-    }, 201);
+    var bulletin = req.body.bulletin;
+    bulletin.id = bulletins.length + 1;
+    bulletins.push(bulletin);
+
+    res.send({ bulletin: bulletin }, 201);
   });
 
   bulletinsRouter.get('/:id', function(req, res) {
     res.send({
-      "bulletin": {
-        "id": 1,
-        "publishedAt": "2014-12-21T13:58:27-05:00",
-        "name": "Sunday Service",
-        "serviceOrder": "This is the service order.",
-        "description": "This is a service bulletin.",
-        "group": {
-          "id": 1,
-          "name": "English Service",
-          "createdAt": "2014-12-21T13:58:27-05:00"
-        },
-        "announcements": [
-          {
-            "id": 1,
-            "description": "This is an announcement",
-            "bulletinId": 1,
-            "postId": 1,
-            "position": 1
-          }
-        ]
-      }
+      bulletin: bulletins[parseInt(req.params.id) - 1]
     });
   });
 
   bulletinsRouter.put('/:id', function(req, res) {
-    res.send({
-      "bulletins": {
-        "id": req.params.id
-      }
-    });
+    var bulletin = req.body.bulletin;
+    var id = req.params.id;
+    bulletin.id = id;
+    bulletins[id - 1] = bulletin;
+
+    res.send({ bulletin: bulletin }, 201);
   });
 
   bulletinsRouter.delete('/:id', function(req, res) {
+    delete bulletins[req.params.id - 1];
     res.status(204).end();
   });
 

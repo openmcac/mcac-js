@@ -5,7 +5,8 @@ export default DS.Model.extend({
   publishedAt: DS.attr('date'),
   serviceOrder: DS.attr('string'),
   description: DS.attr('string'),
-  groupId: 1, // only group that exists right now is English Service (1)
+  group: DS.belongsTo('group'),
+  announcements: DS.hasMany('announcement'),
   serviceOrderHtml: function() {
     return marked(this.get('serviceOrder'));
   }.property('serviceOrder')

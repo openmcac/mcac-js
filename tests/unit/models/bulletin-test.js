@@ -7,19 +7,15 @@ import {
 
 moduleForModel('bulletin', 'Bulletin', {
   // Specify the other units that are required for this test.
-  needs: []
+  needs: ['model:group', 'model:announcement']
 });
 
 test('serviceOrderHtml: converts markdown serviceOrder into HTML', function() {
   expect(1);
-
-  var serviceOrder = '<div>this is markdown</div>';
-  var serviceOrderHtml = 'fake service order rendered in html';
+  var serviceOrder = 'this is **markdown**';
+  var serviceOrderHtml = '<p>this is <strong>markdown</strong></p>';
+  var group = { slug: 'english-service', name: 'Service' };
   var model = this.subject({ serviceOrder: serviceOrder });
 
-  window.marked = function(markdown) {
-    return serviceOrderHtml;
-  };
-
-  equal(serviceOrderHtml, model.get('serviceOrderHtml'));
+  equal(model.get('serviceOrderHtml').trim(), serviceOrderHtml);
 });

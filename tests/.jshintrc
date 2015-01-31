@@ -1,5 +1,7 @@
 {
   "predef": [
+    "FactoryGuy",
+    "FactoryGuyTestMixin",
     "document",
     "window",
     "location",
