@@ -1,0 +1,14 @@
+{{textarea placeholder="Enter announcement description..."
+           class="announcement-editor"
+           value=description}}
+
+<button {{action 'addAnnouncement'}} class="btn btn-default add-announcement">
+  Add
+</button>
+
+<button {{action 'removeAnnouncement'}}
+        class="btn btn-danger remove-announcement">
+  Remove
+</button>
+
+{{yield}}

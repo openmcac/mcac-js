@@ -21,6 +21,7 @@
     "moment-timezone": "~0.2.5",
     "bootstrap-markdown": "~2.8.0",
     "marked": "~0.3.2",
-    "ember-data-factory-guy": "~0.9.4"
+    "ember-data-factory-guy": "~0.9.4",
+    "html.sortable": "~0.1.8"
   }
 }
