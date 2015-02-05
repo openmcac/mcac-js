@@ -1,4 +1,23 @@
+@import 'variables.scss';
+
 textarea.announcement-editor {
   width: 100%;
   border: none;
+}
+
+#announcements-editor {
+  .sortable-placeholder {
+    height: 60px;
+    border-style: dashed;
+    border-width: $padding-s;
+    border-color: $light-gray;
+    padding: $padding-m;
+  }
+
+  .sortable-dragging {
+  }
+
+  li.draggable-announcement {
+    cursor: ns-resize;
+  }
 }

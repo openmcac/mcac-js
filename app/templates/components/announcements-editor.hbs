@@ -1,6 +1,6 @@
-<ul id="announcements-editor">
+<ol id="announcements-editor">
   {{#each announcement in announcements}}
-    <li>
+    <li class="draggable-announcement">
       {{announcement-editor description=announcement.description
                             position=announcement.position
                             add-announcement="addAnnouncement"
