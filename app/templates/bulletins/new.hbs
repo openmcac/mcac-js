@@ -33,6 +33,10 @@
                                 rows="10"}}
           </div>
         </div>
+
+        <button type="submit" {{action 'save'}} class="btn btn-primary">
+          Save
+        </button>
       </section>
 
       <section class="announcements col-md-6">
@@ -40,9 +44,5 @@
         {{announcements-editor announcements=model.announcements}}
       </section>
     </div>
-
-    <button type="submit" {{action 'save'}} class="btn btn-primary">
-      Save
-    </button>
   </form>
 </div>
