@@ -1,13 +1,26 @@
 @import 'variables.scss';
 
+$announcement-height: 60px;
+
 textarea.announcement-editor {
   width: 100%;
+  height: $announcement-height;
   border: none;
 }
 
 #announcements-editor {
+  padding-left: 20px;
+
+  li {
+    border-style: solid;
+    border-width: $padding-xs;
+    border-color: $light-gray;
+    margin: $padding-m 0 $padding-m $padding-m;
+    padding: $padding-m;
+  }
+
   .sortable-placeholder {
-    height: 60px;
+    height: $announcement-height + 40px;
     border-style: dashed;
     border-width: $padding-s;
     border-color: $light-gray;
