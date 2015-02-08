@@ -1,3 +1,4 @@
+import groupFactory from '../../../fixtures/group';
 import FactoryGuy from 'factory-guy';
 import { testMixin as FactoryGuyTestMixin } from 'factory-guy';
 import Ember from 'ember';

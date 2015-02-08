@@ -1,3 +1,5 @@
+import bulletinFactory from '../../fixtures/bulletin';
+import announcementFactory from '../../fixtures/announcement';
 import FactoryGuy from 'factory-guy';
 import { testMixin as FactoryGuyTestMixin } from 'factory-guy';
 import Ember from 'ember';
