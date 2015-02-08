@@ -4,8 +4,8 @@ module.exports = function(app) {
 
   sundayRouter.get('/', function(req, res) {
     res.send({
-      "bulletin": {
-        "id": 1,
+      "bulletins": {
+        "id": "1",
         "publishedAt": "2014-12-21T09:30:00-05:00",
         "name": "Sunday Service",
         "serviceOrder": " - Call to Worship\n" +
@@ -17,23 +17,33 @@ module.exports = function(app) {
                         " - Doxology\n" +
                         " - Benediction",
         "description": "This is a service bulletin.",
-        "group": 1,
-        "announcements": [1]
-      },
-      "group": {
-        "id": 1,
-        "slug": "english-service",
-        "name": "English Service"
-      },
-      "announcements": [
-        {
-          "id": 1,
-          "description": "This is the first announcement",
-          "bulletin": 1,
-          "post": 1,
-          "position": 1
+        "links": {
+          "group": "1",
+          "announcements": ["1", "2"]
         }
-      ]
+      },
+      "linked": {
+        "group": {
+          "id": "1",
+          "slug": "english-service",
+          "name": "English Service"
+        },
+        "announcements": [{
+          "id": "1",
+          "description": "This is the first announcement",
+          "position": 1,
+          "links": {
+            "bulletin": "1"
+          }
+        }, {
+          "id": "2",
+          "description": "This is the second announcement",
+          "position": 2,
+          "links": {
+            "bulletin": "1"
+          }
+        }]
+      }
     });
   });
 
