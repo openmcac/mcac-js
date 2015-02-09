@@ -27,8 +27,8 @@ export default Ember.Route.extend({
         '/api/v1/announcements/latest?group_id=' + group.id;
 
     return request(latestAnnouncementsEndpoint).then(function(data) {
-      var hash = _this.store.normalize('announcement', data.announcements);
-      _this.store.pushMany('announcement', hash);
+      var announcements = data.announcements;
+      _this.store.pushMany('announcement', announcements);
 
       var defaultBulletin = _this.store.createRecord('bulletin', {
         publishedAt: publishedAt.toDate(),
@@ -38,7 +38,7 @@ export default Ember.Route.extend({
         group: group
       });
 
-      addAnnouncementsToBulletin(_this.store, hash, defaultBulletin);
+      addAnnouncementsToBulletin(_this.store, announcements, defaultBulletin);
 
       return defaultBulletin;
     });
