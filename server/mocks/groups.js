@@ -33,7 +33,7 @@ module.exports = function(app) {
   });
 
   groupsRouter.get('/:id', function(req, res) {
-    res.send(englishService);
+    res.send({ "groups": englishService });
   });
 
   groupsRouter.put('/:id', function(req, res) {

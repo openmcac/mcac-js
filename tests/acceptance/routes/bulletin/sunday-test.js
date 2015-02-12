@@ -15,43 +15,44 @@ module('Acceptance: /sunday route', {
   setup: function() {
     defineFixture('/api/v1/sunday', {
       response: {
-        "bulletin": {
-          "id": 1,
+        "bulletins": {
+          "id": "1",
           "publishedAt": "2014-12-21T13:58:27-05:00",
           "name": "Sunday Service",
           "serviceOrder": "This is the service order.",
           "description": "This is a service bulletin.",
-          "group": 1,
-          "announcements": [1, 2, 3]
-        },
-        "group": {
-          "id": 1,
-          "slug": "english-service",
-          "name": "English Service"
-        },
-        "announcements": [
-          {
-            "id": 1,
-            "description": "This is the first announcement",
-            "bulletin": 1,
-            "post": 1,
-            "position": 1
-          },
-          {
-            "id": 2,
-            "description": "This is the second announcement",
-            "bulletin": 1,
-            "post": 2,
-            "position": 2
-          },
-          {
-            "id": 3,
-            "description": "This is the third announcement",
-            "bulletin": 1,
-            "post": 3,
-            "position": 3
+          "links": {
+            "group": "1",
+            "announcements": ["1", "2", "3"]
           }
-        ]
+        },
+        "linked": {
+          "group": {
+            "id": "1",
+            "slug": "english-service",
+            "name": "English Service"
+          },
+          "announcements": [
+            {
+              "id": "1",
+              "description": "This is the first announcement",
+              "bulletin": "1",
+              "position": 1
+            },
+            {
+              "id": "2",
+              "description": "This is the second announcement",
+              "bulletin": "1",
+              "position": 2
+            },
+            {
+              "id": "3",
+              "description": "This is the third announcement",
+              "bulletin": "1",
+              "position": 3
+            }
+          ]
+        }
       }
     });
 
@@ -91,17 +92,19 @@ test('route returns model from /api/v1/sunday', function() {
 
     // it populates the bulletin's announcements
     var announcements = model.get('announcements');
-    announcementEqual(announcements.objectAt(0), {
-      description: 'This is the first announcement',
-      position: 1
-    });
-    announcementEqual(announcements.objectAt(1), {
-      description: 'This is the second announcement',
-      position: 2
-    });
-    announcementEqual(announcements.objectAt(2), {
-      description: 'This is the third announcement',
-      position: 3
+    Ember.run(function() {
+      announcementEqual(announcements.objectAt(0), {
+        description: 'This is the first announcement',
+        position: 1
+      });
+      announcementEqual(announcements.objectAt(1), {
+        description: 'This is the second announcement',
+        position: 2
+      });
+      announcementEqual(announcements.objectAt(2), {
+        description: 'This is the third announcement',
+        position: 3
+      });
     });
   });
 });

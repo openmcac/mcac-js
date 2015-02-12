@@ -25,23 +25,26 @@ moduleFor('route:bulletins/new', 'BulletinsNewRoute', {
           {
             "id": 1,
             "description": "This is the first announcement",
-            "bulletin": 1,
-            "post": 1,
-            "position": 1
+            "position": 1,
+            "links": {
+              "bulletin": "1"
+            }
           },
           {
             "id": 2,
             "description": "This is the second announcement",
-            "bulletin": 1,
-            "post": 2,
-            "position": 2
+            "position": 2,
+            "links": {
+              "bulletin": "1"
+            }
           },
           {
             "id": 3,
             "description": "This is the third announcement",
-            "bulletin": 1,
-            "post": 3,
-            "position": 3
+            "position": 3,
+            "links": {
+              "bulletin": "1"
+            }
           }
         ]
       }

@@ -1,5 +1,5 @@
-import DS from 'ember-data';
+import JsonApiAdapter from 'ember-json-api/json-api-adapter';
 
-export default DS.RESTAdapter.extend({
+export default JsonApiAdapter.extend({
   namespace: 'api/v1'
 });

@@ -5,6 +5,7 @@ blanket.options({
    antifilter: "//.*(tests).*/",
    loaderExclusions: [
      "ember-bootstrap-datetimepicker",
-     "ember-marked"
+     "ember-marked",
+     "ember-json-api"
    ]
 });
