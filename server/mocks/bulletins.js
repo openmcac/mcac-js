@@ -39,7 +39,7 @@ module.exports = function(app) {
     bulletin.id = bulletins.length + 1;
     bulletins.push(bulletin);
 
-    res.send({ bulletin: bulletin }, 201);
+    res.send({ bulletins: bulletin }, 201);
   });
 
   bulletinsRouter.get('/:id', function(req, res) {
@@ -57,7 +57,7 @@ module.exports = function(app) {
     bulletin.id = id;
     bulletins[id - 1] = bulletin;
 
-    res.send({ bulletin: bulletin }, 201);
+    res.send({ bulletins: bulletin }, 201);
   });
 
   bulletinsRouter.delete('/:id', function(req, res) {
