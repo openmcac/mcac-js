@@ -18,25 +18,3 @@ export default Ember.Route.extend({
     return defaultBulletin;
   }
 });
-
-function populateDefaultAnnouncements(store, bulletin) {
-  var announcements =
-      getLatestAnnouncementsPromise(store, bulletin.get('group').id);
-  var defaultAnnouncements = [];
-
-  announcements.then(function() {
-    announcements.forEach(function(announcement) {
-      defaultAnnouncements.push(store.createRecord('announcement', {
-        description: announcement.get('description'),
-        position: announcement.get('position'),
-        bulletin: bulletin
-      }));
-    });
-  });
-
-  return defaultAnnouncements;
-}
-
-function getLatestAnnouncementsPromise(store, groupId) {
-  return store.find('announcement', { latest_for_group: groupId });
-}
