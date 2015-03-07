@@ -11,6 +11,18 @@ module.exports = function(app) {
     "createdAt": "2014-12-21T13:58:27-05:00"
   };
 
+  var bulletin = {
+    "id": 1,
+    "publishedAt": "2014-12-21T13:58:27-05:00",
+    "name": "Sunday Service",
+    "serviceOrder": "This is the service order.",
+    "description": "This is a service bulletin.",
+    "links": {
+      "group": "1",
+      "announcements": []
+    }
+  };
+
   var bulletins = [
     {
       "id": 1,
@@ -35,20 +47,11 @@ module.exports = function(app) {
   });
 
   bulletinsRouter.post('/', function(req, res) {
-    var bulletin = req.body.bulletins;
-    bulletin.id = bulletins.length + 1;
-    bulletins.push(bulletin);
-
     res.send({ bulletins: bulletin }, 201);
   });
 
   bulletinsRouter.get('/:id', function(req, res) {
-    res.send({
-      bulletins: bulletins[parseInt(req.params.id) - 1],
-      linked: {
-        groups: group
-      }
-    });
+    res.send({ bulletins: bulletin });
   });
 
   bulletinsRouter.put('/:id', function(req, res) {
