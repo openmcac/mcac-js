@@ -35,7 +35,7 @@ module.exports = function(app) {
   });
 
   bulletinsRouter.post('/', function(req, res) {
-    var bulletin = req.body.bulletin;
+    var bulletin = req.body.bulletins;
     bulletin.id = bulletins.length + 1;
     bulletins.push(bulletin);
 
