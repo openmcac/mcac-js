@@ -22,7 +22,7 @@
     "body-parser": "^1.10.1",
     "broccoli-asset-rev": "^2.0.0",
     "broccoli-merge-trees": "^0.2.1",
-    "broccoli-sass": "^0.3.3",
+    "broccoli-sass": "^0.4.0",
     "broccoli-static-compiler": "^0.2.1",
     "ember-bootstrap-datetimepicker": "^0.2.7",
     "ember-cli": "0.1.12",
@@ -43,6 +43,7 @@
     "ember-marked": "0.0.4",
     "express": "^4.8.5",
     "glob": "^4.0.5",
-    "morgan": "^1.5.1"
+    "morgan": "^1.5.1",
+    "rimraf":"2.2.8"
   }
 }
