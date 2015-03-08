@@ -2,9 +2,14 @@ import Ember from 'ember';
 
 export default Ember.Route.extend({
   model: function() {
-    var bulletin = this.modelFor('bulletin');
+    var _this = this;
+    var bulletin = _this.modelFor('bulletin');
 
-    populateDefaultAnnouncements(this.store, bulletin);
+    bulletin.get('announcements').then(function(announcements) {
+      if (!announcements.get('length')) {
+        populateDefaultAnnouncements(_this.store, bulletin);
+      }
+    });
 
     return bulletin;
   }
