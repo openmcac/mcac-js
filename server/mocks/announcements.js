@@ -3,7 +3,7 @@ var bodyParser = require('body-parser');
 module.exports = function(app) {
   var express = require('express');
   var announcementsRouter = express.Router();
-  app.use(bodyParser.json());
+  app.use(bodyParser.json({ type: 'application/*+json' }));
 
   var db = [{
     "id": "1",

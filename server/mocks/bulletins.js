@@ -3,7 +3,7 @@ var bodyParser = require('body-parser');
 module.exports = function(app) {
   var express = require('express');
   var bulletinsRouter = express.Router();
-  app.use(bodyParser.json());
+  app.use(bodyParser.json({ type: 'application/*+json' }));
 
   var db = [{
     "id": 1,
@@ -24,6 +24,7 @@ module.exports = function(app) {
   });
 
   bulletinsRouter.post('/', function(req, res) {
+    console.log(req);
     var createdBulletin = req.body.bulletins;
     createdBulletin.id = db.length + 1;
     db.push(createdBulletin);
