@@ -14,7 +14,7 @@
     "ember-qunit": "0.1.8",
     "ember-qunit-notifications": "0.0.5",
     "ember-resolver": "~0.1.11",
-    "eonasdan-bootstrap-datetimepicker": "~4.0.0",
+    "eonasdan-bootstrap-datetimepicker": "~4.7.14",
     "handlebars": "~2.0.0",
     "html.sortable": "~0.1.8",
     "jquery": "^1.11.1",
