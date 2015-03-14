@@ -4,6 +4,7 @@ import Ember from 'ember';
 import { moduleFor, test } from 'ember-qunit';
 import startApp from '../../helpers/start-app';
 import { defineFixture } from 'ic-ajax';
+import nextService from 'mcac/utils/next-service';
 
 var application,
     testHelper,
@@ -35,7 +36,7 @@ test('visiting /english-service/bulletins/new', function() {
 
   andThen(function() {
     equal(find('.bulletin-name').val(), 'Sunday Worship Service');
-    equal(find('.published-at input').val(), '03/15/2015 9:30 AM');
+    equalDate(find('.published-at input').val(), nextService());
     equal(find('.service-order').val(), 'Default service order');
   });
 });
@@ -59,3 +60,8 @@ test('saving a bulletin navigates to edit page', function() {
     equal(currentURL(), '/english-service/bulletins/1/edit');
   });
 });
+
+function equalDate(actual, expected) {
+  equal(window.moment(actual).toDate().getTime(),
+        window.moment(expected).toDate().getTime());
+}
