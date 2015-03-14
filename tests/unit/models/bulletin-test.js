@@ -7,7 +7,7 @@ import {
 
 moduleForModel('bulletin', 'Bulletin', {
   // Specify the other units that are required for this test.
-  needs: ['model:group', 'model:announcement']
+  needs: ['model:group', 'model:announcement', 'model:post']
 });
 
 test('serviceOrderHtml: converts markdown serviceOrder into HTML', function() {
