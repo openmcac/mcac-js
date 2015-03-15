@@ -15,7 +15,35 @@ var englishService = {
 
 var groups = { "groups": [englishService] };
 
-var announcementCounter = 1;
+var announcements = {
+  "8": {
+    "id": "8",
+    "description": "This is announcement 1",
+    "position": 1,
+    "links": {
+      "bulletin": "1",
+      "post": null
+    }
+  },
+  "9": {
+    "id": "9",
+    "description": "This is an announcement",
+    "position": 2,
+    "links": {
+      "bulletin": "1",
+      "post": null
+    }
+  },
+  "10": {
+    "id": "10",
+    "description": "This is an announcement",
+    "position": 3,
+    "links": {
+      "bulletin": "1",
+      "post": null
+    }
+  }
+};
 
 module('Acceptance: Editing a bulletin', {
   needs: ['model:bulletin', 'model:group'],
@@ -72,13 +100,13 @@ test('visiting /:group_slug/bulletins/:id/edit', function() {
 
   andThen(function() {
     equal(find('.bulletin-name').val(), name);
-    equalDate(find('.published-at input').val(), moment(publishedAt));
+    equalDate(find('.published-at input').val(), window.moment(publishedAt));
     equal(find('.description').val(), description);
     equal(find('.service-order').val(), serviceOrder);
   });
 });
 
-test('saving a bulletin without announcements', function() {
+test('saving a bulletin', function() {
   expect(4);
 
   var publishedAt = "2011-08-22T22:12:00+00:00";
@@ -136,12 +164,90 @@ test('saving a bulletin without announcements', function() {
     equal(updatedBulletin.bulletins.name, 'Updated bulletin name');
     equal(updatedBulletin.bulletins.description, 'Updated description');
     equal(updatedBulletin.bulletins.serviceOrder, 'Updated service order');
-    equalDate(moment(updatedBulletin.bulletins.publishedAt),
-              moment('11/30/2000 9:24 PM', 'MM/DD/YYYY h:mm A'));
+    equalDate(window.moment(updatedBulletin.bulletins.publishedAt),
+              window.moment('11/30/2000 9:24 PM', 'MM/DD/YYYY h:mm A'));
   });
 });
 
-test('editing a bulletin with announcements', function() {
+test('creating a new announcement', function() {
+  var createdAnnouncement;
+
+  Ember.run(function() {
+    var server = new Pretender(function() {
+      this.get('/api/v1/groups', function(request) {
+        var all = JSON.stringify(groups);
+        return [200, {"Content-Type": "application/vnd.api+json"}, all];
+      });
+
+      this.get('/api/v1/announcements/:id', function(request) {
+        var announcement = {
+          "announcements": announcements[request.params.id]
+        };
+        return [200, {"Content-Type": "application/vnd.api+json"}, JSON.stringify(announcement)];
+      });
+
+      this.put('/api/v1/announcements/:id', function(request) {
+        return [200, {"Content-Type": "application/vnd.api+json"}, request.requestBody];
+      });
+
+      this.put('/api/v1/bulletins/1', function(request) {
+        var response = JSON.parse(request.requestBody);
+        return [
+          200,
+          {"Content-Type": "application/vnd.api+json"},
+          JSON.stringify(response)
+        ];
+      });
+
+      this.post('/api/v1/announcements', function(request) {
+        createdAnnouncement = JSON.parse(request.requestBody);
+        createdAnnouncement.announcements.id = '1';
+        return [
+          200,
+          {"Content-Type": "application/vnd.api+json"},
+          JSON.stringify(createdAnnouncement)
+        ];
+      });
+
+      this.get('/api/v1/bulletins/1', function(request) {
+        var response = {
+          "bulletins": {
+            "id": "1",
+            "description": "This is a service bulletin.",
+            "name": "Sunday Service",
+            "serviceOrder": "This is the service order.",
+            "publishedAt": "2015-03-07T03:58:40+00:00",
+            "links": {
+              "group": "1",
+              "announcements": []
+            }
+          }
+        };
+        return [
+          200,
+          {"Content-Type": "application/vnd.api+json"},
+          JSON.stringify(response)
+        ];
+      });
+    });
+  });
+
+  visit('/english-service/bulletins/1/edit');
+  click('.append-announcement');
+  fillIn('.announcement-editor-new', 'This is a new one');
+  click('.save-bulletin');
+
+  andThen(function() {
+    equal(find('.announcement-editor-1').length, 1);
+    equal(find('.announcement-editor').length, 1);
+    equal(createdAnnouncement.announcements.id, "1");
+    equal(createdAnnouncement.announcements.description, "This is a new one");
+    equal(createdAnnouncement.announcements.position, 1);
+    equal(createdAnnouncement.announcements.links.bulletin, '1');
+  });
+});
+
+test('editing bulletin announcements', function() {
   expect(4);
 
   var updatedBulletin;
@@ -153,47 +259,11 @@ test('editing a bulletin with announcements', function() {
         return [200, {"Content-Type": "application/vnd.api+json"}, all];
       });
 
-      this.get('/api/v1/announcements', function(request) {
-        if (request.queryParams.latest_for_group === '1') {
-          var response = {
-            "announcements": [
-              {
-                "id": "" + announcementCounter++,
-                "description": "This is announcement 1",
-                "position": 1,
-                "links": {
-                  "bulletin": "2",
-                  "post": null
-                }
-              },
-              {
-                "id": "" + announcementCounter++,
-                "description": "This is an announcement",
-                "position": 2,
-                "links": {
-                  "bulletin": "2",
-                  "post": null
-                }
-              },
-              {
-                "id": "" + announcementCounter++,
-                "description": "This is an announcement",
-                "position": 3,
-                "links": {
-                  "bulletin": "2",
-                  "post": null
-                }
-              }
-            ]
-          };
-          return [200, {"Content-Type": "application/vnd.api+json"}, JSON.stringify(response)];
-        }
-      });
-
-      this.post('/api/v1/announcements', function(request) {
-        var response = JSON.parse(request.requestBody);
-        response.announcements.id = announcementCounter++;
-        return [200, {"Content-Type": "application/vnd.api+json"}, JSON.stringify(response)];
+      this.get('/api/v1/announcements/:id', function(request) {
+        var announcement = {
+          "announcements": announcements[request.params.id]
+        };
+        return [200, {"Content-Type": "application/vnd.api+json"}, JSON.stringify(announcement)];
       });
 
       this.put('/api/v1/announcements/:id', function(request) {
@@ -215,7 +285,7 @@ test('editing a bulletin with announcements', function() {
             "publishedAt": "2015-03-07T03:58:40+00:00",
             "links": {
               "group": "1",
-              "announcements": []
+              "announcements": ["8", "9", "10"]
             }
           }
         };
@@ -225,13 +295,16 @@ test('editing a bulletin with announcements', function() {
   });
 
   visit('/english-service/bulletins/1/edit');
-  fillIn('.announcement-editor-1', 'This is the first announcement');
-  fillIn('.announcement-editor-2', 'This is the second announcement');
-  click(':submit');
+  fillIn('.announcement-editor-8', 'This is the first announcement');
+  fillIn('.announcement-editor-9', 'This is the second announcement');
+  fillIn('.announcement-editor-10', 'This is the third announcement');
+  click('.save-bulletin');
 
   andThen(function() {
-    equal(Ember.$(find('.announcement-editor-1')).val(), 'This is the first announcement');
-    equal(Ember.$(find('.announcement-editor-2')).val(), 'This is the second announcement');
+    equal(find('.announcement-editor-8').val(), 'This is the first announcement');
+    equal(find('.announcement-editor-9').val(), 'This is the second announcement');
+    equal(find('.announcement-editor-10').val(), 'This is the third announcement');
+    equal(find('.announcement-editor').length, 3);
   });
 });
 
