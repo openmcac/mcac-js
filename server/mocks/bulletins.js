@@ -3,65 +3,45 @@ var bodyParser = require('body-parser');
 module.exports = function(app) {
   var express = require('express');
   var bulletinsRouter = express.Router();
-  app.use(bodyParser.json());
+  app.use(bodyParser.json({ type: 'application/*+json' }));
 
-  var group = {
-    "id": "1",
-    "name": "English Service",
-    "createdAt": "2014-12-21T13:58:27-05:00"
-  };
-
-  var bulletins = [
-    {
-      "id": 1,
-      "publishedAt": "2014-12-21T13:58:27-05:00",
-      "name": "Sunday Service",
-      "serviceOrder": "This is the service order.",
-      "description": "This is a service bulletin.",
-      "links": {
-        "group": "1",
-        "announcements": []
-      }
+  var db = [{
+    "id": 1,
+    "publishedAt": "2014-12-21T13:58:27-05:00",
+    "name": "Sunday Service",
+    "serviceOrder": "This is the service order.",
+    "description": "This is a service bulletin.",
+    "links": {
+      "group": "1",
+      "announcements": ["1", "2", "3"]
     }
-  ];
+  }];
 
   bulletinsRouter.get('/', function(req, res) {
     res.send({
-      "bulletins": bulletins,
-      "linked": {
-        "groups": [group]
-      }
+      "bulletins": db,
     });
   });
 
   bulletinsRouter.post('/', function(req, res) {
-    var bulletin = req.body.bulletin;
-    bulletin.id = bulletins.length + 1;
-    bulletins.push(bulletin);
-
-    res.send({ bulletins: bulletin }, 201);
+    console.log(req);
+    var createdBulletin = req.body.bulletins;
+    createdBulletin.id = db.length + 1;
+    db.push(createdBulletin);
+    res.send({ bulletins: createdBulletin }, 201);
   });
 
   bulletinsRouter.get('/:id', function(req, res) {
-    res.send({
-      bulletins: bulletins[parseInt(req.params.id) - 1],
-      linked: {
-        groups: group
-      }
-    });
+    res.send({ bulletins: db[parseInt(req.params.id) - 1] });
   });
 
   bulletinsRouter.put('/:id', function(req, res) {
-    var bulletin = req.body.bulletin;
-    var id = req.params.id;
-    bulletin.id = id;
-    bulletins[id - 1] = bulletin;
-
-    res.send({ bulletins: bulletin }, 201);
+    var updatedBulletin = req.body.bulletins;
+    db[parseInt(updatedBulletin.id) - 1] = updatedBulletin;
+    res.send({ bulletins: updatedBulletin }, 201);
   });
 
   bulletinsRouter.delete('/:id', function(req, res) {
-    delete bulletins[req.params.id - 1];
     res.status(204).end();
   });
 

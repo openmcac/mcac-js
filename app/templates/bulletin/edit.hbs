@@ -1,5 +1,5 @@
 <div class="container">
-  <h2>Add a bulletin</h2>
+  <h2>Update bulletin</h2>
 
   <form class="bulletin-form" action="#">
     <div class="row">
@@ -9,7 +9,7 @@
         <div class="row">
           <div class="form-group col-md-10">
             <label for="bulletinName">Name</label>
-            {{input id="bulletinName" value=name class="form-control bulletin-name"}}
+            {{input value=name class="form-control bulletin-name"}}
           </div>
         </div>
         <div class="row">
@@ -21,7 +21,7 @@
         <div class="row">
           <div class="form-group col-md-10">
             <label for="description">Description</label>
-            {{input id="description" value=description class="form-control description"}}
+            {{input value=description class="form-control description"}}
           </div>
         </div>
         <div class="row">
@@ -34,9 +34,14 @@
           </div>
         </div>
 
-        <button type="submit" {{action 'save'}} class="btn btn-primary">
+        <button type="submit" {{action 'save'}} class="btn btn-primary save-bulletin">
           Save
         </button>
+      </section>
+
+      <section class="announcements col-md-6">
+        <h3>Announcements</h3>
+        {{announcements-editor announcements=announcements}}
       </section>
     </div>
   </form>

@@ -7,7 +7,11 @@ export default Ember.ObjectController.extend({
       var bulletin = _this.get('model');
       bulletin.set('publishedAt', moment(bulletin.get('publishedAt')).toDate());
       bulletin.save().then(function(savedBulletin) {
-        _this.transitionToRoute('bulletin.edit', savedBulletin);
+        console.log('saved bulletin: ' + savedBulletin.get('id'));
+      });
+
+      bulletin.get('announcements').then(function(announcements) {
+        announcements.save();
       });
     }
   }

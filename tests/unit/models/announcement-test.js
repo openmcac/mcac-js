@@ -5,7 +5,7 @@ import {
 
 moduleForModel('announcement', 'Announcement', {
   // Specify the other units that are required for this test.
-  needs: ['model:bulletin', 'model:group']
+  needs: ['model:bulletin', 'model:group', 'model:post']
 });
 
 test('descriptionHtml: converts markdown description into HTML', function() {

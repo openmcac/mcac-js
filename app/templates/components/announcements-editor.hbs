@@ -1,11 +1,18 @@
+<button {{action 'appendAnnouncement'}}
+        class="btn btn-default append-announcement">
+  Add Announcement
+</button>
+
 <ol id="announcements-editor">
   {{#each announcement in announcements}}
     <li class="draggable-announcement">
       {{announcement-editor description=announcement.description
                             position=announcement.position
+                            announcement-id=announcement.id
                             add-announcement="addAnnouncement"
                             remove-announcement="removeAnnouncement"}}
     </li>
   {{/each}}
 </ol>
+
 {{yield}}
