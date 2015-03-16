@@ -122,13 +122,6 @@ test('saving a bulletin', function() {
         return [200, {"Content-Type": "application/vnd.api+json"}, all];
       });
 
-      this.get('/api/v1/announcements', function(request) {
-        if (request.queryParams.latest_for_group === '1') {
-          var response = { "announcements": [] };
-          return [200, {"Content-Type": "application/vnd.api+json"}, JSON.stringify(response)];
-        }
-      });
-
       this.put('/api/v1/bulletins/1', function(request) {
         updatedBulletin = JSON.parse(request.requestBody);
         return [200, {"Content-Type": "application/vnd.api+json"}, JSON.stringify(updatedBulletin)];
@@ -158,7 +151,7 @@ test('saving a bulletin', function() {
   fillIn('.bulletin-name', 'Updated bulletin name');
   fillIn('.description', 'Updated description');
   fillIn('.service-order', 'Updated service order');
-  click(':submit');
+  click('.save-bulletin');
 
   andThen(function() {
     equal(updatedBulletin.bulletins.name, 'Updated bulletin name');
