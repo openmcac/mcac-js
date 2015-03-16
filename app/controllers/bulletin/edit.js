@@ -6,12 +6,10 @@ export default Ember.ObjectController.extend({
       var _this = this;
       var bulletin = _this.get('model');
       bulletin.set('publishedAt', moment(bulletin.get('publishedAt')).toDate());
-      bulletin.save().then(function(savedBulletin) {
-        console.log('saved bulletin: ' + savedBulletin.get('id'));
-      });
-
-      bulletin.get('announcements').then(function(announcements) {
-        announcements.save();
+      bulletin.save().then(function() {
+        bulletin.get('announcements').then(function(announcements) {
+          announcements.save();
+        });
       });
     }
   }
