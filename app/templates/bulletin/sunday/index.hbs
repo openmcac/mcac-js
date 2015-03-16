@@ -4,3 +4,11 @@
   <li>{{publishedAt}}</li>
   <li>{{{serviceOrderHtml}}}</li>
 </ul>
+
+<ul>
+  {{#each announcement in announcements}}
+  <li>{{{announcement.descriptionHtml}}}</li>
+  {{else}}
+  <li>No announcements yet</li>
+  {{/each}}
+</ul>

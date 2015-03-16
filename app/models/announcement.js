@@ -6,6 +6,6 @@ export default DS.Model.extend({
   bulletin: DS.belongsTo('bulletin'),
   post: DS.belongsTo('post'),
   descriptionHtml: function() {
-    return marked(this.get('description'));
+    return marked(this.get('description') || '');
   }.property('description')
 });
