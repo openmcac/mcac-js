@@ -1,6 +1,29 @@
-<h1>{{name}}</h1>
+<div class="bulletin">
+  <div class="cover">
+    <h1>
+      {{name}}<br/>
+      <small>{{description}}</small>
+    </h1>
+  </div>
 
-<ul>
-  <li>{{publishedAt}}</li>
-  <li>{{{serviceOrderHtml}}}</li>
-</ul>
+  <div class="bulletin-contents">
+    <div class="inner">
+      <div class="container">
+        <div class="row">
+          <section class="col-sm-6 service-order">
+            {{{serviceOrderHtml}}}
+          </section>
+          <section class="col-sm-6 announcements">
+            <ol>
+              {{#each announcement in announcements}}
+              <li>{{{announcement.descriptionHtml}}}</li>
+              {{else}}
+              <li>No announcements yet</li>
+              {{/each}}
+            </ol>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
