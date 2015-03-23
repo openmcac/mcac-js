@@ -58,6 +58,8 @@ module('Acceptance: Editing a bulletin', {
 test('visiting /:group_slug/bulletins/:id/edit', function(assert) {
   assert.expect(4);
 
+  authenticateSession();
+
   var publishedAt = "2015-03-07T03:58:00+00:00";
   var name = "Sunday Service";
   var description = "This is a description";
@@ -108,6 +110,8 @@ test('visiting /:group_slug/bulletins/:id/edit', function(assert) {
 
 test('saving a bulletin', function(assert) {
   assert.expect(4);
+
+  authenticateSession();
 
   var publishedAt = "2011-08-22T22:12:00+00:00";
   var name = "Super Service";
@@ -165,6 +169,8 @@ test('saving a bulletin', function(assert) {
 
 test('creating a new announcement', function(assert) {
   var createdAnnouncement;
+
+  authenticateSession();
 
   Ember.run(function() {
     var server = new Pretender(function() {
@@ -243,6 +249,8 @@ test('creating a new announcement', function(assert) {
 
 test('editing bulletin announcements', function(assert) {
   assert.expect(4);
+
+  authenticateSession();
 
   var updatedBulletin;
 

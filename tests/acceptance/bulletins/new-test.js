@@ -56,6 +56,8 @@ test('visiting /english-service/bulletins/new', function(assert) {
 test('saving a bulletin navigates to edit page', function(assert) {
   assert.expect(1);
 
+  authenticateSession();
+
   Ember.run(function() {
     var server = new Pretender(function() {
       this.get('/api/v1/groups', function(request) {
