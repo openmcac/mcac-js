@@ -3,18 +3,18 @@ import Base from 'simple-auth/authorizers/base';
 
 export default Base.extend({
   authorize: function(jqXHR) {
-    var secureData = this.get('session.content');
-    if (Ember.isNone(secureData)) {
+    var user = this.get('session.content.users');
+    if (Ember.isNone(user)) {
       return;
     }
 
-    var userToken = secureData['users']['apiKey'];
-    var userIdentification = secureData['users']['email'];
+    var token = user['apiKey'];
+    var email = user['email'];
     if (this.get('session.isAuthenticated') &&
-        !Ember.isEmpty(userToken) &&
-        !Ember.isEmpty(userIdentification)) {
-      jqXHR.setRequestHeader('X-User-Email', userIdentification);
-      jqXHR.setRequestHeader('X-User-Token', userToken);
+        !Ember.isEmpty(token) &&
+        !Ember.isEmpty(email)) {
+      jqXHR.setRequestHeader('X-User-Email', email);
+      jqXHR.setRequestHeader('X-User-Token', token);
     }
   }
 });
