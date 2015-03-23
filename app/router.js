@@ -7,7 +7,9 @@ var Router = Ember.Router.extend({
 
 Router.map(function() {
   this.resource("group", { path: ":group_slug" }, function() {
-    this.resource("bulletin", { path: "bulletins/:bulletin_id" }, function() {});
+    this.resource("bulletin", { path: "bulletins/:bulletin_id" }, function() {
+      this.route("edit");
+    });
 
     this.resource("bulletins", { path: "bulletins" }, function() {
       this.route("new", function() {

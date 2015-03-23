@@ -19,36 +19,6 @@ moduleFor('route:bulletins/new', 'BulletinsNewRoute', {
       name: 'English Service',
       slug: 'english-service'
     });
-    defineFixture('/api/v1/announcements/latest?group_id=' + englishService.id, {
-      response: {
-        "announcements": [
-          {
-            "id": 1,
-            "description": "This is the first announcement",
-            "position": 1,
-            "links": {
-              "bulletin": "1"
-            }
-          },
-          {
-            "id": 2,
-            "description": "This is the second announcement",
-            "position": 2,
-            "links": {
-              "bulletin": "1"
-            }
-          },
-          {
-            "id": 3,
-            "description": "This is the third announcement",
-            "position": 3,
-            "links": {
-              "bulletin": "1"
-            }
-          }
-        ]
-      }
-    });
   },
   teardown: function() {
     Ember.run(function() {
@@ -59,7 +29,7 @@ moduleFor('route:bulletins/new', 'BulletinsNewRoute', {
 });
 
 test('it populates a default bulletin', function() {
-  expect(11);
+  expect(2);
 
   testHelper.handleFindQuery('group', ['slug'], [englishService]);
   visit('/english-service/bulletins/new');
@@ -68,36 +38,11 @@ test('it populates a default bulletin', function() {
     var route = application.__container__.lookup('route:bulletins/new');
     route.store = testHelper.getStore();
 
-    route.model().then(function(model) {
-      // it defaults the bulletin name to Sunday Worship Service
-      equal(model.get('name'), 'Sunday Worship Service');
+    var model = route.model();
+    // it defaults the bulletin name to Sunday Worship Service
+    equal(model.get('name'), 'Sunday Worship Service');
 
-      // it sets the group to English Service
-      equal(model.get('group'), englishService);
-
-      // it populates bulletin with latest announcements
-      var announcements = model.get('announcements');
-      announcementEqual(announcements.objectAt(0), {
-        id: null,
-        description: 'This is the first announcement',
-        position: 1
-      });
-      announcementEqual(announcements.objectAt(1), {
-        id: null,
-        description: 'This is the second announcement',
-        position: 2
-      });
-      announcementEqual(announcements.objectAt(2), {
-        id: null,
-        description: 'This is the third announcement',
-        position: 3
-      });
-    });
+    // it sets the group to English Service
+    equal(model.get('group'), englishService);
   });
 });
-
-function announcementEqual(announcement, hash) {
-  Object.keys(hash).forEach(function(key) {
-    equal(announcement.get(key), hash[key]);
-  });
-}

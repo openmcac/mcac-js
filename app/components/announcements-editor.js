@@ -19,6 +19,12 @@ export default Ember.Component.extend({
       var announcements = this.get('announcements');
       announcements.removeAt(index);
       syncPositions(announcements);
+    },
+    appendAnnouncement: function() {
+      var announcements = this.get('announcements');
+      var store = this.get('targetObject').store;
+      announcements.pushObject(store.createRecord('announcement', {}));
+      syncPositions(announcements);
     }
   },
   makeDraggable: function() {

@@ -1,6 +1,9 @@
+var bodyParser = require('body-parser');
+
 module.exports = function(app) {
   var express = require('express');
   var groupsRouter = express.Router();
+  app.use(bodyParser.json({ type: 'application/*+json' }));
 
   var englishService = {
     "id": 1,
