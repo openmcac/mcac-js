@@ -45,7 +45,7 @@ function makeRequest(data) {
     data: JSON.stringify(data),
     dataType: 'json',
     beforeSend: function(xhr) {
-      xhr.setRequestHeader('ContentType', 'application/vnd.api+json');
+      xhr.setRequestHeader('Content-Type', 'application/vnd.api+json');
     }
   });
 }
