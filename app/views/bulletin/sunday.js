@@ -7,6 +7,6 @@ export default Ember.View.extend({
 
     var screenHeight = Ember.$(window).height();
     Ember.$('.cover').height(screenHeight);
-    Ember.$('.cover .bulletin-name').css('padding-top', screenHeight / 1.5);
+    Ember.$('.cover .bulletin-info').css('padding-top', screenHeight / 1.5);
   }
 });
