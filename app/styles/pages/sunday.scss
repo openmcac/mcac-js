@@ -1,8 +1,7 @@
 .bulletin {
   .cover {
-    background-image: url(images/theme.jpg);
+    background-image: url(images/theme-960.jpg);
     background-size: cover;
-    padding: 300px 8px;
     box-shadow: inset 0 0 500px rgba(255, 255, 255, .5);
     position: relative;
     text-align: center;
@@ -11,6 +10,7 @@
       font-family: 'Arapey', serif;
       font-style: italic;
       font-weight: 400;
+      margin: 0;
 
       small {
         font-family: sans-serif;
@@ -20,8 +20,9 @@
     }
 
     @media only screen and (min-width : 768px) {
-      padding: 680px 0 400px 100px;
       text-align: left;
+      padding-left: 42px;
+      background-image: url(images/theme-1920.jpg);
 
       h1 {
         font-size: 60px;
