@@ -1,78 +1,104 @@
-import groupFactory from '../../../fixtures/group';
-import FactoryGuy from 'factory-guy';
-import { testMixin as FactoryGuyTestMixin } from 'factory-guy';
 import Ember from 'ember';
 import startApp from '../../../helpers/start-app';
-import { defineFixture } from 'ic-ajax';
+import Pretender from 'pretender';
 
-var application,
-    testHelper,
-    englishService,
-    TestHelper = Ember.Object.createWithMixins(FactoryGuyTestMixin);
+var application;
+
+var englishService = {
+  "id": "1",
+  "name": "English Service",
+  "slug": "english-service",
+  "createdAt": "2015-03-07T03:58:39+00:00"
+};
+
+var groups = { "1": englishService };
+
+var announcements = {
+  "1": {
+    "id": "1",
+    "description": "This is the first announcement",
+    "position": 1,
+    "links": {
+      "bulletin": "1",
+      "post": null
+    }
+  },
+  "2": {
+    "id": "2",
+    "description": "This is the second announcement",
+    "position": 2,
+    "links": {
+      "bulletin": "1",
+      "post": null
+    }
+  },
+  "3": {
+    "id": "3",
+    "description": "This is the third announcement",
+    "position": 3,
+    "links": {
+      "bulletin": "1",
+      "post": null
+    }
+  }
+};
 
 module('Acceptance: /sunday route', {
-  needs: ['model:bulletin', 'model:announcement'],
+  needs: ['model:group', 'model:bulletin', 'model:announcement'],
   setup: function() {
-    defineFixture('/api/v1/sunday', {
-      response: {
-        "bulletins": {
-          "id": "1",
-          "publishedAt": "2014-12-21T13:58:27-05:00",
-          "name": "Sunday Service",
-          "serviceOrder": "This is the service order.",
-          "description": "This is a service bulletin.",
-          "links": {
-            "group": "1",
-            "announcements": ["1", "2", "3"]
-          }
-        },
-        "linked": {
-          "group": {
-            "id": "1",
-            "slug": "english-service",
-            "name": "English Service"
-          },
-          "announcements": [
-            {
-              "id": "1",
-              "description": "This is the first announcement",
-              "bulletin": "1",
-              "position": 1
-            },
-            {
-              "id": "2",
-              "description": "This is the second announcement",
-              "bulletin": "1",
-              "position": 2
-            },
-            {
-              "id": "3",
-              "description": "This is the third announcement",
-              "bulletin": "1",
-              "position": 3
-            }
-          ]
-        }
-      }
-    });
-
     application = startApp();
-    testHelper = TestHelper.setup(application);
-    englishService = testHelper.make('group', {
-      name: 'English Service',
-      slug: 'english-service'
-    });
   },
   teardown: function() {
-    Ember.run(function() {
-      testHelper.teardown();
-    });
     Ember.run(application, 'destroy');
   }
 });
 
 test('route returns model from /api/v1/sunday', function() {
   expect(10);
+
+  var server = new Pretender(function() {
+    this.get('/api/v1/groups', function(request) {
+      var all = JSON.stringify({ groups: [groups["1"]] });
+      return [200, {"Content-Type": "application/vnd.api+json"}, all];
+    });
+
+    this.get('/api/v1/groups/:id', function(request) {
+      var group = {
+        "groups": groups[request.params.id]
+      };
+
+      return [
+        200,
+        {"Content-Type": "application/vnd.api+json"},
+        JSON.stringify(group)
+      ];
+    });
+
+    this.get('/api/v1/announcements/:id', function(request) {
+      var announcement = {
+        "announcements": announcements[request.params.id]
+      };
+      return [200, {"Content-Type": "application/vnd.api+json"}, JSON.stringify(announcement)];
+    });
+
+    this.get('/api/v1/sunday', function(request) {
+      var response = {
+        "bulletins": {
+          "id": "1",
+          "description": "This is a service bulletin.",
+          "name": "Sunday Service",
+          "serviceOrder": "This is the service order.",
+          "publishedAt": "2014-12-21T13:58:27-05:00",
+          "links": {
+            "group": "1",
+            "announcements": ["1", "2", "3"]
+          }
+        }
+      };
+      return [200, {"Content-Type": "application/vnd.api+json"}, JSON.stringify(response)];
+    });
+  });
+
   visit('/sunday');
 
   andThen(function() {
@@ -86,9 +112,10 @@ test('route returns model from /api/v1/sunday', function() {
           new Date('2014-12-21T13:58:27-05:00').getTime());
 
     // it populates the bulletin's group
-    var group = model.get('group');
-    equal(group.get('name'), 'English Service');
-    equal(group.get('slug'), 'english-service');
+    model.get('group').then(function(group) {
+      equal(group.get('name'), 'English Service');
+      equal(group.get('slug'), 'english-service');
+    });
 
     // it populates the bulletin's announcements
     var announcements = model.get('announcements');
