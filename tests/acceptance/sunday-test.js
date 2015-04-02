@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import startApp from '../helpers/start-app';
 import Pretender from 'pretender';
+import { test, module } from 'qunit';
 
 var application;
 
@@ -52,7 +53,7 @@ module('Acceptance: Sunday', {
   }
 });
 
-test('visiting /sunday', function() {
+test('visiting /sunday', function(assert) {
   var server = new Pretender(function() {
     this.get('/api/v1/groups', function(request) {
       var all = JSON.stringify({ groups: [groups["1"]] });
@@ -99,6 +100,6 @@ test('visiting /sunday', function() {
   visit('/sunday');
 
   andThen(function() {
-    equal(find('.bulletin-info .name').text(), 'Sunday Service');
+    assert.equal(find('.bulletin-info .name').text(), 'Sunday Service');
   });
 });

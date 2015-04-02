@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import { test } from 'ember-qunit';
+import { module, test } from 'qunit';
 import startApp from '../helpers/start-app';
 import Pretender from 'pretender';
 
@@ -24,8 +24,8 @@ module('Acceptance: SundayRedirect', {
   }
 });
 
-test('app/index.js redirects root path to /sunday', function() {
-  expect(1);
+test('app/index.js redirects root path to /sunday', function(assert) {
+  assert.expect(1);
 
   Ember.run(function() {
     var server = new Pretender(function() {
@@ -57,7 +57,7 @@ test('app/index.js redirects root path to /sunday', function() {
 
   andThen(function() {
     Ember.run.next(function() {
-      equal(currentURL(), '/sunday');
+      assert.equal(currentURL(), '/sunday');
     });
   });
 });

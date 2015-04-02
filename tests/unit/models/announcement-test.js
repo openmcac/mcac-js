@@ -8,10 +8,10 @@ moduleForModel('announcement', 'Announcement', {
   needs: ['model:bulletin', 'model:group', 'model:post']
 });
 
-test('descriptionHtml: converts markdown description into HTML', function() {
+test('descriptionHtml: converts markdown description into HTML', function(assert) {
   var description = 'this is **markdown**';
   var descriptionHtml = '<p>this is <strong>markdown</strong></p>';
   var model = this.subject({ description: description });
 
-  equal(model.get('descriptionHtml').trim(), descriptionHtml);
+  assert.equal(model.get('descriptionHtml').trim(), descriptionHtml);
 });

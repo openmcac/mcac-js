@@ -18,19 +18,19 @@ moduleForComponent('announcement-editor', 'AnnouncementEditorComponent', {
   }
 });
 
-test('it sends the correct actions when buttons are clicked', function() {
-  expect(2);
+test('it sends the correct actions when buttons are clicked', function(assert) {
+  assert.expect(2);
 
   var component = this.subject(),
       $component = this.append(),
       targetObject = {
         add: function(index) {
           // it sends 'add-announcement' action with 0-based index
-          equal(index, 1);
+          assert.equal(index, 1);
         },
         remove: function(index) {
           // it sends 'remove-announcement' action with 0-based index
-          equal(index, 0);
+          assert.equal(index, 0);
         }
       };
 
@@ -46,14 +46,14 @@ test('it sends the correct actions when buttons are clicked', function() {
   click('.remove-announcement');
 });
 
-test('it renders', function() {
-  expect(2);
+test('it renders', function(assert) {
+  assert.expect(2);
 
   // creates the component instance
   var component = this.subject();
-  equal(component._state, 'preRender');
+  assert.equal(component._state, 'preRender');
 
   // appends the component to the page
   this.append();
-  equal(component._state, 'inDOM');
+  assert.equal(component._state, 'inDOM');
 });
