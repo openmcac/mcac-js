@@ -8,14 +8,14 @@ moduleForModel('group', 'Group', {
   needs: ['model:bulletin', 'model:announcement']
 });
 
-test('it stores the expected attributes', function() {
-  expect(2);
+test('it stores the expected attributes', function(assert) {
+  assert.expect(2);
 
   var model = this.subject({
     name: 'Test Group',
     slug: 'test-group'
   });
 
-  equal(model.get('name'), 'Test Group');
-  equal(model.get('slug'), 'test-group');
+  assert.equal(model.get('name'), 'Test Group');
+  assert.equal(model.get('slug'), 'test-group');
 });

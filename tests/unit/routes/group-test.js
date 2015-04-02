@@ -10,8 +10,8 @@ moduleFor('route:group', 'GroupRoute', {
   // needs: ['model:group']
 });
 
-test('model hook returns the group matching the slug provided', function() {
-  expect(3);
+test('model hook returns the group matching the slug provided', function(assert) {
+  assert.expect(3);
 
   var route = this.subject();
   var expectedGroup = { dummy: true };
@@ -19,8 +19,8 @@ test('model hook returns the group matching the slug provided', function() {
 
   route.store = {
     find: function(model, hash) {
-      equal('group', model);
-      equal(groupSlug, hash.slug);
+      assert.equal('group', model);
+      assert.equal(groupSlug, hash.slug);
 
       return DS.PromiseArray.create({
         promise: new Ember.RSVP.Promise(function(resolve, reject) {
@@ -31,6 +31,6 @@ test('model hook returns the group matching the slug provided', function() {
   };
 
   route.model({ group_slug: groupSlug }).then(function(group) {
-    equal(expectedGroup, group);
+    assert.equal(expectedGroup, group);
   });
 });

@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import { moduleFor, test } from 'ember-qunit';
+import { module, test } from 'qunit';
 import startApp from '../../helpers/start-app';
 import nextService from 'mcac/utils/next-service';
 import Pretender from 'pretender';
@@ -25,8 +25,8 @@ module('Acceptance: New bulletin form', {
   }
 });
 
-test('visiting /english-service/bulletins/new', function() {
-  expect(3);
+test('visiting /english-service/bulletins/new', function(assert) {
+  assert.expect(3);
 
   Ember.run(function() {
     var server = new Pretender(function() {
@@ -47,14 +47,14 @@ test('visiting /english-service/bulletins/new', function() {
   visit('/english-service/bulletins/new');
 
   andThen(function() {
-    equal(find('.bulletin-name').val(), 'Sunday Worship Service');
-    equalDate(find('.published-at input').val(), nextService());
-    equal(find('.service-order').val(), 'Default service order');
+    assert.equal(find('.bulletin-name').val(), 'Sunday Worship Service');
+    equalDate(assert, find('.published-at input').val(), nextService());
+    assert.equal(find('.service-order').val(), 'Default service order');
   });
 });
 
-test('saving a bulletin navigates to edit page', function() {
-  expect(1);
+test('saving a bulletin navigates to edit page', function(assert) {
+  assert.expect(1);
 
   Ember.run(function() {
     var server = new Pretender(function() {
@@ -96,11 +96,11 @@ test('saving a bulletin navigates to edit page', function() {
   click(':submit');
 
   andThen(function() {
-    equal(currentURL(), '/english-service/bulletins/1/edit');
+    assert.equal(currentURL(), '/english-service/bulletins/1/edit');
   });
 });
 
-function equalDate(actual, expected) {
-  equal(window.moment(actual).toDate().getTime(),
-        window.moment(expected).toDate().getTime());
+function equalDate(assert, actual, expected) {
+  assert.equal(window.moment(actual).toDate().getTime(),
+               window.moment(expected).toDate().getTime());
 }

@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import { moduleFor, test } from 'ember-qunit';
+import { module, test } from 'qunit';
 import startApp from '../../helpers/start-app';
 import nextService from 'mcac/utils/next-service';
 import Pretender from 'pretender';
@@ -55,8 +55,8 @@ module('Acceptance: Editing a bulletin', {
   }
 });
 
-test('visiting /:group_slug/bulletins/:id/edit', function() {
-  expect(4);
+test('visiting /:group_slug/bulletins/:id/edit', function(assert) {
+  assert.expect(4);
 
   var publishedAt = "2015-03-07T03:58:00+00:00";
   var name = "Sunday Service";
@@ -99,15 +99,15 @@ test('visiting /:group_slug/bulletins/:id/edit', function() {
   visit('/english-service/bulletins/1/edit');
 
   andThen(function() {
-    equal(find('.bulletin-name').val(), name);
-    equalDate(find('.published-at input').val(), window.moment(publishedAt));
-    equal(find('.description').val(), description);
-    equal(find('.service-order').val(), serviceOrder);
+    assert.equal(find('.bulletin-name').val(), name);
+    equalDate(assert, find('.published-at input').val(), window.moment(publishedAt));
+    assert.equal(find('.description').val(), description);
+    assert.equal(find('.service-order').val(), serviceOrder);
   });
 });
 
-test('saving a bulletin', function() {
-  expect(4);
+test('saving a bulletin', function(assert) {
+  assert.expect(4);
 
   var publishedAt = "2011-08-22T22:12:00+00:00";
   var name = "Super Service";
@@ -154,15 +154,16 @@ test('saving a bulletin', function() {
   click('.save-bulletin');
 
   andThen(function() {
-    equal(updatedBulletin.bulletins.name, 'Updated bulletin name');
-    equal(updatedBulletin.bulletins.description, 'Updated description');
-    equal(updatedBulletin.bulletins.serviceOrder, 'Updated service order');
-    equalDate(window.moment(updatedBulletin.bulletins.publishedAt),
+    assert.equal(updatedBulletin.bulletins.name, 'Updated bulletin name');
+    assert.equal(updatedBulletin.bulletins.description, 'Updated description');
+    assert.equal(updatedBulletin.bulletins.serviceOrder, 'Updated service order');
+    equalDate(assert,
+              window.moment(updatedBulletin.bulletins.publishedAt),
               window.moment('11/30/2000 9:24 PM', 'MM/DD/YYYY h:mm A'));
   });
 });
 
-test('creating a new announcement', function() {
+test('creating a new announcement', function(assert) {
   var createdAnnouncement;
 
   Ember.run(function() {
@@ -231,17 +232,17 @@ test('creating a new announcement', function() {
   click('.save-bulletin');
 
   andThen(function() {
-    equal(find('.announcement-editor-1').length, 1);
-    equal(find('.announcement-editor').length, 1);
-    equal(createdAnnouncement.announcements.id, "1");
-    equal(createdAnnouncement.announcements.description, "This is a new one");
-    equal(createdAnnouncement.announcements.position, 1);
-    equal(createdAnnouncement.announcements.links.bulletin, '1');
+    assert.equal(find('.announcement-editor-1').length, 1);
+    assert.equal(find('.announcement-editor').length, 1);
+    assert.equal(createdAnnouncement.announcements.id, "1");
+    assert.equal(createdAnnouncement.announcements.description, "This is a new one");
+    assert.equal(createdAnnouncement.announcements.position, 1);
+    assert.equal(createdAnnouncement.announcements.links.bulletin, '1');
   });
 });
 
-test('editing bulletin announcements', function() {
-  expect(4);
+test('editing bulletin announcements', function(assert) {
+  assert.expect(4);
 
   var updatedBulletin;
 
@@ -294,14 +295,14 @@ test('editing bulletin announcements', function() {
   click('.save-bulletin');
 
   andThen(function() {
-    equal(find('.announcement-editor-8').val(), 'This is the first announcement');
-    equal(find('.announcement-editor-9').val(), 'This is the second announcement');
-    equal(find('.announcement-editor-10').val(), 'This is the third announcement');
-    equal(find('.announcement-editor').length, 3);
+    assert.equal(find('.announcement-editor-8').val(), 'This is the first announcement');
+    assert.equal(find('.announcement-editor-9').val(), 'This is the second announcement');
+    assert.equal(find('.announcement-editor-10').val(), 'This is the third announcement');
+    assert.equal(find('.announcement-editor').length, 3);
   });
 });
 
-function equalDate(actual, expected) {
-  equal(window.moment(actual).toDate().getTime(),
+function equalDate(assert, actual, expected) {
+  assert.equal(window.moment(actual).toDate().getTime(),
         window.moment(expected).toDate().getTime());
 }

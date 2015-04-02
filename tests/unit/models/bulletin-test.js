@@ -10,12 +10,12 @@ moduleForModel('bulletin', 'Bulletin', {
   needs: ['model:group', 'model:announcement', 'model:post']
 });
 
-test('serviceOrderHtml: converts markdown serviceOrder into HTML', function() {
-  expect(1);
+test('serviceOrderHtml: converts markdown serviceOrder into HTML', function(assert) {
+  assert.expect(1);
   var serviceOrder = 'this is **markdown**';
   var serviceOrderHtml = '<p>this is <strong>markdown</strong></p>';
   var group = { slug: 'english-service', name: 'Service' };
   var model = this.subject({ serviceOrder: serviceOrder });
 
-  equal(model.get('serviceOrderHtml').trim(), serviceOrderHtml);
+  assert.equal(model.get('serviceOrderHtml').trim(), serviceOrderHtml);
 });

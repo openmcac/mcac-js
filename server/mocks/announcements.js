@@ -51,7 +51,7 @@ module.exports = function(app) {
   });
 
   announcementsRouter.get('/:id', function(req, res) {
-    res.send({ 'announcements': db[parseInt(req.params.id)] });
+    res.send({ 'announcements': db[parseInt(req.params.id) - 1] });
   });
 
   announcementsRouter.put('/:id', function(req, res) {
