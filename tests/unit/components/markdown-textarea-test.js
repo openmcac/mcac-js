@@ -19,7 +19,7 @@ test('it renders', function(assert) {
   assert.equal(component._state, 'preRender');
 
   // appends the component to the page
-  this.append();
+  this.render();
 
   assert.equal(component._state, 'inDOM');
 });
@@ -44,7 +44,7 @@ test('it renders markdown editor on DOM element', function(assert) {
   };
 
   // appends the component to the page
-  this.append();
+  this.render();
 });
 
 test('it sets the correct attributes', function(assert) {

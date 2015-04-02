@@ -1,8 +1,8 @@
 <div class="bulletin">
   <div class="cover">
     <h1 class="bulletin-info">
-      <span class="name">{{name}}</span><br/>
-      <small class="description">{{description}}</small>
+      <span class="name">{{model.name}}</span><br/>
+      <small class="description">{{model.description}}</small>
     </h1>
   </div>
 
@@ -11,11 +11,11 @@
       <div class="container">
         <div class="row">
           <section class="col-sm-6 service-order">
-            {{{serviceOrderHtml}}}
+            {{{model.serviceOrderHtml}}}
           </section>
           <section class="col-sm-6 announcements">
             <ol>
-              {{#each announcement in announcements}}
+              {{#each announcement in model.announcements}}
               <li>{{{announcement.descriptionHtml}}}</li>
               {{else}}
               <li>No announcements yet</li>
