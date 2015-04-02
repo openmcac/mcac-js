@@ -4,7 +4,7 @@
 </button>
 
 <ol id="announcements-editor">
-  {{#each announcement in announcements}}
+  {{#each announcements as |announcement|}}
     <li class="draggable-announcement">
       {{announcement-editor description=announcement.description
                             position=announcement.position

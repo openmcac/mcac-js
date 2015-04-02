@@ -101,5 +101,11 @@ test('visiting /sunday', function(assert) {
 
   andThen(function() {
     assert.equal(find('.bulletin-info .name').text(), 'Sunday Service');
+    assert.equal(find('.announcements li:nth-child(1)').text().trim(),
+                 'This is the first announcement');
+    assert.equal(find('.announcements li:nth-child(2)').text().trim(),
+                 'This is the second announcement');
+    assert.equal(find('.announcements li:nth-child(3)').text().trim(),
+                 'This is the third announcement');
   });
 });
