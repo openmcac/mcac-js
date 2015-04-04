@@ -18,7 +18,7 @@ var groups = { "groups": [englishService] };
 var announcements = {
   "8": {
     "id": "8",
-    "description": "This is announcement 1",
+    "description": "This is announcement 8",
     "position": 1,
     "links": {
       "bulletin": "1",
@@ -27,7 +27,7 @@ var announcements = {
   },
   "9": {
     "id": "9",
-    "description": "This is an announcement",
+    "description": "This is announcement 9",
     "position": 2,
     "links": {
       "bulletin": "1",
@@ -36,7 +36,7 @@ var announcements = {
   },
   "10": {
     "id": "10",
-    "description": "This is an announcement",
+    "description": "This is announcement 10",
     "position": 3,
     "links": {
       "bulletin": "1",
@@ -260,6 +260,38 @@ test('editing bulletin announcements', function(assert) {
     assert.equal(find('.announcement-editor-9').val(), 'This is the second announcement');
     assert.equal(find('.announcement-editor-10').val(), 'This is the third announcement');
     assert.equal(find('.announcement-editor').length, 3);
+  });
+});
+
+test('deleting bulletin announcements', function(assert) {
+  assert.expect(4);
+
+  authenticateSession();
+
+  var deletedBulletinId, updatedBulletin;
+
+  createResponseForBulletin({
+    "id": "1",
+    "description": "This is a service bulletin.",
+    "name": "Sunday Service",
+    "serviceOrder": "This is the service order.",
+    "publishedAt": "2015-03-07T03:58:40+00:00",
+    "announcements": ["8", "9", "10"]
+  });
+
+  server.delete('/api/v1/announcements/:id', function(request) {
+    deletedBulletinId = request.params.id;
+    return [200, {"Content-Type": "application/vnd.api+json"}, '{}'];
+  });
+
+  visit('/english-service/bulletins/1/edit');
+  click('.announcement-editor-9 ~ .remove-announcement');
+
+  andThen(function() {
+    assert.equal(find('.announcement-editor-8').val(), 'This is announcement 8');
+    assert.equal(find('.announcement-editor-10').val(), 'This is announcement 10');
+    assert.equal(find('.announcement-editor').length, 2);
+    assert.equal(deletedBulletinId, '9');
   });
 });
 
