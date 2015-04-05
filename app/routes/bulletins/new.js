@@ -11,8 +11,16 @@ export default Ember.Route.extend({
       publishedAt: publishedAt.toDate(),
       name: 'Sunday Worship Service',
       description: publishedAt.format('MMMM Do YYYY, h:mm a'),
-      serviceOrder: 'Default service order',
+      serviceOrder: '',
       group: group
+    });
+
+    _this.store.find('bulletin', { latest_for_group: group.get('id') }).
+                then(function(bulletins) {
+      if (bulletins.get('length') === 0) { return; }
+
+      defaultBulletin.set('serviceOrder',
+                          bulletins.get('firstObject').get('serviceOrder'));
     });
 
     return defaultBulletin;
