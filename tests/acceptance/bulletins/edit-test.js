@@ -93,7 +93,7 @@ function createResponseForBulletin(bulletin) {
   server.get('/api/v1/bulletins/1', function(request) {
     var response = {
       "bulletins": {
-        "id": "1",
+        "id": bulletin.id,
         "description": bulletin.description,
         "name": bulletin.name,
         "serviceOrder": bulletin.serviceOrder,
@@ -118,6 +118,7 @@ test('visiting /:group_slug/bulletins/:id/edit', function(assert) {
   authenticateSession();
 
   var bulletin = {
+    id: "1",
     publishedAt: "2015-03-07T03:58:00+00:00",
     name: "Sunday Service",
     description: "This is a description",
@@ -139,9 +140,78 @@ test('visiting /:group_slug/bulletins/:id/edit', function(assert) {
   });
 });
 
+test('populates with latest announcements', function(assert) {
+  authenticateSession();
+
+  var bulletin = {
+    id: "2",
+    publishedAt: "2015-03-07T03:58:00+00:00",
+    name: "Sunday Service",
+    description: "This is a description",
+    serviceOrder: "This is a service order",
+    announcements: []
+  };
+
+  createResponseForBulletin(bulletin);
+
+  server.get('/api/v1/announcements', function(request) {
+    if (request.queryParams.latest_for_group === '1') {
+      var response = {
+        announcements: [
+          {
+            "id": "1",
+            "description": "This is an announcement",
+            "position": 1,
+            "links": {
+              "bulletin": "1",
+              "post": "1"
+            }
+          }, {
+            "id": "2",
+            "description": "This is the second announcement",
+            "position": 2,
+            "links": {
+              "bulletin": "1",
+              "post": "1"
+            }
+          }, {
+            "id": "3",
+            "description": "This is the third announcement",
+            "position": 3,
+            "links": {
+              "bulletin": "1",
+              "post": "1"
+            }
+          }
+        ]
+      };
+
+      return [
+        200,
+        { "Content-Type": "application/vnd.api+json" },
+        JSON.stringify(response)
+      ];
+    }
+  });
+
+
+  visit('/english-service/bulletins/1/edit');
+
+  andThen(function() {
+    assert.equal(Ember.$(find('.announcement-editor-new')[0]).val(),
+                 'This is an announcement');
+    assert.equal(Ember.$(find('.announcement-editor-new')[1]).val(),
+                 'This is the second announcement');
+    assert.equal(Ember.$(find('.announcement-editor-new')[2]).val(),
+                 'This is the third announcement');
+    assert.equal(find('.announcement-editor').length, 3);
+  });
+});
+
 test('saving a bulletin', function(assert) {
   var updatedBulletin,
       bulletin = {
+        id: "1",
         publishedAt: "2011-08-22T22:12:00+00:00",
         name: "Super Service",
         description: "A super description",
@@ -206,6 +276,7 @@ test('creating a new announcement', function(assert) {
   });
 
   createResponseForBulletin({
+    "id": "1",
     "description": "This is a service bulletin.",
     "name": "Sunday Service",
     "serviceOrder": "This is the service order.",

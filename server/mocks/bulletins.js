@@ -18,9 +18,13 @@ module.exports = function(app) {
   }];
 
   bulletinsRouter.get('/', function(req, res) {
-    res.send({
-      "bulletins": db,
-    });
+    if (req.query.latest_for_group) {
+      res.send({ bulletins: [db[db.length - 1]] });
+    } else {
+      res.send({
+        "bulletins": db,
+      });
+    }
   });
 
   bulletinsRouter.post('/', function(req, res) {
