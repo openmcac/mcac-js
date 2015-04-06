@@ -5,6 +5,15 @@ var Router = Ember.Router.extend({
   location: config.locationType
 });
 
+Ember.Route.reopen({
+  activatePace: function() {
+    return Pace.restart();
+  }.on('activate'),
+  deactivatePace: function() {
+    return Pace.stop();
+  }.on('deactivate')
+});
+
 Router.map(function() {
   this.resource("group", { path: ":group_slug" }, function() {
     this.resource("bulletin", { path: "bulletins/:bulletin_id" }, function() {

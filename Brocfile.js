@@ -25,6 +25,8 @@ app.import('bower_components/bootstrap-markdown/js/bootstrap-markdown.js');
 app.import('bower_components/bootstrap-markdown/css/bootstrap-markdown.min.css');
 app.import('bower_components/marked/lib/marked.js');
 app.import('bower_components/html.sortable/dist/html.sortable.min.js');
+app.import('bower_components/pace/pace.js');
+app.import('bower_components/pace/themes/purple/pace-theme-minimal.css');
 
 var mergeTrees = require('broccoli-merge-trees');
 var pickFiles = require('broccoli-static-compiler');

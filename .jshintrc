@@ -1,10 +1,11 @@
 {
   "predef": [
+    "-Promise",
+    "Pace",
     "document",
     "marked",
     "moment",
-    "window",
-    "-Promise"
+    "window"
   ],
   "boss": true,
   "browser": true,

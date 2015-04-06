@@ -18,8 +18,11 @@ export default Ember.Component.extend({
     removeAnnouncement: function(index) {
       var announcements = this.get('announcements');
       var announcement = announcements.objectAt(index);
-      announcement.destroyRecord();
-      syncPositions(announcements);
+      Pace.restart();
+      announcement.destroyRecord().then(function() {
+        syncPositions(announcements);
+        Pace.stop();
+      });
     },
     appendAnnouncement: function() {
       var announcements = this.get('announcements');
