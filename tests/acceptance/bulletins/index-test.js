@@ -86,7 +86,10 @@ function createServer() {
 }
 
 test('Viewing bulletins for a group', function(assert) {
+  assert.expect(5);
+
   visit('/english-service/bulletins');
+  authenticateSession();
 
   andThen(function() {
     assert.equal(currentPath(), 'group.bulletins.index');
@@ -98,7 +101,10 @@ test('Viewing bulletins for a group', function(assert) {
 });
 
 test('Deleting a bulletin', function(assert) {
+  assert.expect(2);
+
   visit('/english-service/bulletins');
+  authenticateSession();
 
   var deletedAnnouncementId;
 
@@ -116,5 +122,6 @@ test('Deleting a bulletin', function(assert) {
 
   andThen(function() {
     assert.equal(deletedAnnouncementId, '2');
+    assert.equal(find('.bulletin').length, 2);
   });
 });
