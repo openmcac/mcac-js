@@ -8,7 +8,27 @@ module.exports = function(app) {
   var db = [{
     "id": 1,
     "publishedAt": "2014-12-21T13:58:27-05:00",
-    "name": "Sunday Service",
+    "name": "First Service",
+    "serviceOrder": "This is the service order.",
+    "description": "This is a service bulletin.",
+    "links": {
+      "group": "1",
+      "announcements": ["1", "2", "3"]
+    }
+  }, {
+    "id": 2,
+    "publishedAt": "2014-12-24T13:58:27-05:00",
+    "name": "Second Service",
+    "serviceOrder": "This is the service order.",
+    "description": "This is a service bulletin.",
+    "links": {
+      "group": "1",
+      "announcements": ["1", "2", "3"]
+    }
+  }, {
+    "id": 3,
+    "publishedAt": "2014-12-25T13:58:27-05:00",
+    "name": "Third Service",
     "serviceOrder": "This is the service order.",
     "description": "This is a service bulletin.",
     "links": {
