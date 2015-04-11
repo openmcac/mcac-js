@@ -5,7 +5,7 @@
 
 <ol id="announcements-editor">
   {{#each announcements as |announcement|}}
-    <li class="draggable-announcement">
+    <li class="draggable-announcement" data-id="{{announcement.id}}">
       {{announcement-editor description=announcement.description
                             position=announcement.position
                             announcement-id=announcement.id

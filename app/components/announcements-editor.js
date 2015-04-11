@@ -1,12 +1,5 @@
 import Ember from 'ember';
 
-function syncPositions(announcements) {
-  var i = 1;
-  announcements.forEach(function(announcement) {
-    announcement.set('position', i++);
-  });
-}
-
 export default Ember.Component.extend({
   actions: {
     addAnnouncement: function(index) {
@@ -32,6 +25,31 @@ export default Ember.Component.extend({
     }
   },
   makeDraggable: function() {
-    Ember.$('#announcements-editor', this.element).sortable();
+    Ember.$('#announcements-editor', this.element).
+          sortable().
+          bind('sortupdate', onAnnouncementDragged(this));
   }.on('didInsertElement')
 });
+
+function onAnnouncementDragged(context) {
+  return function(e, ui) {
+    saveDraggedAnnouncementPosition(context, ui);
+  };
+}
+
+function saveDraggedAnnouncementPosition(context, ui) {
+  var announcement = getDraggedAnnouncement(context.get('announcements'), ui);
+  announcement.set('position', ui.item.index() + 1);
+  announcement.save();
+}
+
+function getDraggedAnnouncement(announcements, ui) {
+  return announcements.findBy('id', `${ui.item.data('id')}`);
+}
+
+function syncPositions(announcements) {
+  var i = 1;
+  announcements.forEach(function(announcement) {
+    announcement.set('position', i++);
+  });
+}

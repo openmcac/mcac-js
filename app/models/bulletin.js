@@ -9,5 +9,8 @@ export default DS.Model.extend({
   announcements: DS.hasMany('announcement', { async: true }),
   serviceOrderHtml: function() {
     return marked(this.get('serviceOrder'));
-  }.property('serviceOrder')
+  }.property('serviceOrder'),
+  sortedAnnouncements: function() {
+    return this.get('announcements').sortBy('position');
+  }.property('announcements.@each.position')
 });
