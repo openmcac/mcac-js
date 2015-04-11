@@ -24,11 +24,14 @@ export default Ember.Component.extend({
       syncPositions(announcements);
     }
   },
+  onAnnouncementChange: function() {
+    Ember.run.later(this, 'makeDraggable');
+  }.observes('announcements'),
   makeDraggable: function() {
     Ember.$('#announcements-editor', this.element).
           sortable().
           bind('sortupdate', onAnnouncementDragged(this));
-  }.on('didInsertElement')
+  }
 });
 
 function onAnnouncementDragged(context) {
