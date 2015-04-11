@@ -18,10 +18,7 @@ export default Ember.Component.extend({
       });
     },
     appendAnnouncement: function() {
-      var announcements = this.get('announcements');
-      var store = this.get('targetObject').store;
-      announcements.pushObject(store.createRecord('announcement', {}));
-      syncPositions(announcements);
+      this.sendAction('append-announcement');
     }
   },
   onAnnouncementChange: function() {
