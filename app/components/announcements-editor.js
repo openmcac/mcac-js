@@ -22,34 +22,45 @@ export default Ember.Component.extend({
     }
   },
   onAnnouncementChange: function() {
-    Ember.run.later(this, 'makeDraggable');
-  }.observes('announcements'),
+    Ember.run.later(this, 'makeDraggable', 2000);
+  }.on('didInsertElement'),
   makeDraggable: function() {
-    Ember.$('#announcements-editor', this.element).
-          sortable().
-          bind('sortupdate', onAnnouncementDragged(this));
+    var $announcementsEditor =
+        Ember.$('#announcements-editor', this.element);
+    $announcementsEditor.sortable('destroy');
+    $announcementsEditor.sortable().
+                         bind('sortupdate', onAnnouncementDragged(this));
   }
 });
 
 function onAnnouncementDragged(context) {
   return function(e, ui) {
     saveDraggedAnnouncementPosition(context, ui);
+    syncPositions(context.get('announcements'));
+    Ember.run.later(context, 'makeDraggable', 1000);
   };
 }
 
 function saveDraggedAnnouncementPosition(context, ui) {
-  var announcement = getDraggedAnnouncement(context.get('announcements'), ui);
+  var announcement = getDraggedAnnouncement(context.get('announcements'),
+                                            ui.item.data('id'));
   announcement.set('position', ui.item.index() + 1);
   announcement.save();
 }
 
-function getDraggedAnnouncement(announcements, ui) {
-  return announcements.findBy('id', `${ui.item.data('id')}`);
+function syncPositions(announcements) {
+  announcements.beginPropertyChanges();
+
+  Ember.$('#announcements-editor .draggable-announcement').
+        each(function(index, domAnnouncement) {
+    var announcement =
+        getDraggedAnnouncement(announcements, Ember.$(domAnnouncement).data('id'));
+    announcement.set('position', index+1);
+  });
+
+  announcements.endPropertyChanges();
 }
 
-function syncPositions(announcements) {
-  var i = 1;
-  announcements.forEach(function(announcement) {
-    announcement.set('position', i++);
-  });
+function getDraggedAnnouncement(announcements, announcementId) {
+  return announcements.findBy('id', `${announcementId}`);
 }
