@@ -6,14 +6,15 @@ export default Ember.Component.extend({
       var announcements = this.get('announcements');
       var store = this.get('targetObject').store;
       announcements.insertAt(index, store.createRecord('announcement', {}));
-      syncPositions(announcements);
+      syncPositions(this);
     },
     removeAnnouncement: function(index) {
-      var announcements = this.get('announcements');
+      var _this = this;
+      var announcements = _this.get('announcements');
       var announcement = announcements.objectAt(index);
       Pace.restart();
       announcement.destroyRecord().then(function() {
-        syncPositions(announcements);
+        syncPositions(_this);
         Pace.stop();
       });
     },
@@ -36,8 +37,7 @@ export default Ember.Component.extend({
 function onAnnouncementDraggedFn(context) {
   return function(e, ui) {
     saveDraggedAnnouncementPosition(context, ui.item);
-    syncPositions(context.get('announcements'));
-    Ember.run.later(context, 'makeDraggable', 1000);
+    syncPositions(context);
   };
 }
 
@@ -48,13 +48,16 @@ function saveDraggedAnnouncementPosition(context, $item) {
   announcement.save();
 }
 
-function syncPositions(announcements) {
+function syncPositions(context) {
+  var announcements = context.get('announcements');
   announcements.beginPropertyChanges();
 
   Ember.$('#announcements-editor .draggable-announcement').
         each(syncAnnouncementFn(announcements));
 
   announcements.endPropertyChanges();
+
+  Ember.run.later(context, 'makeDraggable', 1000);
 }
 
 function syncAnnouncementFn(announcements) {
