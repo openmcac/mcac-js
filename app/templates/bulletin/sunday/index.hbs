@@ -15,7 +15,7 @@
           </section>
           <section class="col-sm-6 announcements">
             <ol>
-              {{#each model.announcements as |announcement|}}
+              {{#each model.sortedAnnouncements as |announcement|}}
               <li>{{{announcement.descriptionHtml}}}</li>
               {{else}}
               <li>No announcements yet</li>
