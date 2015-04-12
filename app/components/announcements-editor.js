@@ -29,22 +29,22 @@ export default Ember.Component.extend({
         Ember.$('#announcements-editor', this.element);
     $announcementsEditor.sortable('destroy');
     $announcementsEditor.sortable().
-                         bind('sortupdate', onAnnouncementDragged(this));
+                         bind('sortupdate', onAnnouncementDraggedFn(this));
   }
 });
 
-function onAnnouncementDragged(context) {
+function onAnnouncementDraggedFn(context) {
   return function(e, ui) {
-    saveDraggedAnnouncementPosition(context, ui);
+    saveDraggedAnnouncementPosition(context, ui.item);
     syncPositions(context.get('announcements'));
     Ember.run.later(context, 'makeDraggable', 1000);
   };
 }
 
-function saveDraggedAnnouncementPosition(context, ui) {
+function saveDraggedAnnouncementPosition(context, $item) {
   var announcement = getDraggedAnnouncement(context.get('announcements'),
-                                            ui.item.data('id'));
-  announcement.set('position', ui.item.index() + 1);
+                                            $item.data('id'));
+  announcement.set('position', $item.index() + 1);
   announcement.save();
 }
 
@@ -52,13 +52,17 @@ function syncPositions(announcements) {
   announcements.beginPropertyChanges();
 
   Ember.$('#announcements-editor .draggable-announcement').
-        each(function(index, domAnnouncement) {
+        each(syncAnnouncementFn(announcements));
+
+  announcements.endPropertyChanges();
+}
+
+function syncAnnouncementFn(announcements) {
+  return function(index, domAnnouncement) {
     var announcement =
         getDraggedAnnouncement(announcements, Ember.$(domAnnouncement).data('id'));
     announcement.set('position', index+1);
-  });
-
-  announcements.endPropertyChanges();
+  };
 }
 
 function getDraggedAnnouncement(announcements, announcementId) {
