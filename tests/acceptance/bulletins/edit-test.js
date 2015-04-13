@@ -65,7 +65,7 @@ function createServer() {
     });
 
     this.get('/api/v1/announcements', function(request) {
-      if (request.queryParams.latest_for_group === '1') {
+      if (request.queryParams.defaults_for_bulletin === '1') {
         var response = { "announcements": [] };
         return [200, {"Content-Type": "application/vnd.api+json"}, JSON.stringify(response)];
       }
@@ -90,7 +90,7 @@ function createServer() {
 }
 
 function createResponseForBulletin(bulletin) {
-  server.get('/api/v1/bulletins/1', function(request) {
+  server.get(`/api/v1/bulletins/${bulletin.id}`, function(request) {
     var response = {
       "bulletins": {
         "id": bulletin.id,
@@ -155,7 +155,7 @@ test('populates with latest announcements', function(assert) {
   createResponseForBulletin(bulletin);
 
   server.get('/api/v1/announcements', function(request) {
-    if (request.queryParams.latest_for_group === '1') {
+    if (request.queryParams.defaults_for_bulletin === '2') {
       var response = {
         announcements: [
           {
@@ -195,7 +195,7 @@ test('populates with latest announcements', function(assert) {
   });
 
 
-  visit('/english-service/bulletins/1/edit');
+  visit('/english-service/bulletins/2/edit');
 
   andThen(function() {
     assert.equal(Ember.$(find('.announcement-editor-new')[0]).val(),

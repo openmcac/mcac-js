@@ -108,7 +108,7 @@ test('saving a bulletin navigates to edit page', function(assert) {
   });
 
   server.get('/api/v1/announcements', function(request) {
-    if (request.queryParams.latest_for_group === '1') {
+    if (request.queryParams.defaults_for_bulletin === '2') {
       var response = { "announcements": [] };
       return [200, {"Content-Type": "application/vnd.api+json"}, JSON.stringify(response)];
     }
