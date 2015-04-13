@@ -14,8 +14,7 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
 });
 
 function populateLatestAnnouncements(bulletin, store) {
-  var group = bulletin.get('group');
-  store.find('announcement', { latest_for_group: group.get('id') }).
+  store.find('announcement', { defaults_for_bulletin: bulletin.get('id') }).
         then(function(announcements) {
     copyAnnouncementsIntoBulletin(store, announcements, bulletin);
   });
