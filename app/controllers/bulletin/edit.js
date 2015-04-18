@@ -13,12 +13,23 @@ export default Ember.Controller.extend({
       bulletin.set('publishedAt', moment(bulletin.get('publishedAt')).toDate());
       Pace.restart();
       bulletin.save().then(function() {
-        bulletin.get('announcements').then(function(announcements) {
-          announcements.save().then(function() {
-            Pace.stop();
-          });
-        });
+        saveNextAnnouncement(bulletin);
       });
     }
   }
 });
+
+function saveNextAnnouncement(bulletin) {
+  function next() {
+    saveNextAnnouncement(bulletin);
+  }
+
+  var unsavedAnnouncement =
+    bulletin.get('unsavedAnnouncements').get('firstObject');
+
+  if (unsavedAnnouncement) {
+    unsavedAnnouncement.save().then(next);
+  } else {
+    Pace.stop();
+  }
+}

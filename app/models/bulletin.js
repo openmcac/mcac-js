@@ -12,5 +12,8 @@ export default DS.Model.extend({
   }.property('serviceOrder'),
   sortedAnnouncements: function() {
     return this.get('announcements').sortBy('position');
-  }.property('announcements.@each.position')
+  }.property('announcements.@each.position'),
+  unsavedAnnouncements: function() {
+    return this.get('sortedAnnouncements').filterBy('isDirty');
+  }.property('sortedAnnouncements.@each.isDirty')
 });
