@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.View.extend({
-  templateName: 'bulletin/sunday/index',
+  templateName: 'bulletin/index',
   didInsertElement: function() {
     this._super();
 
