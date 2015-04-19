@@ -1,10 +1,29 @@
-{{outlet}}
+<div class="bulletin">
+  <div class="cover">
+    <h1 class="bulletin-info">
+      <span class="name">{{model.name}}</span><br/>
+      <small class="description">{{model.description}}</small>
+    </h1>
+  </div>
 
-Bulletin
-
-<ul>
- <li>{{name}}</li>
- <li>{{publishedAt}}</li>
- <li>{{serviceOrder}}</li>
- <li>{{description}}</li>
-</ul>
+  <div class="bulletin-contents">
+    <div class="inner">
+      <div class="container">
+        <div class="row">
+          <section class="col-sm-6 service-order">
+            {{{model.serviceOrderHtml}}}
+          </section>
+          <section class="col-sm-6 announcements">
+            <ol>
+              {{#each model.sortedAnnouncements as |announcement|}}
+              <li>{{{announcement.descriptionHtml}}}</li>
+              {{else}}
+              <li>No announcements yet</li>
+              {{/each}}
+            </ol>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

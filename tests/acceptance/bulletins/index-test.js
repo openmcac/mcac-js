@@ -1,127 +1,111 @@
 import Ember from 'ember';
-import { module, test } from 'qunit';
-import startApp from 'mcac/tests/helpers/start-app';
+import startApp from '../../helpers/start-app';
 import Pretender from 'pretender';
+import { test, module } from 'qunit';
 
-var application, server;
+var application;
 
-module('Acceptance: BulletinsIndex', {
-  beforeEach: function() {
-    application = startApp();
+var englishService = {
+  "id": "1",
+  "name": "English Service",
+  "slug": "english-service",
+  "createdAt": "2015-03-07T03:58:39+00:00"
+};
 
-    server = createServer();
+var groups = { "1": englishService };
+
+var announcements = {
+  "1": {
+    "id": "1",
+    "description": "This is the first announcement",
+    "position": 1,
+    "links": {
+      "bulletin": "1",
+      "post": null
+    }
   },
+  "2": {
+    "id": "2",
+    "description": "This is the second announcement",
+    "position": 2,
+    "links": {
+      "bulletin": "1",
+      "post": null
+    }
+  },
+  "3": {
+    "id": "3",
+    "description": "This is the third announcement",
+    "position": 3,
+    "links": {
+      "bulletin": "1",
+      "post": null
+    }
+  }
+};
 
-  afterEach: function() {
+module('Acceptance: View bulletin', {
+  setup: function() {
+    application = startApp();
+  },
+  teardown: function() {
     Ember.run(application, 'destroy');
   }
 });
 
-function createBulletinJson(bulletin) {
-  return {
-    "id": bulletin.id,
-    "description": bulletin.description,
-    "name": bulletin.name,
-    "serviceOrder": bulletin.serviceOrder,
-    "publishedAt": bulletin.publishedAt,
-    "links": {
-      "group": "1",
-      "announcements": bulletin.announcements
-    }
-  };
-}
-
-function createServer() {
-  return new Pretender(function() {
-    var englishService = {
-      "id": "1",
-      "name": "English Service",
-      "slug": "english-service",
-      "createdAt": "2015-03-07T03:58:39+00:00"
-    };
-
-    var groups = { "groups": [englishService] };
-
+test('visiting /english-service/bulletin/1', function(assert) {
+  var server = new Pretender(function() {
     this.get('/api/v1/groups', function(request) {
-      var all = JSON.stringify(groups);
+      var all = JSON.stringify({ groups: [groups["1"]] });
       return [200, {"Content-Type": "application/vnd.api+json"}, all];
     });
 
-    this.get('/api/v1/bulletins', function(request) {
-      if (request.queryParams.group === '1') {
-        var response = {
-          "bulletins": [
-            createBulletinJson({
-              id: "1",
-              description: "",
-              name: "First bulletin",
-              publishedAt: "2015-03-07T03:58:00+00:00",
-              announcements: ["1", "2"]
-            }),
-            createBulletinJson({
-              id: "2",
-              description: "",
-              name: "Second bulletin",
-              publishedAt: "2015-03-08T03:58:00+00:00",
-              announcements: ["3", "4"]
-            }),
-            createBulletinJson({
-              id: "3",
-              description: "",
-              name: "Third bulletin",
-              publishedAt: "2015-03-09T03:58:00+00:00",
-              announcements: []
-            })
-          ]
-        };
+    this.get('/api/v1/groups/:id', function(request) {
+      var group = {
+        "groups": groups[request.params.id]
+      };
 
-        return [
-          200,
-          {"Content-Type": "application/vnd.api+json"},
-          JSON.stringify(response)
-        ];
-      }
+      return [
+        200,
+        {"Content-Type": "application/vnd.api+json"},
+        JSON.stringify(group)
+      ];
+    });
+
+    this.get('/api/v1/announcements/:id', function(request) {
+      var announcement = {
+        "announcements": announcements[request.params.id]
+      };
+      return [200, {"Content-Type": "application/vnd.api+json"}, JSON.stringify(announcement)];
+    });
+
+    this.get('/api/v1/bulletins/1', function(request) {
+      var response = {
+        "bulletins": {
+          "id": "1",
+          "description": "This is a service bulletin.",
+          "name": "Sunday Service",
+          "serviceOrder": "This is the service order.",
+          "publishedAt": "2014-12-21T13:58:27-05:00",
+          "links": {
+            "group": "1",
+            "announcements": ["1", "2", "3"]
+          }
+        }
+      };
+      return [200, {"Content-Type": "application/vnd.api+json"}, JSON.stringify(response)];
     });
   });
-}
 
-test('Viewing bulletins for a group', function(assert) {
-  assert.expect(5);
-
-  visit('/english-service/bulletins');
-  authenticateSession();
+  visit('/english-service/bulletins/1');
 
   andThen(function() {
-    assert.equal(currentPath(), 'group.bulletins.index');
-    assert.equal(Ember.$(find('.bulletin-name')[0]).text().trim(), 'First bulletin');
-    assert.equal(Ember.$(find('.bulletin-name')[1]).text().trim(), 'Second bulletin');
-    assert.equal(Ember.$(find('.bulletin-name')[2]).text().trim(), 'Third bulletin');
-    assert.equal(find('.bulletin').length, 3);
-  });
-});
-
-test('Deleting a bulletin', function(assert) {
-  assert.expect(2);
-
-  visit('/english-service/bulletins');
-  authenticateSession();
-
-  var deletedAnnouncementId;
-
-  server.delete('/api/v1/bulletins/:id', function(request) {
-    deletedAnnouncementId = request.params.id;
-
-    return [
-      200,
-      {"Content-Type": "application/vnd.api+json"},
-      JSON.stringify({})
-    ];
-  });
-
-  click('.bulletin-2 .remove-bulletin');
-
-  andThen(function() {
-    assert.equal(deletedAnnouncementId, '2');
-    assert.equal(find('.bulletin').length, 2);
+    assert.equal(find('.bulletin-info .name').text(), 'Sunday Service');
+    assert.equal(find('.announcements li:nth-child(1)').text().trim(),
+                 'This is the first announcement');
+    assert.equal(find('.announcements li:nth-child(2)').text().trim(),
+                 'This is the second announcement');
+    assert.equal(find('.announcements li:nth-child(3)').text().trim(),
+                 'This is the third announcement');
   });
 });
