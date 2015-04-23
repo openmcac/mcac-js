@@ -20,6 +20,12 @@ Router.map(function() {
       this.route("edit");
     });
 
+    this.resource('post', function() {});
+
+    this.resource('posts', { path: 'posts' }, function() {
+      this.route('new', function() {});
+    });
+
     this.resource("bulletins", { path: "bulletins" }, function() {
       this.route("new", function() {
         this.route("announcements");
