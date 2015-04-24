@@ -20,7 +20,9 @@ Router.map(function() {
       this.route("edit");
     });
 
-    this.resource('post', function() {});
+    this.resource('post', { path: "posts/:post_id" }, function() {
+      this.route('edit', function() {});
+    });
 
     this.resource('posts', { path: 'posts' }, function() {
       this.route('new', function() {});

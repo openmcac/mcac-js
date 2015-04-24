@@ -10,7 +10,13 @@ export default DS.Model.extend({
     if (arguments.length > 1) {
       this.set('tags', tagListToArray(value));
     }
-    return this.get('tags').toArray().join(', ');
+
+    var tags = this.get('tags');
+    if (!tags) {
+      tags = [];
+    }
+
+    return tags.toArray().join(', ');
   }.property('tags.@each')
 });
 

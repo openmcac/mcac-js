@@ -45,7 +45,7 @@ function createServer() {
   });
 }
 
-test('saving a bulletin', function(assert) {
+test('saving a post', function(assert) {
   var server = createServer(),
       postTitle = 'post title',
       content = 'post **markdown**',
@@ -74,6 +74,6 @@ test('saving a bulletin', function(assert) {
   andThen(function() {
     assert.equal(createdPost.posts.title, postTitle);
     assert.equal(createdPost.posts.content, content);
-    assert.equal(createdPost.posts.tags, 'tag5, tag6, tag7');
+    assert.deepEqual(createdPost.posts.tags, ['tag5', 'tag6', 'tag7']);
   });
 });
