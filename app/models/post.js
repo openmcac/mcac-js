@@ -11,14 +11,14 @@ export default DS.Model.extend({
       this.set('tags', tagListToArray(value));
     }
 
-    var tags = this.get('tags');
-    if (!tags) {
-      tags = [];
-    }
-
-    return tags.toArray().join(', ');
+    return getTags(this).toArray().join(', ');
   }.property('tags.@each')
 });
+
+function getTags(context) {
+  var tags = context.get('tags');
+  return tags ? tags : [];
+}
 
 function tagListToArray(tagList) {
   return tagList.split(/\s*,\s*/);

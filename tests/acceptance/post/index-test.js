@@ -3,6 +3,7 @@ import {
   module,
   test
 } from 'qunit';
+import Pretender from 'pretender';
 import startApp from 'mcac/tests/helpers/start-app';
 
 var application, server;
