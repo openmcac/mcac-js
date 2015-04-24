@@ -20,11 +20,22 @@ Router.map(function() {
       this.route("edit");
     });
 
+    this.resource('post', { path: "posts/:post_id" }, function() {
+      this.route('edit', function() {});
+    });
+
+    this.resource('posts', { path: 'posts' }, function() {
+      this.route('new', function() {});
+    });
+
     this.resource("bulletins", { path: "bulletins" }, function() {
       this.route("new", function() {
         this.route("announcements");
       });
     });
+  });
+
+  this.route("post/index", { path: "/:group_slug/:post_id/:slug" }, function () {
   });
 
   this.route("bulletin/sunday", { path: "/sunday" }, function() {
