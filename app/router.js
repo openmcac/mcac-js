@@ -35,6 +35,9 @@ Router.map(function() {
     });
   });
 
+  this.route("post/index", { path: "/:group_slug/:post_id/:slug" }, function () {
+  });
+
   this.route("bulletin/sunday", { path: "/sunday" }, function() {
   });
 

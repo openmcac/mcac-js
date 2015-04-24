@@ -12,6 +12,11 @@
         <td class="post-title">{{post.title}}</td>
         <td>{{post.publishedAt}}</td>
         <td>
+          {{#link-to 'post.index' post
+                     class='btn btn-default show-post'}}
+            Show
+          {{/link-to}}
+
           {{#link-to 'post.edit' post
                      class='btn btn-primary edit-post'}}
             Edit
