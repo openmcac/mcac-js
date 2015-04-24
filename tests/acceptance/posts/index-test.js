@@ -103,3 +103,26 @@ test('visiting /posts/index', function(assert) {
     assert.equal(find('.post').length, 2);
   });
 });
+
+test('deleting a post', function(assert) {
+  var deletedPost;
+
+  server.delete('/api/v1/posts/5', function(request) {
+    deletedPost = true;
+
+    return [
+      200,
+      {"Content-Type": "application/vnd.api+json"},
+      '{}'
+    ];
+  });
+
+  visit('/english-service/posts');
+
+  click('.remove-post:last');
+
+  andThen(function() {
+    assert.equal(find('.post').length, 1);
+    assert.ok(deletedPost);
+  });
+});
