@@ -46,6 +46,8 @@ function createServer() {
 }
 
 test('saving a post', function(assert) {
+  authenticateSession();
+
   var server = createServer(),
       postTitle = 'post title',
       content = 'post **markdown**',

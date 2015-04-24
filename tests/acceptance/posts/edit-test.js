@@ -61,6 +61,8 @@ function createServer() {
 }
 
 test('visiting /posts/edit', function(assert) {
+  authenticateSession();
+
   visit('/english-service/posts/12/edit');
 
   andThen(function() {
@@ -71,6 +73,8 @@ test('visiting /posts/edit', function(assert) {
 });
 
 test('Updating a post', function(assert) {
+  authenticateSession();
+
   var updatedPost;
 
   server.put('/api/v1/posts/12', function(request) {

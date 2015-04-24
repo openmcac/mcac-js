@@ -97,6 +97,8 @@ module('Acceptance: PostsIndex', {
 });
 
 test('visiting /posts/index', function(assert) {
+  authenticateSession();
+
   visit('/english-service/posts');
 
   andThen(function() {
@@ -105,6 +107,8 @@ test('visiting /posts/index', function(assert) {
 });
 
 test('deleting a post', function(assert) {
+  authenticateSession();
+
   var deletedPost;
 
   server.delete('/api/v1/posts/5', function(request) {
