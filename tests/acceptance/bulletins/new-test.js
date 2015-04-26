@@ -3,33 +3,15 @@ import { module, test } from 'qunit';
 import startApp from '../../helpers/start-app';
 import nextService from 'mcac/utils/next-service';
 import Pretender from 'pretender';
+import mockServer from '../../helpers/server';
 
 var application, server;
-
-var englishService = {
-  "id": "1",
-  "name": "English Service",
-  "slug": "english-service",
-  "createdAt": "2015-03-07T03:58:39+00:00"
-};
-
-var groups = { "groups": [englishService] };
-
-function createServer() {
-  return new Pretender(function() {
-    this.get('/api/v1/groups', function(request) {
-      var all = JSON.stringify(groups);
-      return [200, {"Content-Type": "application/vnd.api+json"}, all];
-    });
-
-  });
-}
 
 module('Acceptance: New bulletin form', {
   needs: ['model:bulletin', 'model:group'],
   setup: function() {
     application = startApp();
-    server = createServer();
+    server = mockServer();
   },
   teardown: function() {
     server.shutdown();

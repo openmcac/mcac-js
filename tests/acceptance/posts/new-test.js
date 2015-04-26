@@ -2,17 +2,9 @@ import Ember from 'ember';
 import { module, test } from 'qunit';
 import startApp from 'mcac/tests/helpers/start-app';
 import Pretender from 'pretender';
+import mockServer from 'mcac/tests/helpers/server';
 
 var application;
-
-var englishService = {
-  "id": "1",
-  "name": "English Service",
-  "slug": "english-service",
-  "createdAt": "2015-03-07T03:58:39+00:00"
-};
-
-var groups = { "1": englishService };
 
 module('Acceptance: PostsNew', {
   beforeEach: function() {
@@ -24,31 +16,10 @@ module('Acceptance: PostsNew', {
   }
 });
 
-function createServer() {
-  return new Pretender(function() {
-    this.get('/api/v1/groups', function(request) {
-      var all = JSON.stringify({ groups: [groups["1"]] });
-      return [200, {"Content-Type": "application/vnd.api+json"}, all];
-    });
-
-    this.get('/api/v1/groups/:id', function(request) {
-      var group = {
-        "groups": groups[request.params.id]
-      };
-
-      return [
-        200,
-        {"Content-Type": "application/vnd.api+json"},
-        JSON.stringify(group)
-      ];
-    });
-  });
-}
-
 test('saving a post', function(assert) {
   authenticateSession();
 
-  var server = createServer(),
+  var server = mockServer(),
       postTitle = 'post title',
       content = 'post **markdown**',
       tags = 'tag5, tag6, tag7',
