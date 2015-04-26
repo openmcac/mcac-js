@@ -2,17 +2,9 @@ import Ember from 'ember';
 import startApp from '../../helpers/start-app';
 import Pretender from 'pretender';
 import { test, module } from 'qunit';
+import mockServer from '../../helpers/server';
 
 var application;
-
-var englishService = {
-  "id": "1",
-  "name": "English Service",
-  "slug": "english-service",
-  "createdAt": "2015-03-07T03:58:39+00:00"
-};
-
-var groups = { "1": englishService };
 
 var announcements = {
   "1": {
@@ -54,47 +46,29 @@ module('Acceptance: View bulletin', {
 });
 
 test('visiting /english-service/bulletin/1', function(assert) {
-  var server = new Pretender(function() {
-    this.get('/api/v1/groups', function(request) {
-      var all = JSON.stringify({ groups: [groups["1"]] });
-      return [200, {"Content-Type": "application/vnd.api+json"}, all];
-    });
+  var server = mockServer();
+  server.get('/api/v1/announcements/:id', function(request) {
+    var announcement = {
+      "announcements": announcements[request.params.id]
+    };
+    return [200, {"Content-Type": "application/vnd.api+json"}, JSON.stringify(announcement)];
+  });
 
-    this.get('/api/v1/groups/:id', function(request) {
-      var group = {
-        "groups": groups[request.params.id]
-      };
-
-      return [
-        200,
-        {"Content-Type": "application/vnd.api+json"},
-        JSON.stringify(group)
-      ];
-    });
-
-    this.get('/api/v1/announcements/:id', function(request) {
-      var announcement = {
-        "announcements": announcements[request.params.id]
-      };
-      return [200, {"Content-Type": "application/vnd.api+json"}, JSON.stringify(announcement)];
-    });
-
-    this.get('/api/v1/bulletins/1', function(request) {
-      var response = {
-        "bulletins": {
-          "id": "1",
-          "description": "This is a service bulletin.",
-          "name": "Sunday Service",
-          "serviceOrder": "This is the service order.",
-          "publishedAt": "2014-12-21T13:58:27-05:00",
-          "links": {
-            "group": "1",
-            "announcements": ["1", "2", "3"]
-          }
+  server.get('/api/v1/bulletins/1', function(request) {
+    var response = {
+      "bulletins": {
+        "id": "1",
+        "description": "This is a service bulletin.",
+        "name": "Sunday Service",
+        "serviceOrder": "This is the service order.",
+        "publishedAt": "2014-12-21T13:58:27-05:00",
+        "links": {
+          "group": "1",
+          "announcements": ["1", "2", "3"]
         }
-      };
-      return [200, {"Content-Type": "application/vnd.api+json"}, JSON.stringify(response)];
-    });
+      }
+    };
+    return [200, {"Content-Type": "application/vnd.api+json"}, JSON.stringify(response)];
   });
 
   visit('/english-service/bulletins/1');

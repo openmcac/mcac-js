@@ -3,17 +3,9 @@ import { module, test } from 'qunit';
 import startApp from '../../helpers/start-app';
 import nextService from 'mcac/utils/next-service';
 import Pretender from 'pretender';
+import mockServer from '../../helpers/server';
 
 var application, server;
-
-var englishService = {
-  "id": "1",
-  "name": "English Service",
-  "slug": "english-service",
-  "createdAt": "2015-03-07T03:58:39+00:00"
-};
-
-var groups = { "groups": [englishService] };
 
 var announcements = {
   "8": {
@@ -58,35 +50,31 @@ module('Acceptance: Editing a bulletin', {
 });
 
 function createServer() {
-  return new Pretender(function() {
-    this.get('/api/v1/groups', function(request) {
-      var all = JSON.stringify(groups);
-      return [200, {"Content-Type": "application/vnd.api+json"}, all];
-    });
-
-    this.get('/api/v1/announcements', function(request) {
-      if (request.queryParams.defaults_for_bulletin === '1') {
-        var response = { "announcements": [] };
-        return [200, {"Content-Type": "application/vnd.api+json"}, JSON.stringify(response)];
-      }
-    });
-
-    this.get('/api/v1/announcements/:id', function(request) {
-      var announcement = {
-        "announcements": announcements[request.params.id]
-      };
-
-      return [
-        200,
-        {"Content-Type": "application/vnd.api+json"},
-        JSON.stringify(announcement)
-      ];
-    });
-
-    this.put('/api/v1/announcements/:id', function(request) {
-      return [200, {"Content-Type": "application/vnd.api+json"}, request.requestBody];
-    });
+  var server = mockServer();
+  server.get('/api/v1/announcements', function(request) {
+    if (request.queryParams.defaults_for_bulletin === '1') {
+      var response = { "announcements": [] };
+      return [200, {"Content-Type": "application/vnd.api+json"}, JSON.stringify(response)];
+    }
   });
+
+  server.get('/api/v1/announcements/:id', function(request) {
+    var announcement = {
+      "announcements": announcements[request.params.id]
+    };
+
+    return [
+      200,
+      {"Content-Type": "application/vnd.api+json"},
+      JSON.stringify(announcement)
+    ];
+  });
+
+  server.put('/api/v1/announcements/:id', function(request) {
+    return [200, {"Content-Type": "application/vnd.api+json"}, request.requestBody];
+  });
+
+  return server;
 }
 
 function createResponseForBulletin(bulletin) {
