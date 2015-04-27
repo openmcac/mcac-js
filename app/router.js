@@ -20,8 +20,9 @@ Router.map(function() {
       this.route("edit");
     });
 
-    this.resource('post', { path: "posts/:post_id" }, function() {
-      this.route('edit', function() {});
+    this.resource('post', { path: "" }, function() {
+      this.route('index', { path: ":post_id/:slug" }, function() {});
+      this.route('edit', { path: "post/:post_id/edit" }, function() {});
     });
 
     this.resource('posts', { path: 'posts' }, function() {
@@ -33,9 +34,6 @@ Router.map(function() {
         this.route("announcements");
       });
     });
-  });
-
-  this.route("post/index", { path: "/:group_slug/:post_id/:slug" }, function () {
   });
 
   this.route("bulletin/sunday", { path: "/sunday" }, function() {

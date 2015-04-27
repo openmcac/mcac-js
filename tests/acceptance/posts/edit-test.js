@@ -48,10 +48,10 @@ function createServer() {
   return server;
 }
 
-test('visiting /posts/edit', function(assert) {
+test('Visiting /:group_slug/:post_id/edit', function(assert) {
   authenticateSession();
 
-  visit('/english-service/posts/12/edit');
+  visit('/english-service/post/12/edit');
 
   andThen(function() {
     assert.equal(find('.post-title').val(), 'This is a title');
@@ -75,7 +75,7 @@ test('Updating a post', function(assert) {
     ];
   });
 
-  visit('/english-service/posts/12/edit');
+  visit('/english-service/post/12/edit');
   fillIn('.post-title', 'Updated title');
   fillIn('.content', 'Updated content');
   fillIn('.tags', 'newtag, tag1');
