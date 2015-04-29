@@ -59,3 +59,12 @@ test('visiting /english-service/12/this-is-a-title', function(assert) {
     assert.equal(find('.content').text().trim(), 'This is my post content');
   });
 });
+
+test('Corrects the slug if it is wrong', function(assert) {
+  visit('/english-service/12/bad-slug');
+
+  andThen(function() {
+    assert.equal(currentURL(), '/english-service/12/this-is-a-title');
+  });
+});
+

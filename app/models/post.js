@@ -6,6 +6,7 @@ export default DS.Model.extend({
   content: DS.attr('string'),
   tags: DS.attr(),
   group: DS.belongsTo('group', { async: true }),
+  slug: DS.attr('string'),
   tagList: function(key, value) {
     if (arguments.length > 1) {
       this.set('tags', tagListToArray(value));
