@@ -2,12 +2,6 @@
 
 $announcement-height: 60px;
 
-textarea.announcement-editor {
-  width: 100%;
-  height: $announcement-height;
-  border: none;
-}
-
 #announcements-editor {
   padding-left: 20px;
 
@@ -32,5 +26,22 @@ textarea.announcement-editor {
 
   li.draggable-announcement {
     cursor: ns-resize;
+  }
+}
+
+.announcement-editor {
+  textarea.description {
+    width: 100%;
+    height: $announcement-height;
+    border: none;
+  }
+
+  .url {
+    width: 100%;
+    border-style: none;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-color: $light-gray;
+    margin-bottom: $padding-m;
   }
 }

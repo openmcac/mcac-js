@@ -186,11 +186,11 @@ test('populates with latest announcements', function(assert) {
   visit('/english-service/bulletins/2/edit');
 
   andThen(function() {
-    assert.equal(Ember.$(find('.announcement-editor-new')[0]).val(),
+    assert.equal(Ember.$(find('.announcement-editor-new .description')[0]).val(),
                  'This is an announcement');
-    assert.equal(Ember.$(find('.announcement-editor-new')[1]).val(),
+    assert.equal(Ember.$(find('.announcement-editor-new .description')[1]).val(),
                  'This is the second announcement');
-    assert.equal(Ember.$(find('.announcement-editor-new')[2]).val(),
+    assert.equal(Ember.$(find('.announcement-editor-new .description')[2]).val(),
                  'This is the third announcement');
     assert.equal(find('.announcement-editor').length, 3);
   });
@@ -274,15 +274,17 @@ test('creating a new announcement', function(assert) {
 
   visit('/english-service/bulletins/1/edit');
   click('.append-announcement');
-  fillIn('.announcement-editor-new', 'This is a new one');
+  fillIn('.announcement-editor-new .description', 'This is a new one');
+  fillIn('.announcement-editor-new .url', 'http://nba.com');
   click('.save-bulletin');
 
   andThen(function() {
-    assert.equal(find('.announcement-editor-1').length, 1);
+    assert.equal(find('.announcement-editor-1 .description').length, 1);
     assert.equal(find('.announcement-editor').length, 1);
     assert.equal(createdAnnouncement.announcements.id, "1");
     assert.equal(createdAnnouncement.announcements.description, "This is a new one");
     assert.equal(createdAnnouncement.announcements.position, 1);
+    assert.equal(createdAnnouncement.announcements.url, 'http://nba.com');
     assert.equal(createdAnnouncement.announcements.links.bulletin, '1');
   });
 });
@@ -309,15 +311,15 @@ test('editing bulletin announcements', function(assert) {
   });
 
   visit('/english-service/bulletins/1/edit');
-  fillIn('.announcement-editor-8', 'This is the first announcement');
-  fillIn('.announcement-editor-9', 'This is the second announcement');
-  fillIn('.announcement-editor-10', 'This is the third announcement');
+  fillIn('.announcement-editor-8 .description', 'This is the first announcement');
+  fillIn('.announcement-editor-9 .description', 'This is the second announcement');
+  fillIn('.announcement-editor-10 .description', 'This is the third announcement');
   click('.save-bulletin');
 
   andThen(function() {
-    assert.equal(find('.announcement-editor-8').val(), 'This is the first announcement');
-    assert.equal(find('.announcement-editor-9').val(), 'This is the second announcement');
-    assert.equal(find('.announcement-editor-10').val(), 'This is the third announcement');
+    assert.equal(find('.announcement-editor-8 .description').val(), 'This is the first announcement');
+    assert.equal(find('.announcement-editor-9 .description').val(), 'This is the second announcement');
+    assert.equal(find('.announcement-editor-10 .description').val(), 'This is the third announcement');
     assert.equal(find('.announcement-editor').length, 3);
   });
 });
@@ -344,11 +346,11 @@ test('deleting bulletin announcements', function(assert) {
   });
 
   visit('/english-service/bulletins/1/edit');
-  click('.announcement-editor-9 ~ .remove-announcement');
+  click('.announcement-editor-9 .remove-announcement');
 
   andThen(function() {
-    assert.equal(find('.announcement-editor-8').val(), 'This is announcement 8');
-    assert.equal(find('.announcement-editor-10').val(), 'This is announcement 10');
+    assert.equal(find('.announcement-editor-8 .description').val(), 'This is announcement 8');
+    assert.equal(find('.announcement-editor-10 .description').val(), 'This is announcement 10');
     assert.equal(find('.announcement-editor').length, 2);
     assert.equal(deletedBulletinId, '9');
   });

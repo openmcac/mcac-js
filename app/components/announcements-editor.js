@@ -8,10 +8,8 @@ export default Ember.Component.extend({
       announcements.insertAt(index, store.createRecord('announcement', {}));
       syncPositions(this);
     },
-    removeAnnouncement: function(index) {
+    removeAnnouncement: function(announcement) {
       var _this = this;
-      var announcements = _this.get('announcements');
-      var announcement = announcements.objectAt(index);
       Pace.restart();
       announcement.destroyRecord().then(function() {
         syncPositions(_this);

@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   announcementClass: function() {
-    var announcementId = this.get('announcement-id');
+    var announcementId = this.get('announcement.id');
     if (Ember.isNone(announcementId)) {
       announcementId = "new";
     }
@@ -13,8 +13,8 @@ export default Ember.Component.extend({
     addAnnouncement: function() {
       this.sendAction('add-announcement', this.position);
     },
-    removeAnnouncement: function() {
-      this.sendAction('remove-announcement', this.position - 1);
+    removeAnnouncement: function(announcement) {
+      this.sendAction('remove-announcement', announcement);
     }
   }
 });
