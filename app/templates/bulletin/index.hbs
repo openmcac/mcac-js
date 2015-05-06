@@ -16,7 +16,18 @@
           <section class="col-sm-6 announcements">
             <ol>
               {{#each model.sortedAnnouncements as |announcement|}}
-              <li>{{{announcement.descriptionHtml}}}</li>
+              <li>
+                <div class="announcement">
+                  {{{announcement.descriptionHtml}}}
+                </div>
+                {{#with announcement.url}}
+                  <div>
+                    <a class="external-link" href="{{announcement.url}}">
+                      See more
+                    </a>
+                  </div>
+                {{/with}}
+              </li>
               {{else}}
               <li>No announcements yet</li>
               {{/each}}

@@ -20,6 +20,7 @@ var announcements = {
     "id": "2",
     "description": "This is the second announcement",
     "position": 2,
+    "url": "http://nba.com",
     "links": {
       "bulletin": "1",
       "post": null
@@ -74,12 +75,24 @@ test('visiting /english-service/bulletin/1', function(assert) {
   visit('/english-service/bulletins/1');
 
   andThen(function() {
+    // bulletin name is displayed
     assert.equal(find('.bulletin-info .name').text(), 'Sunday Service');
-    assert.equal(find('.announcements li:nth-child(1)').text().trim(),
+
+    // announcement descriptions are displayed
+    assert.equal(find('.announcements li:nth-child(1) .announcement').text().trim(),
                  'This is the first announcement');
-    assert.equal(find('.announcements li:nth-child(2)').text().trim(),
+    assert.equal(find('.announcements li:nth-child(2) .announcement').text().trim(),
                  'This is the second announcement');
-    assert.equal(find('.announcements li:nth-child(3)').text().trim(),
+    assert.equal(find('.announcements li:nth-child(3) .announcement').text().trim(),
                  'This is the third announcement');
+
+    // announcement external link placeholders are not rendered if they do
+    // not have external links
+    assert.equal(find('.announcements li:nth-child(1) .external-link').length, 0);
+    assert.equal(find('.announcements li:nth-child(3) .external-link').length, 0);
+
+    // announcement external links are rendered when present
+    assert.equal(find('.announcements li:nth-child(2) .external-link').attr('href'),
+                 'http://nba.com');
   });
 });
