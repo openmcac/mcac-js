@@ -66,6 +66,19 @@ function createServer() {
   return server;
 }
 
+test('logging in by pressing enter on the email field', function(assert) {
+  assert.expect(1);
+  visit('/login');
+
+  fillIn('.email', 'test@example.com');
+  fillIn('.password', 'loginpass');
+  keyEvent('.email', 'keyup', 13);
+
+  andThen(function() {
+    assert.equal(currentURL(), '/sunday');
+  });
+});
+
 test('logging in by clicking the submit button', function(assert) {
   visit('/login');
 
