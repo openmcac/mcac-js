@@ -66,12 +66,13 @@ function createServer() {
   return server;
 }
 
-test('logging in by pressing enter on the password field', function(assert) {
+test('logging in by pressing enter on the email field', function(assert) {
+  assert.expect(1);
   visit('/login');
 
   fillIn('.email', 'test@example.com');
   fillIn('.password', 'loginpass');
-  keyEvent('.password', 'keypress', 13);
+  keyEvent('.email', 'keyup', 13);
 
   andThen(function() {
     assert.equal(currentURL(), '/sunday');
