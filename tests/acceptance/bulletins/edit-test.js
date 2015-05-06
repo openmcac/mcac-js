@@ -158,6 +158,7 @@ test('populates with latest announcements', function(assert) {
             "id": "2",
             "description": "This is the second announcement",
             "position": 2,
+            "url": "http://google.com",
             "links": {
               "bulletin": "1",
               "post": "1"
@@ -190,6 +191,8 @@ test('populates with latest announcements', function(assert) {
                  'This is an announcement');
     assert.equal(Ember.$(find('.announcement-editor-new .description')[1]).val(),
                  'This is the second announcement');
+    assert.equal(Ember.$(find('.announcement-editor-new .url')[1]).val(),
+                 'http://google.com');
     assert.equal(Ember.$(find('.announcement-editor-new .description')[2]).val(),
                  'This is the third announcement');
     assert.equal(find('.announcement-editor').length, 3);
@@ -290,11 +293,11 @@ test('creating a new announcement', function(assert) {
 });
 
 test('editing bulletin announcements', function(assert) {
-  assert.expect(4);
+  assert.expect(5);
 
   authenticateSession();
 
-  var updatedBulletin;
+  var updatedAnnouncement;
 
   createResponseForBulletin({
     "id": "1",
@@ -306,14 +309,19 @@ test('editing bulletin announcements', function(assert) {
   });
 
   server.put('/api/v1/bulletins/1', function(request) {
-    updatedBulletin = JSON.parse(request.requestBody);
-    return [200, {"Content-Type": "application/vnd.api+json"}, JSON.stringify(updatedBulletin)];
+    return [200, {"Content-Type": "application/vnd.api+json"}, request.requestBody];
+  });
+
+  server.put('/api/v1/announcements/10', function(request) {
+    updatedAnnouncement = JSON.parse(request.requestBody);
+    return [200, {"Content-Type": "application/vnd.api+json"}, JSON.stringify(updatedAnnouncement)];
   });
 
   visit('/english-service/bulletins/1/edit');
   fillIn('.announcement-editor-8 .description', 'This is the first announcement');
   fillIn('.announcement-editor-9 .description', 'This is the second announcement');
   fillIn('.announcement-editor-10 .description', 'This is the third announcement');
+  fillIn('.announcement-editor-10 .url', 'http://mcac.church');
   click('.save-bulletin');
 
   andThen(function() {
@@ -321,6 +329,8 @@ test('editing bulletin announcements', function(assert) {
     assert.equal(find('.announcement-editor-9 .description').val(), 'This is the second announcement');
     assert.equal(find('.announcement-editor-10 .description').val(), 'This is the third announcement');
     assert.equal(find('.announcement-editor').length, 3);
+
+    assert.equal(updatedAnnouncement.announcements.url, 'http://mcac.church');
   });
 });
 

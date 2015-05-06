@@ -30,6 +30,7 @@ function copyAnnouncementsIntoBulletin(store, announcements, bulletin) {
 function cloneAnnouncement(store, announcement) {
   return store.createRecord('announcement', {
     description: announcement.get('description'),
+    url: announcement.get('url'),
     position: announcement.get('position')
   });
 }
