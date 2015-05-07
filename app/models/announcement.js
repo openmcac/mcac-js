@@ -5,6 +5,7 @@ export default DS.Model.extend({
   position: DS.attr('number'),
   bulletin: DS.belongsTo('bulletin'),
   post: DS.belongsTo('post'),
+  url: DS.attr('string'),
   descriptionHtml: function() {
     return marked(this.get('description') || '');
   }.property('description')

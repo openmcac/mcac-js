@@ -1,16 +1,20 @@
-{{textarea placeholder="Enter announcement description..."
-           class=announcementClass
-           value=description}}
+<div class="{{announcementClass}}" data-position="{{announcement.position}}">
+  {{input value=announcement.url
+          class="url"
+          placeholder="Link to more information..."}}
 
-<button {{action 'addAnnouncement'}} class="btn btn-default add-announcement">
-  Add
-</button>
+  {{textarea placeholder="Enter announcement description..."
+             class="description"
+             value=announcement.description}}
 
-<button {{action 'removeAnnouncement'}}
-        class="btn btn-danger remove-announcement">
-  Remove
-</button>
+  <button {{action 'addAnnouncement'}} class="btn btn-default add-announcement">
+    Add
+  </button>
 
-{{position}}
+  <button {{action 'removeAnnouncement' announcement}}
+          class="btn btn-danger remove-announcement">
+    Remove
+  </button>
 
-{{yield}}
+  {{yield}}
+</div>
