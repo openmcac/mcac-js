@@ -25,6 +25,12 @@
           </div>
         </div>
         <div class="row">
+          <div class="form-group col-md-10">
+            <label for="banner">Banner</label>
+            {{file-upload url="/upload"}}
+          </div>
+        </div>
+        <div class="row">
           <div class="form-group col-md-12">
             <label for="serviceOrder">Order</label>
             {{markdown-textarea id="serviceOrder"
