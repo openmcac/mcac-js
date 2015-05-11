@@ -3,7 +3,7 @@ import {
   test
 } from 'ember-qunit';
 
-moduleForComponent('file-upload', {
+moduleForComponent('s3-upload', {
   // Specify the other units that are required for this test
   // needs: ['component:foo', 'helper:bar']
 });
