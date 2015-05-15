@@ -5,6 +5,7 @@ export default EmberUploader.FileField.extend({
   url: '',
 
   filesDidChange: (function() {
+    var _this = this;
     var uploadUrl = this.get('url');
     var files = this.get('files');
 
@@ -13,7 +14,7 @@ export default EmberUploader.FileField.extend({
     });
 
     uploader.on('didUpload', function(response) {
-      getUploadedUrl(response);
+      _this.sendAction('didUpload', getUploadedUrl(response));
     });
 
     if (!Ember.isEmpty(files)) {
