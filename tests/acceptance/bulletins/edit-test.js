@@ -134,8 +134,8 @@ test('visiting /:group_slug/bulletins/:id/edit', function(assert) {
   });
 });
 
-test("displays a preview of banner if it exists", function(assert) {
-  assert.expect(1);
+test("Saving bulletins with banners", function(assert) {
+  assert.expect(2);
 
   authenticateSession();
 
@@ -149,12 +149,59 @@ test("displays a preview of banner if it exists", function(assert) {
     announcements: []
   };
 
+  var savedBulletin;
+
   createResponseForBulletin(bulletin);
 
+  server.put('/api/v1/bulletins/:id', function(request) {
+    savedBulletin = JSON.parse(request.requestBody);
+    return [200, {"Content-Type": "application/vnd.api+json"}, request.requestBody];
+  });
+
   visit("/english-service/bulletins/1/edit");
+  click('.save-bulletin');
 
   andThen(function() {
-    assert.equal(find(".banner-preview").length, 1);
+    assert.equal(savedBulletin.bulletins.bannerUrl, "/test.png");
+    assert.equal(find('.banner-preview').length, 1);
+  });
+});
+
+test("Removing bulletin banners", function(assert) {
+  assert.expect(2);
+
+  authenticateSession();
+
+  var bulletin = {
+    id: "1",
+    publishedAt: "2015-03-07T03:58:00+00:00",
+    name: "Sunday Service",
+    description: "This is a description",
+    serviceOrder: "This is a service order",
+    bannerUrl: "/test.png",
+    announcements: []
+  };
+
+  var savedBulletin;
+
+  createResponseForBulletin(bulletin);
+
+  server.put('/api/v1/bulletins/:id', function(request) {
+    savedBulletin = JSON.parse(request.requestBody);
+    return [
+      200,
+      { "Content-Type": "application/vnd.api+json" },
+      request.requestBody
+    ];
+  });
+
+  visit("/english-service/bulletins/1/edit");
+  click('.remove-banner');
+  click('.save-bulletin');
+
+  andThen(function() {
+    assert.equal(savedBulletin.bulletins.bannerUrl, null);
+    assert.equal(find('.banner-preview').length, 0);
   });
 });
 
