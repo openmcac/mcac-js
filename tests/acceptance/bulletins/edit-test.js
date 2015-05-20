@@ -92,6 +92,11 @@ function createResponseForBulletin(bulletin) {
         }
       }
     };
+
+    if (bulletin["bannerUrl"]) {
+      response.bulletins["bannerUrl"] = bulletin["bannerUrl"];
+    }
+
     return [
       200,
       { "Content-Type": "application/vnd.api+json" },
@@ -101,7 +106,7 @@ function createResponseForBulletin(bulletin) {
 }
 
 test('visiting /:group_slug/bulletins/:id/edit', function(assert) {
-  assert.expect(4);
+  assert.expect(5);
 
   authenticateSession();
 
@@ -122,9 +127,34 @@ test('visiting /:group_slug/bulletins/:id/edit', function(assert) {
     assert.equal(find('.bulletin-name').val(), bulletin.name);
     assert.equal(find('.description').val(), bulletin.description);
     assert.equal(find('.service-order').val(), bulletin.serviceOrder);
+    assert.equal(find('.banner-preview').length, 0);
     equalDate(assert,
               find('.published-at input').val(),
               window.moment(bulletin.publishedAt));
+  });
+});
+
+test("displays a preview of banner if it exists", function(assert) {
+  assert.expect(1);
+
+  authenticateSession();
+
+  var bulletin = {
+    id: "1",
+    publishedAt: "2015-03-07T03:58:00+00:00",
+    name: "Sunday Service",
+    description: "This is a description",
+    serviceOrder: "This is a service order",
+    bannerUrl: "/test.png",
+    announcements: []
+  };
+
+  createResponseForBulletin(bulletin);
+
+  visit("/english-service/bulletins/1/edit");
+
+  andThen(function() {
+    assert.equal(find(".banner-preview").length, 1);
   });
 });
 
