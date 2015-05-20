@@ -1,0 +1,5 @@
+javascript:
+  config_file: .javascript-style.json
+
+scss:
+  config_file: .scss-style.yml

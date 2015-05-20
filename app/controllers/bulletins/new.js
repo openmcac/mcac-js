@@ -9,6 +9,10 @@ export default Ember.Controller.extend({
       bulletin.save().then(function(savedBulletin) {
         _this.transitionToRoute('bulletin.edit', savedBulletin);
       });
+    },
+    didUpload: function(storageUrl) {
+      var bulletin = this.get('model');
+      bulletin.set('bannerUrl', storageUrl);
     }
   }
 });
