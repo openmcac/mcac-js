@@ -20,11 +20,9 @@
                 <div class="announcement">
                   {{{announcement.descriptionHtml}}}
                 </div>
-                {{#with announcement.url}}
+                {{#with announcement.url as url}}
                   <div>
-                    <a class="external-link" href="{{announcement.url}}">
-                      See more
-                    </a>
+                    <a class="external-link" href="{{url}}">See more</a>
                   </div>
                 {{/with}}
               </li>
@@ -38,3 +36,11 @@
     </div>
   </div>
 </div>
+
+{{#with model.bannerUrl as url}}
+  <style type="text/css">
+  .bulletin .cover {
+    background-image: url({{url}});
+  }
+  </style>
+{{/with}}

@@ -1,6 +1,7 @@
 .bulletin {
   .cover {
-    background-image: url(images/theme-960.jpg);
+    background-image: url(images/theme-1920.jpg);
+    background-position: center;
     background-size: cover;
     box-shadow: inset 0 0 500px rgba(255, 255, 255, .5);
     position: relative;
@@ -19,56 +20,13 @@
       }
     }
 
-    @media only screen and (min-width : 768px) {
-      text-align: left;
-      padding-left: 42px;
-      background-image: url(images/theme-1920.jpg);
-
-      h1 {
-        font-size: 60px;
-        line-height: 50px;
-
-        small {
-          font-size: 24px;
-        }
-      }
-    }
   }
 
   .bulletin-contents {
     position: relative;
 
-    @media only screen and (min-width : 320px) {
-      section.announcements {
-        background-color: #FDF2FD;
-      }
-    }
-
-    @media only screen and (min-width : 768px) {
-      .inner:before {
-        content: '';
-        position: absolute;
-        right: 0;
-        left: 50%;
-        top: 0;
-        bottom: 0;
-        background-color: #FDF2FD;
-      }
-    }
-
     section {
       padding: 100px 0;
-    }
-
-    section.service-order {
-      @media only screen and (min-width : 320px) {
-        text-align: center;
-      }
-
-      @media only screen and (min-width : 768px) {
-        text-align: right;
-        padding-right: 50px;
-      }
     }
   }
 
@@ -84,12 +42,57 @@
       }
 
       h2 {
-        margin-top: 0;
         font-family: 'Arapey', serif;
-        font-weight: 400;
         font-style: italic;
+        font-weight: 400;
+        margin-top: 0;
         font-size: 36px;
       }
+    }
+  }
+}
+
+@media only screen and (min-width : $mobile-break) {
+  .bulletin-contents {
+    section.announcements {
+      background-color: #FDF2FD;
+    }
+
+    section.service-order {
+      text-align: center;
+    }
+  }
+}
+
+@media only screen and (min-width : $tablet-portrait-break) {
+  .cover {
+    padding-left: 42px;
+    text-align: left;
+
+    h1 {
+      font-size: 60px;
+      line-height: 50px;
+
+      small {
+        font-size: 24px;
+      }
+    }
+  }
+
+  .bulletin-contents {
+    .inner:before {
+      background-color: #FDF2FD;
+      bottom: 0;
+      content: '';
+      left: 50%;
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
+
+    section.service-order {
+      padding-right: 50px;
+      text-align: right;
     }
   }
 }
