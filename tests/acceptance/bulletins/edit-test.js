@@ -106,7 +106,7 @@ function createResponseForBulletin(bulletin) {
 }
 
 test('visiting /:group_slug/bulletins/:id/edit', function(assert) {
-  assert.expect(5);
+  assert.expect(4);
 
   authenticateSession();
 
@@ -127,7 +127,6 @@ test('visiting /:group_slug/bulletins/:id/edit', function(assert) {
     assert.equal(find('.bulletin-name').val(), bulletin.name);
     assert.equal(find('.description').val(), bulletin.description);
     assert.equal(find('.service-order').val(), bulletin.serviceOrder);
-    assert.equal(find('.banner-preview').length, 0);
     equalDate(assert,
               find('.published-at input').val(),
               window.moment(bulletin.publishedAt));
@@ -163,12 +162,12 @@ test("Saving bulletins with banners", function(assert) {
 
   andThen(function() {
     assert.equal(savedBulletin.bulletins.bannerUrl, "/test.png");
-    assert.equal(find('.banner-preview').length, 1);
+    assert.equal(find('.image-preview').length, 1);
   });
 });
 
 test("Removing bulletin banners", function(assert) {
-  assert.expect(2);
+  assert.expect(1);
 
   authenticateSession();
 
@@ -196,12 +195,11 @@ test("Removing bulletin banners", function(assert) {
   });
 
   visit("/english-service/bulletins/1/edit");
-  click('.remove-banner');
+  click('.image-preview .remove');
   click('.save-bulletin');
 
   andThen(function() {
-    assert.equal(savedBulletin.bulletins.bannerUrl, null);
-    assert.equal(find('.banner-preview').length, 0);
+    assert.equal(savedBulletin.bulletins.bannerUrl, "");
   });
 });
 

@@ -1,9 +1,9 @@
 @import '../variables';
 
-.file-preview {
+.image-preview {
   position: relative;
 
-  .preview-image {
+  .preview {
     background-repeat: no-repeat;
     background-size: contain;
     height: 200px;
@@ -11,10 +11,12 @@
   }
 
   .remove {
+    color: #fff;
     cursor: pointer;
-    left: $padding-m * 2;
+    left: $padding-m;
     padding: $padding-m;
     position: absolute;
-    top: $padding-m;
+    text-shadow: 0px 2px $gray-dark;
+    top: 0;
   }
 }
