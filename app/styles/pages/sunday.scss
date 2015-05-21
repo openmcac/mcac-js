@@ -3,7 +3,6 @@
     background-image: url("images/theme-1920.jpg");
     background-position: center;
     background-size: cover;
-    box-shadow: inset 0 0 500px rgba(255, 255, 255, .5);
     position: relative;
     text-align: center;
 
@@ -12,13 +11,14 @@
     }
 
     .name {
+      color: $white;
       font-family: 'Arapey', serif;
       font-style: italic;
       font-weight: 400;
     }
 
     .description {
-      font-family: sans-serif;
+      color: $white;
       font-size: 18px;
       font-style: normal;
     }
@@ -69,8 +69,11 @@
 
   @media only screen and (min-width : $tablet-portrait-break) {
     .cover {
-      padding-left: 42px;
       text-align: left;
+
+      .bulletin-info {
+        padding-left: 42px;
+      }
 
       .name {
         font-size: 60px;
