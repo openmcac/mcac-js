@@ -1,0 +1,22 @@
+@import "../variables";
+
+.image-preview {
+  position: relative;
+
+  .preview {
+    background-repeat: no-repeat;
+    background-size: contain;
+    height: 200px;
+    margin: $padding-m;
+  }
+
+  .remove {
+    color: #fff;
+    cursor: pointer;
+    left: $padding-m;
+    padding: $padding-m;
+    position: absolute;
+    text-shadow: 0 2px $gray-dark;
+    top: 0;
+  }
+}

@@ -25,18 +25,9 @@
       <div class="form-control banner">
         {{s3-upload url="/api/v1/bulletins/sign" didUpload="didUpload"}}
       </div>
+      {{image-preview url=model.bannerUrl}}
     </div>
   </div>
-  {{#with model.bannerUrl as url}}
-    <div class="row">
-      <div class="col-md-10">
-        <div class="banner-preview"
-             style="background-image: url('{{model.bannerUrl}}')">
-
-        </div>
-      </div>
-    </div>
-  {{/with}}
   <div class="row">
     <div class="form-group col-md-12">
       <label for="serviceOrder">Order</label>

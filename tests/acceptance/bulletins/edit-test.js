@@ -106,7 +106,7 @@ function createResponseForBulletin(bulletin) {
 }
 
 test('visiting /:group_slug/bulletins/:id/edit', function(assert) {
-  assert.expect(5);
+  assert.expect(4);
 
   authenticateSession();
 
@@ -127,14 +127,46 @@ test('visiting /:group_slug/bulletins/:id/edit', function(assert) {
     assert.equal(find('.bulletin-name').val(), bulletin.name);
     assert.equal(find('.description').val(), bulletin.description);
     assert.equal(find('.service-order').val(), bulletin.serviceOrder);
-    assert.equal(find('.banner-preview').length, 0);
     equalDate(assert,
               find('.published-at input').val(),
               window.moment(bulletin.publishedAt));
   });
 });
 
-test("displays a preview of banner if it exists", function(assert) {
+test("Saving bulletins with banners", function(assert) {
+  assert.expect(2);
+
+  authenticateSession();
+
+  var bulletin = {
+    id: "1",
+    publishedAt: "2015-03-07T03:58:00+00:00",
+    name: "Sunday Service",
+    description: "This is a description",
+    serviceOrder: "This is a service order",
+    bannerUrl: "/test.png",
+    announcements: []
+  };
+
+  var savedBulletin;
+
+  createResponseForBulletin(bulletin);
+
+  server.put('/api/v1/bulletins/:id', function(request) {
+    savedBulletin = JSON.parse(request.requestBody);
+    return [200, {"Content-Type": "application/vnd.api+json"}, request.requestBody];
+  });
+
+  visit("/english-service/bulletins/1/edit");
+  click('.save-bulletin');
+
+  andThen(function() {
+    assert.equal(savedBulletin.bulletins.bannerUrl, "/test.png");
+    assert.equal(find('.image-preview').length, 1);
+  });
+});
+
+test("Removing bulletin banners", function(assert) {
   assert.expect(1);
 
   authenticateSession();
@@ -149,12 +181,25 @@ test("displays a preview of banner if it exists", function(assert) {
     announcements: []
   };
 
+  var savedBulletin;
+
   createResponseForBulletin(bulletin);
 
+  server.put('/api/v1/bulletins/:id', function(request) {
+    savedBulletin = JSON.parse(request.requestBody);
+    return [
+      200,
+      { "Content-Type": "application/vnd.api+json" },
+      request.requestBody
+    ];
+  });
+
   visit("/english-service/bulletins/1/edit");
+  click('.image-preview .remove');
+  click('.save-bulletin');
 
   andThen(function() {
-    assert.equal(find(".banner-preview").length, 1);
+    assert.equal(savedBulletin.bulletins.bannerUrl, "");
   });
 });
 
