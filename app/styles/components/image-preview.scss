@@ -1,4 +1,4 @@
-@import '../variables';
+@import "../variables";
 
 .image-preview {
   position: relative;
@@ -16,7 +16,7 @@
     left: $padding-m;
     padding: $padding-m;
     position: absolute;
-    text-shadow: 0px 2px $gray-dark;
+    text-shadow: 0 2px $gray-dark;
     top: 0;
   }
 }

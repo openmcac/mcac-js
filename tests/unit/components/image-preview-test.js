@@ -9,7 +9,7 @@ moduleForComponent("image-preview", {
   }
 });
 
-test('it previews the associated url', function(assert) {
+test("it previews the associated url", function(assert) {
   var expectedUrl = "http://example.com/file.png";
 
   Ember.run(function() {
