@@ -6,6 +6,13 @@
     position: relative;
     text-align: center;
 
+    .bulletin-cover {
+      bottom: $padding-m;
+      color: $white;
+      position: absolute;
+      width: 100%;
+    }
+
     h1 {
       margin: 0;
     }
@@ -24,11 +31,8 @@
     }
 
     footer {
-      bottom: $padding-m;
-      color: $white;
       font-size: 11px;
-      position: absolute;
-      width: 100%;
+      margin-top: 80px;
 
       a {
         color: $white;
