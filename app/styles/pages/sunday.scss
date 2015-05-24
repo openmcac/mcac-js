@@ -22,6 +22,18 @@
       font-size: 18px;
       font-style: normal;
     }
+
+    footer {
+      bottom: $padding-m;
+      color: $white;
+      font-size: 11px;
+      position: absolute;
+      width: 100%;
+
+      a {
+        color: $white;
+      }
+    }
   }
 
   .bulletin-contents {
@@ -71,7 +83,8 @@
     .cover {
       text-align: left;
 
-      .bulletin-info {
+      .bulletin-info,
+      footer {
         padding-left: 42px;
       }
 
