@@ -22,6 +22,18 @@
       font-size: 18px;
       font-style: normal;
     }
+
+    footer {
+      position: absolute;
+      bottom: $padding-m;
+      width: 100%;
+      color: $white;
+      font-size: 11px;
+
+      a {
+        color: $white;
+      }
+    }
   }
 
   .bulletin-contents {
