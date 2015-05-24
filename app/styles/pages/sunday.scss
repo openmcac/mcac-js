@@ -24,11 +24,11 @@
     }
 
     footer {
-      position: absolute;
       bottom: $padding-m;
-      width: 100%;
       color: $white;
       font-size: 11px;
+      position: absolute;
+      width: 100%;
 
       a {
         color: $white;
@@ -83,7 +83,8 @@
     .cover {
       text-align: left;
 
-      .bulletin-info, footer {
+      .bulletin-info,
+      footer {
         padding-left: 42px;
       }
 
