@@ -113,8 +113,9 @@ test('saving a bulletin navigates to edit page', function(assert) {
   click(':submit');
 
   andThen(function() {
-    assert.equal(createdBulletin.bulletins.publishedAt,
-                 "2010-03-10T14:30:00.000Z");
+    equalDate(assert,
+              find('.published-at input').val(),
+              window.moment(createdBulletin.bulletins.publishedAt));
     assert.equal(createdBulletin.bulletins.sermonNotes,
                  "these are sermon notes");
     assert.equal(currentURL(), '/english-service/bulletins/2/edit');
