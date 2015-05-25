@@ -6,6 +6,13 @@
     position: relative;
     text-align: center;
 
+    .bulletin-cover {
+      bottom: $padding-m;
+      color: $white;
+      position: absolute;
+      width: 100%;
+    }
+
     h1 {
       margin: 0;
     }
@@ -21,18 +28,6 @@
       color: $white;
       font-size: 18px;
       font-style: normal;
-    }
-
-    footer {
-      bottom: $padding-m;
-      color: $white;
-      font-size: 11px;
-      position: absolute;
-      width: 100%;
-
-      a {
-        color: $white;
-      }
     }
   }
 
@@ -64,6 +59,16 @@
       font-style: italic;
       font-weight: 400;
       margin-top: 0;
+    }
+  }
+
+  footer {
+    font-size: 11px;
+    margin-top: 80px;
+
+    &,
+    a {
+      color: $gray-light;
     }
   }
 
