@@ -5,7 +5,10 @@
     "document",
     "marked",
     "moment",
-    "window"
+    "window",
+    "fillIn",
+    "find",
+    "click"
   ],
   "asi": false,
   "bitwise": true,

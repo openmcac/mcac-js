@@ -11,11 +11,11 @@ export default DS.Model.extend({
   serviceOrder: DS.attr('string'),
   sermonNotes: DS.attr('string'),
   serviceOrderHtml: function() {
-    return markedOrEmptyString(this.get('serviceOrder'));
-  }.property('serviceOrder'),
+    return markedOrEmptyString(this.get("serviceOrder"));
+  }.property("serviceOrder"),
   sermonNotesHtml: function() {
-    return markedOrEmptyString(this.get('sermonNotes'));
-  }.property('sermonNotes'),
+    return markedOrEmptyString(this.get("sermonNotes"));
+  }.property("sermonNotes"),
   sortedAnnouncements: function() {
     return this.get('announcements').sortBy('position');
   }.property('announcements.@each.position'),

@@ -96,7 +96,7 @@ test('saving a bulletin navigates to edit page', function(assert) {
     }
   });
 
-  server.post('/api/v1/bulletins', function(request) {
+  server.post("/api/v1/bulletins", function(request) {
     createdBulletin = JSON.parse(request.requestBody);
     createdBulletin.bulletins.id = "2";
 
@@ -109,16 +109,16 @@ test('saving a bulletin navigates to edit page', function(assert) {
 
   visit('/english-service/bulletins/new');
   fillIn('.published-at input', '03/10/2010 9:30 AM');
-  fillIn('.sermon-notes', 'these are sermon notes');
+  fillIn(".sermon-notes", "these are sermon notes");
   click(':submit');
 
   andThen(function() {
     equalDate(assert,
-              find('.published-at input').val(),
+              find(".published-at input").val(),
               window.moment(createdBulletin.bulletins.publishedAt));
     assert.equal(createdBulletin.bulletins.sermonNotes,
                  "these are sermon notes");
-    assert.equal(currentURL(), '/english-service/bulletins/2/edit');
+    assert.equal(currentURL(), "/english-service/bulletins/2/edit");
   });
 });
 
