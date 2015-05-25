@@ -74,9 +74,9 @@ test("defaults with last week's service order if available", function(assert) {
 });
 
 test('saving a bulletin navigates to edit page', function(assert) {
-  assert.expect(1);
-
   authenticateSession();
+
+  var createdBulletin;
 
   server.get('/api/v1/bulletins', function(request) {
     if (request.queryParams.latest_for_group === '1') {
@@ -97,27 +97,26 @@ test('saving a bulletin navigates to edit page', function(assert) {
   });
 
   server.post('/api/v1/bulletins', function(request) {
-    var response = {
-      "bulletins": {
-        "id": "2",
-        "description": "This is a service bulletin.",
-        "name": "Sunday Service",
-        "serviceOrder": "This is the service order.",
-        "publishedAt": "2015-03-07T03:58:40+00:00",
-        "links": {
-          "group": "1",
-          "announcements": []
-        }
-      }
-    };
-    return [200, {"Content-Type": "application/vnd.api+json"}, JSON.stringify(response)];
+    createdBulletin = JSON.parse(request.requestBody);
+    createdBulletin.bulletins.id = "2";
+
+    return [
+      200,
+      {"Content-Type": "application/vnd.api+json"},
+      JSON.stringify(createdBulletin)
+    ];
   });
 
   visit('/english-service/bulletins/new');
-  fillIn('.published-at', '03/10/2010 9:30 AM');
+  fillIn('.published-at input', '03/10/2010 9:30 AM');
+  fillIn('.sermon-notes', 'these are sermon notes');
   click(':submit');
 
   andThen(function() {
+    assert.equal(createdBulletin.bulletins.publishedAt,
+                 "2010-03-10T14:30:00.000Z");
+    assert.equal(createdBulletin.bulletins.sermonNotes,
+                 "these are sermon notes");
     assert.equal(currentURL(), '/english-service/bulletins/2/edit');
   });
 });

@@ -8,9 +8,13 @@ export default DS.Model.extend({
   name: DS.attr('string'),
   publishedAt: DS.attr('date'),
   serviceOrder: DS.attr('string'),
+  sermonNotes: DS.attr('string'),
   serviceOrderHtml: function() {
     return marked(this.get('serviceOrder'));
   }.property('serviceOrder'),
+  sermonNotesHtml: function() {
+    return marked(this.get('sermonNotes'));
+  }.property('sermonNotes'),
   sortedAnnouncements: function() {
     return this.get('announcements').sortBy('position');
   }.property('announcements.@each.position'),

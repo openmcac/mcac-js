@@ -37,6 +37,15 @@
                           rows="10"}}
     </div>
   </div>
+  <div class="row">
+    <div class="form-group col-md-12">
+      <label for="sermonNotes">Notes</label>
+      {{markdown-textarea id="sermonNotes"
+                          value=model.sermonNotes
+                          class="form-control sermon-notes"
+                          rows="10"}}
+    </div>
+  </div>
 
   <button type="submit"
           {{action 'save'}}
