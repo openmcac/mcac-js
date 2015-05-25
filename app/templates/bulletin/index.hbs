@@ -20,10 +20,11 @@
     <div class="inner">
       <div class="container">
         <div class="row">
-          <section class="col-sm-6 service-order">
+          <section class="col-sm-6 col-md-3 service-order">
             {{{model.serviceOrderHtml}}}
           </section>
-          <section class="col-sm-6 announcements">
+          <section class="col-sm-6 col-md-5 announcements">
+            <h1>Announcements</h1>
             <ol>
               {{#each model.sortedAnnouncements as |announcement|}}
               <li>
@@ -40,6 +41,14 @@
               <li>No announcements yet</li>
               {{/each}}
             </ol>
+          </section>
+          <section class="col-sm-6 col-md-4 col-sm-offset-6 col-md-offset-0 sermon-notes">
+            <h1>Notes</h1>
+            {{#if model.sermonNotes}}
+              {{{model.sermonNotesHtml}}}
+            {{else}}
+              <div class="no-notes">No sermon notes available.</div>
+            {{/if}}
           </section>
         </div>
       </div>

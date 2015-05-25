@@ -285,7 +285,7 @@ test('saving a bulletin', function(assert) {
         announcements: []
       };
 
-  assert.expect(4);
+  assert.expect(5);
 
   authenticateSession();
 
@@ -305,12 +305,14 @@ test('saving a bulletin', function(assert) {
   fillIn('.bulletin-name', 'Updated bulletin name');
   fillIn('.description', 'Updated description');
   fillIn('.service-order', 'Updated service order');
+  fillIn('.sermon-notes', 'the updated sermon notes');
   click('.save-bulletin');
 
   andThen(function() {
     assert.equal(updatedBulletin.bulletins.name, 'Updated bulletin name');
     assert.equal(updatedBulletin.bulletins.description, 'Updated description');
     assert.equal(updatedBulletin.bulletins.serviceOrder, 'Updated service order');
+    assert.equal(updatedBulletin.bulletins.sermonNotes, 'the updated sermon notes');
     equalDate(assert,
               window.moment(updatedBulletin.bulletins.publishedAt),
               window.moment('11/30/2000 9:24 PM', 'MM/DD/YYYY h:mm A'));
