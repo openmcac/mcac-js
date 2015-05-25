@@ -130,8 +130,17 @@
   }
 
   @media only screen and (min-width : $small-desktop-break) {
-    .bulletin-contents .inner:before {
-      background-color: transparent;
+    .bulletin-contents {
+      .inner:before {
+        background-color: transparent;
+      }
+
+      .row {
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        overflow: hidden;
+      }
     }
   }
 }
