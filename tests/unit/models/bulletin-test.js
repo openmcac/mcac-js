@@ -15,6 +15,13 @@ test('serviceOrderHtml: converts markdown serviceOrder into HTML', function(asse
   assert.equal(model.get('serviceOrderHtml').trim(), serviceOrderHtml);
 });
 
+test('serviceOrderHtml: returns empty string when serviceOrder == null',
+     function(assert) {
+  assert.expect(1);
+  var model = this.subject({ serviceOrder: null });
+  assert.equal(model.get('serviceOrderHtml').trim(), "");
+});
+
 test('sermonNotesHtml: converts markdown sermonNotes into HTML', function(assert) {
   assert.expect(1);
   var sermonNotes = 'this is **markdown**';
@@ -22,4 +29,11 @@ test('sermonNotesHtml: converts markdown sermonNotes into HTML', function(assert
   var model = this.subject({ sermonNotes: sermonNotes });
 
   assert.equal(model.get('sermonNotesHtml').trim(), sermonNotesHtml);
+});
+
+test('sermonNotesHtml: returns empty string when sermonNotes == null',
+     function(assert) {
+  assert.expect(1);
+  var model = this.subject({ sermonNotes: null });
+  assert.equal(model.get('sermonNotesHtml').trim(), "");
 });

@@ -44,7 +44,11 @@
           </section>
           <section class="col-sm-6 col-md-4 sermon-notes">
             <h1>Notes</h1>
-            {{{model.sermonNotesHtml}}}
+            {{#if model.sermonNotes}}
+              {{{model.sermonNotesHtml}}}
+            {{else}}
+              <div class="no-notes">No sermon notes available.</div>
+            {{/if}}
           </section>
         </div>
       </div>

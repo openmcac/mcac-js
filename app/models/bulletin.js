@@ -1,3 +1,4 @@
+import Ember from 'ember';
 import DS from 'ember-data';
 
 export default DS.Model.extend({
@@ -10,10 +11,10 @@ export default DS.Model.extend({
   serviceOrder: DS.attr('string'),
   sermonNotes: DS.attr('string'),
   serviceOrderHtml: function() {
-    return marked(this.get('serviceOrder'));
+    return markedOrEmptyString(this.get('serviceOrder'));
   }.property('serviceOrder'),
   sermonNotesHtml: function() {
-    return marked(this.get('sermonNotes'));
+    return markedOrEmptyString(this.get('sermonNotes'));
   }.property('sermonNotes'),
   sortedAnnouncements: function() {
     return this.get('announcements').sortBy('position');
@@ -22,3 +23,11 @@ export default DS.Model.extend({
     return this.get('sortedAnnouncements').filterBy('isDirty');
   }.property('sortedAnnouncements.@each.isDirty')
 });
+
+function markedOrEmptyString(markdown) {
+  if (Ember.isEmpty(markdown)) {
+    return "";
+  }
+
+  return marked(markdown);
+}
