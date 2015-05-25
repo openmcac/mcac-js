@@ -48,6 +48,8 @@
   }
 
   .service-order {
+    text-align: center;
+
     ul {
       list-style-type: none;
       padding: 0;
@@ -70,6 +72,8 @@
   }
 
   .announcements {
+    background-color: $pink-light;
+
     ol {
       padding-left: 30px;
     }
@@ -82,18 +86,6 @@
     &,
     a {
       color: $gray-light;
-    }
-  }
-
-  @media only screen and (min-width : $mobile-break) {
-    .bulletin-contents {
-      .announcements {
-        background-color: $pink-light;
-      }
-
-      .service-order {
-        text-align: center;
-      }
     }
   }
 
@@ -124,6 +116,22 @@
       .service-order {
         text-align: right;
       }
+
+      .inner:before {
+        background-color: $pink-light;
+        bottom: 0;
+        content: "";
+        left: 50%;
+        position: absolute;
+        right: 0;
+        top: 0;
+      }
+    }
+  }
+
+  @media only screen and (min-width : $small-desktop-break) {
+    .bulletin-contents .inner:before {
+      background-color: transparent;
     }
   }
 }
