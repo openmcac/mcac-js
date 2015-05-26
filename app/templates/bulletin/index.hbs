@@ -16,43 +16,39 @@
     </div>
   </div>
 
-  <div class="bulletin-contents">
-    <div class="inner">
-      <div class="container">
-        <div class="row">
-          <section class="col-sm-12 col-md-3 service-order">
-            {{{model.serviceOrderHtml}}}
-          </section>
-          <div class="col-sm-12 col-md-9 secondary-info">
-            <section class="col-sm-7 announcements">
-              <h1>Announcements</h1>
-              <ol>
-                {{#each model.sortedAnnouncements as |announcement|}}
-                <li>
-                  <div class="announcement">
-                    {{{announcement.descriptionHtml}}}
-                  </div>
-                  {{#with announcement.url as url}}
-                    <div>
-                      <a class="external-link" href="{{url}}">See more</a>
-                    </div>
-                  {{/with}}
-                </li>
-                {{else}}
-                <li>No announcements yet</li>
-                {{/each}}
-              </ol>
-            </section>
-            <section class="col-sm-5 sermon-notes">
-              <h1>Notes</h1>
-              {{#if model.sermonNotes}}
-                {{{model.sermonNotesHtml}}}
-              {{else}}
-                <div class="no-notes">No sermon notes available.</div>
-              {{/if}}
-            </section>
-          </div>
-        </div>
+  <div class="container">
+    <div class="row contents">
+      <section class="col-sm-12 col-md-3 service-order">
+        {{{model.serviceOrderHtml}}}
+      </section>
+      <div class="col-sm-12 col-md-9 secondary-info">
+        <section class="col-sm-6 col-md-7 announcements">
+          <h1>Announcements</h1>
+          <ol>
+            {{#each model.sortedAnnouncements as |announcement|}}
+            <li>
+              <div class="announcement">
+                {{{announcement.descriptionHtml}}}
+              </div>
+              {{#with announcement.url as url}}
+                <div>
+                  <a class="external-link" href="{{url}}">See more</a>
+                </div>
+              {{/with}}
+            </li>
+            {{else}}
+            <li>No announcements yet</li>
+            {{/each}}
+          </ol>
+        </section>
+        <section class="col-sm-6 col-md-5 sermon-notes">
+          <h1>Notes</h1>
+          {{#if model.sermonNotes}}
+            {{{model.sermonNotesHtml}}}
+          {{else}}
+            <div class="no-notes">No sermon notes available.</div>
+          {{/if}}
+        </section>
       </div>
     </div>
   </div>
