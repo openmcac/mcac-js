@@ -45,6 +45,11 @@
       text-align: center;
       text-transform: uppercase;
     }
+
+    .secondary-info {
+      padding-left: 0;
+      padding-right: 0;
+    }
   }
 
   .service-order {
@@ -89,7 +94,7 @@
     }
   }
 
-  @media only screen and (min-width : $tablet-portrait-break) {
+  @media only screen and (min-width: $medium-device-break) {
     .cover {
       text-align: left;
 
@@ -112,34 +117,21 @@
       h2 {
         font-size: 30px;
       }
-
-      .service-order {
-        text-align: right;
-      }
-
-      .inner:before {
-        background-color: $pink-light;
-        bottom: 0;
-        content: "";
-        left: 50%;
-        position: absolute;
-        right: 0;
-        top: 0;
-      }
     }
   }
 
-  @media only screen and (min-width : $small-desktop-break) {
+  @media only screen and (min-width : $medium-device-break) {
     .bulletin-contents {
       .inner:before {
         background-color: transparent;
       }
 
-      .row {
-        display: -ms-flexbox;
-        display: -webkit-flex;
-        display: flex;
-        overflow: hidden;
+      .service-order {
+        text-align: right;
+      }
+
+      .row, .secondary-info {
+        @include flexbox();
       }
     }
   }
