@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 export default Ember.View.extend({
   templateName: 'bulletin/index',
-  didInsertElement: function() {
+  xdidInsertElement: function() {
     this._super();
 
     var screenHeight = Ember.$(window).height();

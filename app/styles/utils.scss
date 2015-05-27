@@ -14,3 +14,19 @@ h4,
 h5 {
   margin-top: 0;
 }
+
+@mixin clearfix() {
+  &:after {
+    clear: both;
+    content: " ";
+    display: block;
+    height: 0;
+  }
+}
+
+@mixin flexbox() {
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  overflow: hidden;
+}
