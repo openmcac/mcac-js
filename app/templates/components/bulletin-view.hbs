@@ -1,0 +1,20 @@
+<section class="cover">
+  {{bulletin-cover bulletin=bulletin}}
+</section>
+<div class="container">
+  <div class="row contents">
+    <section class="col-sm-12 col-md-3 service-order">
+      {{service-order order=bulletin.serviceOrderHtml}}
+    </section>
+    <div class="col-sm-12 col-md-9 secondary-info">
+      <section class="col-sm-6 col-md-7 announcements">
+        {{bulletin-announcements announcements=bulletin.sortedAnnouncements}}
+      </section>
+      <section class="col-sm-6 col-md-5 sermon-notes">
+        {{sermon-notes notes=bulletin.sermonNotesHtml}}
+      </section>
+    </div>
+  </div>
+</div>
+{{yield}}
+
