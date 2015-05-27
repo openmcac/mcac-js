@@ -1,0 +1,59 @@
+.bulletin-cover {
+  background-image: url("images/theme-1920.jpg");
+  background-position: center;
+  background-size: cover;
+  position: relative;
+  text-align: center;
+
+  .inner {
+    bottom: $padding-m;
+    color: $white;
+    position: absolute;
+    width: 100%;
+  }
+
+  h1 {
+    margin: 0;
+  }
+
+  .name {
+    color: $white;
+    font-family: 'Arapey', serif;
+    font-style: italic;
+    font-weight: 400;
+  }
+
+  .description {
+    color: $white;
+    font-size: 18px;
+    font-style: normal;
+  }
+
+  footer {
+    font-size: 11px;
+    margin: 80px $padding-m 0 $padding-m;
+
+    &,
+    a {
+      color: $gray-light;
+    }
+  }
+
+  @media only screen and (min-width: $medium-device-break) {
+    text-align: left;
+
+    .bulletin-info,
+    footer {
+      padding-left: 42px;
+    }
+
+    .name {
+      font-size: 60px;
+      line-height: 50px;
+    }
+
+    .description {
+      font-size: 24px;
+    }
+  }
+}
