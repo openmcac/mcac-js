@@ -50,6 +50,28 @@
     }
   }
 
+  @media only screen and
+    (min-width: $small-device-break) and
+    (max-width: $medium-device-break) {
+    .container {
+      border-width: 0 1px;
+      border-style: solid;
+      border-color: $gray-light;
+    }
+
+    .secondary-info {
+      border-width: 1px 0;
+      border-style: solid;
+      border-color: $gray-light;
+    }
+
+    .announcements {
+      border-width: 0 1px 0 0;
+      border-style: solid;
+      border-color: $gray-light;
+    }
+  }
+
   @media only screen and (min-width: $medium-device-break) {
     .service-order {
       text-align: right;
