@@ -1,0 +1,18 @@
+<h1>Announcements</h1>
+<ol>
+  {{#each announcements as |announcement|}}
+  <li>
+    <div class="announcement">
+      {{{announcement.descriptionHtml}}}
+    </div>
+    {{#with announcement.url as url}}
+      <div>
+        <a class="external-link" href="{{url}}">See more</a>
+      </div>
+    {{/with}}
+  </li>
+  {{else}}
+  <li>No announcements yet</li>
+  {{/each}}
+</ol>
+{{yield}}

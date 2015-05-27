@@ -1,12 +1,12 @@
 .bulletin {
-  .cover {
+  .bulletin-cover {
     background-image: url("images/theme-1920.jpg");
     background-position: center;
     background-size: cover;
     position: relative;
     text-align: center;
 
-    .bulletin-cover {
+    .inner {
       bottom: $padding-m;
       color: $white;
       position: absolute;
