@@ -54,21 +54,21 @@
     (min-width: $small-device-break) and
     (max-width: $medium-device-break) {
     .container {
-      border-width: 0 1px;
-      border-style: solid;
       border-color: $gray-light;
+      border-style: solid;
+      border-width: 0 1px;
     }
 
     .secondary-info {
-      border-width: 1px 0;
-      border-style: solid;
       border-color: $gray-light;
+      border-style: solid;
+      border-width: 1px 0;
     }
 
     .announcements {
-      border-width: 0 1px 0 0;
-      border-style: solid;
       border-color: $gray-light;
+      border-style: solid;
+      border-width: 0 1px 0 0;
     }
   }
 
@@ -81,7 +81,8 @@
       }
     }
 
-    .contents, .secondary-info {
+    .contents,
+    .secondary-info {
       @include flexbox();
     }
   }
