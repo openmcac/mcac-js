@@ -3,6 +3,7 @@ import DS from 'ember-data';
 
 export default DS.Model.extend({
   announcements: DS.hasMany('announcement', { async: true }),
+  audioUrl: DS.attr('string'),
   bannerUrl: DS.attr('string'),
   description: DS.attr('string'),
   group: DS.belongsTo('group', { async: true }),

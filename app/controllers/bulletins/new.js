@@ -10,9 +10,13 @@ export default Ember.Controller.extend({
         _this.transitionToRoute('bulletin.edit', savedBulletin);
       });
     },
-    didUpload: function(storageUrl) {
+    didUploadBanner: function(storageUrl) {
       var bulletin = this.get('model');
       bulletin.set('bannerUrl', storageUrl);
+    },
+    didUploadAudio: function(storageUrl) {
+      var bulletin = this.get('model');
+      bulletin.set('audioUrl', storageUrl);
     }
   }
 });

@@ -23,9 +23,18 @@
     <div class="form-group col-md-10">
       <label for="banner">Banner</label>
       <div class="form-control banner">
-        {{s3-upload url="/api/v1/bulletins/sign" didUpload="didUpload"}}
+        {{s3-upload url="/api/v1/bulletins/sign" didUpload="didUploadBanner"}}
       </div>
       {{image-preview url=model.bannerUrl}}
+    </div>
+  </div>
+  <div class="row">
+    <div class="form-group col-md-10">
+      <label for="audio">Audio</label>
+      <div class="form-control audio">
+        {{s3-upload url="/api/v1/bulletins/sign" didUpload="didUploadAudio"}}
+      </div>
+      {{file-preview url=model.audioUrl}}
     </div>
   </div>
   <div class="row">
