@@ -1,21 +1,41 @@
-import {
-  moduleForComponent,
-  test
-} from 'ember-qunit';
+import Ember from "ember";
+import { moduleForComponent, test } from "ember-qunit";
 
-moduleForComponent('file-preview', {
-  // Specify the other units that are required for this test
-  // needs: ['component:foo', 'helper:bar']
+var component;
+
+moduleForComponent("file-preview", {
+  beforeEach: function() {
+    component = this.subject();
+  }
 });
 
-test('it renders', function(assert) {
-  assert.expect(2);
+test("it previews the associated url", function(assert) {
+  var expectedUrl = "http://example.com/file.png";
 
-  // Creates the component instance
-  var component = this.subject();
-  assert.equal(component._state, 'preRender');
+  Ember.run(function() {
+    component.set("url", expectedUrl);
+  });
 
-  // Renders the component to the page
   this.render();
-  assert.equal(component._state, 'inDOM');
+
+  assert.equal(this.$("a").attr("href"), expectedUrl);
+});
+
+test("it hides the preview when there is no URL", function(assert) {
+  this.render();
+  assert.ok(this.$()[0].className.indexOf("is-hidden") > -1);
+});
+
+test("clears the url when the remove button is pressed", function(assert) {
+  var expectedUrl = "http://example.com/file.png";
+
+  Ember.run(function() {
+    component.set("url", expectedUrl);
+  });
+
+  this.render();
+  this.$().find(".remove").click();
+
+  assert.equal(component.get("url"), "");
+  assert.ok(this.$()[0].className.indexOf("is-hidden") > -1);
 });
