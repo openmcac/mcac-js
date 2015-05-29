@@ -8,6 +8,7 @@ export default EmberUploader.FileField.extend({
     var _this = this;
     var uploadUrl = this.get("url");
     var files = this.get("files");
+    var $progress;
 
     var uploader = EmberUploader.S3Uploader.create({
       url: uploadUrl
@@ -15,14 +16,34 @@ export default EmberUploader.FileField.extend({
 
     uploader.on("didUpload", function(response) {
       _this.sendAction("didUpload", getUploadedUrl(response));
+      $progress.hide();
+    });
+
+    uploader.on("progress", function(e) {
+      $progress.attr("value", e.percent);
     });
 
     if (!Ember.isEmpty(files)) {
       // Uploader will send a sign request then upload to S3
       uploader.upload(files[0]);
+
+      if ($progress) {
+        $progress.attr("value", "0");
+        $progress.show();
+      } else {
+        $progress = createProgressElement();
+        Ember.$(this.element).parent().append($progress);
+      }
     }
   }).observes("files")
 });
+
+function createProgressElement() {
+  var progress = Ember.$("<progress>");
+  progress.attr("max", "100");
+  progress.attr("value", "0");
+  return progress;
+}
 
 function getUploadedUrl(response) {
   // S3 will return XML with url

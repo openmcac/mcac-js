@@ -16,11 +16,11 @@ export default Ember.Controller.extend({
         saveNextAnnouncement(bulletin);
       });
     },
-    removeBanner: function() {
-      this.get("model").set("bannerUrl", null);
-    },
-    didUpload: function(storageUrl) {
+    didUploadBanner: function(storageUrl) {
       this.get('model').set('bannerUrl', storageUrl);
+    },
+    didUploadAudio: function(storageUrl) {
+      this.get('model').set('audioUrl', storageUrl);
     }
   },
   bannerPreviewStyle: function() {
