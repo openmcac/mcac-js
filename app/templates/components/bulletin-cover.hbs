@@ -4,9 +4,11 @@
       <span class="name">{{bulletin.name}}</span><br/>
       <small class="description">{{bulletin.description}}</small>
     </h1>
-    <audio src="{{bulletin.audioUrl}}" controls>
-      Your browser does not support the <code>audio</code> element.
-    </audio>
+    {{#with bulletin.audioUrl as url}}
+      <audio src="{{url}}" controls>
+        Your browser does not support the <code>audio</code> element.
+      </audio>
+    {{/with}}
     <footer>
       <a href="http://mcac.church">Montreal Chinese Alliance Church</a> |
       <a href="http://mcac.church">mcac.church</a> |
