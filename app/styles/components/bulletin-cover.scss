@@ -29,9 +29,13 @@
     font-style: normal;
   }
 
+  audio {
+    margin-top: $padding-l;
+  }
+
   footer {
     font-size: 11px;
-    margin: 80px $padding-m 0;
+    margin-top: 80px;
 
     &,
     a {
@@ -42,9 +46,8 @@
   @media only screen and (min-width: $medium-device-break) {
     text-align: left;
 
-    .bulletin-info,
-    footer {
-      padding-left: 42px;
+    .inner {
+      margin-left: $padding-xl;
     }
 
     .name {
