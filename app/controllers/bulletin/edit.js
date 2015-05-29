@@ -16,9 +16,6 @@ export default Ember.Controller.extend({
         saveNextAnnouncement(bulletin);
       });
     },
-    removeBanner: function() {
-      this.get("model").set("bannerUrl", null);
-    },
     didUploadBanner: function(storageUrl) {
       this.get('model').set('bannerUrl', storageUrl);
     },
