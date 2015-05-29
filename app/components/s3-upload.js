@@ -31,14 +31,19 @@ export default EmberUploader.FileField.extend({
         $progress.attr("value", "0");
         $progress.show();
       } else {
-        $progress = Ember.$("<progress>");
-        $progress.attr("max", "100");
-        $progress.attr("value", "0");
+        $progress = createProgressElement();
         Ember.$(this.element).parent().append($progress);
       }
     }
-  }).observes("files"),
+  }).observes("files")
 });
+
+function createProgressElement() {
+  var progress = Ember.$("<progress>");
+  progress.attr("max", "100");
+  progress.attr("value", "0");
+  return progress;
+}
 
 function getUploadedUrl(response) {
   // S3 will return XML with url
