@@ -1,10 +1,16 @@
-<article class="post post-{{model.id}}">
-  <header class="post-title">
-    {{model.title}}
-  </header>
+<article class="post-view post-{{model.id}}">
+  <div class="container post-container">
+    <header class="row">
+      <div class="col-sm-8 col-sm-offset-2 post-title">
+        <h1>{{model.title}}</h1>
+      </div>
+    </header>
 
-  <div class="content">
-    {{model.content}}
+    <div class="row content">
+      <div class="col-sm-8 col-sm-offset-2">
+        {{{model.contentHtml}}}
+      </div>
+    </div>
   </div>
 </article>
 

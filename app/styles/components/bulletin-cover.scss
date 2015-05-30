@@ -17,10 +17,8 @@
   }
 
   .name {
+    @include display-font();
     color: $white;
-    font-family: 'Arapey', serif;
-    font-style: italic;
-    font-weight: 400;
   }
 
   .description {

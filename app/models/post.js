@@ -1,3 +1,4 @@
+import Ember from "ember";
 import DS from 'ember-data';
 
 export default DS.Model.extend({
@@ -13,7 +14,10 @@ export default DS.Model.extend({
     }
 
     return getTags(this).toArray().join(', ');
-  }.property('tags.@each')
+  }.property('tags.@each'),
+  contentHtml: function() {
+    return markedOrEmptyString(this.get("content"));
+  }.property("content"),
 });
 
 function getTags(context) {
@@ -23,4 +27,12 @@ function getTags(context) {
 
 function tagListToArray(tagList) {
   return tagList.split(/\s*,\s*/);
+}
+
+function markedOrEmptyString(markdown) {
+  if (Ember.isEmpty(markdown)) {
+    return "";
+  }
+
+  return marked(markdown);
 }

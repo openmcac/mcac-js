@@ -30,3 +30,9 @@ h5 {
   display: flex;
   overflow: hidden;
 }
+
+@mixin display-font() {
+  font-family: 'Arapey', serif;
+  font-style: italic;
+  font-weight: 400;
+}

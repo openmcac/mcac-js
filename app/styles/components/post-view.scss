@@ -1,0 +1,21 @@
+.post-view {
+  font-family: serif;
+  font-size: 18px;
+  margin-top: $padding-xl;
+
+  .post-container {
+    background-color: $gray-extralight;
+    padding: $padding-xl 0;
+  }
+
+  h1 {
+    @include display-font();
+  }
+
+  blockquote {
+    @include display-font();
+    border-left-style: none;
+    font-size: 28px;
+    padding: $padding-l 0;
+  }
+}
