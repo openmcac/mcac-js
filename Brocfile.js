@@ -28,13 +28,19 @@ app.import('bower_components/html.sortable/dist/html.sortable.min.js');
 app.import('bower_components/pace/pace.js');
 app.import('bower_components/pace/themes/purple/pace-theme-center-simple.css');
 app.import('bower_components/ember-uploader/dist/ember-uploader.named-amd.js');
+app.import('vendor/fontello/css/fontello.css');
 
 var mergeTrees = require('broccoli-merge-trees');
 var pickFiles = require('broccoli-static-compiler');
-var extraAssets = pickFiles('bower_components/bootstrap/dist/fonts', {
+var bootstrapFonts = pickFiles('bower_components/bootstrap/dist/fonts', {
+  srcDir: '/',
+  files: ['**/*'],
+  destDir: '/fonts'
+});
+var customFonts = pickFiles('vendor/fontello/font', {
   srcDir: '/',
   files: ['**/*'],
   destDir: '/fonts'
 });
 
-module.exports = mergeTrees([app.toTree(), extraAssets]);
+module.exports = mergeTrees([app.toTree(), bootstrapFonts, customFonts]);
