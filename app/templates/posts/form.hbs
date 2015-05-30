@@ -7,14 +7,21 @@
           {{input id="postTitle" value=model.title class="form-control post-title"}}
         </div>
       </div>
-
+      <div class="row">
+        <div class="form-group col-md-10">
+          <label for="banner">Banner</label>
+          <div class="form-control banner">
+            {{s3-upload url="/api/v1/posts/sign" didUpload="didUploadBanner"}}
+          </div>
+          {{image-preview url=model.bannerUrl}}
+        </div>
+      </div>
       <div class="row">
         <div class="form-group col-md-10">
           <label for="tagList">Tags</label>
           {{input id="tagList" value=model.tagList class="form-control tags"}}
         </div>
       </div>
-
       <div class="row">
         <div class="form-group col-md-12">
           <label for="content">Content</label>
@@ -24,7 +31,6 @@
                               rows="10"}}
         </div>
       </div>
-
       <button type="submit" {{action 'save'}} class="btn btn-primary save">
         Save
       </button>

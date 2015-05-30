@@ -18,4 +18,14 @@
     font-size: 28px;
     padding: $padding-l 0;
   }
+
+  .banner {
+    img {
+      width: 100%;
+    }
+  }
+
+  header {
+    padding-bottom: $padding-l;
+  }
 }

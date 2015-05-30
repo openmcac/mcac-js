@@ -55,8 +55,44 @@ test('visiting /english-service/12/this-is-a-title', function(assert) {
 
   andThen(function() {
     assert.equal(find('.post-12').length, 1);
+    assert.equal(find('.banner').length, 0);
     assert.equal(find('.post-title').text().trim(), 'This is a title');
     assert.equal(find('.content').text().trim(), 'This is my post content');
+  });
+});
+
+test("shows a banner when it has one", function(assert) {
+  var bannerUrl = "http://example.com/test.png";
+
+  server.get('/api/v1/posts/12', function(request) {
+    var response = {
+      "posts": {
+        "bannerUrl": bannerUrl,
+        "content": "This is my post content",
+        "id": "12",
+        "publishedAt": "2015-03-06T04:01:33+00:00",
+        "slug": "this-is-a-title",
+        "tags": ["tag1", "tag2", "tag3"],
+        "title": "This is a title",
+        "updatedAt": "2015-03-06T04:01:33+00:00",
+        "links": {
+          "author": "1",
+          "editor":null,
+          "group": "1"
+        }
+      }
+    };
+    return [
+      200,
+      {"Content-Type": "application/vnd.api+json"},
+      JSON.stringify(response)
+    ];
+  });
+
+  visit('/english-service/12/this-is-a-title');
+
+  andThen(function() {
+    assert.equal(find(".banner img").attr("src"), bannerUrl);
   });
 });
 
