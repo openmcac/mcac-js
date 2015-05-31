@@ -33,7 +33,8 @@ function createServer() {
       posts: {
         id: 1,
         title: 'This is a title',
-        slug: 'this-is-a-title'
+        slug: 'this-is-a-title',
+        publishedAt: "2015-03-11T04:01:33+00:00"
       }
     };
     return [
@@ -59,7 +60,7 @@ test('viewing post index', function(assert) {
 test('viewing a post', function(assert) {
   authenticateSession();
 
-  visit('/english-service/1/this-is-a-title');
+  visit('/english-service/2015/03/11/1/this-is-a-title');
 
   andThen(function() {
     assert.equal(currentPath(), 'group.post.index.index');
