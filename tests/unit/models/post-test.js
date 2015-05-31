@@ -32,11 +32,11 @@ test('tagList: set tags from a comma delimited string', function(assert) {
   assert.deepEqual(model.get('tags'), tags);
 });
 
-test('contentHtml: converts markdown content into HTML', function(assert) {
+test("contentHtml: converts markdown content into HTML", function(assert) {
   assert.expect(1);
-  var content = 'this is **markdown**';
-  var contentHtml = '<p>this is <strong>markdown</strong></p>';
+  var content = "this is **markdown**";
+  var contentHtml = "<p>this is <strong>markdown</strong></p>";
   var model = this.subject({ content: content });
 
-  assert.equal(model.get('contentHtml').trim(), contentHtml);
+  assert.equal(model.get("contentHtml").trim(), contentHtml);
 });

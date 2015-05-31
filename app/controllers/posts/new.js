@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import Ember from "ember";
 
 export default Ember.Controller.extend({
   actions: {
@@ -6,7 +6,7 @@ export default Ember.Controller.extend({
       var _this = this;
 
       Pace.restart();
-      _this.get('model').save().then(function(post) {
+      _this.get("model").save().then(function(post) {
         Pace.stop();
         _this.transitionToRoute("post.edit", post);
       });
