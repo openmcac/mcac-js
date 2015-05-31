@@ -45,6 +45,14 @@ h5 {
   }
 }
 
+@mixin margin-top-l() {
+  margin-top: $padding-m;
+
+  @media only screen and (min-width: $medium-device-break) {
+    margin-top: $padding-l;
+  }
+}
+
 @mixin padding-top-xl() {
   padding-top: $padding-l;
 

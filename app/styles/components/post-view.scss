@@ -24,14 +24,32 @@
     padding-right: 0;
   }
 
+  header {
+    @include padding-bottom-l();
+  }
+
   .banner {
     img {
       width: 100%;
     }
   }
 
-  header {
-    @include padding-bottom-l();
+  footer {
+    @include margin-top-l();
+    @include padding-top-xl();
+    @include padding-bottom-xl();
+    font-size: 12px;
+    background-color: $gray;
+    font-family: sans-serif;
+    text-align: center;
+
+    &, a {
+      color: $gray-dark;
+    }
+
+    .icon {
+      font-size: 24px;
+    }
   }
 
   @media only screen and (min-width: $medium-device-break) {
