@@ -7,10 +7,6 @@ export default Ember.Controller.extend({
       this.get('model').save().then(function() {
         Pace.stop();
       });
-    },
-    didUploadBanner: function(storageUrl) {
-      var post = this.get('model');
-      post.set('bannerUrl', storageUrl);
     }
   }
 });

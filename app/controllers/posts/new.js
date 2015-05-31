@@ -3,14 +3,13 @@ import Ember from 'ember';
 export default Ember.Controller.extend({
   actions: {
     save: function () {
+      var _this = this;
+
       Pace.restart();
-      this.get('model').save().then(function() {
+      _this.get('model').save().then(function(post) {
         Pace.stop();
+        _this.transitionToRoute("post.edit", post);
       });
-    },
-    didUploadBanner: function(storageUrl) {
-      var post = this.get('model');
-      post.set('bannerUrl', storageUrl);
     }
   }
 });

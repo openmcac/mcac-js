@@ -48,5 +48,9 @@ test('saving a post', function(assert) {
     assert.equal(createdPost.posts.title, postTitle);
     assert.equal(createdPost.posts.content, content);
     assert.deepEqual(createdPost.posts.tags, ['tag5', 'tag6', 'tag7']);
+
+    Ember.run.next(function() {
+      assert.equal(currentURL(), '/english-service/post/1/edit');
+    });
   });
 });

@@ -4,7 +4,7 @@
       <div class="row">
         <div class="form-group col-md-10">
           <label for="postTitle">Title</label>
-          {{input id="postTitle" value=model.title class="form-control post-title"}}
+          {{input id="postTitle" value=post.title class="form-control post-title"}}
         </div>
       </div>
       <div class="row">
@@ -13,20 +13,20 @@
           <div class="form-control banner">
             {{s3-upload url="/api/v1/posts/sign" didUpload="didUploadBanner"}}
           </div>
-          {{image-preview url=model.bannerUrl}}
+          {{image-preview url=post.bannerUrl}}
         </div>
       </div>
       <div class="row">
         <div class="form-group col-md-10">
           <label for="tagList">Tags</label>
-          {{input id="tagList" value=model.tagList class="form-control tags"}}
+          {{input id="tagList" value=post.tagList class="form-control tags"}}
         </div>
       </div>
       <div class="row">
         <div class="form-group col-md-12">
           <label for="content">Content</label>
           {{markdown-textarea id="content"
-                              value=model.content
+                              value=post.content
                               class="form-control content"
                               rows="10"}}
         </div>
@@ -37,3 +37,5 @@
     </section>
   </div>
 </form>
+
+{{yield}}
