@@ -1,23 +1,27 @@
 .post-view {
   font-family: serif;
   font-size: 16px;
-  margin-top: $padding-xl;
+  @include margin-top-xl();
 
   .post-container {
+    @include padding-bottom-xl();
+    @include padding-top-xl();
     background-color: $gray-extralight;
-    padding-bottom: $padding-xl;
-    padding-top: $padding-xl;
   }
 
   h1 {
     @include display-font();
+    font-size: 26px;
   }
 
   blockquote {
     @include display-font();
+    @include padding-bottom-l();
+    @include padding-top-l();
     border-left-style: none;
     font-size: 20px;
-    padding: $padding-l 0;
+    padding-left: 0;
+    padding-right: 0;
   }
 
   .banner {
@@ -27,11 +31,15 @@
   }
 
   header {
-    padding-bottom: $padding-l;
+    @include padding-bottom-l();
   }
 
   @media only screen and (min-width: $medium-device-break) {
     font-size: 18px;
+
+    h1 {
+      font-size: 36px;
+    }
 
     blockquote {
       font-size: 28px;
