@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import Ember from "ember";
 
 const TIMEZONE = "America/Montreal";
 const DATE_FORMAT = "MMMM D YYYY, h:mm a";

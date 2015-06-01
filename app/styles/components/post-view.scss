@@ -43,12 +43,13 @@
     @include margin-top-l();
     @include padding-top-xl();
     @include padding-bottom-xl();
-    font-size: 12px;
     background-color: $gray;
     font-family: sans-serif;
+    font-size: 12px;
     text-align: center;
 
-    &, a {
+    &,
+    a {
       color: $gray-dark;
     }
 
