@@ -58,6 +58,8 @@ test('visiting /english-service/12/this-is-a-title', function(assert) {
     assert.equal(find('.banner').length, 0);
     assert.equal(find('.post-title').text().trim(), 'This is a title');
     assert.equal(find('.content').text().trim(), 'This is my post content');
+    assert.equal(find(".published-at").text().trim(), "March 5 2015, 11:01 pm");
+    assert.equal(find(".group-name").text().trim(), "English Service");
   });
 });
 

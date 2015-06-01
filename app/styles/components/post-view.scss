@@ -28,6 +28,11 @@
     @include padding-bottom-l();
   }
 
+  .metadata {
+    color: $gray-dark;
+    font-size: smaller;
+  }
+
   .banner {
     img {
       width: 100%;

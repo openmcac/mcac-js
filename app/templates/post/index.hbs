@@ -8,6 +8,10 @@
             {{#with model.bannerUrl as url}}
               <div class="banner"><img src="{{url}}" /></div>
             {{/with}}
+            <div class="metadata">
+              <span class="published-at">{{displayPublishedAt}}</span>
+              <span class="pull-right group-name">{{model.group.name}}</span>
+            </div>
           </header>
           <div class="content">
             {{{model.contentHtml}}}
