@@ -92,7 +92,7 @@ test('visiting /english-service/bulletin/1', function(assert) {
     assert.equal(find('.announcements li:nth-child(3) .external-link').length, 0);
 
     // announcement external links are rendered when present
-    assert.equal(find('.announcements li:nth-child(2) .external-link').attr('href'),
+    assert.equal(find('.announcements li:nth-child(2) .external-link a').attr('href'),
                  'http://nba.com');
 
     assert.equal(find(".sermon-notes .no-notes").length, 1);

@@ -6,8 +6,11 @@
       {{{announcement.descriptionHtml}}}
     </div>
     {{#with announcement.url as url}}
-      <div>
-        <a class="external-link" href="{{url}}">See more</a>
+      <div class="external-link">
+        <a href="{{url}}">
+          See more
+          <i class="glyphicon glyphicon-arrow-right"></i>
+        </a>
       </div>
     {{/with}}
   </li>
