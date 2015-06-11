@@ -35,7 +35,13 @@ function createServer() {
 
       let bulletin3 = {
         id: 3,
-        name: "Sunday Worship Service 3",
+        name: "Sunday Worship Service 3b",
+        publishedAt: "2015-03-07T03:58:00+00:00"
+      };
+
+      let bulletin4 = {
+        id: 4,
+        name: "Sunday Worship Service 3a",
         publishedAt: "2015-03-07T03:58:00+00:00"
       };
 
@@ -43,7 +49,8 @@ function createServer() {
         "bulletins": [
           createJsonForBulletin(bulletin1),
           createJsonForBulletin(bulletin2),
-          createJsonForBulletin(bulletin3)
+          createJsonForBulletin(bulletin3),
+          createJsonForBulletin(bulletin4)
         ]
       };
 
@@ -103,8 +110,9 @@ test('visiting /english-service/bulletins', function(assert) {
 
   andThen(function() {
     assert.equal($(".bulletin-name", $(".bulletin")[0]).text(), "Sunday Worship Service 2");
-    assert.equal($(".bulletin-name", $(".bulletin")[1]).text(), "Sunday Worship Service 3");
-    assert.equal($(".bulletin-name", $(".bulletin")[2]).text(), "Sunday Worship Service 1");
+    assert.equal($(".bulletin-name", $(".bulletin")[1]).text(), "Sunday Worship Service 3a");
+    assert.equal($(".bulletin-name", $(".bulletin")[2]).text(), "Sunday Worship Service 3b");
+    assert.equal($(".bulletin-name", $(".bulletin")[3]).text(), "Sunday Worship Service 1");
     assert.equal(currentURL(), '/english-service/bulletins');
   });
 });
