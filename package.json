@@ -44,7 +44,7 @@
     "ember-data": "1.0.0-beta.16.1",
     "ember-deploy-redis": "0.0.2",
     "ember-export-application-global": "^1.0.2",
-    "ember-json-api": "achan/ember-json-api#ac_remove_hasMany_on_create",
+    "ember-json-api": "git://github.com/achan/ember-json-api.git#e595c92b950697c82b0d8a71ed5609476a1bc3c6",
     "ember-marked": "0.0.4",
     "express": "^4.8.5",
     "glob": "^4.0.5",
