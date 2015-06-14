@@ -3,6 +3,7 @@
   @include body-font();
 
   font-size: 16px;
+  padding: $nav-bar-height;
 
   .post-container {
     @include padding-bottom-xl();
