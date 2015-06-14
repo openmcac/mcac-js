@@ -44,17 +44,17 @@
   }
 
   footer {
-    @include margin-top-l();
+    @include margin-top-xl();
     @include padding-top-xl();
     @include padding-bottom-xl();
-    background-color: $gray;
+
     font-family: sans-serif;
     font-size: 12px;
     text-align: center;
 
     &,
     a {
-      color: $gray-dark;
+      color: $gray;
     }
 
     .icon {
