@@ -5,5 +5,27 @@
     strong {
       color: $gray-dark;
     }
+
+    abbr {
+      border-bottom-style: none;
+    }
+  }
+
+  .long-brand {
+    display: none;
+  }
+
+  .short-brand {
+    display: inline-block;
+  }
+
+  @media only screen and (min-width: $small-device-break) {
+    .long-brand {
+      display: inline-block;
+    }
+
+    .short-brand {
+      display: none;
+    }
   }
 }

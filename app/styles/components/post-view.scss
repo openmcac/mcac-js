@@ -29,7 +29,10 @@
   }
 
   header {
-    @include padding-bottom-l();
+    @include padding-bottom-xl();
+    a {
+      color: $gray-dark;
+    }
   }
 
   .metadata {
