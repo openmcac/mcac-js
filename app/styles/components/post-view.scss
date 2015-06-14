@@ -6,7 +6,10 @@
   .post-container {
     @include padding-bottom-xl();
     @include padding-top-xl();
-    background-color: $gray-extralight;
+    border-left-style: solid;
+    border-right-style: solid;
+    border-color: $gray-extralight;
+    border-width: 1px;
   }
 
   h1 {
