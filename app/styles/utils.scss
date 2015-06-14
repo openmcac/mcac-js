@@ -31,6 +31,23 @@ h5 {
   overflow: hidden;
 }
 
+@mixin brand-font() {
+  font-family: "Source Sans Pro", sans-serif;
+  font-weight: 300;
+  text-transform: uppercase;
+  strong {
+    font-weight: 400;
+  }
+}
+
+@mixin body-font() {
+  font-family: "Hind", sans-serif;
+  font-weight: 300;
+  strong {
+    font-weight: 400;
+  }
+}
+
 @mixin display-font() {
   font-family: 'Arapey', serif;
   font-style: italic;

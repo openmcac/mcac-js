@@ -1,0 +1,9 @@
+.navbar {
+  .navbar-brand {
+    @include brand-font();
+
+    strong {
+      color: $gray-dark;
+    }
+  }
+}
