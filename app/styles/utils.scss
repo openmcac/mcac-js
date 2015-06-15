@@ -101,3 +101,11 @@ h5 {
     padding-bottom: $padding-l;
   }
 }
+
+@mixin padding-bottom-m() {
+  padding-bottom: $padding-s;
+
+  @media only screen and (min-width: $medium-device-break) {
+    padding-bottom: $padding-m;
+  }
+}

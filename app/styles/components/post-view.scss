@@ -1,13 +1,13 @@
 .post-view {
-  @include margin-top-xl();
   @include body-font();
 
   font-size: 16px;
-  padding: $nav-bar-height;
+  padding-top: $nav-bar-height;
 
   .post-container {
     @include padding-bottom-xl();
     @include padding-top-xl();
+    background-color: $white;
     border-left-style: solid;
     border-right-style: solid;
     border-color: $gray-extralight;
@@ -42,26 +42,78 @@
   }
 
   .banner {
+    @include padding-bottom-m();
+
     img {
       width: 100%;
     }
   }
 
   footer {
-    @include margin-top-xl();
-    @include padding-top-xl();
     @include padding-bottom-xl();
 
+    padding-top: 200px;
     font-size: 10px;
     text-align: center;
+    position: relative;
 
     &,
     a {
-      color: $gray;
+      color: $gray-light;
+    }
+
+    a, i {
+      background-color: $black;
+      padding: 0 4px;
     }
 
     .icon {
       font-size: 24px;
+    }
+
+    &::after,
+    &::before {
+      height: 270px;
+    }
+
+    &::before {
+      background-image: url("images/post-footer.jpg");
+      background-position: center bottom;
+      background-size: cover;
+      bottom: 0;
+      content: "";
+      display: table;
+      left: 0;
+      position: absolute;
+      right: 0;
+      width: 100%;
+      z-index: -100;
+    }
+
+    &::after {
+      background-image: linear-gradient(white, transparent);
+      bottom: 0;
+      content: "";
+      display: table;
+      left: 0;
+      position: absolute;
+      right: 0;
+      width: 100%;
+      z-index: -99;
+    }
+  }
+
+
+  @media only screen and (min-width: $small-device-break) {
+    .post-container {
+      border-bottom-style: solid;
+    }
+
+    footer {
+      &::after,
+      &::before {
+        height: 600px;
+      }
     }
   }
 
