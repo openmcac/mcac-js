@@ -1,18 +1,18 @@
 import { moduleFor, test } from "ember-qunit";
 import Ember from "ember";
 
-moduleFor('controller:post/index', {
+moduleFor("controller:post/index", {
   // Specify the other units that are required for this test.
-  // needs: ['controller:foo']
+  // needs: ["controller:foo"]
 });
 
-test('displayPublishedAt: returns empty string when no date', function(assert) {
+test("displayPublishedAt: returns empty string when no date", function(assert) {
   let controller = this.subject();
 
   assert.equal(controller.get("displayPublishedAt"), "");
 });
 
-test('displayPublishedAt: returns a well-formatted date', function(assert) {
+test("displayPublishedAt: returns a well-formatted date", function(assert) {
   let controller = this.subject();
   let model = Ember.Object.create({ publishedAt: "2015-03-07T03:58:00+00:00" });
   controller.set("model", model);

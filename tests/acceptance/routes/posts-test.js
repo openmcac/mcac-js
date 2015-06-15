@@ -32,8 +32,8 @@ function createServer() {
     var response = {
       posts: {
         id: 1,
-        title: 'This is a title',
-        slug: 'this-is-a-title',
+        title: "This is a title",
+        slug: "this-is-a-title",
         publishedAt: "2015-03-11T04:01:33+00:00"
       }
     };

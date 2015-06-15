@@ -66,7 +66,7 @@ test('visiting /english-service/12/this-is-a-title', function(assert) {
 test("shows a banner when it has one", function(assert) {
   var bannerUrl = "http://example.com/test.png";
 
-  server.get('/api/v1/posts/12', function(request) {
+  server.get("/api/v1/posts/12", function(request) {
     var response = {
       "posts": {
         "bannerUrl": bannerUrl,
@@ -91,7 +91,7 @@ test("shows a banner when it has one", function(assert) {
     ];
   });
 
-  visit('/english-service/2015/03/06/12/this-is-a-title');
+  visit("/english-service/2015/03/06/12/this-is-a-title");
 
   andThen(function() {
     assert.equal(find(".banner img").attr("src"), bannerUrl);

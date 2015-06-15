@@ -50,7 +50,7 @@ test('saving a post', function(assert) {
     assert.deepEqual(createdPost.posts.tags, ['tag5', 'tag6', 'tag7']);
 
     Ember.run.next(function() {
-      assert.equal(currentURL(), '/english-service/post/1/edit');
+      assert.equal(currentURL(), "/english-service/post/1/edit");
     });
   });
 });
