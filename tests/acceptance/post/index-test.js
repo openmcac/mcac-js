@@ -51,20 +51,81 @@ function createServer() {
 }
 
 test('visiting /english-service/12/this-is-a-title', function(assert) {
-  visit('/english-service/12/this-is-a-title');
+  visit('/english-service/2015/03/06/12/this-is-a-title');
 
   andThen(function() {
     assert.equal(find('.post-12').length, 1);
+    assert.equal(find('.banner').length, 0);
     assert.equal(find('.post-title').text().trim(), 'This is a title');
     assert.equal(find('.content').text().trim(), 'This is my post content');
+    assert.equal(find(".published-at").text().trim(), "March 5 2015, 11:01 pm");
+    assert.equal(find(".group-name").text().trim(), "English Service");
   });
 });
 
-test('Corrects the slug if it is wrong', function(assert) {
-  visit('/english-service/12/bad-slug');
+test("shows a banner when it has one", function(assert) {
+  var bannerUrl = "http://example.com/test.png";
+
+  server.get("/api/v1/posts/12", function(request) {
+    var response = {
+      "posts": {
+        "bannerUrl": bannerUrl,
+        "content": "This is my post content",
+        "id": "12",
+        "publishedAt": "2015-03-06T04:01:33+00:00",
+        "slug": "this-is-a-title",
+        "tags": ["tag1", "tag2", "tag3"],
+        "title": "This is a title",
+        "updatedAt": "2015-03-06T04:01:33+00:00",
+        "links": {
+          "author": "1",
+          "editor":null,
+          "group": "1"
+        }
+      }
+    };
+    return [
+      200,
+      {"Content-Type": "application/vnd.api+json"},
+      JSON.stringify(response)
+    ];
+  });
+
+  visit("/english-service/2015/03/06/12/this-is-a-title");
 
   andThen(function() {
-    assert.equal(currentURL(), '/english-service/12/this-is-a-title');
+    assert.equal(find(".banner img").attr("src"), bannerUrl);
   });
 });
 
+test('Corrects the url if slug is wrong', function(assert) {
+  visit('/english-service/2015/03/06/12/bad-slug');
+
+  andThen(function() {
+    assert.equal(currentURL(), '/english-service/2015/03/06/12/this-is-a-title');
+  });
+});
+
+test('Corrects the url if year is wrong', function(assert) {
+  visit('/english-service/2016/03/06/12/bad-slug');
+
+  andThen(function() {
+    assert.equal(currentURL(), '/english-service/2015/03/06/12/this-is-a-title');
+  });
+});
+
+test('Corrects the url if month is wrong', function(assert) {
+  visit('/english-service/2015/13/06/12/bad-slug');
+
+  andThen(function() {
+    assert.equal(currentURL(), '/english-service/2015/03/06/12/this-is-a-title');
+  });
+});
+
+test('Corrects the url if day is wrong', function(assert) {
+  visit('/english-service/2016/03/22/12/bad-slug');
+
+  andThen(function() {
+    assert.equal(currentURL(), '/english-service/2015/03/06/12/this-is-a-title');
+  });
+});
