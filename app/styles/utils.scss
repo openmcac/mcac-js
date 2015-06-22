@@ -30,3 +30,82 @@ h5 {
   display: flex;
   overflow: hidden;
 }
+
+@mixin brand-font() {
+  font-family: "Source Sans Pro", sans-serif;
+  font-weight: 300;
+  text-transform: uppercase;
+  strong {
+    font-weight: 400;
+  }
+}
+
+@mixin body-font() {
+  font-family: "Hind", sans-serif;
+  font-weight: 300;
+  strong {
+    font-weight: 400;
+  }
+}
+
+@mixin display-font() {
+  font-family: 'Arapey', serif;
+  font-style: italic;
+  font-weight: 400;
+}
+
+@mixin margin-top-xl() {
+  margin-top: $padding-l;
+
+  @media only screen and (min-width: $medium-device-break) {
+    margin-top: $padding-xl;
+  }
+}
+
+@mixin margin-top-l() {
+  margin-top: $padding-m;
+
+  @media only screen and (min-width: $medium-device-break) {
+    margin-top: $padding-l;
+  }
+}
+
+@mixin padding-top-xl() {
+  padding-top: $padding-l;
+
+  @media only screen and (min-width: $medium-device-break) {
+    padding-top: $padding-xl;
+  }
+}
+
+@mixin padding-bottom-xl() {
+  padding-bottom: $padding-l;
+
+  @media only screen and (min-width: $medium-device-break) {
+    padding-bottom: $padding-xl;
+  }
+}
+
+@mixin padding-top-l() {
+  padding-top: $padding-m;
+
+  @media only screen and (min-width: $medium-device-break) {
+    padding-top: $padding-l;
+  }
+}
+
+@mixin padding-bottom-l() {
+  padding-bottom: $padding-m;
+
+  @media only screen and (min-width: $medium-device-break) {
+    padding-bottom: $padding-l;
+  }
+}
+
+@mixin padding-bottom-m() {
+  padding-bottom: $padding-s;
+
+  @media only screen and (min-width: $medium-device-break) {
+    padding-bottom: $padding-m;
+  }
+}

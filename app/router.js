@@ -20,9 +20,9 @@ Router.map(function() {
       this.route("edit");
     });
 
-    this.resource('post', { path: "" }, function() {
-      this.route('index', { path: ":post_id/:slug" }, function() {});
-      this.route('edit', { path: "post/:post_id/edit" }, function() {});
+    this.resource("post", { path: "" }, function() {
+      this.route("index", { path: ":year/:month/:day/:post_id/:slug" }, function() {});
+      this.route("edit", { path: "post/:post_id/edit" }, function() {});
     });
 
     this.resource('posts', { path: 'posts' }, function() {
