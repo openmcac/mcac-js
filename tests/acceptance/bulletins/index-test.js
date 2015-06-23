@@ -4,125 +4,115 @@ import Pretender from 'pretender';
 import { test, module } from 'qunit';
 import mockServer from '../../helpers/server';
 
-var application;
+let application, server;
 
-var announcements = {
-  "1": {
-    "id": "1",
-    "description": "This is the first announcement",
-    "position": 1,
-    "links": {
-      "bulletin": "1",
-      "post": null
-    }
-  },
-  "2": {
-    "id": "2",
-    "description": "This is the second announcement",
-    "position": 2,
-    "url": "http://nba.com",
-    "links": {
-      "bulletin": "1",
-      "post": null
-    }
-  },
-  "3": {
-    "id": "3",
-    "description": "This is the third announcement",
-    "position": 3,
-    "links": {
-      "bulletin": "1",
-      "post": null
-    }
-  }
-};
-
-module('Acceptance: View bulletin', {
-  setup: function() {
+module('Acceptance: BulletinsIndex', {
+  beforeEach: function() {
     application = startApp();
+    server = createServer();
   },
-  teardown: function() {
+
+  afterEach: function() {
     Ember.run(application, 'destroy');
   }
 });
 
-test('visiting /english-service/bulletin/1', function(assert) {
+function createServer() {
   var server = mockServer();
-  server.get('/api/v1/announcements/:id', function(request) {
-    var announcement = {
-      "announcements": announcements[request.params.id]
-    };
-    return [200, {"Content-Type": "application/vnd.api+json"}, JSON.stringify(announcement)];
+  server.get('/api/v1/bulletins', function(request) {
+    if (request.queryParams.group === '1') {
+      let bulletin1 = {
+        id: 1,
+        name: "Sunday Worship Service 1",
+        publishedAt: "2014-10-07T03:58:00+00:00"
+      };
+
+      let bulletin2 = {
+        id: 2,
+        name: "Sunday Worship Service 2",
+        publishedAt: "2015-06-07T03:58:00+00:00"
+      };
+
+      let bulletin3 = {
+        id: 3,
+        name: "Sunday Worship Service 3b",
+        publishedAt: "2015-03-07T03:58:00+00:00"
+      };
+
+      let bulletin4 = {
+        id: 4,
+        name: "Sunday Worship Service 3a",
+        publishedAt: "2015-03-07T03:58:00+00:00"
+      };
+
+      var response = {
+        "bulletins": [
+          createJsonForBulletin(bulletin1),
+          createJsonForBulletin(bulletin2),
+          createJsonForBulletin(bulletin3),
+          createJsonForBulletin(bulletin4)
+        ]
+      };
+
+      return [200, {"Content-Type": "application/vnd.api+json"}, JSON.stringify(response)];
+    }
   });
 
-  server.get('/api/v1/bulletins/1', function(request) {
-    var response = {
-      "bulletins": {
-        "id": "1",
-        "description": "This is a service bulletin.",
-        "name": "Sunday Service",
-        "serviceOrder": "This is the service order.",
-        "publishedAt": "2014-12-21T13:58:27-05:00",
-        "links": {
-          "group": "1",
-          "announcements": ["1", "2", "3"]
-        }
-      }
-    };
-    return [200, {"Content-Type": "application/vnd.api+json"}, JSON.stringify(response)];
-  });
+  return server;
+}
 
-  visit('/english-service/bulletins/1');
+function createJsonForBulletin(bulletin) {
+  let response = {
+    "id": bulletin.id,
+    "description": bulletin.description,
+    "name": bulletin.name,
+    "serviceOrder": bulletin.serviceOrder,
+    "publishedAt": bulletin.publishedAt,
+    "links": {
+      "group": "1",
+      "announcements": bulletin.announcements
+    }
+  };
+
+  if (bulletin["bannerUrl"]) {
+    response["bannerUrl"] = bulletin["bannerUrl"];
+  }
+
+  return response;
+}
+
+function createResponseForBulletin(bulletin) {
+  server.get(`/api/v1/bulletins/${bulletin.id}`, function(request) {
+    let response = {
+      bulletins: createJsonForBulletin(bulletin)
+    };
+
+    return [
+      200,
+      { "Content-Type": "application/vnd.api+json" },
+      JSON.stringify(response)
+    ];
+  });
+}
+
+test('Requires authentication', function(assert) {
+  visit('/english-service/bulletins');
 
   andThen(function() {
-    // bulletin name is displayed
-    assert.equal(find('.bulletin-info .name').text(), 'Sunday Service');
-
-    // announcement descriptions are displayed
-    assert.equal(find('.announcements li:nth-child(1) .announcement').text().trim(),
-                 'This is the first announcement');
-    assert.equal(find('.announcements li:nth-child(2) .announcement').text().trim(),
-                 'This is the second announcement');
-    assert.equal(find('.announcements li:nth-child(3) .announcement').text().trim(),
-                 'This is the third announcement');
-
-    // announcement external link placeholders are not rendered if they do
-    // not have external links
-    assert.equal(find('.announcements li:nth-child(1) .external-link').length, 0);
-    assert.equal(find('.announcements li:nth-child(3) .external-link').length, 0);
-
-    // announcement external links are rendered when present
-    assert.equal(find('.announcements li:nth-child(2) .external-link a').attr('href'),
-                 'http://nba.com');
-
-    assert.equal(find(".sermon-notes .no-notes").length, 1);
+    assert.equal(currentURL(), '/login');
   });
 });
 
-test("when there are sermon notes", function(assert) {
-  var server = mockServer();
+test('visiting /english-service/bulletins', function(assert) {
+  authenticateSession();
 
-  server.get("/api/v1/bulletins/1", function(request) {
-    var response = {
-      "bulletins": {
-        "id": "1",
-        "description": "This is a service bulletin.",
-        "name": "Sunday Service",
-        "serviceOrder": "This is the service order.",
-        "publishedAt": "2014-12-21T13:58:27-05:00",
-        "sermonNotes": "Here are sermon notes",
-        "links": {
-          "group": "1",
-          "announcements": []
-        }
-      }
-    };
-    return [200, {"Content-Type": "application/vnd.api+json"}, JSON.stringify(response)];
-  });
-
-  visit("/english-service/bulletins/1");
+  visit('/english-service/bulletins');
 
   andThen(function() {
-    assert.equal(find(".sermon-notes .no-notes").length, 0);
+    assert.equal($(".bulletin-name", $(".bulletin")[0]).text(), "Sunday Worship Service 2");
+    assert.equal($(".bulletin-name", $(".bulletin")[1]).text(), "Sunday Worship Service 3a");
+    assert.equal($(".bulletin-name", $(".bulletin")[2]).text(), "Sunday Worship Service 3b");
+    assert.equal($(".bulletin-name", $(".bulletin")[3]).text(), "Sunday Worship Service 1");
+    assert.equal(currentURL(), '/english-service/bulletins');
   });
 });
