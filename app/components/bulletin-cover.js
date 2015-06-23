@@ -1,14 +1,15 @@
 import Ember from "ember";
-import ResizeAware from "ember-resize/mixins/resize-aware";
 
-export default Ember.Component.extend(ResizeAware, {
+export default Ember.Component.extend({
+  init() {
+    this._super();
+    this.get('resizeService').on('debouncedDidResize', () => {
+      this.resizeCover();
+    });
+  },
   classNames: ["bulletin-cover"],
   resizeCover: function() {
-    var screenHeight = Ember.$(window).height();
+    var screenHeight = Math.max(Ember.$(window).height(), 320);
     Ember.$(".bulletin-cover").height(screenHeight);
-  }.on("didInsertElement"),
-  debouncedDidResize(width, height, evt) {
-    console.log(`Debounced Resize! ${width}x${height}`);
-    this.resizeCover();
-  }
+  }.on("didInsertElement")
 });

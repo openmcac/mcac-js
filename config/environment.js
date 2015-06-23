@@ -21,9 +21,9 @@ module.exports = function(environment) {
       highlightjs: false
     },
     resizeServiceDefaults: {
-      debounceTimeout    : 100,
-      heightSensitive    : true,
-      widthSensitive     : false
+      debounceTimeout: 100,
+      heightSensitive: true,
+      widthSensitive: false
     },
     "simple-auth": {
       authorizer: 'authorizer:mcac'
