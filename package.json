@@ -46,6 +46,7 @@
     "ember-export-application-global": "^1.0.2",
     "ember-json-api": "git://github.com/achan/ember-json-api.git#e595c92b950697c82b0d8a71ed5609476a1bc3c6",
     "ember-marked": "0.0.4",
+    "ember-resize": "0.0.5",
     "express": "^4.8.5",
     "glob": "^4.0.5",
     "morgan": "^1.5.2"
