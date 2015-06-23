@@ -12,7 +12,6 @@ module.exports = function(environment) {
         // e.g. 'with-controller': true
       }
     },
-
     APP: {
       // Here you can pass flags/options to your application instance
       // when it is created
@@ -21,9 +20,15 @@ module.exports = function(environment) {
       js: false,
       highlightjs: false
     },
+    resizeServiceDefaults: {
+      debounceTimeout: 100,
+      heightSensitive: true,
+      widthSensitive: false
+    },
     "simple-auth": {
       authorizer: 'authorizer:mcac'
     }
+
   };
 
   if (environment === 'development') {
