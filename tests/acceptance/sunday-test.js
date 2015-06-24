@@ -37,11 +37,11 @@ var announcements = {
 };
 
 module('Acceptance: Sunday', {
-  setup: function() {
+  beforeEach: function() {
     application = startApp();
     server = mockServer();
   },
-  teardown: function() {
+  afterEach: function() {
     Ember.run(application, 'destroy');
   }
 });

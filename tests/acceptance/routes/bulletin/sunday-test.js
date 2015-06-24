@@ -38,10 +38,10 @@ var announcements = {
 
 module('Acceptance: /sunday route', {
   needs: ['model:group', 'model:bulletin', 'model:announcement'],
-  setup: function() {
+  beforeEach: function() {
     application = startApp();
   },
-  teardown: function() {
+  afterEach: function() {
     Ember.run(application, 'destroy');
   }
 });

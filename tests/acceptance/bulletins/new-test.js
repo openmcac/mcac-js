@@ -9,11 +9,11 @@ var application, server;
 
 module('Acceptance: New bulletin form', {
   needs: ['model:bulletin', 'model:group'],
-  setup: function() {
+  beforeEach: function() {
     application = startApp();
     server = mockServer();
   },
-  teardown: function() {
+  afterEach: function() {
     server.shutdown();
     Ember.run(application, 'destroy');
   }

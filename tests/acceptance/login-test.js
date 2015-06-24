@@ -7,11 +7,11 @@ import { module, test } from 'qunit';
 var application, server;
 
 module('Acceptance: Login', {
-  setup: function() {
+  beforeEach: function() {
     application = startApp();
     server = createServer();
   },
-  teardown: function() {
+  afterEach: function() {
     server.shutdown();
     Ember.run(application, 'destroy');
   }

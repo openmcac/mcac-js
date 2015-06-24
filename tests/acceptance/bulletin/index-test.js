@@ -38,10 +38,10 @@ var announcements = {
 };
 
 module('Acceptance: View bulletin', {
-  setup: function() {
+  beforeEach: function() {
     application = startApp();
   },
-  teardown: function() {
+  afterEach: function() {
     Ember.run(application, 'destroy');
   }
 });

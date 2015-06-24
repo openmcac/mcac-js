@@ -39,11 +39,11 @@ var announcements = {
 
 module('Acceptance: Editing a bulletin', {
   needs: ['model:bulletin', 'model:group'],
-  setup: function() {
+  beforeEach: function() {
     application = startApp();
     server = createServer();
   },
-  teardown: function() {
+  afterEach: function() {
     server.shutdown();
     Ember.run(application, 'destroy');
   }

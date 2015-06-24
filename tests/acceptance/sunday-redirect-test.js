@@ -8,10 +8,10 @@ var application;
 
 module('Acceptance: SundayRedirect', {
   needs: ['model:bulletin', 'model:announcement'],
-  setup: function() {
+  beforeEach: function() {
     application = startApp();
   },
-  teardown: function() {
+  afterEach: function() {
     Ember.run(application, 'destroy');
   }
 });
