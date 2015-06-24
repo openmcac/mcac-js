@@ -1,3 +1,3 @@
-import JsonApiSerializer from 'ember-json-api/json-api-serializer';
+import JSONAPISerializer from "json-api-serializer";
 
-export default JsonApiSerializer;
+export default JSONAPISerializer;
