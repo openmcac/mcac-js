@@ -1,3 +1,4 @@
+import Ember from 'ember';
 import DS from 'ember-data';
 
 export default DS.Model.extend({
@@ -6,7 +7,7 @@ export default DS.Model.extend({
   bulletin: DS.belongsTo('bulletin'),
   post: DS.belongsTo('post'),
   url: DS.attr('string'),
-  descriptionHtml: function() {
+  descriptionHtml: Ember.computed('description', function() {
     return marked(this.get('description') || '');
-  }.property('description')
+  })
 });

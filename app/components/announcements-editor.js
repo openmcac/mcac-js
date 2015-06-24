@@ -20,9 +20,9 @@ export default Ember.Component.extend({
       this.sendAction('append-announcement');
     }
   },
-  onAnnouncementChange: function() {
+  onAnnouncementChange: Ember.on('didInsertElement', function() {
     Ember.run.later(this, 'makeDraggable', 2000);
-  }.on('didInsertElement'),
+  }),
   makeDraggable: function() {
     var $announcementsEditor =
         Ember.$('#announcements-editor', this.element);

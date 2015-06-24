@@ -23,9 +23,9 @@ export default Ember.Controller.extend({
       this.get('model').set('audioUrl', storageUrl);
     }
   },
-  bannerPreviewStyle: function() {
+  bannerPreviewStyle: Ember.observer("model.bannerUrl", function() {
     return "is-hidden";
-  }.observes("model.bannerUrl")
+  })
 });
 
 function saveNextAnnouncement(bulletin) {

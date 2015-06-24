@@ -11,18 +11,18 @@ export default DS.Model.extend({
   publishedAt: DS.attr('date'),
   serviceOrder: DS.attr('string'),
   sermonNotes: DS.attr('string'),
-  serviceOrderHtml: function() {
+  serviceOrderHtml: Ember.computed("serviceOrder", function() {
     return markedOrEmptyString(this.get("serviceOrder"));
-  }.property("serviceOrder"),
-  sermonNotesHtml: function() {
+  }),
+  sermonNotesHtml: Ember.computed("sermonNotes", function() {
     return markedOrEmptyString(this.get("sermonNotes"));
-  }.property("sermonNotes"),
-  sortedAnnouncements: function() {
+  }),
+  sortedAnnouncements: Ember.computed('announcements.@each.position', function() {
     return this.get('announcements').sortBy('position');
-  }.property('announcements.@each.position'),
-  unsavedAnnouncements: function() {
+  }),
+  unsavedAnnouncements: Ember.computed('sortedAnnouncements.@each.isDirty', function() {
     return this.get('sortedAnnouncements').filterBy('isDirty');
-  }.property('sortedAnnouncements.@each.isDirty')
+  })
 });
 
 function markedOrEmptyString(markdown) {

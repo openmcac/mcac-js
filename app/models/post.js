@@ -9,16 +9,16 @@ export default DS.Model.extend({
   slug: DS.attr("string"),
   tags: DS.attr(),
   title: DS.attr("string"),
-  tagList: function(key, value) {
+  tagList: Ember.computed("tags.@each", function(key, value) {
     if (arguments.length > 1) {
       this.set("tags", tagListToArray(value));
     }
 
     return getTags(this).toArray().join(", ");
-  }.property("tags.@each"),
-  contentHtml: function() {
+  }),
+  contentHtml: Ember.computed("content", function() {
     return markedOrEmptyString(this.get("content"));
-  }.property("content"),
+  }),
 });
 
 function getTags(context) {

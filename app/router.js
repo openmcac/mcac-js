@@ -6,12 +6,12 @@ var Router = Ember.Router.extend({
 });
 
 Ember.Route.reopen({
-  activatePace: function() {
+  activatePace: Ember.on('activate', function() {
     return Pace.restart();
-  }.on('activate'),
-  deactivatePace: function() {
+  }),
+  deactivatePace: Ember.on('deactivate', function() {
     return Pace.stop();
-  }.on('deactivate')
+  })
 });
 
 Router.map(function() {

@@ -8,9 +8,9 @@ export default Ember.Component.extend({
     });
   },
   classNames: ["bulletin-cover"],
-  resizeCover: function() {
+  resizeCover: Ember.on("didInsertElement", function() {
     Ember.$(".bulletin-cover").height(suitableScreenHeight());
-  }.on("didInsertElement")
+  })
 });
 
 function suitableScreenHeight() {
