@@ -5,7 +5,7 @@
     <div class="announcement">
       {{{announcement.descriptionHtml}}}
     </div>
-    {{#with announcement.url as url}}
+    {{#with announcement.url as |url|}}
       <div class="external-link">
         <a href="{{url}}">
           See more
