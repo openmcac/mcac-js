@@ -1,3 +1,3 @@
-import JSONAPISerializer from "json-api-serializer";
+import DS from "ember-data";
 
-export default JSONAPISerializer;
+export default DS.JSONAPISerializer;
