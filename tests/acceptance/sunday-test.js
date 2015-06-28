@@ -4,37 +4,7 @@ import Pretender from 'pretender';
 import { test, module } from 'qunit';
 import mockServer from '../helpers/server';
 
-var application, server;
-
-var announcements = {
-  "1": {
-    "id": "1",
-    "description": "This is the first announcement",
-    "position": 1,
-    "links": {
-      "bulletin": "1",
-      "post": null
-    }
-  },
-  "2": {
-    "id": "2",
-    "description": "This is the second announcement",
-    "position": 2,
-    "links": {
-      "bulletin": "1",
-      "post": null
-    }
-  },
-  "3": {
-    "id": "3",
-    "description": "This is the third announcement",
-    "position": 3,
-    "links": {
-      "bulletin": "1",
-      "post": null
-    }
-  }
-};
+let application, server;
 
 module('Acceptance: Sunday', {
   beforeEach: function() {
@@ -46,30 +16,116 @@ module('Acceptance: Sunday', {
   }
 });
 
-test('visiting /sunday', function(assert) {
-  server.get('/api/v1/announcements/:id', function(request) {
-    var announcement = {
-      "announcements": announcements[request.params.id]
-    };
-    return [200, {"Content-Type": "application/vnd.api+json"}, JSON.stringify(announcement)];
-  });
-
-  server.get('/api/v1/sunday', function(request) {
+function mockSunday(bulletin, withAnnouncements = false) {
+  server.get("/api/v1/sunday", function(request) {
     var response = {
-      "bulletins": {
+      "data": {
+        attributes: bulletin,
         "id": "1",
-        "description": "This is a service bulletin.",
-        "name": "Sunday Service",
-        "serviceOrder": "This is the service order.",
-        "publishedAt": "2014-12-21T13:58:27-05:00",
         "links": {
-          "group": "1",
-          "announcements": ["1", "2", "3"]
-        }
+          "self": "/api/v1/bulletins/1"
+        },
+        "relationships": {
+          "announcements": {
+            "links": {
+              "related": "/api/v1/bulletins/1/announcements",
+              "self": "/api/v1/bulletins/1/relationships/announcements"
+            }
+          },
+          "group": {
+            "data": { "type": "groups", "id": "1" },
+            "links": {
+              "related": "/api/v1/bulletins/1/group",
+              "self": "/api/v1/bulletins/1/relationships/group"
+            }
+          }
+        },
+        "type": "bulletins"
       }
     };
+
+    if (!withAnnouncements) {
+      response.data.relationships.announcements["data"] = null;
+      server.get("/api/v1/bulletins/1/announcements", function(request) {
+        return [
+          200,
+          {"Content-Type": "application/vnd.api+json"},
+          JSON.stringify({ "data": [] })
+        ];
+      });
+    }
+
     return [200, {"Content-Type": "application/vnd.api+json"}, JSON.stringify(response)];
   });
+}
+
+function announcementPayload(bulletinId, announcementId, announcement) {
+  return {
+    "attributes": announcement,
+    "id": announcementId,
+    "links": {
+      "self": `/api/v1/announcements/${announcementId}`
+    },
+    "relationships": {
+      "bulletin": {
+        "data": { "type": "bulletin", "id": `${bulletinId}` },
+        "links": {
+          "related": `/api/v1/announcements/${announcementId}/bulletin`,
+          "self": `/api/v1/announcements/${announcementId}/relationships/bulletin`
+        }
+      },
+      "post": {
+        "data": null,
+        "links": {
+          "related": `/api/v1/announcements/${announcementId}/post`,
+          "self": `/api/v1/announcements/${announcementId}/relationships/post`
+        }
+      }
+    },
+    "type": "announcements"
+  };
+}
+
+function mockAnnouncements(bulletinId) {
+  server.get(`/api/v1/bulletins/${bulletinId}/announcements`,
+      function(request) {
+    let response = {
+      "data": [
+        announcementPayload(bulletinId, "1", {
+          "description": "This is the first announcement",
+          "position": 1
+        }),
+        announcementPayload(bulletinId, "2", {
+          "description": "This is the second announcement",
+          "position": 2
+        }),
+        announcementPayload(bulletinId, "3", {
+          "description": "This is the third announcement",
+          "position": 3
+        })
+      ]
+    };
+
+    return [
+      200,
+      {"Content-Type": "application/vnd.api+json"},
+      JSON.stringify(response)
+    ];
+  });
+}
+
+test('visiting /sunday', function(assert) {
+  mockSunday({
+    "audio-url": null,
+    "banner-url": null,
+    "description": "This is a service bulletin.",
+    "name": "Sunday Service",
+    "published-at": "2014-12-21T13:58:27-05:00",
+    "sermon-notes": null,
+    "service-order": "This is the service order."
+  }, true);
+
+  mockAnnouncements("1");
 
   visit('/sunday');
 
@@ -86,22 +142,14 @@ test('visiting /sunday', function(assert) {
 });
 
 test('visiting a bulletin with audio', function(assert) {
-  server.get('/api/v1/sunday', function(request) {
-    var response = {
-      "bulletins": {
-        "id": "1",
-        "audioUrl": "http://example.com/audio.mp3",
-        "description": "This is a service bulletin.",
-        "name": "Sunday Service",
-        "serviceOrder": "This is the service order.",
-        "publishedAt": "2014-12-21T13:58:27-05:00",
-        "links": {
-          "group": "1",
-          "announcements": []
-        }
-      }
-    };
-    return [200, {"Content-Type": "application/vnd.api+json"}, JSON.stringify(response)];
+  mockSunday({
+    "audio-url": "http://example.com/audio.mp3",
+    "banner-url": null,
+    "description": "This is a service bulletin.",
+    "name": "Sunday Service",
+    "published-at": "2014-12-21T13:58:27-05:00",
+    "sermon-notes": null,
+    "service-order": "This is the service order."
   });
 
   visit('/sunday');
