@@ -9,7 +9,8 @@ let application, server;
 module('Acceptance: BulletinsIndex', {
   beforeEach: function() {
     application = startApp();
-    server = createServer();
+    server = mockServer();
+    mockBulletins();
   },
 
   afterEach: function() {
@@ -17,82 +18,71 @@ module('Acceptance: BulletinsIndex', {
   }
 });
 
-function createServer() {
-  var server = mockServer();
+function bulletinPayload(bulletinId, attributes) {
+  return {
+    attributes: attributes,
+    "id": bulletinId,
+    "links": { "self": `/api/v1/bulletins/${bulletinId}` },
+    "relationships": {
+      "announcements": {
+        "links": {
+          "related": `/api/v1/bulletins/${bulletinId}/announcements`,
+          "self": `/api/v1/bulletins/${bulletinId}/relationships/announcements`
+        }
+      },
+      "group": {
+        "data": { "type": "groups", "id": "1" },
+        "links": {
+          "related": `/api/v1/bulletins/${bulletinId}/group`,
+          "self": `/api/v1/bulletins/${bulletinId}/relationships/group`
+        }
+      }
+    },
+    "type": "bulletins"
+  };
+}
+
+function mockBulletins() {
   server.get('/api/v1/bulletins', function(request) {
-    if (request.queryParams.group === '1') {
+    if (request.queryParams.group === "1") {
       let bulletin1 = {
-        id: 1,
-        name: "Sunday Worship Service 1",
-        publishedAt: "2014-10-07T03:58:00+00:00"
+        "name": "Sunday Worship Service 1",
+        "published-at": "2014-10-07T03:58:00+00:00"
       };
 
       let bulletin2 = {
-        id: 2,
-        name: "Sunday Worship Service 2",
-        publishedAt: "2015-06-07T03:58:00+00:00"
+        "name": "Sunday Worship Service 2",
+        "published-at": "2015-06-07T03:58:00+00:00"
       };
 
       let bulletin3 = {
-        id: 3,
-        name: "Sunday Worship Service 3b",
-        publishedAt: "2015-03-07T03:58:00+00:00"
+        "name": "Sunday Worship Service 3b",
+        "published-at": "2015-03-07T03:58:00+00:00"
       };
 
       let bulletin4 = {
-        id: 4,
-        name: "Sunday Worship Service 3a",
-        publishedAt: "2015-03-07T03:58:00+00:00"
+        "name": "Sunday Worship Service 3a",
+        "published-at": "2015-03-07T03:58:00+00:00"
       };
 
-      var response = {
-        "bulletins": [
-          createJsonForBulletin(bulletin1),
-          createJsonForBulletin(bulletin2),
-          createJsonForBulletin(bulletin3),
-          createJsonForBulletin(bulletin4)
+      let response = {
+        "data": [
+          bulletinPayload(1, bulletin1),
+          bulletinPayload(2, bulletin2),
+          bulletinPayload(3, bulletin3),
+          bulletinPayload(4, bulletin4)
         ]
       };
 
-      return [200, {"Content-Type": "application/vnd.api+json"}, JSON.stringify(response)];
+      return [
+        200,
+        { "Content-Type": "application/vnd.api+json" },
+        JSON.stringify(response)
+      ];
     }
   });
 
   return server;
-}
-
-function createJsonForBulletin(bulletin) {
-  let response = {
-    "id": bulletin.id,
-    "description": bulletin.description,
-    "name": bulletin.name,
-    "serviceOrder": bulletin.serviceOrder,
-    "publishedAt": bulletin.publishedAt,
-    "links": {
-      "group": "1",
-      "announcements": bulletin.announcements
-    }
-  };
-
-  if (bulletin["bannerUrl"]) {
-    response["bannerUrl"] = bulletin["bannerUrl"];
-  }
-
-  return response;
-}
-
-function createResponseForBulletin(bulletin) {
-  server.get(`/api/v1/bulletins/${bulletin.id}`, function(request) {
-    let response = {
-      bulletins: createJsonForBulletin(bulletin)
-    };
-
-    return [
-      200,
-      { "Content-Type": "application/vnd.api+json" },
-      JSON.stringify(response)
-    ];
-  });
 }
 
 test('Requires authentication', function(assert) {
