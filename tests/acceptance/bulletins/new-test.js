@@ -7,6 +7,102 @@ import mockServer from '../../helpers/server';
 
 var application, server;
 
+function bulletinPayload(bulletinId, attributes, withAnnouncements = false) {
+  let bulletin = {
+    "attributes": attributes,
+    "id": `${bulletinId}`,
+    "links": {
+      "self": `/api/v1/bulletins/${bulletinId}`
+    },
+    "relationships": {
+      "announcements": {
+        "links": {
+          "related": `/api/v1/bulletins/${bulletinId}/announcements`,
+          "self": `/api/v1/bulletins/${bulletinId}/relationships/announcements`
+        }
+      },
+      "group": {
+        "data": { "type": "groups", "id": "1" },
+        "links": {
+          "related": `/api/v1/bulletins/${bulletinId}/group`,
+          "self": `/api/v1/bulletins/${bulletinId}/relationships/group`
+        }
+      }
+    },
+    "type": "bulletins"
+  };
+
+  if (!withAnnouncements) {
+    bulletin.relationships.announcements["data"] = null;
+    server.get(`/api/v1/bulletins/${bulletinId}/announcements`, function(request) {
+      return [
+        200,
+        {"Content-Type": "application/vnd.api+json"},
+        JSON.stringify({ "data": [] })
+      ];
+    });
+  }
+
+  return bulletin;
+}
+
+function mockDefaultAnnouncements(bulletinId) {
+  server.get('/api/v1/announcements', function(request) {
+    if (request.queryParams.defaults_for_bulletin === `${bulletinId}`) {
+      var response = { "data": [] };
+      return [
+        200,
+        { "Content-Type": "application/vnd.api+json" },
+        JSON.stringify(response)
+      ];
+    }
+  });
+}
+
+function mockBulletins(bulletins) {
+  server.get('/api/v1/bulletins', function(request) {
+    if (request.queryParams.latest_for_group === '1') {
+      return [
+        200,
+        {"Content-Type": "application/vnd.api+json"},
+        JSON.stringify({ data: bulletins })
+      ];
+    }
+  });
+}
+
+function mockBulletin(bulletinId, bulletin, withAnnouncements = false) {
+  server.get(`/api/v1/bulletins/${bulletinId}`, function(request) {
+    let response = {
+      "data": {
+        attributes: bulletin,
+        "id": `${bulletinId}`,
+        "links": {
+          "self": `/api/v1/bulletins/${bulletinId}`
+        },
+        "relationships": {
+          "announcements": {
+            "links": {
+              "related": `/api/v1/bulletins/${bulletinId}/announcements`,
+              "self": `/api/v1/bulletins/${bulletinId}/relationships/announcements`
+            }
+          },
+          "group": {
+            "data": { "type": "groups", "id": "1" },
+            "links": {
+              "related": `/api/v1/bulletins/${bulletinId}/group`,
+              "self": `/api/v1/bulletins/${bulletinId}/relationships/group`
+            }
+          }
+        },
+        "type": "bulletins"
+      }
+    };
+
+    return [200, {"Content-Type": "application/vnd.api+json"}, JSON.stringify(response)];
+  });
+}
+
 module('Acceptance: New bulletin form', {
   needs: ['model:bulletin', 'model:group'],
   beforeEach: function() {
@@ -22,16 +118,7 @@ module('Acceptance: New bulletin form', {
 test('default bulletin values without a previous bulletin', function(assert) {
   assert.expect(3);
 
-  server.get('/api/v1/bulletins', function(request) {
-    if (request.queryParams.latest_for_group === '1') {
-      var response = { bulletins: [] };
-      return [
-        200,
-        {"Content-Type": "application/vnd.api+json"},
-        JSON.stringify(response)
-      ];
-    }
-  });
+  mockBulletins([]);
 
   visit('/english-service/bulletins/new');
 
@@ -45,26 +132,9 @@ test('default bulletin values without a previous bulletin', function(assert) {
 test("defaults with last week's service order if available", function(assert) {
   assert.expect(1);
 
-  server.get('/api/v1/bulletins', function(request) {
-    if (request.queryParams.latest_for_group === '1') {
-      var response = {
-        "bulletins": [{
-          "id": "1",
-          "serviceOrder": "Last week's service order",
-          "links": {
-            "group": "1",
-            "announcements": []
-          }
-        }]
-      };
-
-      return [
-        200,
-        {"Content-Type": "application/vnd.api+json"},
-        JSON.stringify(response)
-      ];
-    }
-  });
+  mockBulletins([bulletinPayload("1", {
+    "service-order": "Last week's service order"
+  })]);
 
   visit('/english-service/bulletins/new');
 
@@ -78,30 +148,17 @@ test('saving a bulletin navigates to edit page', function(assert) {
 
   var createdBulletin;
 
-  server.get('/api/v1/bulletins', function(request) {
-    if (request.queryParams.latest_for_group === '1') {
-      var response = { bulletins: [] };
-      return [
-        200,
-        {"Content-Type": "application/vnd.api+json"},
-        JSON.stringify(response)
-      ];
-    }
-  });
-
-  server.get('/api/v1/announcements', function(request) {
-    if (request.queryParams.defaults_for_bulletin === '2') {
-      var response = { "announcements": [] };
-      return [200, {"Content-Type": "application/vnd.api+json"}, JSON.stringify(response)];
-    }
-  });
+  mockBulletins([]);
+  mockDefaultAnnouncements("2");
 
   server.post("/api/v1/bulletins", function(request) {
-    createdBulletin = JSON.parse(request.requestBody);
-    createdBulletin.bulletins.id = "2";
+    let requestBody = JSON.parse(request.requestBody);
+    createdBulletin = {
+      "data": bulletinPayload("2", requestBody.data.attributes)
+    };
 
     return [
-      200,
+      201,
       {"Content-Type": "application/vnd.api+json"},
       JSON.stringify(createdBulletin)
     ];
@@ -115,8 +172,8 @@ test('saving a bulletin navigates to edit page', function(assert) {
   andThen(function() {
     equalDate(assert,
               find(".published-at input").val(),
-              window.moment(createdBulletin.bulletins.publishedAt));
-    assert.equal(createdBulletin.bulletins.sermonNotes,
+              window.moment(createdBulletin.data.attributes["published-at"]));
+    assert.equal(createdBulletin.data.attributes["sermon-notes"],
                  "these are sermon notes");
     assert.equal(currentURL(), "/english-service/bulletins/2/edit");
   });

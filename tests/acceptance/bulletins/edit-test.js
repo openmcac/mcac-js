@@ -54,18 +54,6 @@ function announcementsPayload(bulletinId) {
   };
 }
 
-module('Acceptance: Editing a bulletin', {
-  needs: ['model:bulletin', 'model:group'],
-  beforeEach: function() {
-    application = startApp();
-    server = mockServer();
-  },
-  afterEach: function() {
-    server.shutdown();
-    Ember.run(application, 'destroy');
-  }
-});
-
 function createResponseForBulletin(bulletin) {
   server.get(`/api/v1/bulletins/${bulletin.id}`, function(request) {
     var response = {
@@ -149,6 +137,18 @@ function mockBulletin(bulletinId, bulletin, withAnnouncements = false) {
     return [200, {"Content-Type": "application/vnd.api+json"}, JSON.stringify(response)];
   });
 }
+
+module('Acceptance: Editing a bulletin', {
+  needs: ['model:bulletin', 'model:group'],
+  beforeEach: function() {
+    application = startApp();
+    server = mockServer();
+  },
+  afterEach: function() {
+    server.shutdown();
+    Ember.run(application, 'destroy');
+  }
+});
 
 test('visiting /:group_slug/bulletins/:id/edit', function(assert) {
   assert.expect(4);

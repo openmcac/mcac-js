@@ -12,7 +12,7 @@ var application, server;
 module('Acceptance: PostIndex', {
   beforeEach: function() {
     application = startApp();
-    server = createServer();
+    server = mockServer();
   },
 
   afterEach: function() {
