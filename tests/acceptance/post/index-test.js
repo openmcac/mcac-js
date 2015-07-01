@@ -1,11 +1,10 @@
 import Ember from 'ember';
-import {
-  module,
-  test
-} from 'qunit';
+import { module, test } from 'qunit';
 import Pretender from 'pretender';
 import startApp from 'mcac/tests/helpers/start-app';
 import mockServer from 'mcac/tests/helpers/server';
+import PostPayload from 'mcac/tests/helpers/payloads/post';
+import GroupPayload from 'mcac/tests/helpers/payloads/group';
 
 var application, server;
 
@@ -13,6 +12,7 @@ module('Acceptance: PostIndex', {
   beforeEach: function() {
     application = startApp();
     server = mockServer();
+    mockPost(12);
   },
 
   afterEach: function() {
@@ -21,33 +21,38 @@ module('Acceptance: PostIndex', {
   }
 });
 
-function createServer() {
-  var server = mockServer();
-  server.get('/api/v1/posts/12', function(request) {
-    var response = {
-      "posts": {
-        "content": "This is my post content",
-        "id": "12",
-        "slug": "this-is-a-title",
-        "title": "This is a title",
-        "publishedAt": "2015-03-06T04:01:33+00:00",
-        "updatedAt": "2015-03-06T04:01:33+00:00",
-        "tags": ["tag1", "tag2", "tag3"],
-        "links": {
-          "author": "1",
-          "editor":null,
-          "group": "1"
-        }
-      }
+function mockPost(id) {
+  server.get(`/api/v1/posts/${id}`, function(request) {
+    let response = {
+      "data":
+        PostPayload.build(id, {
+          "content": "This is my post content",
+          "slug": "this-is-a-title",
+          "title": "This is a title",
+          "published-at": "2015-03-06T04:01:33+00:00",
+          "updated-at": "2015-03-06T04:01:33+00:00",
+          "tags": ["tag1", "tag2", "tag3"]
+        }, {
+          authorId: 1
+        })
     };
+
     return [
       200,
-      {"Content-Type": "application/vnd.api+json"},
+      { "Content-Type": "application/vnd.api+json" },
       JSON.stringify(response)
     ];
   });
 
-  return server;
+  server.get(`/api/v1/posts/${id}/group`, function(request) {
+    let response = { "data": GroupPayload.englishService() };
+
+    return [
+      200,
+      { "Content-Type": "application/vnd.api+json" },
+      JSON.stringify(response)
+    ];
+  });
 }
 
 test('visiting /english-service/12/this-is-a-title', function(assert) {
@@ -67,23 +72,18 @@ test("shows a banner when it has one", function(assert) {
   var bannerUrl = "http://example.com/test.png";
 
   server.get("/api/v1/posts/12", function(request) {
-    var response = {
-      "posts": {
-        "bannerUrl": bannerUrl,
+    let response = {
+      "data": PostPayload.build(12, {
+        "banner-url": bannerUrl,
         "content": "This is my post content",
-        "id": "12",
-        "publishedAt": "2015-03-06T04:01:33+00:00",
+        "published-at": "2015-03-06T04:01:33+00:00",
         "slug": "this-is-a-title",
         "tags": ["tag1", "tag2", "tag3"],
         "title": "This is a title",
-        "updatedAt": "2015-03-06T04:01:33+00:00",
-        "links": {
-          "author": "1",
-          "editor":null,
-          "group": "1"
-        }
-      }
+        "updated-at": "2015-03-06T04:01:33+00:00"
+      }, { authorId: 1 })
     };
+
     return [
       200,
       {"Content-Type": "application/vnd.api+json"},

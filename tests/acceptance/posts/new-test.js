@@ -27,10 +27,10 @@ test('saving a post', function(assert) {
 
   server.post('/api/v1/posts', function(request) {
     createdPost = JSON.parse(request.requestBody);
-    createdPost.posts.id = '1';
+    createdPost.data.id = '1';
 
     return [
-      200,
+      201,
       {"Content-Type": "application/vnd.api+json"},
       JSON.stringify(createdPost)
     ];
@@ -45,9 +45,9 @@ test('saving a post', function(assert) {
   click('.save');
 
   andThen(function() {
-    assert.equal(createdPost.posts.title, postTitle);
-    assert.equal(createdPost.posts.content, content);
-    assert.deepEqual(createdPost.posts.tags, ['tag5', 'tag6', 'tag7']);
+    assert.equal(createdPost.data.attributes.title, postTitle);
+    assert.equal(createdPost.data.attributes.content, content);
+    assert.deepEqual(createdPost.data.attributes.tags, ['tag5', 'tag6', 'tag7']);
 
     Ember.run.next(function() {
       assert.equal(currentURL(), "/english-service/post/1/edit");

@@ -1,79 +1,37 @@
-import Ember from 'ember';
-import startApp from '../../helpers/start-app';
-import Pretender from 'pretender';
-import { test, module } from 'qunit';
-import mockServer from '../../helpers/server';
+import AnnouncementPayload from "../../helpers/payloads/announcement";
+import BulletinPayload from "../../helpers/payloads/bulletin";
+import Ember from "ember";
+import Pretender from "pretender";
+import mockServer from "../../helpers/server";
+import startApp from "../../helpers/start-app";
+import { test, module } from "qunit";
 
 let application, server;
 
 function mockBulletin(bulletin, withAnnouncements = false) {
   server.get("/api/v1/bulletins/1", function(request) {
     let response = {
-      "data": {
-        attributes: bulletin,
-        "id": "1",
-        "links": {
-          "self": "/api/v1/bulletins/1"
-        },
-        "relationships": {
-          "announcements": {
-            "links": {
-              "related": "/api/v1/bulletins/1/announcements",
-              "self": "/api/v1/bulletins/1/relationships/announcements"
-            }
-          },
-          "group": {
-            "data": { "type": "groups", "id": "1" },
-            "links": {
-              "related": "/api/v1/bulletins/1/group",
-              "self": "/api/v1/bulletins/1/relationships/group"
-            }
-          }
-        },
-        "type": "bulletins"
-      }
+      "data": BulletinPayload.build(1, bulletin, {
+        withAnnouncements: withAnnouncements
+      })
     };
 
-    if (!withAnnouncements) {
-      response.data.relationships.announcements["data"] = null;
-      server.get("/api/v1/bulletins/1/announcements", function(request) {
-        return [
-          200,
-          {"Content-Type": "application/vnd.api+json"},
-          JSON.stringify({ "data": [] })
-        ];
-      });
-    }
-
-    return [200, {"Content-Type": "application/vnd.api+json"}, JSON.stringify(response)];
+    return [
+      200,
+      { "Content-Type": "application/vnd.api+json" },
+      JSON.stringify(response)
+    ];
   });
-}
 
-function announcementPayload(bulletinId, announcementId, announcement) {
-  return {
-    "attributes": announcement,
-    "id": announcementId,
-    "links": {
-      "self": `/api/v1/announcements/${announcementId}`
-    },
-    "relationships": {
-      "bulletin": {
-        "data": { "type": "bulletin", "id": `${bulletinId}` },
-        "links": {
-          "related": `/api/v1/announcements/${announcementId}/bulletin`,
-          "self": `/api/v1/announcements/${announcementId}/relationships/bulletin`
-        }
-      },
-      "post": {
-        "data": null,
-        "links": {
-          "related": `/api/v1/announcements/${announcementId}/post`,
-          "self": `/api/v1/announcements/${announcementId}/relationships/post`
-        }
-      }
-    },
-    "type": "announcements"
-  };
+  if (!withAnnouncements) {
+    server.get("/api/v1/bulletins/1/announcements", function(request) {
+      return [
+        200,
+        {"Content-Type": "application/vnd.api+json"},
+        JSON.stringify({ "data": [] })
+      ];
+    });
+  }
 }
 
 function mockAnnouncements(bulletinId) {
@@ -81,16 +39,16 @@ function mockAnnouncements(bulletinId) {
       function(request) {
     let response = {
       "data": [
-        announcementPayload(bulletinId, "1", {
+        AnnouncementPayload.build("1", bulletinId, {
           "description": "This is the first announcement",
           "position": 1
         }),
-        announcementPayload(bulletinId, "2", {
+        AnnouncementPayload.build("2", bulletinId, {
           "url": "http://nba.com",
           "description": "This is the second announcement",
           "position": 2
         }),
-        announcementPayload(bulletinId, "3", {
+        AnnouncementPayload.build("3", bulletinId, {
           "description": "This is the third announcement",
           "position": 3
         })

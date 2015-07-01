@@ -4,47 +4,9 @@ import startApp from '../../helpers/start-app';
 import nextService from 'mcac/utils/next-service';
 import Pretender from 'pretender';
 import mockServer from '../../helpers/server';
+import BulletinPayload from '../../helpers/payloads/bulletin';
 
 var application, server;
-
-function bulletinPayload(bulletinId, attributes, withAnnouncements = false) {
-  let bulletin = {
-    "attributes": attributes,
-    "id": `${bulletinId}`,
-    "links": {
-      "self": `/api/v1/bulletins/${bulletinId}`
-    },
-    "relationships": {
-      "announcements": {
-        "links": {
-          "related": `/api/v1/bulletins/${bulletinId}/announcements`,
-          "self": `/api/v1/bulletins/${bulletinId}/relationships/announcements`
-        }
-      },
-      "group": {
-        "data": { "type": "groups", "id": "1" },
-        "links": {
-          "related": `/api/v1/bulletins/${bulletinId}/group`,
-          "self": `/api/v1/bulletins/${bulletinId}/relationships/group`
-        }
-      }
-    },
-    "type": "bulletins"
-  };
-
-  if (!withAnnouncements) {
-    bulletin.relationships.announcements["data"] = null;
-    server.get(`/api/v1/bulletins/${bulletinId}/announcements`, function(request) {
-      return [
-        200,
-        {"Content-Type": "application/vnd.api+json"},
-        JSON.stringify({ "data": [] })
-      ];
-    });
-  }
-
-  return bulletin;
-}
 
 function mockDefaultAnnouncements(bulletinId) {
   server.get('/api/v1/announcements', function(request) {
@@ -74,33 +36,23 @@ function mockBulletins(bulletins) {
 function mockBulletin(bulletinId, bulletin, withAnnouncements = false) {
   server.get(`/api/v1/bulletins/${bulletinId}`, function(request) {
     let response = {
-      "data": {
-        attributes: bulletin,
-        "id": `${bulletinId}`,
-        "links": {
-          "self": `/api/v1/bulletins/${bulletinId}`
-        },
-        "relationships": {
-          "announcements": {
-            "links": {
-              "related": `/api/v1/bulletins/${bulletinId}/announcements`,
-              "self": `/api/v1/bulletins/${bulletinId}/relationships/announcements`
-            }
-          },
-          "group": {
-            "data": { "type": "groups", "id": "1" },
-            "links": {
-              "related": `/api/v1/bulletins/${bulletinId}/group`,
-              "self": `/api/v1/bulletins/${bulletinId}/relationships/group`
-            }
-          }
-        },
-        "type": "bulletins"
-      }
+      "data": BulletinPayload.build(bulletinId, bulletin, {
+        withAnnouncements: withAnnouncements
+      })
     };
 
     return [200, {"Content-Type": "application/vnd.api+json"}, JSON.stringify(response)];
   });
+
+  if (!withAnnouncements) {
+    server.get(`/api/v1/bulletins/${bulletinId}/announcements`, function(request) {
+      return [
+        200,
+        {"Content-Type": "application/vnd.api+json"},
+        JSON.stringify({ "data": [] })
+      ];
+    });
+  }
 }
 
 module('Acceptance: New bulletin form', {
@@ -132,7 +84,7 @@ test('default bulletin values without a previous bulletin', function(assert) {
 test("defaults with last week's service order if available", function(assert) {
   assert.expect(1);
 
-  mockBulletins([bulletinPayload("1", {
+  mockBulletins([BulletinPayload.build("1", {
     "service-order": "Last week's service order"
   })]);
 
@@ -154,8 +106,10 @@ test('saving a bulletin navigates to edit page', function(assert) {
   server.post("/api/v1/bulletins", function(request) {
     let requestBody = JSON.parse(request.requestBody);
     createdBulletin = {
-      "data": bulletinPayload("2", requestBody.data.attributes)
+      "data": BulletinPayload.build("2", requestBody.data.attributes)
     };
+
+    mockBulletin("2", requestBody.data.attributes);
 
     return [
       201,

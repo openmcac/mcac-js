@@ -4,82 +4,29 @@ import startApp from '../../helpers/start-app';
 import nextService from 'mcac/utils/next-service';
 import Pretender from 'pretender';
 import mockServer from '../../helpers/server';
+import AnnouncementPayload from '../../helpers/payloads/announcement';
+import BulletinPayload from '../../helpers/payloads/bulletin';
 
 let application, server;
-
-function announcementPayload(bulletinId, announcementId, announcement) {
-  return {
-    "attributes": announcement,
-    "id": announcementId,
-    "links": {
-      "self": `/api/v1/announcements/${announcementId}`
-    },
-    "relationships": {
-      "bulletin": {
-        "data": { "type": "bulletins", "id": `${bulletinId}` },
-        "links": {
-          "related": `/api/v1/announcements/${announcementId}/bulletin`,
-          "self": `/api/v1/announcements/${announcementId}/relationships/bulletin`
-        }
-      },
-      "post": {
-        "data": null,
-        "links": {
-          "related": `/api/v1/announcements/${announcementId}/post`,
-          "self": `/api/v1/announcements/${announcementId}/relationships/post`
-        }
-      }
-    },
-    "type": "announcements"
-  };
-}
 
 function announcementsPayload(bulletinId) {
   return {
     "data": [
-      announcementPayload(bulletinId, "8", {
+      AnnouncementPayload.build("8", bulletinId, {
         "description": "This is an announcement",
         "position": 1
       }),
-      announcementPayload(bulletinId, "9", {
+      AnnouncementPayload.build("9", bulletinId, {
         "description": "This is the second announcement",
         "url": "http://google.com",
         "position": 2
       }),
-      announcementPayload(bulletinId, "10", {
+      AnnouncementPayload.build("10", bulletinId, {
         "description": "This is the third announcement",
         "position": 3
       })
     ]
   };
-}
-
-function createResponseForBulletin(bulletin) {
-  server.get(`/api/v1/bulletins/${bulletin.id}`, function(request) {
-    var response = {
-      "bulletins": {
-        "id": bulletin.id,
-        "description": bulletin.description,
-        "name": bulletin.name,
-        "serviceOrder": bulletin.serviceOrder,
-        "publishedAt": bulletin.publishedAt,
-        "links": {
-          "group": "1",
-          "announcements": bulletin.announcements
-        }
-      }
-    };
-
-    if (bulletin["bannerUrl"]) {
-      response.bulletins["bannerUrl"] = bulletin["bannerUrl"];
-    }
-
-    return [
-      200,
-      { "Content-Type": "application/vnd.api+json" },
-      JSON.stringify(response)
-    ];
-  });
 }
 
 function mockDefaultAnnouncements(bulletinId) {
@@ -98,44 +45,23 @@ function mockDefaultAnnouncements(bulletinId) {
 function mockBulletin(bulletinId, bulletin, withAnnouncements = false) {
   server.get(`/api/v1/bulletins/${bulletinId}`, function(request) {
     let response = {
-      "data": {
-        attributes: bulletin,
-        "id": `${bulletinId}`,
-        "links": {
-          "self": `/api/v1/bulletins/${bulletinId}`
-        },
-        "relationships": {
-          "announcements": {
-            "links": {
-              "related": `/api/v1/bulletins/${bulletinId}/announcements`,
-              "self": `/api/v1/bulletins/${bulletinId}/relationships/announcements`
-            }
-          },
-          "group": {
-            "data": { "type": "groups", "id": "1" },
-            "links": {
-              "related": `/api/v1/bulletins/${bulletinId}/group`,
-              "self": `/api/v1/bulletins/${bulletinId}/relationships/group`
-            }
-          }
-        },
-        "type": "bulletins"
-      }
+      "data": BulletinPayload.build(bulletinId, bulletin, {
+        withAnnouncements: withAnnouncements
+      })
     };
-
-    if (!withAnnouncements) {
-      response.data.relationships.announcements["data"] = null;
-      server.get(`/api/v1/bulletins/${bulletinId}/announcements`, function(request) {
-        return [
-          200,
-          {"Content-Type": "application/vnd.api+json"},
-          JSON.stringify({ "data": [] })
-        ];
-      });
-    }
 
     return [200, {"Content-Type": "application/vnd.api+json"}, JSON.stringify(response)];
   });
+
+  if (!withAnnouncements) {
+    server.get(`/api/v1/bulletins/${bulletinId}/announcements`, function(request) {
+      return [
+        200,
+        {"Content-Type": "application/vnd.api+json"},
+        JSON.stringify({ "data": [] })
+      ];
+    });
+  }
 }
 
 module('Acceptance: Editing a bulletin', {
@@ -312,8 +238,6 @@ test('saving a bulletin', function(assert) {
 
   authenticateSession();
 
-  createResponseForBulletin(bulletin);
-
   server.patch('/api/v1/bulletins/1', function(request) {
     savedBulletin = JSON.parse(request.requestBody);
     return [
@@ -363,7 +287,7 @@ test('creating a new announcement', function(assert) {
   server.post("/api/v1/announcements", function(request) {
     let requestBody = JSON.parse(request.requestBody);
     createdAnnouncement = {
-      "data": announcementPayload("1", "1", requestBody.data.attributes)
+      "data": AnnouncementPayload.build("1", "1", requestBody.data.attributes)
     };
 
     return [

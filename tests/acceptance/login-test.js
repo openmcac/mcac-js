@@ -3,6 +3,8 @@ import startApp from '../helpers/start-app';
 import mockServer from '../helpers/server';
 import Pretender from 'pretender';
 import { module, test } from 'qunit';
+import UserPayload from "../helpers/payloads/user";
+import BulletinPayload from "../helpers/payloads/bulletin";
 
 var application, server;
 
@@ -27,11 +29,28 @@ function createServer() {
       return;
     }
 
-    var response = {
-      users: {
+    let response = {
+      "data": UserPayload.build("1", {
         email: 'test@example.com',
         apiKey: 'myapikey'
-      }
+      })
+    };
+
+    return [
+      201,
+      {"Content-Type": "application/vnd.api+json"},
+      JSON.stringify(response)
+    ];
+  });
+
+  server.get('/api/v1/sunday', function(request) {
+    var response = {
+      "data": BulletinPayload.build("1", {
+        "published-at": "2014-12-21T13:58:27-05:00",
+        "name": "Sunday Service",
+        "service-order": "This is the service order.",
+        "description": "This is a service bulletin."
+      })
     };
 
     return [
@@ -41,20 +60,8 @@ function createServer() {
     ];
   });
 
-  server.get('/api/v1/sunday', function(request) {
-    var response = {
-      bulletins: {
-        "id": 1,
-        "publishedAt": "2014-12-21T13:58:27-05:00",
-        "name": "Sunday Service",
-        "serviceOrder": "This is the service order.",
-        "description": "This is a service bulletin.",
-        "links": {
-          "group": "1",
-          "announcements": []
-        }
-      }
-    };
+  server.get("/api/v1/bulletins/:id/announcements", function(request) {
+    let response = { "data": [] };
 
     return [
       200,

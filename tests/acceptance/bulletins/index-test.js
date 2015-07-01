@@ -3,6 +3,7 @@ import startApp from '../../helpers/start-app';
 import Pretender from 'pretender';
 import { test, module } from 'qunit';
 import mockServer from '../../helpers/server';
+import BulletinPayload from '../../helpers/payloads/bulletin';
 
 let application, server;
 
@@ -17,30 +18,6 @@ module('Acceptance: BulletinsIndex', {
     Ember.run(application, 'destroy');
   }
 });
-
-function bulletinPayload(bulletinId, attributes) {
-  return {
-    attributes: attributes,
-    "id": bulletinId,
-    "links": { "self": `/api/v1/bulletins/${bulletinId}` },
-    "relationships": {
-      "announcements": {
-        "links": {
-          "related": `/api/v1/bulletins/${bulletinId}/announcements`,
-          "self": `/api/v1/bulletins/${bulletinId}/relationships/announcements`
-        }
-      },
-      "group": {
-        "data": { "type": "groups", "id": "1" },
-        "links": {
-          "related": `/api/v1/bulletins/${bulletinId}/group`,
-          "self": `/api/v1/bulletins/${bulletinId}/relationships/group`
-        }
-      }
-    },
-    "type": "bulletins"
-  };
-}
 
 function mockBulletins() {
   server.get('/api/v1/bulletins', function(request) {
@@ -67,10 +44,10 @@ function mockBulletins() {
 
       let response = {
         "data": [
-          bulletinPayload(1, bulletin1),
-          bulletinPayload(2, bulletin2),
-          bulletinPayload(3, bulletin3),
-          bulletinPayload(4, bulletin4)
+          BulletinPayload.build(1, bulletin1),
+          BulletinPayload.build(2, bulletin2),
+          BulletinPayload.build(3, bulletin3),
+          BulletinPayload.build(4, bulletin4)
         ]
       };
 

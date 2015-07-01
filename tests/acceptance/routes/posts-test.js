@@ -2,6 +2,8 @@ import Ember from 'ember';
 import { module, test } from 'qunit';
 import startApp from 'mcac/tests/helpers/start-app';
 import mockServer from 'mcac/tests/helpers/server';
+import PostPayload from 'mcac/tests/helpers/payloads/post';
+import GroupPayload from 'mcac/tests/helpers/payloads/group';
 
 var application, server;
 
@@ -20,7 +22,7 @@ module('Acceptance: Post Routes', {
 function createServer() {
   var server = mockServer();
   server.get('/api/v1/posts', function(request) {
-    var response = { posts: [] };
+    var response = { "data": [] };
     return [
       200,
       { "Content-Type": "application/vnd.api+json" },
@@ -30,13 +32,23 @@ function createServer() {
 
   server.get('/api/v1/posts/1', function(request) {
     var response = {
-      posts: {
-        id: 1,
-        title: "This is a title",
-        slug: "this-is-a-title",
-        publishedAt: "2015-03-11T04:01:33+00:00"
-      }
+      "data": PostPayload.build(1, {
+        "title": "This is a title",
+        "slug": "this-is-a-title",
+        "published-at": "2015-03-11T04:01:33+00:00"
+      })
     };
+
+    return [
+      200,
+      { "Content-Type": "application/vnd.api+json" },
+      JSON.stringify(response)
+    ];
+  });
+
+  server.get('/api/v1/posts/1/group', function(request) {
+    var response = { "data": GroupPayload.englishService() };
+
     return [
       200,
       { "Content-Type": "application/vnd.api+json" },

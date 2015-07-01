@@ -3,6 +3,7 @@ import { module, test } from 'qunit';
 import startApp from '../helpers/start-app';
 import Pretender from 'pretender';
 import mockServer from '../helpers/server';
+import BulletinPayload from '../helpers/payloads/bulletin';
 
 let application, server;
 
@@ -17,74 +18,23 @@ module('Acceptance: SundayRedirect', {
   }
 });
 
-function mockSunday(bulletin, withAnnouncements = false) {
+function mockSunday(bulletin) {
   server.get("/api/v1/sunday", function(request) {
-    var response = {
-      "data": {
-        attributes: bulletin,
-        "id": "1",
-        "links": {
-          "self": "/api/v1/bulletins/1"
-        },
-        "relationships": {
-          "announcements": {
-            "links": {
-              "related": "/api/v1/bulletins/1/announcements",
-              "self": "/api/v1/bulletins/1/relationships/announcements"
-            }
-          },
-          "group": {
-            "data": { "type": "groups", "id": "1" },
-            "links": {
-              "related": "/api/v1/bulletins/1/group",
-              "self": "/api/v1/bulletins/1/relationships/group"
-            }
-          }
-        },
-        "type": "bulletins"
-      }
-    };
-
-    if (!withAnnouncements) {
-      response.data.relationships.announcements["data"] = null;
-      server.get("/api/v1/bulletins/1/announcements", function(request) {
-        return [
-          200,
-          {"Content-Type": "application/vnd.api+json"},
-          JSON.stringify({ "data": [] })
-        ];
-      });
-    }
-
-    return [200, {"Content-Type": "application/vnd.api+json"}, JSON.stringify(response)];
+    var response = { "data": BulletinPayload.build(1, bulletin) };
+    return [
+      200,
+      { "Content-Type": "application/vnd.api+json" },
+      JSON.stringify(response)
+    ];
   });
-}
 
-function announcementPayload(bulletinId, announcementId, announcement) {
-  return {
-    "attributes": announcement,
-    "id": announcementId,
-    "links": {
-      "self": `/api/v1/announcements/${announcementId}`
-    },
-    "relationships": {
-      "bulletin": {
-        "data": { "type": "bulletin", "id": `${bulletinId}` },
-        "links": {
-          "related": `/api/v1/announcements/${announcementId}/bulletin`,
-          "self": `/api/v1/announcements/${announcementId}/relationships/bulletin`
-        }
-      },
-      "post": {
-        "data": null,
-        "links": {
-          "related": `/api/v1/announcements/${announcementId}/post`,
-          "self": `/api/v1/announcements/${announcementId}/relationships/post`
-        }
-      }
-    },
-    "type": "announcements"
-  };
+  server.get("/api/v1/bulletins/1/announcements", function(request) {
+    return [
+      200,
+      {"Content-Type": "application/vnd.api+json"},
+      JSON.stringify({ "data": [] })
+    ];
+  });
 }
 
 test('app/index.js redirects root path to /sunday', function(assert) {

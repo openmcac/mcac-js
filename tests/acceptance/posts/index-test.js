@@ -6,48 +6,33 @@ import {
 import startApp from 'mcac/tests/helpers/start-app';
 import Pretender from 'pretender';
 import mockServer from 'mcac/tests/helpers/server';
+import GroupPayload from 'mcac/tests/helpers/payloads/group';
+import PostPayload from 'mcac/tests/helpers/payloads/post';
 
 var application, server;
 
 function createServer() {
-  var server = mockServer();
+  let server = mockServer();
   server.get('/api/v1/posts', function(request) {
-    var response = {
-      "posts": [{
-        "content": "Hai",
-        "id": "4",
-        "slug": "test",
-        "title": "Test",
-        "publishedAt": "2015-04-20T04:04:50+00:00",
-        "updatedAt": "2015-04-20T04:04:50+00:00",
-        "tags": [
-          "test",
-          "now"
-        ],
-        "links": {
-          "author": "1",
-          "editor": null,
-          "group": "1"
-        }
-      },
-      {
-        "content": "wow post",
-        "id": "5",
-        "slug": "this-is-a-post-01f531de-3d6e-41e7-b517-23cf4c64d04e",
-        "title": "This is a post",
-        "publishedAt": "2015-04-23T22:35:05+00:00",
-        "updatedAt": "2015-04-23T22:35:05+00:00",
-        "tags": [
-          "one",
-          "two",
-          "three"
-        ],
-        "links": {
-          "author": "1",
-          "editor": null,
-          "group": "1"
-        }
-      }]
+    let response = {
+      "data": [
+        PostPayload.build(4, {
+          "content": "Hai",
+          "slug": "test",
+          "title": "Test",
+          "published-at": "2015-04-20T04:04:50+00:00",
+          "updated-at": "2015-04-20T04:04:50+00:00",
+          "tags": [ "test", "now" ]
+        }, { authorId: 1 }),
+        PostPayload.build(5, {
+          "content": "wow post",
+          "slug": "this-is-a-post-01f531de-3d6e-41e7-b517-23cf4c64d04e",
+          "title": "This is a post",
+          "published-at": "2015-04-23T22:35:05+00:00",
+          "updated-at": "2015-04-23T22:35:05+00:00",
+          "tags": [ "one", "two", "three" ]
+        }, { authorId: 1 })
+      ]
     };
 
     return [
@@ -56,6 +41,17 @@ function createServer() {
       JSON.stringify(response)
     ];
   });
+
+  server.get('/api/v1/posts/:id/group', function(request) {
+    let response = { "data": GroupPayload.englishService() };
+
+    return [
+      200,
+      {"Content-Type": "application/vnd.api+json"},
+      JSON.stringify(response)
+    ];
+  });
+
   return server;
 }
 
@@ -90,7 +86,7 @@ test('deleting a post', function(assert) {
     deletedPost = true;
 
     return [
-      200,
+      204,
       {"Content-Type": "application/vnd.api+json"},
       '{}'
     ];
