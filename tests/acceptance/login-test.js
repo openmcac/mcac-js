@@ -31,8 +31,8 @@ function createServer() {
 
     let response = {
       "data": UserPayload.build("1", {
-        email: 'test@example.com',
-        apiKey: 'myapikey'
+        "email": 'test@example.com',
+        "api-key": 'myapikey'
       })
     };
 
