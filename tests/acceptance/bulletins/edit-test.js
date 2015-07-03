@@ -30,6 +30,15 @@ function announcementsPayload(bulletinId) {
 }
 
 function mockDefaultAnnouncements(bulletinId) {
+  server.get(`/api/v1/bulletins/${bulletinId}/announcements`, function(request) {
+    let response = { "data": [] };
+    return [
+      200,
+      { "Content-Type": "application/vnd.api+json" },
+      JSON.stringify(response)
+    ];
+  });
+
   server.get('/api/v1/announcements', function(request) {
     if (request.queryParams.defaults_for_bulletin === `${bulletinId}`) {
       var response = { "data": [] };
@@ -105,6 +114,55 @@ test('visiting /:group_slug/bulletins/:id/edit', function(assert) {
     assert.equal(find('.bulletin-name').val(), bulletin.name);
     assert.equal(find('.description').val(), bulletin.description);
     assert.equal(find('.service-order').val(), bulletin["service-order"]);
+    equalDate(assert,
+              find('.published-at input').val(),
+              window.moment(bulletin["published-at"]));
+  });
+});
+
+test('editing bulletins with announcements', function(assert) {
+  assert.expect(6);
+
+  authenticateSession();
+
+  let bulletin = {
+    "published-at": "2015-03-07T03:58:00+00:00",
+    "name": "Sunday Service",
+    "description": "This is a description",
+    "service-order": "This is a service order"
+  };
+
+  mockBulletin("1", bulletin, { withAnnouncements: true });
+
+  server.get('/api/v1/bulletins/:id/announcements', function(request) {
+    let response = {
+      "data": [
+        AnnouncementPayload.build("1", "1", {
+          "description": "this is the first announcement",
+          "position": 1
+        }),
+        AnnouncementPayload.build("2", "1", {
+          "description": "this is the second announcement",
+          "position": 2
+        })
+      ]
+    };
+
+    return [
+      200,
+      { "Content-Type": "application/vnd.api+json" },
+      JSON.stringify(response)
+    ];
+  });
+
+  visit('/english-service/bulletins/1/edit');
+
+  andThen(function() {
+    assert.equal(find('.bulletin-name').val(), bulletin.name);
+    assert.equal(find('.description').val(), bulletin.description);
+    assert.equal(find('.service-order').val(), bulletin["service-order"]);
+    assert.equal(find('.announcement-editor-1 .description').val(), 'this is the first announcement');
+    assert.equal(find('.announcement-editor-2 .description').val(), 'this is the second announcement');
     equalDate(assert,
               find('.published-at input').val(),
               window.moment(bulletin["published-at"]));
@@ -314,8 +372,8 @@ test('creating a new announcement', function(assert) {
   click('.save-bulletin');
 
   andThen(function() {
-    // assert.equal(find('.announcement-editor-1 .description').length, 1);
-    // assert.equal(find('.announcement-editor').length, 1);
+    assert.equal(find('.announcement-editor-1 .description').length, 1);
+    assert.equal(find('.announcement-editor').length, 1);
     assert.equal(createdAnnouncement.data.id, "1");
     assert.equal(createdAnnouncement.data.attributes.description, "This is a new one");
     assert.equal(createdAnnouncement.data.attributes.position, 1);

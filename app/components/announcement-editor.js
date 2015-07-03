@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-  announcementClass: Ember.computed('announcement-id', function() {
+  announcementClass: Ember.computed('announcement.id', function() {
     var announcementId = this.get('announcement.id');
     if (Ember.isNone(announcementId)) {
       announcementId = "new";
