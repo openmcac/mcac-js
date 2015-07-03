@@ -17,10 +17,12 @@ export default DS.Model.extend({
   sermonNotesHtml: Ember.computed("sermonNotes", function() {
     return markedOrEmptyString(this.get("sermonNotes"));
   }),
-  sortedAnnouncements: Ember.computed('announcements.@each.position', function() {
+  sortedAnnouncements: Ember.computed('announcements.@each.position',
+                                      function() {
     return this.get('announcements').sortBy('position');
   }),
-  unsavedAnnouncements: Ember.computed('sortedAnnouncements.@each.isDirty', function() {
+  unsavedAnnouncements: Ember.computed('sortedAnnouncements.@each.isDirty',
+                                       function() {
     return this.get('sortedAnnouncements').filterBy('isDirty');
   })
 });
