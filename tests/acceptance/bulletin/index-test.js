@@ -1,76 +1,90 @@
-import Ember from 'ember';
-import startApp from '../../helpers/start-app';
-import Pretender from 'pretender';
-import { test, module } from 'qunit';
-import mockServer from '../../helpers/server';
+import AnnouncementPayload from "../../helpers/payloads/announcement";
+import BulletinPayload from "../../helpers/payloads/bulletin";
+import Ember from "ember";
+import Pretender from "pretender";
+import mockServer from "../../helpers/server";
+import startApp from "../../helpers/start-app";
+import { test, module } from "qunit";
 
-var application;
+let application, server;
 
-var announcements = {
-  "1": {
-    "id": "1",
-    "description": "This is the first announcement",
-    "position": 1,
-    "links": {
-      "bulletin": "1",
-      "post": null
-    }
-  },
-  "2": {
-    "id": "2",
-    "description": "This is the second announcement",
-    "position": 2,
-    "url": "http://nba.com",
-    "links": {
-      "bulletin": "1",
-      "post": null
-    }
-  },
-  "3": {
-    "id": "3",
-    "description": "This is the third announcement",
-    "position": 3,
-    "links": {
-      "bulletin": "1",
-      "post": null
-    }
+function mockBulletin(bulletin, withAnnouncements = false) {
+  server.get("/api/v1/bulletins/1", function(request) {
+    let response = {
+      "data": BulletinPayload.build(1, bulletin, {
+        withAnnouncements: withAnnouncements
+      })
+    };
+
+    return [
+      200,
+      { "Content-Type": "application/vnd.api+json" },
+      JSON.stringify(response)
+    ];
+  });
+
+  if (!withAnnouncements) {
+    server.get("/api/v1/bulletins/1/announcements", function(request) {
+      return [
+        200,
+        {"Content-Type": "application/vnd.api+json"},
+        JSON.stringify({ "data": [] })
+      ];
+    });
   }
-};
+}
+
+function mockAnnouncements(bulletinId) {
+  server.get(`/api/v1/bulletins/${bulletinId}/announcements`,
+      function(request) {
+    let response = {
+      "data": [
+        AnnouncementPayload.build("1", bulletinId, {
+          "description": "This is the first announcement",
+          "position": 1
+        }),
+        AnnouncementPayload.build("2", bulletinId, {
+          "url": "http://nba.com",
+          "description": "This is the second announcement",
+          "position": 2
+        }),
+        AnnouncementPayload.build("3", bulletinId, {
+          "description": "This is the third announcement",
+          "position": 3
+        })
+      ]
+    };
+
+    return [
+      200,
+      {"Content-Type": "application/vnd.api+json"},
+      JSON.stringify(response)
+    ];
+  });
+}
 
 module('Acceptance: View bulletin', {
-  setup: function() {
+  beforeEach: function() {
     application = startApp();
+    server = mockServer();
   },
-  teardown: function() {
+  afterEach: function() {
     Ember.run(application, 'destroy');
   }
 });
 
 test('visiting /english-service/bulletin/1', function(assert) {
-  var server = mockServer();
-  server.get('/api/v1/announcements/:id', function(request) {
-    var announcement = {
-      "announcements": announcements[request.params.id]
-    };
-    return [200, {"Content-Type": "application/vnd.api+json"}, JSON.stringify(announcement)];
-  });
+  mockBulletin({
+    "audio-url": null,
+    "banner-url": null,
+    "description": "This is a service bulletin.",
+    "name": "Sunday Service",
+    "published-at": "2014-12-21T13:58:27-05:00",
+    "sermon-notes": null,
+    "service-order": "This is the service order.",
+  }, true);
 
-  server.get('/api/v1/bulletins/1', function(request) {
-    var response = {
-      "bulletins": {
-        "id": "1",
-        "description": "This is a service bulletin.",
-        "name": "Sunday Service",
-        "serviceOrder": "This is the service order.",
-        "publishedAt": "2014-12-21T13:58:27-05:00",
-        "links": {
-          "group": "1",
-          "announcements": ["1", "2", "3"]
-        }
-      }
-    };
-    return [200, {"Content-Type": "application/vnd.api+json"}, JSON.stringify(response)];
-  });
+  mockAnnouncements("1");
 
   visit('/english-service/bulletins/1');
 
@@ -100,29 +114,20 @@ test('visiting /english-service/bulletin/1', function(assert) {
 });
 
 test("when there are sermon notes", function(assert) {
-  var server = mockServer();
-
-  server.get("/api/v1/bulletins/1", function(request) {
-    var response = {
-      "bulletins": {
-        "id": "1",
-        "description": "This is a service bulletin.",
-        "name": "Sunday Service",
-        "serviceOrder": "This is the service order.",
-        "publishedAt": "2014-12-21T13:58:27-05:00",
-        "sermonNotes": "Here are sermon notes",
-        "links": {
-          "group": "1",
-          "announcements": []
-        }
-      }
-    };
-    return [200, {"Content-Type": "application/vnd.api+json"}, JSON.stringify(response)];
+  mockBulletin({
+    "audio-url": null,
+    "banner-url": null,
+    "description": "This is a service bulletin.",
+    "name": "Sunday Service",
+    "published-at": "2014-12-21T13:58:27-05:00",
+    "sermon-notes": "Here are sermon notes",
+    "service-order": "This is the service order.",
   });
 
   visit("/english-service/bulletins/1");
 
   andThen(function() {
+    assert.equal(find(".bulletin-info .name").text(), "Sunday Service");
     assert.equal(find(".sermon-notes .no-notes").length, 0);
   });
 });

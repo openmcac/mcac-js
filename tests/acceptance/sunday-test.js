@@ -1,75 +1,89 @@
-import Ember from 'ember';
-import startApp from '../helpers/start-app';
-import Pretender from 'pretender';
-import { test, module } from 'qunit';
-import mockServer from '../helpers/server';
+import AnnouncementPayload from "../helpers/payloads/announcement";
+import BulletinPayload from "../helpers/payloads/bulletin";
+import Ember from "ember";
+import Pretender from "pretender";
+import mockServer from "../helpers/server";
+import startApp from "../helpers/start-app";
+import { test, module } from "qunit";
 
-var application, server;
-
-var announcements = {
-  "1": {
-    "id": "1",
-    "description": "This is the first announcement",
-    "position": 1,
-    "links": {
-      "bulletin": "1",
-      "post": null
-    }
-  },
-  "2": {
-    "id": "2",
-    "description": "This is the second announcement",
-    "position": 2,
-    "links": {
-      "bulletin": "1",
-      "post": null
-    }
-  },
-  "3": {
-    "id": "3",
-    "description": "This is the third announcement",
-    "position": 3,
-    "links": {
-      "bulletin": "1",
-      "post": null
-    }
-  }
-};
+let application, server;
 
 module('Acceptance: Sunday', {
-  setup: function() {
+  beforeEach: function() {
     application = startApp();
     server = mockServer();
   },
-  teardown: function() {
+  afterEach: function() {
     Ember.run(application, 'destroy');
   }
 });
 
-test('visiting /sunday', function(assert) {
-  server.get('/api/v1/announcements/:id', function(request) {
-    var announcement = {
-      "announcements": announcements[request.params.id]
+function mockSunday(bulletin, withAnnouncements = false) {
+  server.get("/api/v1/sunday", function(request) {
+    let response = {
+      "data": BulletinPayload.build(1, bulletin, {
+        withAnnouncements: withAnnouncements
+      })
     };
-    return [200, {"Content-Type": "application/vnd.api+json"}, JSON.stringify(announcement)];
+
+    return [
+      200,
+      { "Content-Type": "application/vnd.api+json" },
+      JSON.stringify(response)
+    ];
   });
 
-  server.get('/api/v1/sunday', function(request) {
-    var response = {
-      "bulletins": {
-        "id": "1",
-        "description": "This is a service bulletin.",
-        "name": "Sunday Service",
-        "serviceOrder": "This is the service order.",
-        "publishedAt": "2014-12-21T13:58:27-05:00",
-        "links": {
-          "group": "1",
-          "announcements": ["1", "2", "3"]
-        }
-      }
+  if (!withAnnouncements) {
+    server.get("/api/v1/bulletins/1/announcements", function(request) {
+      return [
+        200,
+        {"Content-Type": "application/vnd.api+json"},
+        JSON.stringify({ "data": [] })
+      ];
+    });
+  }
+}
+
+function mockAnnouncements(bulletinId) {
+  server.get(`/api/v1/bulletins/${bulletinId}/announcements`,
+      function(request) {
+    let response = {
+      "data": [
+        AnnouncementPayload.build("1", bulletinId, {
+          "description": "This is the first announcement",
+          "position": 1
+        }),
+        AnnouncementPayload.build("2", bulletinId, {
+          "description": "This is the second announcement",
+          "position": 2
+        }),
+        AnnouncementPayload.build("3", bulletinId, {
+          "description": "This is the third announcement",
+          "position": 3
+        })
+      ]
     };
-    return [200, {"Content-Type": "application/vnd.api+json"}, JSON.stringify(response)];
+
+    return [
+      200,
+      {"Content-Type": "application/vnd.api+json"},
+      JSON.stringify(response)
+    ];
   });
+}
+
+test('visiting /sunday', function(assert) {
+  mockSunday({
+    "audio-url": null,
+    "banner-url": null,
+    "description": "This is a service bulletin.",
+    "name": "Sunday Service",
+    "published-at": "2014-12-21T13:58:27-05:00",
+    "sermon-notes": null,
+    "service-order": "This is the service order."
+  }, true);
+
+  mockAnnouncements("1");
 
   visit('/sunday');
 
@@ -86,22 +100,14 @@ test('visiting /sunday', function(assert) {
 });
 
 test('visiting a bulletin with audio', function(assert) {
-  server.get('/api/v1/sunday', function(request) {
-    var response = {
-      "bulletins": {
-        "id": "1",
-        "audioUrl": "http://example.com/audio.mp3",
-        "description": "This is a service bulletin.",
-        "name": "Sunday Service",
-        "serviceOrder": "This is the service order.",
-        "publishedAt": "2014-12-21T13:58:27-05:00",
-        "links": {
-          "group": "1",
-          "announcements": []
-        }
-      }
-    };
-    return [200, {"Content-Type": "application/vnd.api+json"}, JSON.stringify(response)];
+  mockSunday({
+    "audio-url": "http://example.com/audio.mp3",
+    "banner-url": null,
+    "description": "This is a service bulletin.",
+    "name": "Sunday Service",
+    "published-at": "2014-12-21T13:58:27-05:00",
+    "sermon-notes": null,
+    "service-order": "This is the service order."
   });
 
   visit('/sunday');

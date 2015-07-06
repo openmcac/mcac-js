@@ -8,7 +8,14 @@ export default Ember.Component.extend({
       this.set("url", "");
     }
   },
-  hasFile: function() {
-    return !Ember.isEmpty(this.url);
-  }.property("url")
+  hasFile: Ember.computed("url", function() {
+    return !Ember.isEmpty(this.get("url"));
+  }),
+  fileUrl: Ember.computed("url", function() {
+    if (!this.get("hasFile")) {
+      return "";
+    }
+
+    return this.get("url").htmlSafe();
+  }),
 });

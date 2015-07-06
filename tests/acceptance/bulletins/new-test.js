@@ -4,16 +4,64 @@ import startApp from '../../helpers/start-app';
 import nextService from 'mcac/utils/next-service';
 import Pretender from 'pretender';
 import mockServer from '../../helpers/server';
+import BulletinPayload from '../../helpers/payloads/bulletin';
 
 var application, server;
 
+function mockDefaultAnnouncements(bulletinId) {
+  server.get('/api/v1/announcements', function(request) {
+    if (request.queryParams["filter[defaults_for_bulletin]"] === `${bulletinId}`) {
+      var response = { "data": [] };
+      return [
+        200,
+        { "Content-Type": "application/vnd.api+json" },
+        JSON.stringify(response)
+      ];
+    }
+  });
+}
+
+function mockBulletins(bulletins) {
+  server.get('/api/v1/bulletins', function(request) {
+    if (request.queryParams.latest_for_group === '1') {
+      return [
+        200,
+        {"Content-Type": "application/vnd.api+json"},
+        JSON.stringify({ data: bulletins })
+      ];
+    }
+  });
+}
+
+function mockBulletin(bulletinId, bulletin, withAnnouncements = false) {
+  server.get(`/api/v1/bulletins/${bulletinId}`, function(request) {
+    let response = {
+      "data": BulletinPayload.build(bulletinId, bulletin, {
+        withAnnouncements: withAnnouncements
+      })
+    };
+
+    return [200, {"Content-Type": "application/vnd.api+json"}, JSON.stringify(response)];
+  });
+
+  if (!withAnnouncements) {
+    server.get(`/api/v1/bulletins/${bulletinId}/announcements`, function(request) {
+      return [
+        200,
+        {"Content-Type": "application/vnd.api+json"},
+        JSON.stringify({ "data": [] })
+      ];
+    });
+  }
+}
+
 module('Acceptance: New bulletin form', {
   needs: ['model:bulletin', 'model:group'],
-  setup: function() {
+  beforeEach: function() {
     application = startApp();
     server = mockServer();
   },
-  teardown: function() {
+  afterEach: function() {
     server.shutdown();
     Ember.run(application, 'destroy');
   }
@@ -22,16 +70,7 @@ module('Acceptance: New bulletin form', {
 test('default bulletin values without a previous bulletin', function(assert) {
   assert.expect(3);
 
-  server.get('/api/v1/bulletins', function(request) {
-    if (request.queryParams.latest_for_group === '1') {
-      var response = { bulletins: [] };
-      return [
-        200,
-        {"Content-Type": "application/vnd.api+json"},
-        JSON.stringify(response)
-      ];
-    }
-  });
+  mockBulletins([]);
 
   visit('/english-service/bulletins/new');
 
@@ -45,26 +84,9 @@ test('default bulletin values without a previous bulletin', function(assert) {
 test("defaults with last week's service order if available", function(assert) {
   assert.expect(1);
 
-  server.get('/api/v1/bulletins', function(request) {
-    if (request.queryParams.latest_for_group === '1') {
-      var response = {
-        "bulletins": [{
-          "id": "1",
-          "serviceOrder": "Last week's service order",
-          "links": {
-            "group": "1",
-            "announcements": []
-          }
-        }]
-      };
-
-      return [
-        200,
-        {"Content-Type": "application/vnd.api+json"},
-        JSON.stringify(response)
-      ];
-    }
-  });
+  mockBulletins([BulletinPayload.build("1", {
+    "service-order": "Last week's service order"
+  })]);
 
   visit('/english-service/bulletins/new');
 
@@ -78,30 +100,19 @@ test('saving a bulletin navigates to edit page', function(assert) {
 
   var createdBulletin;
 
-  server.get('/api/v1/bulletins', function(request) {
-    if (request.queryParams.latest_for_group === '1') {
-      var response = { bulletins: [] };
-      return [
-        200,
-        {"Content-Type": "application/vnd.api+json"},
-        JSON.stringify(response)
-      ];
-    }
-  });
-
-  server.get('/api/v1/announcements', function(request) {
-    if (request.queryParams.defaults_for_bulletin === '2') {
-      var response = { "announcements": [] };
-      return [200, {"Content-Type": "application/vnd.api+json"}, JSON.stringify(response)];
-    }
-  });
+  mockBulletins([]);
+  mockDefaultAnnouncements("2");
 
   server.post("/api/v1/bulletins", function(request) {
-    createdBulletin = JSON.parse(request.requestBody);
-    createdBulletin.bulletins.id = "2";
+    let requestBody = JSON.parse(request.requestBody);
+    createdBulletin = {
+      "data": BulletinPayload.build("2", requestBody.data.attributes)
+    };
+
+    mockBulletin("2", requestBody.data.attributes);
 
     return [
-      200,
+      201,
       {"Content-Type": "application/vnd.api+json"},
       JSON.stringify(createdBulletin)
     ];
@@ -115,8 +126,8 @@ test('saving a bulletin navigates to edit page', function(assert) {
   andThen(function() {
     equalDate(assert,
               find(".published-at input").val(),
-              window.moment(createdBulletin.bulletins.publishedAt));
-    assert.equal(createdBulletin.bulletins.sermonNotes,
+              window.moment(createdBulletin.data.attributes["published-at"]));
+    assert.equal(createdBulletin.data.attributes["sermon-notes"],
                  "these are sermon notes");
     assert.equal(currentURL(), "/english-service/bulletins/2/edit");
   });

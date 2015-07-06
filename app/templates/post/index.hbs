@@ -24,7 +24,7 @@
             <h1 class="post-title">
               {{#link-to 'post.index' model}}{{model.title}}{{/link-to}}
             </h1>
-            {{#with model.bannerUrl as url}}
+            {{#with model.bannerUrl as |url|}}
               <div class="banner"><img src="{{url}}" /></div>
             {{/with}}
             <div class="metadata">

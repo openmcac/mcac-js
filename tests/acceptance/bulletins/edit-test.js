@@ -4,98 +4,149 @@ import startApp from '../../helpers/start-app';
 import nextService from 'mcac/utils/next-service';
 import Pretender from 'pretender';
 import mockServer from '../../helpers/server';
+import AnnouncementPayload from '../../helpers/payloads/announcement';
+import BulletinPayload from '../../helpers/payloads/bulletin';
 
-var application, server;
+let application, server;
 
-var announcements = {
-  "8": {
-    "id": "8",
-    "description": "This is announcement 8",
-    "position": 1,
-    "links": {
-      "bulletin": "1",
-      "post": null
+function announcementsPayload(bulletinId) {
+  return {
+    "data": [
+      AnnouncementPayload.build("8", bulletinId, {
+        "description": "This is an announcement",
+        "position": 1
+      }),
+      AnnouncementPayload.build("9", bulletinId, {
+        "description": "This is the second announcement",
+        "url": "http://google.com",
+        "position": 2
+      }),
+      AnnouncementPayload.build("10", bulletinId, {
+        "description": "This is the third announcement",
+        "position": 3
+      })
+    ]
+  };
+}
+
+function mockDefaultAnnouncements(bulletinId) {
+  server.get(`/api/v1/bulletins/${bulletinId}/announcements`, function(request) {
+    let response = { "data": [] };
+    return [
+      200,
+      { "Content-Type": "application/vnd.api+json" },
+      JSON.stringify(response)
+    ];
+  });
+
+  server.get('/api/v1/announcements', function(request) {
+    if (request.queryParams["filter[defaults_for_bulletin]"] === `${bulletinId}`) {
+      var response = { "data": [] };
+      return [
+        200,
+        { "Content-Type": "application/vnd.api+json" },
+        JSON.stringify(response)
+      ];
     }
-  },
-  "9": {
-    "id": "9",
-    "description": "This is announcement 9",
-    "position": 2,
-    "links": {
-      "bulletin": "1",
-      "post": null
-    }
-  },
-  "10": {
-    "id": "10",
-    "description": "This is announcement 10",
-    "position": 3,
-    "links": {
-      "bulletin": "1",
-      "post": null
-    }
+  });
+}
+
+function mockBulletin(bulletinId, bulletin, withAnnouncements = false) {
+  server.get(`/api/v1/bulletins/${bulletinId}`, function(request) {
+    let response = {
+      "data": BulletinPayload.build(bulletinId, bulletin, {
+        withAnnouncements: withAnnouncements
+      })
+    };
+
+    return [200, {"Content-Type": "application/vnd.api+json"}, JSON.stringify(response)];
+  });
+
+  if (!withAnnouncements) {
+    server.get(`/api/v1/bulletins/${bulletinId}/announcements`, function(request) {
+      return [
+        200,
+        {"Content-Type": "application/vnd.api+json"},
+        JSON.stringify({ "data": [] })
+      ];
+    });
   }
-};
+}
 
 module('Acceptance: Editing a bulletin', {
   needs: ['model:bulletin', 'model:group'],
-  setup: function() {
+  beforeEach: function() {
     application = startApp();
-    server = createServer();
+    server = mockServer();
   },
-  teardown: function() {
+  afterEach: function() {
     server.shutdown();
     Ember.run(application, 'destroy');
   }
 });
 
-function createServer() {
-  var server = mockServer();
-  server.get('/api/v1/announcements', function(request) {
-    if (request.queryParams.defaults_for_bulletin === '1') {
-      var response = { "announcements": [] };
-      return [200, {"Content-Type": "application/vnd.api+json"}, JSON.stringify(response)];
-    }
-  });
+test('visiting /:group_slug/bulletins/:id/edit', function(assert) {
+  assert.expect(4);
 
-  server.get('/api/v1/announcements/:id', function(request) {
-    var announcement = {
-      "announcements": announcements[request.params.id]
-    };
+  authenticateSession();
 
+  let bulletin = {
+    "published-at": "2015-03-07T03:58:00+00:00",
+    "name": "Sunday Service",
+    "description": "This is a description",
+    "service-order": "This is a service order"
+  };
+
+  mockBulletin("1", bulletin);
+  mockDefaultAnnouncements("1");
+
+  server.put('/api/v1/announcements/:id', function(request) {
     return [
       200,
-      {"Content-Type": "application/vnd.api+json"},
-      JSON.stringify(announcement)
+      { "Content-Type": "application/vnd.api+json" },
+      request.requestBody
     ];
   });
 
-  server.put('/api/v1/announcements/:id', function(request) {
-    return [200, {"Content-Type": "application/vnd.api+json"}, request.requestBody];
+  visit('/english-service/bulletins/1/edit');
+
+  andThen(function() {
+    assert.equal(find('.bulletin-name').val(), bulletin.name);
+    assert.equal(find('.description').val(), bulletin.description);
+    assert.equal(find('.service-order').val(), bulletin["service-order"]);
+    equalDate(assert,
+              find('.published-at input').val(),
+              window.moment(bulletin["published-at"]));
   });
+});
 
-  return server;
-}
+test('editing bulletins with announcements', function(assert) {
+  assert.expect(6);
 
-function createResponseForBulletin(bulletin) {
-  server.get(`/api/v1/bulletins/${bulletin.id}`, function(request) {
-    var response = {
-      "bulletins": {
-        "id": bulletin.id,
-        "description": bulletin.description,
-        "name": bulletin.name,
-        "serviceOrder": bulletin.serviceOrder,
-        "publishedAt": bulletin.publishedAt,
-        "links": {
-          "group": "1",
-          "announcements": bulletin.announcements
-        }
-      }
+  authenticateSession();
+
+  let bulletin = {
+    "published-at": "2015-03-07T03:58:00+00:00",
+    "name": "Sunday Service",
+    "description": "This is a description",
+    "service-order": "This is a service order"
+  };
+
+  mockBulletin("1", bulletin, { withAnnouncements: true });
+
+  server.get('/api/v1/bulletins/:id/announcements', function(request) {
+    let response = {
+      "data": [
+        AnnouncementPayload.build("1", "1", {
+          "description": "this is the first announcement",
+          "position": 1
+        }),
+        AnnouncementPayload.build("2", "1", {
+          "description": "this is the second announcement",
+          "position": 2
+        })
+      ]
     };
-
-    if (bulletin["bannerUrl"]) {
-      response.bulletins["bannerUrl"] = bulletin["bannerUrl"];
-    }
 
     return [
       200,
@@ -103,33 +154,18 @@ function createResponseForBulletin(bulletin) {
       JSON.stringify(response)
     ];
   });
-}
-
-test('visiting /:group_slug/bulletins/:id/edit', function(assert) {
-  assert.expect(4);
-
-  authenticateSession();
-
-  var bulletin = {
-    id: "1",
-    publishedAt: "2015-03-07T03:58:00+00:00",
-    name: "Sunday Service",
-    description: "This is a description",
-    serviceOrder: "This is a service order",
-    announcements: []
-  };
-
-  createResponseForBulletin(bulletin);
 
   visit('/english-service/bulletins/1/edit');
 
   andThen(function() {
     assert.equal(find('.bulletin-name').val(), bulletin.name);
     assert.equal(find('.description').val(), bulletin.description);
-    assert.equal(find('.service-order').val(), bulletin.serviceOrder);
+    assert.equal(find('.service-order').val(), bulletin["service-order"]);
+    assert.equal(find('.announcement-editor-1 .description').val(), 'this is the first announcement');
+    assert.equal(find('.announcement-editor-2 .description').val(), 'this is the second announcement');
     equalDate(assert,
               find('.published-at input').val(),
-              window.moment(bulletin.publishedAt));
+              window.moment(bulletin["published-at"]));
   });
 });
 
@@ -138,30 +174,33 @@ test("Saving bulletins with banners", function(assert) {
 
   authenticateSession();
 
-  var bulletin = {
-    id: "1",
-    publishedAt: "2015-03-07T03:58:00+00:00",
-    name: "Sunday Service",
-    description: "This is a description",
-    serviceOrder: "This is a service order",
-    bannerUrl: "/test.png",
-    announcements: []
+  let bulletin = {
+    "published-at": "2015-03-07T03:58:00+00:00",
+    "name": "Sunday Service",
+    "description": "This is a description",
+    "service-order": "This is a service order",
+    "banner-url": "/test.png"
   };
 
-  var savedBulletin;
+  mockBulletin("1", bulletin);
+  mockDefaultAnnouncements("1");
 
-  createResponseForBulletin(bulletin);
+  let savedBulletin;
 
-  server.put('/api/v1/bulletins/:id', function(request) {
+  server.patch('/api/v1/bulletins/:id', function(request) {
     savedBulletin = JSON.parse(request.requestBody);
-    return [200, {"Content-Type": "application/vnd.api+json"}, request.requestBody];
+    return [
+      200,
+      { "Content-Type": "application/vnd.api+json" },
+      request.requestBody
+    ];
   });
 
   visit("/english-service/bulletins/1/edit");
   click('.save-bulletin');
 
   andThen(function() {
-    assert.equal(savedBulletin.bulletins.bannerUrl, "/test.png");
+    assert.equal(savedBulletin.data.attributes["banner-url"], "/test.png");
     assert.equal(find('.image-preview').length, 1);
   });
 });
@@ -171,21 +210,20 @@ test("Removing bulletin banners", function(assert) {
 
   authenticateSession();
 
-  var bulletin = {
-    id: "1",
-    publishedAt: "2015-03-07T03:58:00+00:00",
-    name: "Sunday Service",
-    description: "This is a description",
-    serviceOrder: "This is a service order",
-    bannerUrl: "/test.png",
-    announcements: []
+  let bulletin = {
+    "published-at": "2015-03-07T03:58:00+00:00",
+    "name": "Sunday Service",
+    "description": "This is a description",
+    "service-order": "This is a service order",
+    "banner-url": "/test.png"
   };
+
+  mockBulletin("1", bulletin);
+  mockDefaultAnnouncements("1");
 
   var savedBulletin;
 
-  createResponseForBulletin(bulletin);
-
-  server.put('/api/v1/bulletins/:id', function(request) {
+  server.patch('/api/v1/bulletins/:id', function(request) {
     savedBulletin = JSON.parse(request.requestBody);
     return [
       200,
@@ -199,56 +237,25 @@ test("Removing bulletin banners", function(assert) {
   click('.save-bulletin');
 
   andThen(function() {
-    assert.equal(savedBulletin.bulletins.bannerUrl, "");
+    assert.equal(savedBulletin.data.attributes["banner-url"], "");
   });
 });
 
 test('populates with latest announcements', function(assert) {
   authenticateSession();
 
-  var bulletin = {
-    id: "2",
-    publishedAt: "2015-03-07T03:58:00+00:00",
-    name: "Sunday Service",
-    description: "This is a description",
-    serviceOrder: "This is a service order",
-    announcements: []
+  let bulletin = {
+    "published-at": "2015-03-07T03:58:00+00:00",
+    "name": "Sunday Service",
+    "description": "This is a description",
+    "service-order": "This is a service order"
   };
 
-  createResponseForBulletin(bulletin);
+  mockBulletin("2", bulletin);
 
-  server.get('/api/v1/announcements', function(request) {
-    if (request.queryParams.defaults_for_bulletin === '2') {
-      var response = {
-        announcements: [
-          {
-            "id": "1",
-            "description": "This is an announcement",
-            "position": 1,
-            "links": {
-              "bulletin": "1",
-              "post": "1"
-            }
-          }, {
-            "id": "2",
-            "description": "This is the second announcement",
-            "position": 2,
-            "url": "http://google.com",
-            "links": {
-              "bulletin": "1",
-              "post": "1"
-            }
-          }, {
-            "id": "3",
-            "description": "This is the third announcement",
-            "position": 3,
-            "links": {
-              "bulletin": "1",
-              "post": "1"
-            }
-          }
-        ]
-      };
+  server.get("/api/v1/announcements", function(request) {
+    if (request.queryParams["filter[defaults_for_bulletin]"] === "2") {
+      let response = announcementsPayload("1");
 
       return [
         200,
@@ -257,7 +264,6 @@ test('populates with latest announcements', function(assert) {
       ];
     }
   });
-
 
   visit('/english-service/bulletins/2/edit');
 
@@ -275,28 +281,27 @@ test('populates with latest announcements', function(assert) {
 });
 
 test('saving a bulletin', function(assert) {
-  var updatedBulletin,
-      bulletin = {
-        id: "1",
-        publishedAt: "2011-08-22T22:12:00+00:00",
-        name: "Super Service",
-        description: "A super description",
-        serviceOrder: "A super service order",
-        announcements: []
-      };
+  let savedBulletin;
+  let bulletin = {
+    "published-at": "2011-08-22T22:12:00+00:00",
+    "name": "Super Service",
+    "description": "A super description",
+    "service-order": "A super service order"
+  };
+
+  mockBulletin("1", bulletin);
+  mockDefaultAnnouncements("1");
 
   assert.expect(5);
 
   authenticateSession();
 
-  createResponseForBulletin(bulletin);
-
-  server.put('/api/v1/bulletins/1', function(request) {
-    updatedBulletin = JSON.parse(request.requestBody);
+  server.patch('/api/v1/bulletins/1', function(request) {
+    savedBulletin = JSON.parse(request.requestBody);
     return [
       200,
       { "Content-Type": "application/vnd.api+json" },
-      JSON.stringify(updatedBulletin)
+      request.requestBody
     ];
   });
 
@@ -309,12 +314,16 @@ test('saving a bulletin', function(assert) {
   click('.save-bulletin');
 
   andThen(function() {
-    assert.equal(updatedBulletin.bulletins.name, 'Updated bulletin name');
-    assert.equal(updatedBulletin.bulletins.description, 'Updated description');
-    assert.equal(updatedBulletin.bulletins.serviceOrder, 'Updated service order');
-    assert.equal(updatedBulletin.bulletins.sermonNotes, 'the updated sermon notes');
+    assert.equal(savedBulletin.data.attributes.name,
+                 "Updated bulletin name");
+    assert.equal(savedBulletin.data.attributes.description,
+                 "Updated description");
+    assert.equal(savedBulletin.data.attributes["service-order"],
+                 "Updated service order");
+    assert.equal(savedBulletin.data.attributes["sermon-notes"],
+                 "the updated sermon notes");
     equalDate(assert,
-              window.moment(updatedBulletin.bulletins.publishedAt),
+              window.moment(savedBulletin.data.attributes["published-at"]),
               window.moment('11/30/2000 9:24 PM', 'MM/DD/YYYY h:mm A'));
   });
 });
@@ -324,7 +333,7 @@ test('creating a new announcement', function(assert) {
 
   authenticateSession();
 
-  server.put('/api/v1/bulletins/1', function(request) {
+  server.patch('/api/v1/bulletins/1', function(request) {
     var response = JSON.parse(request.requestBody);
     return [
       200,
@@ -333,24 +342,28 @@ test('creating a new announcement', function(assert) {
     ];
   });
 
-  server.post('/api/v1/announcements', function(request) {
-    createdAnnouncement = JSON.parse(request.requestBody);
-    createdAnnouncement.announcements.id = '1';
+  server.post("/api/v1/announcements", function(request) {
+    let requestBody = JSON.parse(request.requestBody);
+    createdAnnouncement = {
+      "data": AnnouncementPayload.build("1", "1", requestBody.data.attributes)
+    };
+
     return [
-      200,
+      201,
       {"Content-Type": "application/vnd.api+json"},
       JSON.stringify(createdAnnouncement)
     ];
   });
 
-  createResponseForBulletin({
-    "id": "1",
+  let bulletin = {
     "description": "This is a service bulletin.",
     "name": "Sunday Service",
-    "serviceOrder": "This is the service order.",
-    "publishedAt": "2015-03-07T03:58:40+00:00",
-    "announcements": []
-  });
+    "service-order": "This is the service order.",
+    "published-at": "2015-03-07T03:58:40+00:00"
+  };
+
+  mockBulletin("1", bulletin);
+  mockDefaultAnnouncements("1");
 
   visit('/english-service/bulletins/1/edit');
   click('.append-announcement');
@@ -361,11 +374,11 @@ test('creating a new announcement', function(assert) {
   andThen(function() {
     assert.equal(find('.announcement-editor-1 .description').length, 1);
     assert.equal(find('.announcement-editor').length, 1);
-    assert.equal(createdAnnouncement.announcements.id, "1");
-    assert.equal(createdAnnouncement.announcements.description, "This is a new one");
-    assert.equal(createdAnnouncement.announcements.position, 1);
-    assert.equal(createdAnnouncement.announcements.url, 'http://nba.com');
-    assert.equal(createdAnnouncement.announcements.links.bulletin, '1');
+    assert.equal(createdAnnouncement.data.id, "1");
+    assert.equal(createdAnnouncement.data.attributes.description, "This is a new one");
+    assert.equal(createdAnnouncement.data.attributes.position, 1);
+    assert.equal(createdAnnouncement.data.attributes.url, 'http://nba.com');
+    assert.equal(createdAnnouncement.data.relationships.bulletin.data.id, '1');
   });
 });
 
@@ -376,20 +389,31 @@ test('editing bulletin announcements', function(assert) {
 
   var updatedAnnouncement;
 
-  createResponseForBulletin({
-    "id": "1",
+  let bulletin = {
     "description": "This is a service bulletin.",
     "name": "Sunday Service",
-    "serviceOrder": "This is the service order.",
-    "publishedAt": "2015-03-07T03:58:40+00:00",
-    "announcements": ["8", "9", "10"]
+    "service-order": "This is the service order.",
+    "published-at": "2015-03-07T03:58:40+00:00"
+  };
+
+  mockBulletin("1", bulletin, true);
+  mockDefaultAnnouncements("1");
+
+  server.get("/api/v1/bulletins/1/announcements", function(request) {
+    let response = announcementsPayload("1");
+
+    return [
+      200,
+      { "Content-Type": "application/vnd.api+json" },
+      JSON.stringify(response)
+    ];
   });
 
-  server.put('/api/v1/bulletins/1', function(request) {
+  server.patch('/api/v1/bulletins/1', function(request) {
     return [200, {"Content-Type": "application/vnd.api+json"}, request.requestBody];
   });
 
-  server.put('/api/v1/announcements/10', function(request) {
+  server.patch('/api/v1/announcements/:id', function(request) {
     updatedAnnouncement = JSON.parse(request.requestBody);
     return [200, {"Content-Type": "application/vnd.api+json"}, JSON.stringify(updatedAnnouncement)];
   });
@@ -407,7 +431,7 @@ test('editing bulletin announcements', function(assert) {
     assert.equal(find('.announcement-editor-10 .description').val(), 'This is the third announcement');
     assert.equal(find('.announcement-editor').length, 3);
 
-    assert.equal(updatedAnnouncement.announcements.url, 'http://mcac.church');
+    assert.equal(updatedAnnouncement.data.attributes.url, 'http://mcac.church');
   });
 });
 
@@ -418,26 +442,37 @@ test('deleting bulletin announcements', function(assert) {
 
   var deletedBulletinId, updatedBulletin;
 
-  createResponseForBulletin({
-    "id": "1",
+  let bulletin = {
     "description": "This is a service bulletin.",
     "name": "Sunday Service",
-    "serviceOrder": "This is the service order.",
-    "publishedAt": "2015-03-07T03:58:40+00:00",
-    "announcements": ["8", "9", "10"]
+    "service-order": "This is the service order.",
+    "published-at": "2015-03-07T03:58:40+00:00"
+  };
+
+  mockBulletin("1", bulletin, true);
+  mockDefaultAnnouncements("1");
+
+  server.get("/api/v1/bulletins/1/announcements", function(request) {
+    let response = announcementsPayload("1");
+
+    return [
+      200,
+      { "Content-Type": "application/vnd.api+json" },
+      JSON.stringify(response)
+    ];
   });
 
   server.delete('/api/v1/announcements/:id', function(request) {
     deletedBulletinId = request.params.id;
-    return [200, {"Content-Type": "application/vnd.api+json"}, '{}'];
+    return [204, {"Content-Type": "application/vnd.api+json"}, ''];
   });
 
   visit('/english-service/bulletins/1/edit');
   click('.announcement-editor-9 .remove-announcement');
 
   andThen(function() {
-    assert.equal(find('.announcement-editor-8 .description').val(), 'This is announcement 8');
-    assert.equal(find('.announcement-editor-10 .description').val(), 'This is announcement 10');
+    assert.equal(find('.announcement-editor-8 .description').val(), 'This is an announcement');
+    assert.equal(find('.announcement-editor-10 .description').val(), 'This is the third announcement');
     assert.equal(find('.announcement-editor').length, 2);
     assert.equal(deletedBulletinId, '9');
   });

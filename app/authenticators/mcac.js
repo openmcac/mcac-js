@@ -3,10 +3,9 @@ import Base from 'simple-auth/authenticators/base';
 
 export default Base.extend({
   restore: function(properties) {
-    var propertiesObject = Ember.Object.create(properties);
     return new Ember.RSVP.Promise(function(resolve, reject) {
-      if (!Ember.isEmpty(propertiesObject.get('users.apiKey')) &&
-          !Ember.isEmpty(propertiesObject.get('users.email'))) {
+      if (!Ember.isEmpty(properties.data.attributes["api-key"]) &&
+          !Ember.isEmpty(properties.data.attributes["email"])) {
         resolve(properties);
       } else {
         reject();

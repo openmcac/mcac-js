@@ -3,6 +3,8 @@ import { module, test } from 'qunit';
 import startApp from 'mcac/tests/helpers/start-app';
 import Pretender from 'pretender';
 import mockServer from 'mcac/tests/helpers/server';
+import PostPayload from 'mcac/tests/helpers/payloads/post';
+import GroupPayload from 'mcac/tests/helpers/payloads/group';
 
 var application, server;
 
@@ -10,7 +12,8 @@ module('Acceptance: PostsEdit', {
   needs: ['model:bulletin', 'model:group'],
   beforeEach: function() {
     application = startApp();
-    server = createServer();
+    server = mockServer();
+    mockPost(12);
   },
 
   afterEach: function() {
@@ -19,33 +22,38 @@ module('Acceptance: PostsEdit', {
   }
 });
 
-function createServer() {
-  var server = mockServer();
-  server.get('/api/v1/posts/12', function(request) {
-    var response = {
-      "posts": {
-        "content": "This is my post content",
-        "id": "12",
-        "slug": "this-is-a-title",
-        "title": "This is a title",
-        "publishedAt": "2015-03-06T04:01:33+00:00",
-        "updatedAt": "2015-03-06T04:01:33+00:00",
-        "tags": ["tag1", "tag2", "tag3"],
-        "links": {
-          "author": "1",
-          "editor":null,
-          "group": "1"
-        }
-      }
+function mockPost(id) {
+  server.get(`/api/v1/posts/${id}`, function(request) {
+    let response = {
+      "data":
+        PostPayload.build(id, {
+          "content": "This is my post content",
+          "slug": "this-is-a-title",
+          "title": "This is a title",
+          "published-at": "2015-03-06T04:01:33+00:00",
+          "updated-at": "2015-03-06T04:01:33+00:00",
+          "tags": ["tag1", "tag2", "tag3"]
+        }, {
+          authorId: 1
+        })
     };
+
     return [
       200,
-      {"Content-Type": "application/vnd.api+json"},
+      { "Content-Type": "application/vnd.api+json" },
       JSON.stringify(response)
     ];
   });
 
-  return server;
+  server.get(`/api/v1/posts/${id}/group`, function(request) {
+    let response = { "data": GroupPayload.englishService() };
+
+    return [
+      200,
+      { "Content-Type": "application/vnd.api+json" },
+      JSON.stringify(response)
+    ];
+  });
 }
 
 test('Visiting /:group_slug/:post_id/edit', function(assert) {
@@ -65,7 +73,7 @@ test('Updating a post', function(assert) {
 
   var updatedPost;
 
-  server.put('/api/v1/posts/12', function(request) {
+  server.patch('/api/v1/posts/12', function(request) {
     updatedPost = JSON.parse(request.requestBody);
 
     return [
@@ -82,9 +90,9 @@ test('Updating a post', function(assert) {
   click('.save');
 
   andThen(function() {
-    assert.equal(updatedPost.posts.id, '12');
-    assert.deepEqual(updatedPost.posts.tags, ['newtag', 'tag1']);
-    assert.equal(updatedPost.posts.content, 'Updated content');
-    assert.equal(updatedPost.posts.title, 'Updated title');
+    assert.equal(updatedPost.data.id, '12');
+    assert.deepEqual(updatedPost.data.attributes.tags, ['newtag', 'tag1']);
+    assert.equal(updatedPost.data.attributes.content, 'Updated content');
+    assert.equal(updatedPost.data.attributes.title, 'Updated title');
   });
 });

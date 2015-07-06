@@ -3,38 +3,51 @@ import { module, test } from 'qunit';
 import startApp from '../helpers/start-app';
 import Pretender from 'pretender';
 import mockServer from '../helpers/server';
+import BulletinPayload from '../helpers/payloads/bulletin';
 
-var application;
+let application, server;
 
 module('Acceptance: SundayRedirect', {
   needs: ['model:bulletin', 'model:announcement'],
-  setup: function() {
+  beforeEach: function() {
     application = startApp();
+    server = mockServer();
   },
-  teardown: function() {
+  afterEach: function() {
     Ember.run(application, 'destroy');
   }
 });
 
+function mockSunday(bulletin) {
+  server.get("/api/v1/sunday", function(request) {
+    var response = { "data": BulletinPayload.build(1, bulletin) };
+    return [
+      200,
+      { "Content-Type": "application/vnd.api+json" },
+      JSON.stringify(response)
+    ];
+  });
+
+  server.get("/api/v1/bulletins/1/announcements", function(request) {
+    return [
+      200,
+      {"Content-Type": "application/vnd.api+json"},
+      JSON.stringify({ "data": [] })
+    ];
+  });
+}
+
 test('app/index.js redirects root path to /sunday', function(assert) {
   assert.expect(1);
 
-  var server = mockServer();
-  server.get('/api/v1/sunday', function(request) {
-    var response = {
-      "bulletins": {
-        "id": "1",
-        "description": "This is a service bulletin.",
-        "name": "Sunday Service",
-        "serviceOrder": "This is the service order.",
-        "publishedAt": "2015-03-07T03:58:40+00:00",
-        "links": {
-          "group": "1",
-          "announcements": []
-        }
-      }
-    };
-    return [200, {"Content-Type": "application/vnd.api+json"}, JSON.stringify(response)];
+  mockSunday({
+    "audio-url": null,
+    "banner-url": null,
+    "description": "This is a service bulletin.",
+    "name": "Sunday Service",
+    "published-at": "2014-12-21T13:58:27-05:00",
+    "sermon-notes": null,
+    "service-order": "This is the service order."
   });
 
   visit('/');

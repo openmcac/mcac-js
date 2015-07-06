@@ -3,18 +3,21 @@ import Ember from 'ember';
 
 export default Ember.Route.extend(AuthenticatedRouteMixin, {
   model: function() {
-    var model = this.modelFor('bulletin');
+    let bulletin = this.modelFor("bulletin");
 
-    if (hasNoAnnouncements(model)) {
-      populateLatestAnnouncements(model, this.store);
-    }
+    bulletin.get("announcements").then((announcements) => {
+      if (announcements.get("length") === 0) {
+        populateLatestAnnouncements(bulletin, this.store);
+      }
+    });
 
-    return model;
+    return bulletin;
   }
 });
 
 function populateLatestAnnouncements(bulletin, store) {
-  store.find('announcement', { defaults_for_bulletin: bulletin.get('id') }).
+  let query = { filter: { defaults_for_bulletin: bulletin.id } };
+  store.find('announcement', query).
         then(function(announcements) {
     copyAnnouncementsIntoBulletin(store, announcements, bulletin);
   });
@@ -33,8 +36,4 @@ function cloneAnnouncement(store, announcement) {
     url: announcement.get('url'),
     position: announcement.get('position')
   });
-}
-
-function hasNoAnnouncements(bulletin) {
-  return bulletin.get('announcements').get('length') === 0;
 }

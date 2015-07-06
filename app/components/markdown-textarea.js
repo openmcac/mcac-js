@@ -3,7 +3,7 @@ import Ember from 'ember';
 export default Ember.TextArea.extend({
   attributeBindings: ['data-provide'],
   classNames: ['markdown-textarea'],
-  renderEditor: function() {
+  renderEditor: Ember.on('didInsertElement', function() {
     this.$().markdown();
-  }.on('didInsertElement')
+  })
 });

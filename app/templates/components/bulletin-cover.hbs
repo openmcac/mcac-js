@@ -4,7 +4,7 @@
       <span class="name">{{bulletin.name}}</span><br/>
       <small class="description">{{bulletin.description}}</small>
     </h1>
-    {{#with bulletin.audioUrl as url}}
+    {{#with bulletin.audioUrl as |url|}}
       <audio src="{{url}}" controls>
         Your browser does not support the <code>audio</code> element.
       </audio>
@@ -19,7 +19,7 @@
   </div>
 </div>
 
-{{#with bulletin.bannerUrl as url}}
+{{#with bulletin.bannerUrl as |url|}}
   <style type="text/css">
   .bulletin-cover {
     background-image: url("{{url}}");

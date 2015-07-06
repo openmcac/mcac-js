@@ -4,7 +4,7 @@ import EmberUploader from "ember-uploader";
 export default EmberUploader.FileField.extend({
   url: "",
 
-  filesDidChange: (function() {
+  filesDidChange: Ember.observer("files", function() {
     var _this = this;
     var uploadUrl = this.get("url");
     var files = this.get("files");
@@ -35,7 +35,7 @@ export default EmberUploader.FileField.extend({
         Ember.$(this.element).parent().append($progress);
       }
     }
-  }).observes("files")
+  })
 });
 
 function createProgressElement() {
