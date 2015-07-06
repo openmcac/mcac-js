@@ -40,7 +40,7 @@ function mockDefaultAnnouncements(bulletinId) {
   });
 
   server.get('/api/v1/announcements', function(request) {
-    if (request.queryParams.defaults_for_bulletin === `${bulletinId}`) {
+    if (request.queryParams["filter[defaults_for_bulletin]"] === `${bulletinId}`) {
       var response = { "data": [] };
       return [
         200,
@@ -254,7 +254,7 @@ test('populates with latest announcements', function(assert) {
   mockBulletin("2", bulletin);
 
   server.get("/api/v1/announcements", function(request) {
-    if (request.queryParams.defaults_for_bulletin === "2") {
+    if (request.queryParams["filter[defaults_for_bulletin]"] === "2") {
       let response = announcementsPayload("1");
 
       return [

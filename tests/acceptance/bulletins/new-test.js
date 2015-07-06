@@ -10,7 +10,7 @@ var application, server;
 
 function mockDefaultAnnouncements(bulletinId) {
   server.get('/api/v1/announcements', function(request) {
-    if (request.queryParams.defaults_for_bulletin === `${bulletinId}`) {
+    if (request.queryParams["filter[defaults_for_bulletin]"] === `${bulletinId}`) {
       var response = { "data": [] };
       return [
         200,
