@@ -19,7 +19,6 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "body-parser": "^1.10.1",
     "broccoli-asset-rev": "^2.0.2",
     "broccoli-merge-trees": "^0.2.1",
     "broccoli-sass": "^0.4.0",
@@ -45,7 +44,6 @@
     "ember-deploy-redis": "0.0.2",
     "ember-disable-proxy-controllers": "^1.0.0",
     "ember-export-application-global": "^1.0.2",
-    "ember-json-api": "git://github.com/achan/ember-json-api.git#e595c92b950697c82b0d8a71ed5609476a1bc3c6",
     "ember-marked": "0.0.4",
     "ember-resize": "0.0.5",
     "ember-watson": "^0.5.4",
