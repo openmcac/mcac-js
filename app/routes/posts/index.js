@@ -3,7 +3,8 @@ import Ember from 'ember';
 
 export default Ember.Route.extend(AuthenticatedRouteMixin, {
   model: function() {
-    var group = this.modelFor('group');
-    return this.store.find('post', { group: group.get('id') });
+    let group = this.modelFor('group');
+    let filter = { group: group.get('id') };
+    return this.store.query('post', { filter: filter });
   }
 });
