@@ -15,6 +15,7 @@ export default DS.Model.extend({
     },
     set: function(key, value) {
       this.set("tags", tagListToArray(value));
+      return value;
     }
   }),
   contentHtml: Ember.computed("content", function() {
