@@ -21,7 +21,7 @@ module('Acceptance: BulletinsIndex', {
 
 function mockBulletins() {
   server.get('/api/v1/bulletins', function(request) {
-    if (request.queryParams.group === "1") {
+    if (request.queryParams["filter[group]"] === "1") {
       let bulletin1 = {
         "name": "Sunday Worship Service 1",
         "published-at": "2014-10-07T03:58:00+00:00"
