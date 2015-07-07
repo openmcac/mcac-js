@@ -2,10 +2,9 @@ import Ember from "ember";
 
 export default Ember.Route.extend({
   model: function(params) {
-    var _this = this;
-    return _this.store.find("post", params.post_id).then(function(post) {
+    return this.store.findRecord("post", params.post_id).then((post) => {
       if (invalidUrl(post, params)) {
-        _this.transitionTo("post", post);
+        this.transitionTo("post", post);
       }
 
       return post;

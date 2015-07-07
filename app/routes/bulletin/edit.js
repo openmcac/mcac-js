@@ -17,8 +17,7 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
 
 function populateLatestAnnouncements(bulletin, store) {
   let query = { filter: { defaults_for_bulletin: bulletin.id } };
-  store.find('announcement', query).
-        then(function(announcements) {
+  store.query('announcement', query).then(function(announcements) {
     copyAnnouncementsIntoBulletin(store, announcements, bulletin);
   });
 }
