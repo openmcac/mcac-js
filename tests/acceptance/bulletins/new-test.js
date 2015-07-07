@@ -23,7 +23,7 @@ function mockDefaultAnnouncements(bulletinId) {
 
 function mockBulletins(bulletins) {
   server.get('/api/v1/bulletins', function(request) {
-    if (request.queryParams.latest_for_group === '1') {
+    if (request.queryParams["filter[latest_for_group]"] === '1') {
       return [
         200,
         {"Content-Type": "application/vnd.api+json"},

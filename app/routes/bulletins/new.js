@@ -15,7 +15,9 @@ export default Ember.Route.extend({
       group: group
     });
 
-    _this.store.find('bulletin', { latest_for_group: group.get('id') }).
+    let filter = { latest_for_group: group.get('id') };
+
+    _this.store.find('bulletin', { filter: filter }).
                 then(function(bulletins) {
       if (bulletins.get('length') === 0) { return; }
 
