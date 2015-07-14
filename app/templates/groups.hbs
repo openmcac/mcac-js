@@ -1,0 +1,19 @@
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  {{#each model as |group|}}
+    <tbody>
+      <tr class="group group-{{group.id}}">
+        <td class="group-name">{{group.name}}</td>
+        <td>
+        </td>
+      </tr>
+    </tbody>
+  {{/each}}
+</table>
+
+{{outlet}}
