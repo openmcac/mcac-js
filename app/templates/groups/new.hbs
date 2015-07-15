@@ -1,2 +1,23 @@
-New
+<section class="group-form">
+  <h1>Create Group</h1>
+  <div class="row">
+    <div class="form-group col-md-10">
+      <label for="name">Name</label>
+      {{input value=model.name class="form-control name"}}
+    </div>
+  </div>
+  <div class="row">
+    <div class="form-group col-md-10">
+      <label for="slug">Slug</label>
+      {{input value=model.slug class="form-control slug"}}
+    </div>
+  </div>
+  <div class="row">
+    <div class="form-group col-md-10">
+      <label for="about">About</label>
+      {{textarea value=model.slug class="form-control about"}}
+    </div>
+  </div>
+</section>
+
 {{outlet}}
