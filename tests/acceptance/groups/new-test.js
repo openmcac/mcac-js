@@ -30,6 +30,7 @@ function mockGroup(groupId, group) {
 }
 
 test('visiting /groups/new', function(assert) {
+  authenticateSession();
   NewGroupPage.visit().
     name("New Group").
     slug("this-is-a-slug").
@@ -44,6 +45,7 @@ test('visiting /groups/new', function(assert) {
 });
 
 test("creating a group", function(assert) {
+  authenticateSession();
   let createdGroup;
 
   server.post("/api/v1/groups", function(request) {
@@ -69,5 +71,13 @@ test("creating a group", function(assert) {
 
   andThen(function() {
     assert.equal(createdGroup.data.attributes.name, "New Group");
+  });
+});
+
+test('Requires authentication', function(assert) {
+  visit('/groups/new');
+
+  andThen(function() {
+    assert.equal(currentURL(), '/login');
   });
 });
