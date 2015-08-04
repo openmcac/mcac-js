@@ -30,5 +30,9 @@ export default {
     }
 
     return find(".about").val();
+  },
+  submit: function() {
+    click(":submit");
+    return this;
   }
-}
+};

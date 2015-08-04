@@ -15,9 +15,14 @@
   <div class="row">
     <div class="form-group col-md-10">
       <label for="about">About</label>
-      {{textarea value=model.slug class="form-control about"}}
+      {{textarea value=model.about class="form-control about"}}
     </div>
   </div>
+  <button type="submit"
+          {{action 'save'}}
+          class="btn btn-primary save-group">
+    Save
+  </button>
 </section>
 
 {{outlet}}
