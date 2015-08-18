@@ -14,6 +14,15 @@
   </div>
   <div class="row">
     <div class="form-group col-md-10">
+      <label for="banner">Banner</label>
+      <div class="form-control banner">
+        {{s3-upload url="/api/v1/groups/sign" didUpload="didUploadBanner"}}
+      </div>
+      {{image-preview url=model.bannerUrl}}
+    </div>
+  </div>
+  <div class="row">
+    <div class="form-group col-md-10">
       <label for="about">About</label>
       {{textarea value=model.about class="form-control about"}}
     </div>
