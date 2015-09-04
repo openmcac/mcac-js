@@ -18,11 +18,14 @@
     "jquery": "^1.11.1",
     "loader.js": "ember-cli/loader.js#3.2.0",
     "marked": "~0.3.2",
-    "moment": "2.10.2",
+    "moment": "2.10.6",
     "moment-timezone": "~0.2.5",
     "pace": "~1.0.2",
     "pretender": "0.1.0",
     "qunit": "~1.17.1",
     "ember-uploader": "~0.3.6"
+  },
+  "resolutions": {
+    "ember": "1.13.2"
   }
 }
