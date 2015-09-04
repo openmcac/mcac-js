@@ -33,6 +33,20 @@ function mockSunday(bulletin, withAnnouncements = false) {
     ];
   });
 
+  server.get("/api/v1/bulletins/1", function(request) {
+    let response = {
+      "data": BulletinPayload.build(1, bulletin, {
+        withAnnouncements: withAnnouncements
+      })
+    };
+
+    return [
+      200,
+      { "Content-Type": "application/vnd.api+json" },
+      JSON.stringify(response)
+    ];
+  });
+
   if (!withAnnouncements) {
     server.get("/api/v1/bulletins/1/announcements", function(request) {
       return [

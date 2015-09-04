@@ -28,6 +28,15 @@ function mockSunday(bulletin) {
     ];
   });
 
+  server.get("/api/v1/bulletins/1", function(request) {
+    var response = { "data": BulletinPayload.build(1, bulletin) };
+    return [
+      200,
+      { "Content-Type": "application/vnd.api+json" },
+      JSON.stringify(response)
+    ];
+  });
+
   server.get("/api/v1/bulletins/1/announcements", function(request) {
     return [
       200,

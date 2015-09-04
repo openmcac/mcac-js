@@ -21,9 +21,9 @@ export default DS.Model.extend({
                                       function() {
     return this.get('announcements').sortBy('position');
   }),
-  unsavedAnnouncements: Ember.computed('sortedAnnouncements.@each.isDirty',
+  unsavedAnnouncements: Ember.computed('sortedAnnouncements.@each.hasDirtyAttributes',
                                        function() {
-    return this.get('sortedAnnouncements').filterBy('isDirty');
+    return this.get('sortedAnnouncements').filterBy('hasDirtyAttributes');
   })
 });
 
