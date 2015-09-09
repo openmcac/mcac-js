@@ -71,6 +71,7 @@ test("creating a group", function(assert) {
 
   andThen(function() {
     assert.equal(createdGroup.data.attributes.name, "New Group");
+    assert.equal(currentURL(), "/groups");
   });
 });
 
