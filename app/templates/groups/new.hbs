@@ -1,37 +1,5 @@
 <section class="group-form">
   <h1>Create Group</h1>
-  <div class="row">
-    <div class="form-group col-md-10">
-      <label for="name">Name</label>
-      {{input value=model.name class="form-control name"}}
-    </div>
-  </div>
-  <div class="row">
-    <div class="form-group col-md-10">
-      <label for="slug">Slug</label>
-      {{input value=model.slug class="form-control slug"}}
-    </div>
-  </div>
-  <div class="row">
-    <div class="form-group col-md-10">
-      <label for="banner">Banner</label>
-      <div class="form-control banner">
-        {{s3-upload url="/api/v1/groups/sign" didUpload="didUploadBanner"}}
-      </div>
-      {{image-preview url=model.bannerUrl}}
-    </div>
-  </div>
-  <div class="row">
-    <div class="form-group col-md-10">
-      <label for="about">About</label>
-      {{textarea value=model.about class="form-control about"}}
-    </div>
-  </div>
-  <button type="submit"
-          {{action 'save'}}
-          class="btn btn-primary save-group">
-    Save
-  </button>
+  {{partial "groups/fields"}}
 </section>
-
 {{outlet}}
