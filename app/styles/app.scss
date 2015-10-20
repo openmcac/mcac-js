@@ -9,3 +9,7 @@
 @import "components/nav-bar";
 @import "pages/bulletin-form";
 @import "pages/group-index";
+
+body {
+  background-color: $gray-extralight;
+}

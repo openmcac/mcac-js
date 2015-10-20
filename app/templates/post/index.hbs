@@ -29,7 +29,9 @@
             {{/with}}
             <div class="metadata">
               <span class="published-at">{{displayPublishedAt}}</span>
-              <span class="pull-right group-name">{{model.group.name}}</span>
+              {{#link-to "group.index" model.group.slug class="pull-right group-name"}}
+                {{model.group.name}}
+              {{/link-to}}
             </div>
           </header>
           <div class="content">

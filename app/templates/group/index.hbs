@@ -1,13 +1,29 @@
-<div class="container">
-  <header class="group-banner" style="background-image: url('{{model.bannerUrl}}')">
-    <h1>{{model.name}}</h1>
-  </header>
+<div class="container group-index">
+  <div class="row">
+    <header class="col-sm-offset-1 col-sm-10 group-banner"
+            style="background-image: url('{{model.bannerUrl}}')">
+      <h1>{{#link-to "group.index" model.slug}}{{model.name}}{{/link-to}}</h1>
+    </header>
+  </div>
 
   <div class="row">
-    <div class="col-sm-7">Posts will go here</div>
-    <div class="col-sm-5 group-about">
-      <h2>Description</h2>
-      {{{model.aboutHtml}}}
+    <div class="col-sm-offset-1 col-sm-6 group-posts">
+      <h2>Recent activity</h2>
+      {{#each model.posts as |post|}}
+        <div class="post">
+          <h3>
+            {{#link-to "post.index" post}}{{post.title}}{{/link-to}}
+          </h3>
+          <div>{{{post.contentHtml}}}</div>
+        </div>
+      {{/each}}
+    </div>
+
+    <div class="col-sm-4">
+      <div class="group-about">
+        <h2>Description</h2>
+        {{{model.aboutHtml}}}
+      </div>
     </div>
   </div>
 </div>

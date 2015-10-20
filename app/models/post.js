@@ -5,6 +5,7 @@ export default DS.Model.extend({
   bannerUrl: DS.attr("string"),
   content: DS.attr("string"),
   group: DS.belongsTo("group", { async: true }),
+  author: DS.belongsTo("user", { async: true }),
   publishedAt: DS.attr("date"),
   slug: DS.attr("string"),
   tags: DS.attr(),

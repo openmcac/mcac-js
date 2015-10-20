@@ -7,5 +7,6 @@ export default DS.Model.extend({
   bannerUrl: DS.attr("string"),
   aboutHtml: Ember.computed("about", function() {
     return marked(this.get("about") || "");
-  })
+  }),
+  posts: DS.hasMany("post", { async: true })
 });
