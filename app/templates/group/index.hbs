@@ -1,1 +1,13 @@
-<h1>Group: {{name}}</h1>
+<div class="container">
+  <header class="group-banner" style="background-image: url('{{model.bannerUrl}}')">
+    <h1>{{model.name}}</h1>
+  </header>
+
+  <div class="row">
+    <div class="col-sm-7">Posts will go here</div>
+    <div class="col-sm-5 group-about">
+      <h2>Description</h2>
+      {{{model.aboutHtml}}}
+    </div>
+  </div>
+</div>
