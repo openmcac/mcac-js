@@ -3,13 +3,14 @@
 @import "components/bulletin-cover";
 @import "components/bulletin-view";
 @import "components/image-preview";
+@import "components/nav-bar";
 @import "components/pace";
 @import "components/post-form";
 @import "components/post-view";
-@import "components/nav-bar";
+@import "footer";
 @import "pages/bulletin-form";
 @import "pages/group-index";
 
 body {
-  background-color: $gray-extralight;
+  background-color: $gray-extradark;
 }

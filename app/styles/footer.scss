@@ -1,0 +1,80 @@
+footer {
+  margin-top: $padding-xl;
+  margin-bottom: $padding-m;
+  font-size: 12px;
+  color: $gray;
+
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+
+
+  .logo {
+    background-color: $gray-dark;
+    padding: 10px;
+    margin-right: 10px;
+    font-size: 36px;
+
+    i {
+      &:before {
+        color: $gray-extradark;
+      }
+    }
+  }
+
+  h1 {
+    color: $gray-dark;
+    margin-bottom: 0;
+    text-transform: uppercase;
+    font-size: 16px;
+  }
+
+  h2 {
+    color: $gray-light;
+    font-size: 14px;
+    text-transform: uppercase;
+  }
+
+  .address {
+    color: $gray-dark;
+    text-transform: uppercase;
+    font-size: 12px;
+
+    a {
+      color: $gray-dark;
+    }
+  }
+
+  .sitemap {
+    margin-top: $padding-l;
+  }
+
+  a, a.active {
+    color: $gray;
+
+    &:hover, &:active {
+      color: $gray;
+    }
+
+    &:visited {
+      color: $gray-dark;
+    }
+  }
+
+  @media only screen and (min-width: $small-device-break) {
+    h1 {
+      font-size: 28px;
+    }
+
+    .address {
+      font-size: 16px;
+    }
+  }
+
+  @media only screen and (min-width: $medium-device-break) {
+    h1 {
+      font-size: 36px;
+    }
+  }
+}
