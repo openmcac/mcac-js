@@ -9,7 +9,7 @@ import mockServer from 'mcac/tests/helpers/server';
 import GroupPayload from 'mcac/tests/helpers/payloads/group';
 import PostPayload from 'mcac/tests/helpers/payloads/post';
 
-var application, server;
+var application, fakeServer;
 
 function createServer() {
   let server = mockServer();
@@ -58,11 +58,11 @@ function createServer() {
 module('Acceptance: PostsIndex', {
   beforeEach: function() {
     application = startApp();
-    server = createServer();
+    fakeServer = createServer();
   },
 
   afterEach: function() {
-    server.shutdown();
+    fakeServer.shutdown();
     Ember.run(application, 'destroy');
   }
 });
@@ -82,7 +82,7 @@ test('deleting a post', function(assert) {
 
   var deletedPost;
 
-  server.delete('/api/v1/posts/5', function(request) {
+  fakeServer.delete('/api/v1/posts/5', function(request) {
     deletedPost = true;
 
     return [

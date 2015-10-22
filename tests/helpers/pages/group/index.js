@@ -1,6 +1,4 @@
-import Ember from 'ember';
 import PageObject from "../../../page-object";
-import { findElementWithAssert } from "../../../page-object/helpers";
 
 let { clickable, fillable, text, visitable, collection, selectable } = PageObject;
 
@@ -22,4 +20,4 @@ export default function(slug) {
       }
     })
   });
-};
+}

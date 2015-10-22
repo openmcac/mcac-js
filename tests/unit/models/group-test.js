@@ -5,7 +5,7 @@ import {
 
 moduleForModel('group', 'Group', {
   // Specify the other units that are required for this test.
-  needs: ['model:bulletin', 'model:announcement']
+  needs: ["model:bulletin", "model:announcement", "model:post"]
 });
 
 test('it stores the expected attributes', function(assert) {

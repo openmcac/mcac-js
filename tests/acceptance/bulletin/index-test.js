@@ -6,10 +6,10 @@ import mockServer from "../../helpers/server";
 import startApp from "../../helpers/start-app";
 import { test, module } from "qunit";
 
-let application, server;
+let application, fakeServer;
 
 function mockBulletin(bulletin, withAnnouncements = false) {
-  server.get("/api/v1/bulletins/1", function(request) {
+  fakeServer.get("/api/v1/bulletins/1", function(request) {
     let response = {
       "data": BulletinPayload.build(1, bulletin, {
         withAnnouncements: withAnnouncements
@@ -24,7 +24,7 @@ function mockBulletin(bulletin, withAnnouncements = false) {
   });
 
   if (!withAnnouncements) {
-    server.get("/api/v1/bulletins/1/announcements", function(request) {
+    fakeServer.get("/api/v1/bulletins/1/announcements", function(request) {
       return [
         200,
         {"Content-Type": "application/vnd.api+json"},
@@ -35,7 +35,7 @@ function mockBulletin(bulletin, withAnnouncements = false) {
 }
 
 function mockAnnouncements(bulletinId) {
-  server.get(`/api/v1/bulletins/${bulletinId}/announcements`,
+  fakeServer.get(`/api/v1/bulletins/${bulletinId}/announcements`,
       function(request) {
     let response = {
       "data": [
@@ -66,7 +66,7 @@ function mockAnnouncements(bulletinId) {
 module('Acceptance: View bulletin', {
   beforeEach: function() {
     application = startApp();
-    server = mockServer();
+    fakeServer = mockServer();
   },
   afterEach: function() {
     Ember.run(application, 'destroy');

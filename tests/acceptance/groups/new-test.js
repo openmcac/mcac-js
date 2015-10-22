@@ -5,22 +5,22 @@ import NewGroupPage from "mcac/tests/helpers/pages/groups/new";
 import mockServer from 'mcac/tests/helpers/server';
 import GroupPayload from 'mcac/tests/helpers/payloads/group';
 
-var application, server;
+var application, fakeServer;
 
 module('Acceptance | groups/new', {
   beforeEach: function() {
     application = startApp();
-    server = mockServer();
+    fakeServer = mockServer();
   },
 
   afterEach: function() {
-    server.shutdown();
+    fakeServer.shutdown();
     Ember.run(application, 'destroy');
   }
 });
 
 function mockGroup(groupId, group) {
-  server.get(`/api/v1/groups/${groupId}`, function(request) {
+  fakeServer.get(`/api/v1/groups/${groupId}`, function(request) {
     let response = {
       "data": GroupPayload.build(groupId, group)
     };
@@ -48,7 +48,7 @@ test("creating a group", function(assert) {
   authenticateSession();
   let createdGroup;
 
-  server.post("/api/v1/groups", function(request) {
+  fakeServer.post("/api/v1/groups", function(request) {
     let requestBody = JSON.parse(request.requestBody);
     createdGroup = {
       "data": GroupPayload.build("2", requestBody.data.attributes)

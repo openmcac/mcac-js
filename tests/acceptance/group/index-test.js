@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import { module, test } from 'qunit';
 import startApp from 'mcac/tests/helpers/start-app';
-import GroupIndexPage from "mcac/tests/helpers/pages/group/index"
+import groupIndexPage from "mcac/tests/helpers/pages/group/index";
 
 var application;
 
@@ -20,7 +20,7 @@ test('visiting /:group_slug', function(assert) {
   let posts =
     server.createList("post", 3, { "group-id": group.id, "group-slug": group.slug });
 
-  let page = GroupIndexPage(group.slug);
+  let page = groupIndexPage(group.slug);
   page.visit();
 
   andThen(function() {

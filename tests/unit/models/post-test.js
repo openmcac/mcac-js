@@ -2,7 +2,7 @@ import { moduleForModel, test } from 'ember-qunit';
 import Ember from 'ember';
 
 moduleForModel('post', {
-  needs: ['model:group']
+  needs: ["model:group", "model:user"]
 });
 
 test('tags: contains an array of tag strings', function(assert) {

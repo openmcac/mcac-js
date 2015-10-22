@@ -16,7 +16,7 @@ export default function() {
     return response;
   });
 
-  this.get("/api/v1/groups", function(db, request) {
+  this.get("/api/v1/groups", function(db) {
     return {
       data: db.groups.map(attrs => ({
         type: "groups",
@@ -34,7 +34,7 @@ export default function() {
     };
   });
 
-  this.get("/api/v1/posts", function(db, request) {
+  this.get("/api/v1/posts", function(db) {
     return {
       data: db.posts.map(attrs => ({
         type: "posts",
@@ -43,4 +43,4 @@ export default function() {
       }))
     };
   });
-};
+}

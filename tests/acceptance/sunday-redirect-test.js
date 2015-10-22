@@ -5,13 +5,13 @@ import Pretender from 'pretender';
 import mockServer from '../helpers/server';
 import BulletinPayload from '../helpers/payloads/bulletin';
 
-let application, server;
+let application, fakeServer;
 
 module('Acceptance: SundayRedirect', {
   needs: ['model:bulletin', 'model:announcement'],
   beforeEach: function() {
     application = startApp();
-    server = mockServer();
+    fakeServer = mockServer();
   },
   afterEach: function() {
     Ember.run(application, 'destroy');
@@ -19,7 +19,7 @@ module('Acceptance: SundayRedirect', {
 });
 
 function mockSunday(bulletin) {
-  server.get("/api/v1/sunday", function(request) {
+  fakeServer.get("/api/v1/sunday", function(request) {
     var response = { "data": BulletinPayload.build(1, bulletin) };
     return [
       200,
@@ -28,7 +28,7 @@ function mockSunday(bulletin) {
     ];
   });
 
-  server.get("/api/v1/bulletins/1", function(request) {
+  fakeServer.get("/api/v1/bulletins/1", function(request) {
     var response = { "data": BulletinPayload.build(1, bulletin) };
     return [
       200,
@@ -37,7 +37,7 @@ function mockSunday(bulletin) {
     ];
   });
 
-  server.get("/api/v1/bulletins/1/announcements", function(request) {
+  fakeServer.get("/api/v1/bulletins/1/announcements", function(request) {
     return [
       200,
       {"Content-Type": "application/vnd.api+json"},

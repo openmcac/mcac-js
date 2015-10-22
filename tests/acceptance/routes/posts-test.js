@@ -5,16 +5,16 @@ import mockServer from 'mcac/tests/helpers/server';
 import PostPayload from 'mcac/tests/helpers/payloads/post';
 import GroupPayload from 'mcac/tests/helpers/payloads/group';
 
-var application, server;
+var application, fakeServer;
 
 module('Acceptance: Post Routes', {
   beforeEach: function() {
     application = startApp();
-    server = createServer();
+    fakeServer = createServer();
   },
 
   afterEach: function() {
-    server.shutdown();
+    fakeServer.shutdown();
     Ember.run(application, 'destroy');
   }
 });
