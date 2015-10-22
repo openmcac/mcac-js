@@ -1,8 +1,11 @@
 <div class="container group-index">
   <div class="row">
     <header class="col-sm-offset-1 col-sm-10 group-banner"
-            style="background-image: url('{{model.bannerUrl}}')">
-      <h1>{{#link-to "group.index" model.slug}}{{model.name}}{{/link-to}}</h1>
+            style="background-image: url('{{model.bannerUrl}}')"
+            data-test-id="group-banner">
+      <h1 class="group-name" data-test-id="name">
+        {{#link-to "group.index" model.slug}}{{model.name}}{{/link-to}}
+      </h1>
     </header>
   </div>
 
@@ -10,11 +13,11 @@
     <div class="col-sm-offset-1 col-sm-6 group-posts">
       <h2>Recent activity</h2>
       {{#each model.posts as |post|}}
-        <div class="post">
-          <h3>
+        <div class="post" data-test-id="post">
+          <h3 data-test-id="title">
             {{#link-to "post.index" post}}{{post.title}}{{/link-to}}
           </h3>
-          <div>{{{post.contentHtml}}}</div>
+          <div data-test-id="content">{{{post.contentHtml}}}</div>
         </div>
       {{/each}}
     </div>
@@ -22,7 +25,9 @@
     <div class="col-sm-4">
       <div class="group-about">
         <h2>Description</h2>
-        {{{model.aboutHtml}}}
+        <div data-test-id="about">
+          {{{model.aboutHtml}}}
+        </div>
       </div>
     </div>
   </div>

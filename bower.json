@@ -21,9 +21,11 @@
     "moment": "2.10.6",
     "moment-timezone": "~0.2.5",
     "pace": "~1.0.2",
-    "pretender": "0.1.0",
+    "pretender": "~0.10.1",
     "qunit": "~1.17.1",
-    "ember-uploader": "~0.3.6"
+    "ember-uploader": "~0.3.6",
+    "lodash": "~3.7.0",
+    "Faker": "~3.0.0"
   },
   "resolutions": {
     "ember": "1.13.2"
