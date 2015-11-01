@@ -13,12 +13,7 @@
     <div class="col-sm-offset-1 col-sm-6 group-posts">
       <h2>Recent activity</h2>
       {{#each model.posts as |post|}}
-        <div class="post" data-test-id="post">
-          <h3 data-test-id="title">
-            {{#link-to "post.index" post}}{{post.title}}{{/link-to}}
-          </h3>
-          <div data-test-id="content">{{{post.contentHtml}}}</div>
-        </div>
+        {{post-view post=post}}
       {{/each}}
     </div>
 

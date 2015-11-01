@@ -1,0 +1,7 @@
+<div class="post" data-test-id="post">
+  <h3 data-test-id="title">
+    {{#link-to "post.index" post}}{{post.title}}{{/link-to}}
+  </h3>
+  <div data-test-id="content">{{{post.contentHtml}}}</div>
+</div>
+{{yield}}
