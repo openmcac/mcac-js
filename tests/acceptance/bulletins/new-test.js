@@ -5,6 +5,7 @@ import nextService from 'mcac/utils/next-service';
 import Pretender from 'pretender';
 import mockServer from '../../helpers/server';
 import BulletinPayload from '../../helpers/payloads/bulletin';
+import { authenticateSession } from 'mcac/tests/helpers/ember-simple-auth';
 
 var application, server;
 

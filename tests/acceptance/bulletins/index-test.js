@@ -4,6 +4,7 @@ import Pretender from 'pretender';
 import { test, module } from 'qunit';
 import mockServer from '../../helpers/server';
 import BulletinPayload from '../../helpers/payloads/bulletin';
+import { authenticateSession } from 'mcac/tests/helpers/ember-simple-auth';
 
 let application, server;
 

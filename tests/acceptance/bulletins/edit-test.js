@@ -6,6 +6,7 @@ import Pretender from 'pretender';
 import mockServer from '../../helpers/server';
 import AnnouncementPayload from '../../helpers/payloads/announcement';
 import BulletinPayload from '../../helpers/payloads/bulletin';
+import { authenticateSession } from 'mcac/tests/helpers/ember-simple-auth';
 
 let application, server;
 

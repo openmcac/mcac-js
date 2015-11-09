@@ -4,6 +4,7 @@ import startApp from 'mcac/tests/helpers/start-app';
 import mockServer from 'mcac/tests/helpers/server';
 import PostPayload from 'mcac/tests/helpers/payloads/post';
 import GroupPayload from 'mcac/tests/helpers/payloads/group';
+import { authenticateSession } from 'mcac/tests/helpers/ember-simple-auth';
 
 var application, server;
 

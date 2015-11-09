@@ -3,6 +3,7 @@ import { module, test } from 'qunit';
 import startApp from 'mcac/tests/helpers/start-app';
 import Pretender from 'pretender';
 import mockServer from 'mcac/tests/helpers/server';
+import { authenticateSession } from 'mcac/tests/helpers/ember-simple-auth';
 
 var application;
 
