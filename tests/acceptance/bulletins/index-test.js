@@ -1,6 +1,5 @@
 import Ember from 'ember';
 import startApp from '../../helpers/start-app';
-import Pretender from 'pretender';
 import { test, module } from 'qunit';
 import mockServer from '../../helpers/server';
 import BulletinPayload from '../../helpers/payloads/bulletin';

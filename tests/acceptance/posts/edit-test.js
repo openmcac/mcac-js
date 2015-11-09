@@ -1,7 +1,6 @@
 import Ember from 'ember';
 import { module, test } from 'qunit';
 import startApp from 'mcac/tests/helpers/start-app';
-import Pretender from 'pretender';
 import mockServer from 'mcac/tests/helpers/server';
 import PostPayload from 'mcac/tests/helpers/payloads/post';
 import GroupPayload from 'mcac/tests/helpers/payloads/group';
@@ -24,7 +23,7 @@ module('Acceptance: PostsEdit', {
 });
 
 function mockPost(id) {
-  server.get(`/api/v1/posts/${id}`, function(request) {
+  server.get(`/api/v1/posts/${id}`, function() {
     let response = {
       "data":
         PostPayload.build(id, {
@@ -46,7 +45,7 @@ function mockPost(id) {
     ];
   });
 
-  server.get(`/api/v1/posts/${id}/group`, function(request) {
+  server.get(`/api/v1/posts/${id}/group`, function() {
     let response = { "data": GroupPayload.englishService() };
 
     return [

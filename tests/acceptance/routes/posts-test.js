@@ -22,7 +22,7 @@ module('Acceptance: Post Routes', {
 
 function createServer() {
   var server = mockServer();
-  server.get('/api/v1/posts', function(request) {
+  server.get('/api/v1/posts', function() {
     var response = { "data": [] };
     return [
       200,
@@ -31,7 +31,7 @@ function createServer() {
     ];
   });
 
-  server.get('/api/v1/posts/1', function(request) {
+  server.get('/api/v1/posts/1', function() {
     var response = {
       "data": PostPayload.build(1, {
         "title": "This is a title",
@@ -47,7 +47,7 @@ function createServer() {
     ];
   });
 
-  server.get('/api/v1/posts/1/group', function(request) {
+  server.get('/api/v1/posts/1/group', function() {
     var response = { "data": GroupPayload.englishService() };
 
     return [

@@ -1,7 +1,6 @@
 import Ember from 'ember';
 import startApp from '../helpers/start-app';
 import mockServer from '../helpers/server';
-import Pretender from 'pretender';
 import { module, test } from 'qunit';
 import UserPayload from "../helpers/payloads/user";
 import BulletinPayload from "../helpers/payloads/bulletin";
@@ -43,7 +42,7 @@ function createServer() {
     ];
   });
 
-  server.get('/api/v1/bulletins/1', function(request) {
+  server.get('/api/v1/bulletins/1', function() {
     var response = {
       "data": BulletinPayload.build("1", {
         "published-at": "2014-12-21T13:58:27-05:00",
@@ -60,7 +59,7 @@ function createServer() {
     ];
   });
 
-  server.get('/api/v1/sunday', function(request) {
+  server.get('/api/v1/sunday', function() {
     var response = {
       "data": BulletinPayload.build("1", {
         "published-at": "2014-12-21T13:58:27-05:00",
@@ -77,7 +76,7 @@ function createServer() {
     ];
   });
 
-  server.get("/api/v1/bulletins/:id/announcements", function(request) {
+  server.get("/api/v1/bulletins/:id/announcements", function() {
     let response = { "data": [] };
 
     return [

@@ -1,8 +1,6 @@
 import Ember from 'ember';
 import { module, test } from 'qunit';
 import startApp from '../../helpers/start-app';
-import nextService from 'mcac/utils/next-service';
-import Pretender from 'pretender';
 import mockServer from '../../helpers/server';
 import AnnouncementPayload from '../../helpers/payloads/announcement';
 import BulletinPayload from '../../helpers/payloads/bulletin';
@@ -31,7 +29,7 @@ function announcementsPayload(bulletinId) {
 }
 
 function mockDefaultAnnouncements(bulletinId) {
-  server.get(`/api/v1/bulletins/${bulletinId}/announcements`, function(request) {
+  server.get(`/api/v1/bulletins/${bulletinId}/announcements`, function() {
     let response = { "data": [] };
     return [
       200,
@@ -53,7 +51,7 @@ function mockDefaultAnnouncements(bulletinId) {
 }
 
 function mockBulletin(bulletinId, bulletin, withAnnouncements = false) {
-  server.get(`/api/v1/bulletins/${bulletinId}`, function(request) {
+  server.get(`/api/v1/bulletins/${bulletinId}`, function() {
     let response = {
       "data": BulletinPayload.build(bulletinId, bulletin, {
         withAnnouncements: withAnnouncements
@@ -64,7 +62,7 @@ function mockBulletin(bulletinId, bulletin, withAnnouncements = false) {
   });
 
   if (!withAnnouncements) {
-    server.get(`/api/v1/bulletins/${bulletinId}/announcements`, function(request) {
+    server.get(`/api/v1/bulletins/${bulletinId}/announcements`, function() {
       return [
         200,
         {"Content-Type": "application/vnd.api+json"},
@@ -135,7 +133,7 @@ test('editing bulletins with announcements', function(assert) {
 
   mockBulletin("1", bulletin, { withAnnouncements: true });
 
-  server.get('/api/v1/bulletins/:id/announcements', function(request) {
+  server.get('/api/v1/bulletins/:id/announcements', function() {
     let response = {
       "data": [
         AnnouncementPayload.build("1", "1", {
@@ -400,7 +398,7 @@ test('editing bulletin announcements', function(assert) {
   mockBulletin("1", bulletin, true);
   mockDefaultAnnouncements("1");
 
-  server.get("/api/v1/bulletins/1/announcements", function(request) {
+  server.get("/api/v1/bulletins/1/announcements", function() {
     let response = announcementsPayload("1");
 
     return [
@@ -441,7 +439,7 @@ test('deleting bulletin announcements', function(assert) {
 
   authenticateSession();
 
-  var deletedBulletinId, updatedBulletin;
+  var deletedBulletinId;
 
   let bulletin = {
     "description": "This is a service bulletin.",
@@ -453,7 +451,7 @@ test('deleting bulletin announcements', function(assert) {
   mockBulletin("1", bulletin, true);
   mockDefaultAnnouncements("1");
 
-  server.get("/api/v1/bulletins/1/announcements", function(request) {
+  server.get("/api/v1/bulletins/1/announcements", function() {
     let response = announcementsPayload("1");
 
     return [
