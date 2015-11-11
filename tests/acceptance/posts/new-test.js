@@ -17,7 +17,7 @@ module('Acceptance: PostsNew', {
 });
 
 test('saving a post', function(assert) {
-  authenticateSession();
+  authenticateSession(application);
 
   var server = mockServer(),
       postTitle = 'post title',

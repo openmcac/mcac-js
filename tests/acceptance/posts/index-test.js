@@ -68,7 +68,7 @@ module('Acceptance: PostsIndex', {
 });
 
 test('visiting /posts/index', function(assert) {
-  authenticateSession();
+  authenticateSession(application);
 
   visit('/english-service/posts');
 
@@ -78,7 +78,7 @@ test('visiting /posts/index', function(assert) {
 });
 
 test('deleting a post', function(assert) {
-  authenticateSession();
+  authenticateSession(application);
 
   var deletedPost;
 

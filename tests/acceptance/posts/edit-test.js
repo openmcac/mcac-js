@@ -57,7 +57,7 @@ function mockPost(id) {
 }
 
 test('Visiting /:group_slug/:post_id/edit', function(assert) {
-  authenticateSession();
+  authenticateSession(application);
 
   visit('/english-service/post/12/edit');
 
@@ -69,7 +69,7 @@ test('Visiting /:group_slug/:post_id/edit', function(assert) {
 });
 
 test('Updating a post', function(assert) {
-  authenticateSession();
+  authenticateSession(application);
 
   var updatedPost;
 

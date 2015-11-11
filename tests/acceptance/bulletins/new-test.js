@@ -4,7 +4,7 @@ import startApp from '../../helpers/start-app';
 import nextService from 'mcac/utils/next-service';
 import mockServer from '../../helpers/server';
 import BulletinPayload from '../../helpers/payloads/bulletin';
-import { authenticateSession } from 'mcac/tests/helpers/ember-simple-auth';
+import { currentSession, authenticateSession, invalidateSession } from 'mcac/tests/helpers/ember-simple-auth';
 
 var application, server;
 
@@ -96,7 +96,7 @@ test("defaults with last week's service order if available", function(assert) {
 });
 
 test('saving a bulletin navigates to edit page', function(assert) {
-  authenticateSession();
+  authenticateSession(application);
 
   var createdBulletin;
 

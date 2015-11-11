@@ -71,7 +71,7 @@ test('Requires authentication', function(assert) {
 });
 
 test('visiting /english-service/bulletins', function(assert) {
-  authenticateSession();
+  authenticateSession(application);
 
   visit('/english-service/bulletins');
 

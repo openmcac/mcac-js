@@ -61,7 +61,7 @@ function createServer() {
 }
 
 test('viewing post index', function(assert) {
-  authenticateSession();
+  authenticateSession(application);
 
   visit('/english-service/posts');
 
@@ -71,7 +71,7 @@ test('viewing post index', function(assert) {
 });
 
 test('viewing a post', function(assert) {
-  authenticateSession();
+  authenticateSession(application);
 
   visit('/english-service/2015/03/11/1/this-is-a-title');
 
@@ -81,7 +81,7 @@ test('viewing a post', function(assert) {
 });
 
 test('editing a post', function(assert) {
-  authenticateSession();
+  authenticateSession(application);
 
   visit('/english-service/post/1/edit');
 
