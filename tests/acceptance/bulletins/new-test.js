@@ -4,7 +4,7 @@ import startApp from '../../helpers/start-app';
 import nextService from 'mcac/utils/next-service';
 import mockServer from '../../helpers/server';
 import BulletinPayload from '../../helpers/payloads/bulletin';
-import { currentSession, authenticateSession, invalidateSession } from 'mcac/tests/helpers/ember-simple-auth';
+import { authenticateSession } from 'mcac/tests/helpers/ember-simple-auth';
 
 var application, server;
 
