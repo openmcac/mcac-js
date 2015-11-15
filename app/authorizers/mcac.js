@@ -15,7 +15,7 @@ export default Base.extend({
       return;
     }
 
-    let auth = this.get("session.auth");
+    let auth = session.get("auth");
 
     let token = auth.accessToken;
     let email = user.email;

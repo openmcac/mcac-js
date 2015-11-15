@@ -23,7 +23,8 @@ export default Base.extend({
         Ember.run(function() {
           sessionData.auth = {
             accessToken: response.getResponseHeader("access-token"),
-            client: response.getResponseHeader("client")
+            client: response.getResponseHeader("client"),
+            uid: response.getResponseHeader("uid")
           };
           resolve(sessionData);
         });
