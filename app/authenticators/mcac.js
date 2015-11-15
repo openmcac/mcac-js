@@ -15,15 +15,17 @@ export default Base.extend({
   authenticate: function(credentials) {
     return new Ember.RSVP.Promise(function(resolve, reject) {
       var data = {
-        user: {
-          password: credentials.password,
-          email: credentials.email
-        }
+        password: credentials.password,
+        email: credentials.email
       };
 
-      makeRequest(data).then(function(response) {
+      makeRequest(data).then(function(sessionData, statusCode, response) {
         Ember.run(function() {
-          resolve(response);
+          sessionData.auth = {
+            accessToken: response.getResponseHeader("access-token"),
+            client: response.getResponseHeader("client")
+          };
+          resolve(sessionData);
         });
       }, function(xhr) {
         Ember.run(function() {
@@ -39,7 +41,7 @@ export default Base.extend({
 
 function makeRequest(data) {
   return Ember.$.ajax({
-    url: '/api/users/sign_in',
+    url: '/api/auth/sign_in',
     type: 'POST',
     data: JSON.stringify(data),
     dataType: 'json',
