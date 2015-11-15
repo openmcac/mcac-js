@@ -4,6 +4,7 @@ import startApp from '../../helpers/start-app';
 import mockServer from '../../helpers/server';
 import AnnouncementPayload from '../../helpers/payloads/announcement';
 import BulletinPayload from '../../helpers/payloads/bulletin';
+import sessionData from '../../helpers/payloads/sessionData';
 import { authenticateSession } from 'mcac/tests/helpers/ember-simple-auth';
 
 let application, server;
@@ -87,7 +88,7 @@ module('Acceptance: Editing a bulletin', {
 test('visiting /:group_slug/bulletins/:id/edit', function(assert) {
   assert.expect(4);
 
-  authenticateSession(application);
+  authenticateSession(application, sessionData);
 
   let bulletin = {
     "published-at": "2015-03-07T03:58:00+00:00",
@@ -122,7 +123,7 @@ test('visiting /:group_slug/bulletins/:id/edit', function(assert) {
 test('editing bulletins with announcements', function(assert) {
   assert.expect(6);
 
-  authenticateSession(application);
+  authenticateSession(application, sessionData);
 
   let bulletin = {
     "published-at": "2015-03-07T03:58:00+00:00",
@@ -171,7 +172,7 @@ test('editing bulletins with announcements', function(assert) {
 test("Saving bulletins with banners", function(assert) {
   assert.expect(2);
 
-  authenticateSession(application);
+  authenticateSession(application, sessionData);
 
   let bulletin = {
     "published-at": "2015-03-07T03:58:00+00:00",
@@ -207,7 +208,7 @@ test("Saving bulletins with banners", function(assert) {
 test("Removing bulletin banners", function(assert) {
   assert.expect(1);
 
-  authenticateSession(application);
+  authenticateSession(application, sessionData);
 
   let bulletin = {
     "published-at": "2015-03-07T03:58:00+00:00",
@@ -241,7 +242,7 @@ test("Removing bulletin banners", function(assert) {
 });
 
 test('populates with latest announcements', function(assert) {
-  authenticateSession(application);
+  authenticateSession(application, sessionData);
 
   let bulletin = {
     "published-at": "2015-03-07T03:58:00+00:00",
@@ -293,7 +294,7 @@ test('saving a bulletin', function(assert) {
 
   assert.expect(5);
 
-  authenticateSession(application);
+  authenticateSession(application, sessionData);
 
   server.patch('/api/v1/bulletins/1', function(request) {
     savedBulletin = JSON.parse(request.requestBody);
@@ -330,7 +331,7 @@ test('saving a bulletin', function(assert) {
 test('creating a new announcement', function(assert) {
   var createdAnnouncement;
 
-  authenticateSession(application);
+  authenticateSession(application, sessionData);
 
   server.patch('/api/v1/bulletins/1', function(request) {
     var response = JSON.parse(request.requestBody);
@@ -384,7 +385,7 @@ test('creating a new announcement', function(assert) {
 test('editing bulletin announcements', function(assert) {
   assert.expect(5);
 
-  authenticateSession(application);
+  authenticateSession(application, sessionData);
 
   var updatedAnnouncement;
 
@@ -437,7 +438,7 @@ test('editing bulletin announcements', function(assert) {
 test('deleting bulletin announcements', function(assert) {
   assert.expect(4);
 
-  authenticateSession(application);
+  authenticateSession(application, sessionData);
 
   var deletedBulletinId;
 

@@ -2,6 +2,7 @@ import Ember from 'ember';
 import { module, test } from 'qunit';
 import startApp from 'mcac/tests/helpers/start-app';
 import mockServer from 'mcac/tests/helpers/server';
+import sessionData from '../../helpers/payloads/sessionData';
 import { authenticateSession } from 'mcac/tests/helpers/ember-simple-auth';
 
 var application;
@@ -17,7 +18,7 @@ module('Acceptance: PostsNew', {
 });
 
 test('saving a post', function(assert) {
-  authenticateSession(application);
+  authenticateSession(application, sessionData);
 
   var server = mockServer(),
       postTitle = 'post title',

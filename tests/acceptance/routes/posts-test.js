@@ -4,6 +4,7 @@ import startApp from 'mcac/tests/helpers/start-app';
 import mockServer from 'mcac/tests/helpers/server';
 import PostPayload from 'mcac/tests/helpers/payloads/post';
 import GroupPayload from 'mcac/tests/helpers/payloads/group';
+import sessionData from '../../helpers/payloads/sessionData';
 import { authenticateSession } from 'mcac/tests/helpers/ember-simple-auth';
 
 var application, server;
@@ -61,7 +62,7 @@ function createServer() {
 }
 
 test('viewing post index', function(assert) {
-  authenticateSession(application);
+  authenticateSession(application, sessionData);
 
   visit('/english-service/posts');
 
@@ -71,7 +72,7 @@ test('viewing post index', function(assert) {
 });
 
 test('viewing a post', function(assert) {
-  authenticateSession(application);
+  authenticateSession(application, sessionData);
 
   visit('/english-service/2015/03/11/1/this-is-a-title');
 
@@ -81,7 +82,7 @@ test('viewing a post', function(assert) {
 });
 
 test('editing a post', function(assert) {
-  authenticateSession(application);
+  authenticateSession(application, sessionData);
 
   visit('/english-service/post/1/edit');
 

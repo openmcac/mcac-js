@@ -20,11 +20,10 @@ module('Acceptance: Login', {
 
 function createServer() {
   var server = mockServer();
-  server.post('/api/users/sign_in', function(request) {
+  server.post('/api/auth/sign_in', function(request) {
     var body = JSON.parse(request.requestBody);
 
-    if (body.user.email !== 'test@example.com' ||
-        body.user.password !== 'loginpass') {
+    if (body.email !== 'test@example.com' || body.password !== 'loginpass') {
       return;
     }
 
@@ -37,7 +36,12 @@ function createServer() {
 
     return [
       201,
-      {"Content-Type": "application/vnd.api+json"},
+      {
+        "Content-Type": "application/vnd.api+json",
+        "access-token": "mytoken",
+        "client": "myclient",
+        "uid": "test@example.com"
+      },
       JSON.stringify(response)
     ];
   });

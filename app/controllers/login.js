@@ -7,6 +7,8 @@ export default Ember.Controller.extend({
       this.get('session').authenticate('authenticator:mcac', {
         email: this.get('email'),
         password: this.get('password')
+      }).then(() => {
+        this.transitionToRoute("index");
       });
     }
   }

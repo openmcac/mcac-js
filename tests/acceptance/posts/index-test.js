@@ -7,6 +7,7 @@ import startApp from 'mcac/tests/helpers/start-app';
 import mockServer from 'mcac/tests/helpers/server';
 import GroupPayload from 'mcac/tests/helpers/payloads/group';
 import PostPayload from 'mcac/tests/helpers/payloads/post';
+import sessionData from '../../helpers/payloads/sessionData';
 import { authenticateSession } from 'mcac/tests/helpers/ember-simple-auth';
 
 var application, server;
@@ -68,7 +69,7 @@ module('Acceptance: PostsIndex', {
 });
 
 test('visiting /posts/index', function(assert) {
-  authenticateSession(application);
+  authenticateSession(application, sessionData);
 
   visit('/english-service/posts');
 
@@ -78,7 +79,7 @@ test('visiting /posts/index', function(assert) {
 });
 
 test('deleting a post', function(assert) {
-  authenticateSession(application);
+  authenticateSession(application, sessionData);
 
   var deletedPost;
 

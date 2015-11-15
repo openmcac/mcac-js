@@ -3,6 +3,7 @@ import startApp from '../../helpers/start-app';
 import { test, module } from 'qunit';
 import mockServer from '../../helpers/server';
 import BulletinPayload from '../../helpers/payloads/bulletin';
+import sessionData from '../../helpers/payloads/sessionData';
 import { authenticateSession } from 'mcac/tests/helpers/ember-simple-auth';
 
 let application, server;
@@ -71,7 +72,7 @@ test('Requires authentication', function(assert) {
 });
 
 test('visiting /english-service/bulletins', function(assert) {
-  authenticateSession(application);
+  authenticateSession(application, sessionData);
 
   visit('/english-service/bulletins');
 
