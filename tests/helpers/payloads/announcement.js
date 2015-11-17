@@ -1,5 +1,3 @@
-import Ember from 'ember';
-
 export default {
   build: function(id, bulletinId, attributes) {
     return {

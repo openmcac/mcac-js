@@ -1,6 +1,7 @@
 import PageObject from "../../../page-object";
 
-let { clickable, fillable, text, visitable, collection, selectable } = PageObject;
+let { text, visitable, collection } = PageObject;
+// let { clickable, fillable, text, visitable, collection, selectable } = PageObject;
 
 export default function(slug) {
   return PageObject.build({

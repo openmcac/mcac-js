@@ -1,7 +1,6 @@
 import Ember from 'ember';
 import startApp from '../helpers/start-app';
 import mockServer from '../helpers/server';
-import Pretender from 'pretender';
 import { module, test } from 'qunit';
 import UserPayload from "../helpers/payloads/user";
 import BulletinPayload from "../helpers/payloads/bulletin";
@@ -21,11 +20,10 @@ module('Acceptance: Login', {
 
 function createServer() {
   var server = mockServer();
-  server.post('/api/users/sign_in', function(request) {
+  server.post('/api/auth/sign_in', function(request) {
     var body = JSON.parse(request.requestBody);
 
-    if (body.user.email !== 'test@example.com' ||
-        body.user.password !== 'loginpass') {
+    if (body.email !== 'test@example.com' || body.password !== 'loginpass') {
       return;
     }
 
@@ -38,12 +36,17 @@ function createServer() {
 
     return [
       201,
-      {"Content-Type": "application/vnd.api+json"},
+      {
+        "Content-Type": "application/vnd.api+json",
+        "access-token": "mytoken",
+        "client": "myclient",
+        "uid": "test@example.com"
+      },
       JSON.stringify(response)
     ];
   });
 
-  server.get('/api/v1/bulletins/1', function(request) {
+  server.get('/api/v1/bulletins/1', function() {
     var response = {
       "data": BulletinPayload.build("1", {
         "published-at": "2014-12-21T13:58:27-05:00",
@@ -60,7 +63,7 @@ function createServer() {
     ];
   });
 
-  server.get('/api/v1/sunday', function(request) {
+  server.get('/api/v1/sunday', function() {
     var response = {
       "data": BulletinPayload.build("1", {
         "published-at": "2014-12-21T13:58:27-05:00",
@@ -77,7 +80,7 @@ function createServer() {
     ];
   });
 
-  server.get("/api/v1/bulletins/:id/announcements", function(request) {
+  server.get("/api/v1/bulletins/:id/announcements", function() {
     let response = { "data": [] };
 
     return [

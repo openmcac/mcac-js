@@ -10,7 +10,7 @@ export default DS.Model.extend({
   slug: DS.attr("string"),
   tags: DS.attr(),
   title: DS.attr("string"),
-  tagList: Ember.computed("tags.@each", {
+  tagList: Ember.computed("tags.[]", {
     get: function() {
       return getTags(this).toArray().join(", ");
     },

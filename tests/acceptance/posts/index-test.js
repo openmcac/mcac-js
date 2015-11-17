@@ -4,16 +4,17 @@ import {
   test
 } from 'qunit';
 import startApp from 'mcac/tests/helpers/start-app';
-import Pretender from 'pretender';
 import mockServer from 'mcac/tests/helpers/server';
 import GroupPayload from 'mcac/tests/helpers/payloads/group';
 import PostPayload from 'mcac/tests/helpers/payloads/post';
+import sessionData from '../../helpers/payloads/sessionData';
+import { authenticateSession } from 'mcac/tests/helpers/ember-simple-auth';
 
 var application, fakeServer;
 
 function createServer() {
   let server = mockServer();
-  server.get('/api/v1/posts', function(request) {
+  server.get('/api/v1/posts', function() {
     let response = {
       "data": [
         PostPayload.build(4, {
@@ -42,7 +43,7 @@ function createServer() {
     ];
   });
 
-  server.get('/api/v1/posts/:id/group', function(request) {
+  server.get('/api/v1/posts/:id/group', function() {
     let response = { "data": GroupPayload.englishService() };
 
     return [
@@ -68,7 +69,7 @@ module('Acceptance: PostsIndex', {
 });
 
 test('visiting /posts/index', function(assert) {
-  authenticateSession();
+  authenticateSession(application, sessionData);
 
   visit('/english-service/posts');
 
@@ -78,11 +79,11 @@ test('visiting /posts/index', function(assert) {
 });
 
 test('deleting a post', function(assert) {
-  authenticateSession();
+  authenticateSession(application, sessionData);
 
   var deletedPost;
 
-  fakeServer.delete('/api/v1/posts/5', function(request) {
+  fakeServer.delete('/api/v1/posts/5', function() {
     deletedPost = true;
 
     return [

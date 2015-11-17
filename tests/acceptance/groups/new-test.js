@@ -4,6 +4,8 @@ import startApp from "mcac/tests/helpers/start-app";
 import NewGroupPage from "mcac/tests/helpers/pages/groups/new";
 import mockServer from 'mcac/tests/helpers/server';
 import GroupPayload from 'mcac/tests/helpers/payloads/group';
+import sessionData from '../../helpers/payloads/sessionData';
+import { authenticateSession } from 'mcac/tests/helpers/ember-simple-auth';
 
 var application, fakeServer;
 
@@ -20,7 +22,7 @@ module('Acceptance | groups/new', {
 });
 
 function mockGroup(groupId, group) {
-  fakeServer.get(`/api/v1/groups/${groupId}`, function(request) {
+  fakeServer.get(`/api/v1/groups/${groupId}`, function() {
     let response = {
       "data": GroupPayload.build(groupId, group)
     };
@@ -30,7 +32,7 @@ function mockGroup(groupId, group) {
 }
 
 test('visiting /groups/new', function(assert) {
-  authenticateSession();
+  authenticateSession(application, sessionData);
   NewGroupPage.visit().
     name("New Group").
     slug("this-is-a-slug").
@@ -45,7 +47,7 @@ test('visiting /groups/new', function(assert) {
 });
 
 test("creating a group", function(assert) {
-  authenticateSession();
+  authenticateSession(application, sessionData);
   let createdGroup;
 
   fakeServer.post("/api/v1/groups", function(request) {

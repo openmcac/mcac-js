@@ -1,5 +1,3 @@
-import DS from "ember-data";
-import Ember from "ember";
 import { moduleForModel, test } from "ember-qunit";
 
 moduleForModel('bulletin', 'Bulletin', {

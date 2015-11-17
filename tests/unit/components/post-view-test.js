@@ -31,7 +31,7 @@ test('it renders', function(assert) {
   let component = this.subject({ post: post });
   assert.equal(component._state, 'preRender');
 
-  debugger;
+  // debugger;
   // Renders the component to the page
   this.render();
   assert.equal(component._state, 'inDOM');

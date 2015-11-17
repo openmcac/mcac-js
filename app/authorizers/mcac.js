@@ -1,20 +1,29 @@
 import Ember from 'ember';
-import Base from 'simple-auth/authorizers/base';
+import Base from 'ember-simple-auth/authorizers/base';
 
 export default Base.extend({
-  authorize: function(jqXHR) {
-    var user = this.get('session.content.data.attributes');
+  session: Ember.inject.service("session"),
+  authorize(sessionData, block) {
+    let user = sessionData.data.attributes;
+    let session = this.get("session");
+
+    if (sessionData.auth) {
+      session.set("auth", sessionData.auth);
+    }
+
     if (Ember.isNone(user)) {
       return;
     }
 
-    var token = user["api-key"];
-    var email = user["email"];
-    if (this.get('session.isAuthenticated') &&
-        !Ember.isEmpty(token) &&
-        !Ember.isEmpty(email)) {
-      jqXHR.setRequestHeader('X-User-Email', email);
-      jqXHR.setRequestHeader('X-User-Token', token);
+    let auth = session.get("auth");
+
+    let token = auth.accessToken;
+    let email = user.email;
+    let clientId = auth.client;
+    if (!Ember.isEmpty(token) && !Ember.isEmpty(email)) {
+      block('access-token', token);
+      block('client', clientId);
+      block('uid', email);
     }
   }
 });

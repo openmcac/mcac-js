@@ -2,9 +2,10 @@ import Ember from 'ember';
 import { module, test } from 'qunit';
 import startApp from '../../helpers/start-app';
 import nextService from 'mcac/utils/next-service';
-import Pretender from 'pretender';
 import mockServer from '../../helpers/server';
 import BulletinPayload from '../../helpers/payloads/bulletin';
+import sessionData from '../../helpers/payloads/sessionData';
+import { authenticateSession } from 'mcac/tests/helpers/ember-simple-auth';
 
 var application, fakeServer;
 
@@ -34,7 +35,7 @@ function mockBulletins(bulletins) {
 }
 
 function mockBulletin(bulletinId, bulletin, withAnnouncements = false) {
-  fakeServer.get(`/api/v1/bulletins/${bulletinId}`, function(request) {
+  fakeServer.get(`/api/v1/bulletins/${bulletinId}`, function() {
     let response = {
       "data": BulletinPayload.build(bulletinId, bulletin, {
         withAnnouncements: withAnnouncements
@@ -45,7 +46,7 @@ function mockBulletin(bulletinId, bulletin, withAnnouncements = false) {
   });
 
   if (!withAnnouncements) {
-    fakeServer.get(`/api/v1/bulletins/${bulletinId}/announcements`, function(request) {
+    fakeServer.get(`/api/v1/bulletins/${bulletinId}/announcements`, function() {
       return [
         200,
         {"Content-Type": "application/vnd.api+json"},
@@ -96,7 +97,7 @@ test("defaults with last week's service order if available", function(assert) {
 });
 
 test('saving a bulletin navigates to edit page', function(assert) {
-  authenticateSession();
+  authenticateSession(application, sessionData);
 
   var createdBulletin;
 

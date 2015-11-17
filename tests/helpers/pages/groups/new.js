@@ -1,7 +1,3 @@
-import Ember from 'ember';
-import { module, test } from 'qunit';
-import startApp from 'mcac/tests/helpers/start-app';
-
 export default {
   visit: function() {
     visit("/groups/new");

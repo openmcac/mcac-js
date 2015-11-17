@@ -1,7 +1,6 @@
 import Ember from 'ember';
 import { module, test } from 'qunit';
 import startApp from '../helpers/start-app';
-import Pretender from 'pretender';
 import mockServer from '../helpers/server';
 import BulletinPayload from '../helpers/payloads/bulletin';
 
@@ -19,7 +18,7 @@ module('Acceptance: SundayRedirect', {
 });
 
 function mockSunday(bulletin) {
-  fakeServer.get("/api/v1/sunday", function(request) {
+  fakeServer.get("/api/v1/sunday", function() {
     var response = { "data": BulletinPayload.build(1, bulletin) };
     return [
       200,
@@ -28,7 +27,7 @@ function mockSunday(bulletin) {
     ];
   });
 
-  fakeServer.get("/api/v1/bulletins/1", function(request) {
+  fakeServer.get("/api/v1/bulletins/1", function() {
     var response = { "data": BulletinPayload.build(1, bulletin) };
     return [
       200,
@@ -37,7 +36,7 @@ function mockSunday(bulletin) {
     ];
   });
 
-  fakeServer.get("/api/v1/bulletins/1/announcements", function(request) {
+  fakeServer.get("/api/v1/bulletins/1/announcements", function() {
     return [
       200,
       {"Content-Type": "application/vnd.api+json"},
