@@ -12,7 +12,7 @@
     "ember-qunit-notifications": "0.0.7",
     "ember-resolver": "~0.1.15",
     "ember-simple-auth": "0.7.3",
-    "ember-uploader": "~0.3.6",
+    "ember-uploader": "~0.3.11",
     "html.sortable": "~0.1.8",
     "jquery": "^1.11.1",
     "loader.js": "ember-cli/loader.js#3.2.0",
