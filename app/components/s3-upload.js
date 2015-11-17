@@ -2,16 +2,22 @@ import Ember from "ember";
 import EmberUploader from "ember-uploader";
 
 export default EmberUploader.FileField.extend({
+  session: Ember.inject.service("session"),
   url: "",
 
   filesDidChange: Ember.observer("files", function() {
-    var _this = this;
-    var uploadUrl = this.get("url");
-    var files = this.get("files");
-    var $progress;
+    let _this = this;
+    let uploadUrl = this.get("url");
+    let files = this.get("files");
+    let $progress;
 
-    var uploader = EmberUploader.S3Uploader.create({
-      url: uploadUrl
+    let uploader = EmberUploader.S3Uploader.create({
+      url: uploadUrl,
+      headers: {
+        "access-token": this.get("session.auth.accessToken"),
+        client: this.get("session.auth.client"),
+        uid: this.get("session.auth.uid")
+      }
     });
 
     uploader.on("didUpload", function(response) {

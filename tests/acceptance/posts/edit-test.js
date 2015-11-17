@@ -1,10 +1,11 @@
 import Ember from 'ember';
 import { module, test } from 'qunit';
 import startApp from 'mcac/tests/helpers/start-app';
-import Pretender from 'pretender';
 import mockServer from 'mcac/tests/helpers/server';
 import PostPayload from 'mcac/tests/helpers/payloads/post';
 import GroupPayload from 'mcac/tests/helpers/payloads/group';
+import sessionData from '../../helpers/payloads/sessionData';
+import { authenticateSession } from 'mcac/tests/helpers/ember-simple-auth';
 
 var application, server;
 
@@ -23,7 +24,7 @@ module('Acceptance: PostsEdit', {
 });
 
 function mockPost(id) {
-  server.get(`/api/v1/posts/${id}`, function(request) {
+  server.get(`/api/v1/posts/${id}`, function() {
     let response = {
       "data":
         PostPayload.build(id, {
@@ -45,7 +46,7 @@ function mockPost(id) {
     ];
   });
 
-  server.get(`/api/v1/posts/${id}/group`, function(request) {
+  server.get(`/api/v1/posts/${id}/group`, function() {
     let response = { "data": GroupPayload.englishService() };
 
     return [
@@ -57,7 +58,7 @@ function mockPost(id) {
 }
 
 test('Visiting /:group_slug/:post_id/edit', function(assert) {
-  authenticateSession();
+  authenticateSession(application, sessionData);
 
   visit('/english-service/post/12/edit');
 
@@ -69,7 +70,7 @@ test('Visiting /:group_slug/:post_id/edit', function(assert) {
 });
 
 test('Updating a post', function(assert) {
-  authenticateSession();
+  authenticateSession(application, sessionData);
 
   var updatedPost;
 

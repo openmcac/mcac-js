@@ -1,7 +1,6 @@
 import AnnouncementPayload from "../helpers/payloads/announcement";
 import BulletinPayload from "../helpers/payloads/bulletin";
 import Ember from "ember";
-import Pretender from "pretender";
 import mockServer from "../helpers/server";
 import startApp from "../helpers/start-app";
 import { test, module } from "qunit";
@@ -19,7 +18,7 @@ module('Acceptance: Sunday', {
 });
 
 function mockSunday(bulletin, withAnnouncements = false) {
-  server.get("/api/v1/sunday", function(request) {
+  server.get("/api/v1/sunday", function() {
     let response = {
       "data": BulletinPayload.build(1, bulletin, {
         withAnnouncements: withAnnouncements
@@ -33,7 +32,7 @@ function mockSunday(bulletin, withAnnouncements = false) {
     ];
   });
 
-  server.get("/api/v1/bulletins/1", function(request) {
+  server.get("/api/v1/bulletins/1", function() {
     let response = {
       "data": BulletinPayload.build(1, bulletin, {
         withAnnouncements: withAnnouncements
@@ -48,7 +47,7 @@ function mockSunday(bulletin, withAnnouncements = false) {
   });
 
   if (!withAnnouncements) {
-    server.get("/api/v1/bulletins/1/announcements", function(request) {
+    server.get("/api/v1/bulletins/1/announcements", function() {
       return [
         200,
         {"Content-Type": "application/vnd.api+json"},
@@ -60,7 +59,7 @@ function mockSunday(bulletin, withAnnouncements = false) {
 
 function mockAnnouncements(bulletinId) {
   server.get(`/api/v1/bulletins/${bulletinId}/announcements`,
-      function(request) {
+      function() {
     let response = {
       "data": [
         AnnouncementPayload.build("1", bulletinId, {

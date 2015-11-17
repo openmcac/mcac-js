@@ -4,7 +4,6 @@ blanket.options({
    filter: "//.*mcac/.*/",
    antifilter: "//.*(tests).*/",
    loaderExclusions: [
-     "ember-bootstrap-datetimepicker",
      "ember-marked",
      "ember-json-api"
    ]
