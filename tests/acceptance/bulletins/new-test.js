@@ -61,6 +61,8 @@ module('Acceptance: New bulletin form', {
   beforeEach: function() {
     application = startApp();
     fakeServer = mockServer();
+
+    authenticateSession(application, sessionData);
   },
   afterEach: function() {
     fakeServer.shutdown();
@@ -97,8 +99,6 @@ test("defaults with last week's service order if available", function(assert) {
 });
 
 test('saving a bulletin navigates to edit page', function(assert) {
-  authenticateSession(application, sessionData);
-
   var createdBulletin;
 
   mockBulletins([]);
