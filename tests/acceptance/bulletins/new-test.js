@@ -7,10 +7,10 @@ import BulletinPayload from '../../helpers/payloads/bulletin';
 import sessionData from '../../helpers/payloads/sessionData';
 import { authenticateSession } from 'mcac/tests/helpers/ember-simple-auth';
 
-var application, server;
+var application, fakeServer;
 
 function mockDefaultAnnouncements(bulletinId) {
-  server.get('/api/v1/announcements', function(request) {
+  fakeServer.get('/api/v1/announcements', function(request) {
     if (request.queryParams["filter[defaults_for_bulletin]"] === `${bulletinId}`) {
       var response = { "data": [] };
       return [
@@ -23,7 +23,7 @@ function mockDefaultAnnouncements(bulletinId) {
 }
 
 function mockBulletins(bulletins) {
-  server.get('/api/v1/bulletins', function(request) {
+  fakeServer.get('/api/v1/bulletins', function(request) {
     if (request.queryParams["filter[latest_for_group]"] === '1') {
       return [
         200,
@@ -35,7 +35,7 @@ function mockBulletins(bulletins) {
 }
 
 function mockBulletin(bulletinId, bulletin, withAnnouncements = false) {
-  server.get(`/api/v1/bulletins/${bulletinId}`, function() {
+  fakeServer.get(`/api/v1/bulletins/${bulletinId}`, function() {
     let response = {
       "data": BulletinPayload.build(bulletinId, bulletin, {
         withAnnouncements: withAnnouncements
@@ -46,7 +46,7 @@ function mockBulletin(bulletinId, bulletin, withAnnouncements = false) {
   });
 
   if (!withAnnouncements) {
-    server.get(`/api/v1/bulletins/${bulletinId}/announcements`, function() {
+    fakeServer.get(`/api/v1/bulletins/${bulletinId}/announcements`, function() {
       return [
         200,
         {"Content-Type": "application/vnd.api+json"},
@@ -60,10 +60,12 @@ module('Acceptance: New bulletin form', {
   needs: ['model:bulletin', 'model:group'],
   beforeEach: function() {
     application = startApp();
-    server = mockServer();
+    fakeServer = mockServer();
+
+    authenticateSession(application, sessionData);
   },
   afterEach: function() {
-    server.shutdown();
+    fakeServer.shutdown();
     Ember.run(application, 'destroy');
   }
 });
@@ -97,14 +99,12 @@ test("defaults with last week's service order if available", function(assert) {
 });
 
 test('saving a bulletin navigates to edit page', function(assert) {
-  authenticateSession(application, sessionData);
-
   var createdBulletin;
 
   mockBulletins([]);
   mockDefaultAnnouncements("2");
 
-  server.post("/api/v1/bulletins", function(request) {
+  fakeServer.post("/api/v1/bulletins", function(request) {
     let requestBody = JSON.parse(request.requestBody);
     createdBulletin = {
       "data": BulletinPayload.build("2", requestBody.data.attributes)

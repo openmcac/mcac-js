@@ -7,7 +7,7 @@ import BulletinPayload from '../../helpers/payloads/bulletin';
 import sessionData from '../../helpers/payloads/sessionData';
 import { authenticateSession } from 'mcac/tests/helpers/ember-simple-auth';
 
-let application, server;
+let application, fakeServer;
 
 function announcementsPayload(bulletinId) {
   return {
@@ -30,7 +30,7 @@ function announcementsPayload(bulletinId) {
 }
 
 function mockDefaultAnnouncements(bulletinId) {
-  server.get(`/api/v1/bulletins/${bulletinId}/announcements`, function() {
+  fakeServer.get(`/api/v1/bulletins/${bulletinId}/announcements`, function() {
     let response = { "data": [] };
     return [
       200,
@@ -39,7 +39,7 @@ function mockDefaultAnnouncements(bulletinId) {
     ];
   });
 
-  server.get('/api/v1/announcements', function(request) {
+  fakeServer.get('/api/v1/announcements', function(request) {
     if (request.queryParams["filter[defaults_for_bulletin]"] === `${bulletinId}`) {
       var response = { "data": [] };
       return [
@@ -52,7 +52,7 @@ function mockDefaultAnnouncements(bulletinId) {
 }
 
 function mockBulletin(bulletinId, bulletin, withAnnouncements = false) {
-  server.get(`/api/v1/bulletins/${bulletinId}`, function() {
+  fakeServer.get(`/api/v1/bulletins/${bulletinId}`, function() {
     let response = {
       "data": BulletinPayload.build(bulletinId, bulletin, {
         withAnnouncements: withAnnouncements
@@ -63,7 +63,7 @@ function mockBulletin(bulletinId, bulletin, withAnnouncements = false) {
   });
 
   if (!withAnnouncements) {
-    server.get(`/api/v1/bulletins/${bulletinId}/announcements`, function() {
+    fakeServer.get(`/api/v1/bulletins/${bulletinId}/announcements`, function() {
       return [
         200,
         {"Content-Type": "application/vnd.api+json"},
@@ -77,10 +77,10 @@ module('Acceptance: Editing a bulletin', {
   needs: ['model:bulletin', 'model:group'],
   beforeEach: function() {
     application = startApp();
-    server = mockServer();
+    fakeServer = mockServer();
   },
   afterEach: function() {
-    server.shutdown();
+    fakeServer.shutdown();
     Ember.run(application, 'destroy');
   }
 });
@@ -100,7 +100,7 @@ test('visiting /:group_slug/bulletins/:id/edit', function(assert) {
   mockBulletin("1", bulletin);
   mockDefaultAnnouncements("1");
 
-  server.put('/api/v1/announcements/:id', function(request) {
+  fakeServer.put('/api/v1/announcements/:id', function(request) {
     return [
       200,
       { "Content-Type": "application/vnd.api+json" },
@@ -134,7 +134,7 @@ test('editing bulletins with announcements', function(assert) {
 
   mockBulletin("1", bulletin, { withAnnouncements: true });
 
-  server.get('/api/v1/bulletins/:id/announcements', function() {
+  fakeServer.get('/api/v1/bulletins/:id/announcements', function() {
     let response = {
       "data": [
         AnnouncementPayload.build("1", "1", {
@@ -187,7 +187,7 @@ test("Saving bulletins with banners", function(assert) {
 
   let savedBulletin;
 
-  server.patch('/api/v1/bulletins/:id', function(request) {
+  fakeServer.patch('/api/v1/bulletins/:id', function(request) {
     savedBulletin = JSON.parse(request.requestBody);
     return [
       200,
@@ -223,7 +223,7 @@ test("Removing bulletin banners", function(assert) {
 
   var savedBulletin;
 
-  server.patch('/api/v1/bulletins/:id', function(request) {
+  fakeServer.patch('/api/v1/bulletins/:id', function(request) {
     savedBulletin = JSON.parse(request.requestBody);
     return [
       200,
@@ -253,7 +253,7 @@ test('populates with latest announcements', function(assert) {
 
   mockBulletin("2", bulletin);
 
-  server.get("/api/v1/announcements", function(request) {
+  fakeServer.get("/api/v1/announcements", function(request) {
     if (request.queryParams["filter[defaults_for_bulletin]"] === "2") {
       let response = announcementsPayload("1");
 
@@ -296,7 +296,7 @@ test('saving a bulletin', function(assert) {
 
   authenticateSession(application, sessionData);
 
-  server.patch('/api/v1/bulletins/1', function(request) {
+  fakeServer.patch('/api/v1/bulletins/1', function(request) {
     savedBulletin = JSON.parse(request.requestBody);
     return [
       200,
@@ -333,7 +333,7 @@ test('creating a new announcement', function(assert) {
 
   authenticateSession(application, sessionData);
 
-  server.patch('/api/v1/bulletins/1', function(request) {
+  fakeServer.patch('/api/v1/bulletins/1', function(request) {
     var response = JSON.parse(request.requestBody);
     return [
       200,
@@ -342,7 +342,7 @@ test('creating a new announcement', function(assert) {
     ];
   });
 
-  server.post("/api/v1/announcements", function(request) {
+  fakeServer.post("/api/v1/announcements", function(request) {
     let requestBody = JSON.parse(request.requestBody);
     createdAnnouncement = {
       "data": AnnouncementPayload.build("1", "1", requestBody.data.attributes)
@@ -399,7 +399,7 @@ test('editing bulletin announcements', function(assert) {
   mockBulletin("1", bulletin, true);
   mockDefaultAnnouncements("1");
 
-  server.get("/api/v1/bulletins/1/announcements", function() {
+  fakeServer.get("/api/v1/bulletins/1/announcements", function() {
     let response = announcementsPayload("1");
 
     return [
@@ -409,11 +409,11 @@ test('editing bulletin announcements', function(assert) {
     ];
   });
 
-  server.patch('/api/v1/bulletins/1', function(request) {
+  fakeServer.patch('/api/v1/bulletins/1', function(request) {
     return [200, {"Content-Type": "application/vnd.api+json"}, request.requestBody];
   });
 
-  server.patch('/api/v1/announcements/:id', function(request) {
+  fakeServer.patch('/api/v1/announcements/:id', function(request) {
     updatedAnnouncement = JSON.parse(request.requestBody);
     return [200, {"Content-Type": "application/vnd.api+json"}, JSON.stringify(updatedAnnouncement)];
   });
@@ -452,7 +452,7 @@ test('deleting bulletin announcements', function(assert) {
   mockBulletin("1", bulletin, true);
   mockDefaultAnnouncements("1");
 
-  server.get("/api/v1/bulletins/1/announcements", function() {
+  fakeServer.get("/api/v1/bulletins/1/announcements", function() {
     let response = announcementsPayload("1");
 
     return [
@@ -462,7 +462,7 @@ test('deleting bulletin announcements', function(assert) {
     ];
   });
 
-  server.delete('/api/v1/announcements/:id', function(request) {
+  fakeServer.delete('/api/v1/announcements/:id', function(request) {
     deletedBulletinId = request.params.id;
     return [204, {"Content-Type": "application/vnd.api+json"}, ''];
   });

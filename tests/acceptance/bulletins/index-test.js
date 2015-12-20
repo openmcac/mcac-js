@@ -6,12 +6,12 @@ import BulletinPayload from '../../helpers/payloads/bulletin';
 import sessionData from '../../helpers/payloads/sessionData';
 import { authenticateSession } from 'mcac/tests/helpers/ember-simple-auth';
 
-let application, server;
+let application, fakeServer;
 
 module('Acceptance: BulletinsIndex', {
   beforeEach: function() {
     application = startApp();
-    server = mockServer();
+    fakeServer = mockServer();
     mockBulletins();
   },
 
@@ -21,7 +21,7 @@ module('Acceptance: BulletinsIndex', {
 });
 
 function mockBulletins() {
-  server.get('/api/v1/bulletins', function(request) {
+  fakeServer.get('/api/v1/bulletins', function(request) {
     if (request.queryParams["filter[group]"] === "1") {
       let bulletin1 = {
         "name": "Sunday Worship Service 1",
@@ -60,7 +60,7 @@ function mockBulletins() {
     }
   });
 
-  return server;
+  return fakeServer;
 }
 
 test('Requires authentication', function(assert) {

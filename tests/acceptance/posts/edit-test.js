@@ -7,24 +7,24 @@ import GroupPayload from 'mcac/tests/helpers/payloads/group';
 import sessionData from '../../helpers/payloads/sessionData';
 import { authenticateSession } from 'mcac/tests/helpers/ember-simple-auth';
 
-var application, server;
+var application, fakeServer;
 
 module('Acceptance: PostsEdit', {
   needs: ['model:bulletin', 'model:group'],
   beforeEach: function() {
     application = startApp();
-    server = mockServer();
+    fakeServer = mockServer();
     mockPost(12);
   },
 
   afterEach: function() {
-    server.shutdown();
+    fakeServer.shutdown();
     Ember.run(application, 'destroy');
   }
 });
 
 function mockPost(id) {
-  server.get(`/api/v1/posts/${id}`, function() {
+  fakeServer.get(`/api/v1/posts/${id}`, function() {
     let response = {
       "data":
         PostPayload.build(id, {
@@ -46,7 +46,7 @@ function mockPost(id) {
     ];
   });
 
-  server.get(`/api/v1/posts/${id}/group`, function() {
+  fakeServer.get(`/api/v1/posts/${id}/group`, function() {
     let response = { "data": GroupPayload.englishService() };
 
     return [
@@ -74,7 +74,7 @@ test('Updating a post', function(assert) {
 
   var updatedPost;
 
-  server.patch('/api/v1/posts/12', function(request) {
+  fakeServer.patch('/api/v1/posts/12', function(request) {
     updatedPost = JSON.parse(request.requestBody);
 
     return [

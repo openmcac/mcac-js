@@ -10,13 +10,14 @@ export default EmberUploader.FileField.extend({
     let uploadUrl = this.get("url");
     let files = this.get("files");
     let $progress;
+    let auth = this.get("session.data.authenticated.auth");
 
     let uploader = EmberUploader.S3Uploader.create({
       url: uploadUrl,
       headers: {
-        "access-token": this.get("session.auth.accessToken"),
-        client: this.get("session.auth.client"),
-        uid: this.get("session.auth.uid")
+        "access-token": auth.accessToken,
+        client: auth.client,
+        uid: auth.uid
       }
     });
 

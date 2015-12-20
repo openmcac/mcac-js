@@ -1,1 +1,30 @@
-<h1>Group: {{name}}</h1>
+<div class="container group-index">
+  <div class="row">
+    <header class="col-sm-offset-1 col-sm-10 group-banner"
+            style="background-image: url('{{model.bannerUrl}}')"
+            data-test-id="group-banner">
+      <h1 class="group-name" data-test-id="name">
+        {{#link-to "group.index" model.slug}}{{model.name}}{{/link-to}}
+      </h1>
+    </header>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-offset-1 col-sm-6 group-posts">
+      {{post-composer group=model}}
+      <h2>Recent activity</h2>
+      {{#each model.posts as |post|}}
+        {{post-view post=post}}
+      {{/each}}
+    </div>
+
+    <div class="col-sm-4">
+      <div class="group-about">
+        <h2>Description</h2>
+        <div data-test-id="about">
+          {{{model.aboutHtml}}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

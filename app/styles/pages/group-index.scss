@@ -1,0 +1,64 @@
+@mixin panel() {
+  background-color: $white;
+  border-color: $gray-light;
+  border-style: solid;
+  border-width: 1px;
+  padding: $padding-m;
+  margin-bottom: $padding-m;
+}
+
+.group-index {
+  background-color: $gray-extralight;
+
+  .group-banner {
+    background-color: $gray-dark;
+    background-position: center;
+    background-size: cover;
+    color: $white;
+    margin-bottom: $padding-m;
+    padding: 250px $padding-l $padding-l $padding-l;
+    position: relative;
+
+    h1 {
+      font-size: 24px;
+      font-weight: normal;
+    }
+
+    a {
+      color: $white;
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
+
+  .group-about {
+    @include panel();
+    font-size: 12px;
+
+    ul {
+      padding-left: 14px;
+    }
+  }
+
+  .post {
+    @include panel();
+  }
+
+  h2 {
+    color: $gray-dark;
+    font-size: 11px;
+    text-transform: uppercase;
+  }
+
+  h3 {
+    font-size: 12px;
+    font-weight: normal;
+    text-transform: uppercase;
+
+    a {
+      color: $gray-dark;
+    }
+  }
+}

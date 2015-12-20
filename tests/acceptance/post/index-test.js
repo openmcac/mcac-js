@@ -5,23 +5,23 @@ import mockServer from 'mcac/tests/helpers/server';
 import PostPayload from 'mcac/tests/helpers/payloads/post';
 import GroupPayload from 'mcac/tests/helpers/payloads/group';
 
-var application, server;
+var application, fakeServer;
 
 module('Acceptance: PostIndex', {
   beforeEach: function() {
     application = startApp();
-    server = mockServer();
+    fakeServer = mockServer();
     mockPost(12);
   },
 
   afterEach: function() {
-    server.shutdown();
+    fakeServer.shutdown();
     Ember.run(application, 'destroy');
   }
 });
 
 function mockPost(id) {
-  server.get(`/api/v1/posts/${id}`, function() {
+  fakeServer.get(`/api/v1/posts/${id}`, function() {
     let response = {
       "data":
         PostPayload.build(id, {
@@ -43,7 +43,7 @@ function mockPost(id) {
     ];
   });
 
-  server.get(`/api/v1/posts/${id}/group`, function() {
+  fakeServer.get(`/api/v1/posts/${id}/group`, function() {
     let response = { "data": GroupPayload.englishService() };
 
     return [
@@ -70,7 +70,7 @@ test('visiting /english-service/12/this-is-a-title', function(assert) {
 test("shows a banner when it has one", function(assert) {
   var bannerUrl = "http://example.com/test.png";
 
-  server.get("/api/v1/posts/12", function() {
+  fakeServer.get("/api/v1/posts/12", function() {
     let response = {
       "data": PostPayload.build(12, {
         "banner-url": bannerUrl,

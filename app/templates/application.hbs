@@ -15,3 +15,41 @@
   ga('create', EmberENV.googleAnalyticsId, 'auto');
   ga('send', 'pageview');
 </script>
+
+<footer class="container">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="pull-left logo"><i class="icon-cma"></i></div>
+      <h1><a href="/">Montreal Chinese Alliance Church</a></h1>
+      <div class="address">
+        <a href="https://www.google.ca/maps/place/13+Rue+Finchley,+Hampstead,+QC+H3X+2Z4/@45.4791032,-73.6348992,17z/data=!3m1!4b1!4m2!3m1!1s0x4cc917507e7efe21:0x334fc9316d4951e3">
+          13 Finchley, Hampstead, Québec H3X 2Z4
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="row sitemap">
+    <div class="col-sm-3 getting-started">
+      <h2>Where to start</h2>
+      <ul>
+        <li>{{#link-to "bulletin/sunday"}}Sunday{{/link-to}}</li>
+      </ul>
+    </div>
+    <div class="col-sm-3 connect">
+      <h2>Connect</h2>
+      <ul>
+        <li>Timothy Fellowship (High School &amp; CEGEP1)</li>
+        <li>{{#link-to "group.index" "bethanies"}}Bethany Fellowship (CEGEP2 &amp; University){{/link-to}}</li>
+        <li>AE Fellowship (Young Adults)</li>
+        <li>Jacob Fellowship (Young Families)</li>
+      </ul>
+    </div>
+    <div class="col-sm-3 serve">
+      <h2>Serve</h2>
+      <ul>
+        <li>Web Ministry</li>
+        <li>Worship Team</li>
+      </ul>
+    </div>
+  </div>
+</footer>

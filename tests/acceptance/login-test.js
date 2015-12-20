@@ -5,15 +5,15 @@ import { module, test } from 'qunit';
 import UserPayload from "../helpers/payloads/user";
 import BulletinPayload from "../helpers/payloads/bulletin";
 
-var application, server;
+var application, fakeServer;
 
 module('Acceptance: Login', {
   beforeEach: function() {
     application = startApp();
-    server = createServer();
+    fakeServer = createServer();
   },
   afterEach: function() {
-    server.shutdown();
+    fakeServer.shutdown();
     Ember.run(application, 'destroy');
   }
 });

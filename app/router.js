@@ -16,6 +16,9 @@ Ember.Route.reopen({
 
 Router.map(function() {
   this.resource("group", { path: ":group_slug" }, function() {
+    this.route("index", { path: "/" }, function() {});
+    this.route("edit", function() {});
+
     this.resource("bulletin", { path: "bulletins/:bulletin_id" }, function() {
       this.route("edit");
     });
@@ -41,6 +44,10 @@ Router.map(function() {
 
   this.route("login");
   this.route("logout");
+
+  this.resource('groups', function() {
+    this.route('new');
+  });
 });
 
 export default Router;

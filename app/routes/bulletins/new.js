@@ -1,7 +1,8 @@
 import Ember from 'ember';
 import nextService from 'mcac/utils/next-service';
+import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
 
-export default Ember.Route.extend({
+export default Ember.Route.extend(AuthenticatedRouteMixin, {
   model: function() {
     var publishedAt = nextService();
     var group = this.modelFor('group');

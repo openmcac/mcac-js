@@ -10,7 +10,7 @@ import PostPayload from 'mcac/tests/helpers/payloads/post';
 import sessionData from '../../helpers/payloads/sessionData';
 import { authenticateSession } from 'mcac/tests/helpers/ember-simple-auth';
 
-var application, server;
+var application, fakeServer;
 
 function createServer() {
   let server = mockServer();
@@ -59,11 +59,11 @@ function createServer() {
 module('Acceptance: PostsIndex', {
   beforeEach: function() {
     application = startApp();
-    server = createServer();
+    fakeServer = createServer();
   },
 
   afterEach: function() {
-    server.shutdown();
+    fakeServer.shutdown();
     Ember.run(application, 'destroy');
   }
 });
@@ -83,7 +83,7 @@ test('deleting a post', function(assert) {
 
   var deletedPost;
 
-  server.delete('/api/v1/posts/5', function() {
+  fakeServer.delete('/api/v1/posts/5', function() {
     deletedPost = true;
 
     return [

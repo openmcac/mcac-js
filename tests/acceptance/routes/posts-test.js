@@ -7,16 +7,16 @@ import GroupPayload from 'mcac/tests/helpers/payloads/group';
 import sessionData from '../../helpers/payloads/sessionData';
 import { authenticateSession } from 'mcac/tests/helpers/ember-simple-auth';
 
-var application, server;
+var application, fakeServer;
 
 module('Acceptance: Post Routes', {
   beforeEach: function() {
     application = startApp();
-    server = createServer();
+    fakeServer = createServer();
   },
 
   afterEach: function() {
-    server.shutdown();
+    fakeServer.shutdown();
     Ember.run(application, 'destroy');
   }
 });
