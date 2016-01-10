@@ -2,8 +2,38 @@
 var EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
 module.exports = function(defaults) {
+  var env = EmberApp.env() || "development";
+  var isProductionLikeBuild = ['production', 'staging'].indexOf(env) > -1;
+  var fingerprintOptions = {
+    enabled: true,
+    extensions: ['js', 'css', 'png', 'jpg', 'gif']
+  };
+
+  switch (env) {
+    case "development":
+      fingerprintOptions.prepend = "http://localhost:4200/";
+      break;
+    case "staging":
+      fingerprintOptions.prepend = "https://s3.amazonaws.com/mcac-staging/app/";
+      break;
+  }
+
   var app = new EmberApp(defaults, {
-    // Add options here
+    fingerprint: fingerprintOptions,
+    emberCLIDeploy: {
+      runOnPostBuild: (env === "development") ? "development-postbuild" : false,
+      configFile: "config/deploy.js",
+      shouldActivate: true
+    },
+    sourcemaps: {
+      enabled: !isProductionLikeBuild
+    },
+    minifyCSS: {
+      enabled: isProductionLikeBuild
+    },
+    minifyJS: {
+      enabled: isProductionLikeBuild
+    }
   });
 
   app.import('bower_components/bootstrap/dist/js/bootstrap.js');
