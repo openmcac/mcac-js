@@ -11,7 +11,6 @@ module.exports = function(defaults) {
 
   switch (env) {
     case "development":
-      fingerprintOptions.prepend = "http://localhost:4200/";
       break;
     case "staging":
       fingerprintOptions.prepend = "https://s3.amazonaws.com/mcac-staging/app/";
@@ -21,7 +20,6 @@ module.exports = function(defaults) {
   var app = new EmberApp(defaults, {
     fingerprint: fingerprintOptions,
     emberCLIDeploy: {
-      runOnPostBuild: (env === "development") ? "development-postbuild" : false,
       configFile: "config/deploy.js",
       shouldActivate: true
     },
