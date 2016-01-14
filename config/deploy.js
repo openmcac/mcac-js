@@ -29,7 +29,7 @@ module.exports = function(deployTarget) {
 
     ENV["ssh-tunnel"] = {
       username: "deploy",
-      host: "staging.mcac.church"
+      host: process.env.sshHost
     }
 
     ENV.plugins = ["build", "revision-data", "s3", "ssh-tunnel", "redis"];
