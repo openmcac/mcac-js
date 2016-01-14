@@ -16,3 +16,7 @@
 npm-debug.log
 testem.log
 .DS_Store
+
+.env.deploy.staging
+.env.deploy.development
+.env.deploy.production
