@@ -7,7 +7,7 @@ export default Ember.Route.extend({
     return request('/api/v1/sunday').then(function(data) {
       var store = _this.get('store');
       store.pushPayload("bulletin", data);
-      var results = store.findRecord('bulletin', data.data.id);
+      var results = store.peekRecord('bulletin', data.data.id);
       return results;
     });
   }
