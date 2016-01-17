@@ -8,7 +8,7 @@ export default Ember.Component.extend({
     nextBulletin() {
       let store = this.get("store");
       let router = this.get("router");
-      let nextBulletinUrl = `/api/v1/bulletins/${this.get("bulletin.id")}/next`
+      let nextBulletinUrl = `/api/v1/bulletins/${this.get("bulletin.id")}/next`;
 
       return request(nextBulletinUrl).
         then(transitionToBulletinFn(store, router));
@@ -17,7 +17,7 @@ export default Ember.Component.extend({
       let store = this.get("store");
       let router = this.get("router");
       let previousBulletinUrl =
-        `/api/v1/bulletins/${this.get("bulletin.id")}/previous`
+        `/api/v1/bulletins/${this.get("bulletin.id")}/previous`;
 
       return request(previousBulletinUrl).
         then(transitionToBulletinFn(store, router));
