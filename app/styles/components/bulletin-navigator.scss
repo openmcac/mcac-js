@@ -1,0 +1,17 @@
+.bulletin-navigator {
+  margin-left: $padding-l;
+  margin-top: $padding-l;
+  position: absolute;
+  z-index: 100;
+
+  .nav-button {
+    background: rgb(0, 0, 0); /* Fall-back for browsers that don't support rgba */
+    background: rgba(0, 0, 0, .5);
+    padding: $padding-m;
+
+    &, &:hover {
+      color: $white;
+      text-decoration: none;
+    }
+  }
+}
