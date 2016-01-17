@@ -14,4 +14,8 @@
       text-decoration: none;
     }
   }
+
+  @media only screen and (min-width: $medium-device-break) {
+    margin-left: $padding-xl;
+  }
 }
