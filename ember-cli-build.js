@@ -57,7 +57,7 @@ module.exports = function(defaults) {
   var customFonts = pickFiles('vendor/fontello/font', {
     srcDir: '/',
     files: ['**/*'],
-    destDir: '/fonts'
+    destDir: '/font'
   });
 
   return mergeTrees([app.toTree(), bootstrapFonts, customFonts]);
