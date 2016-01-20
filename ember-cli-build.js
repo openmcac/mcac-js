@@ -15,6 +15,9 @@ module.exports = function(defaults) {
     case "staging":
       fingerprintOptions.prepend = "https://s3.amazonaws.com/mcac-staging/app/";
       break;
+    case "production":
+      fingerprintOptions.prepend = "https://s3.amazonaws.com/mcac/app/";
+      break;
   }
 
   var app = new EmberApp(defaults, {
