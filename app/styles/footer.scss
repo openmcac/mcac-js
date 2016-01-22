@@ -62,6 +62,10 @@ footer {
     }
   }
 
+  .about {
+    margin: $padding-l 0;
+  }
+
   @media only screen and (min-width: $small-device-break) {
     h1 {
       font-size: 28px;
@@ -70,11 +74,19 @@ footer {
     .address {
       font-size: 16px;
     }
+
+    .about {
+      font-size: 22px;
+    }
   }
 
   @media only screen and (min-width: $medium-device-break) {
     h1 {
       font-size: 36px;
+    }
+
+    .about {
+      font-size: 24px;
     }
   }
 }
