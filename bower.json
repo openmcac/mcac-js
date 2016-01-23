@@ -13,7 +13,6 @@
     "ember-resolver": "~0.1.15",
     "ember-simple-auth": "0.7.3",
     "ember-uploader": "~0.3.11",
-    "html.sortable": "~0.1.8",
     "jquery": "1.11.3",
     "loader.js": "ember-cli/loader.js#3.2.0",
     "marked": "~0.3.2",
