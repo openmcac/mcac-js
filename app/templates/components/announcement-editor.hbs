@@ -7,14 +7,16 @@
              class="description"
              value=announcement.description}}
 
-  <button {{action 'addAnnouncement'}} class="btn btn-default add-announcement">
-    Add
-  </button>
+  <div class="handle">
+    <button {{action 'addAnnouncement'}} class="btn btn-default add-announcement">
+      Add
+    </button>
 
-  <button {{action 'removeAnnouncement' announcement}}
-          class="btn btn-danger remove-announcement">
-    Remove
-  </button>
+    <button {{action 'removeAnnouncement' announcement}}
+            class="btn btn-danger remove-announcement">
+      Remove
+    </button>
+  </div>
 
   {{yield}}
 </div>

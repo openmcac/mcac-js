@@ -3,15 +3,16 @@
   Add Announcement
 </button>
 
-{{#sortable-group tagName="ul" onChange="reorderAnnouncements" as |group|}}
-  {{#each announcements as |announcement|}}
-    {{#sortable-item tagName="li" model=announcement group=group handle=".handle"}}
-      {{announcement-editor announcement=announcement
-                            add-announcement="addAnnouncement"
-                            remove-announcement="removeAnnouncement"}}
-      <span class="handle">&varr;</span>
-    {{/sortable-item}}
-  {{/each}}
-{{/sortable-group}}
+<div class="announcements-editor">
+  {{#sortable-group tagName="ul" onChange="reorderAnnouncements" as |group|}}
+    {{#each announcements as |announcement|}}
+      {{#sortable-item tagName="li" model=announcement group=group handle=".handle"}}
+        {{announcement-editor announcement=announcement
+                              add-announcement="addAnnouncement"
+                              remove-announcement="removeAnnouncement"}}
+      {{/sortable-item}}
+    {{/each}}
+  {{/sortable-group}}
+</div>
 
 {{yield}}

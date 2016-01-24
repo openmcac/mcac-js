@@ -29,19 +29,40 @@ $announcement-height: 60px;
   }
 }
 
-.announcement-editor {
-  textarea.description {
-    width: 100%;
-    height: $announcement-height;
-    border: none;
+.announcements-editor {
+  ul {
+    list-style: none;
+    padding: 0;
   }
 
-  .url {
-    width: 100%;
-    border-style: none;
-    border-bottom-style: solid;
-    border-bottom-width: 1px;
+  li {
+    border-style: solid;
+    border-width: $padding-xs;
     border-color: $gray-light;
-    margin-bottom: $padding-m;
+    margin: $padding-m 0;
+    padding: $padding-m;
+
+    background-color: $white;
+  }
+
+  .announcement-editor {
+    textarea.description {
+      width: 100%;
+      height: $announcement-height;
+      border: none;
+    }
+
+    .url {
+      width: 100%;
+      border-style: none;
+      border-bottom-style: solid;
+      border-bottom-width: 1px;
+      border-color: $gray-light;
+      margin-bottom: $padding-m;
+    }
+
+    .handle {
+      cursor: ns-resize;
+    }
   }
 }
