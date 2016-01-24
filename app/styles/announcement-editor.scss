@@ -35,17 +35,14 @@ $announcement-height: 60px;
     padding: 0;
   }
 
-  li {
+  .announcement-editor {
+    background-color: $white;
+    border-color: $gray-light;
     border-style: solid;
     border-width: $padding-xs;
-    border-color: $gray-light;
     margin: $padding-m 0;
     padding: $padding-m;
 
-    background-color: $white;
-  }
-
-  .announcement-editor {
     textarea.description {
       width: 100%;
       height: $announcement-height;
@@ -63,6 +60,10 @@ $announcement-height: 60px;
 
     .handle {
       cursor: ns-resize;
+    }
+
+    &.deleted {
+      display: none;
     }
   }
 }

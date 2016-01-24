@@ -7,8 +7,8 @@ export default Ember.Component.extend({
       this.set("announcements", announcements);
     },
     addAnnouncement: function(index) {
-      var announcements = this.get('announcements');
-      var store = this.get('targetObject').store;
+      let announcements = this.get('announcements');
+      let store = this.get('targetObject').store;
 
       let newAnnouncement = store.createRecord('announcement', {});
       newAnnouncement.set("bulletin", announcements.get("firstObject.bulletin"));
@@ -16,12 +16,7 @@ export default Ember.Component.extend({
       syncPositions(announcements);
     },
     removeAnnouncement: function(announcement) {
-      var _this = this;
-      Pace.restart();
-      announcement.destroyRecord().then(function() {
-        syncPositions(_this.get("announcements"));
-        Pace.stop();
-      });
+      announcement.deleteRecord();
     },
     appendAnnouncement: function() {
       this.sendAction('append-announcement');
