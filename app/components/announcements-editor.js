@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   actions: {
-    reorderAnnouncements(bulletin, announcements, draggedAnnouncement) {
+    reorderAnnouncements(bulletin, announcements) {
       syncPositions(announcements);
       bulletin.set("announcements", announcements);
     },
@@ -20,5 +20,5 @@ function syncPositions(announcements) {
 
   announcements.
     filter((a) => !a.get("isDeleted")).
-    forEach((a) => { a.set("position", position++) });
+    forEach((a) => { a.set("position", position++); });
 }
