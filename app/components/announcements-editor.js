@@ -20,5 +20,5 @@ function syncPositions(announcements) {
 
   announcements.
     filter((a) => !a.get("isDeleted")).
-    forEach((a) => { a.set("position", position++) })
+    forEach((a) => { a.set("position", position++) });
 }

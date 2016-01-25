@@ -37,18 +37,3 @@ export default Ember.Controller.extend({
     return "is-hidden";
   })
 });
-
-function saveNextAnnouncement(bulletin) {
-  function next() {
-    saveNextAnnouncement(bulletin);
-  }
-
-  var unsavedAnnouncement =
-    bulletin.get('unsavedAnnouncements').get('firstObject');
-
-  if (unsavedAnnouncement) {
-    unsavedAnnouncement.save().then(next);
-  } else {
-    Pace.stop();
-  }
-}
