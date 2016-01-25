@@ -6,16 +6,6 @@ export default Ember.Component.extend({
       syncPositions(announcements);
       bulletin.set("announcements", announcements);
     },
-    addAnnouncement: function(index) {
-      this.get('bulletin.sortedAnnouncements').then((announcements) => {
-        let store = this.get('targetObject').store;
-
-        let newAnnouncement = store.createRecord('announcement', {});
-        newAnnouncement.set("bulletin", this.get("bulletin"));
-        announcements.insertAt(index, newAnnouncement);
-        syncPositions(announcements);
-      });
-    },
     removeAnnouncement: function(announcement) {
       announcement.deleteRecord();
     },

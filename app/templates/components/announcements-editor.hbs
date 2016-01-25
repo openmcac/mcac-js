@@ -8,7 +8,6 @@
     {{#each bulletin.sortedAnnouncements as |announcement|}}
       {{#sortable-item tagName="li" model=announcement group=group handle=".handle"}}
         {{announcement-editor announcement=announcement
-                              add-announcement="addAnnouncement"
                               remove-announcement="removeAnnouncement"}}
       {{/sortable-item}}
     {{/each}}
