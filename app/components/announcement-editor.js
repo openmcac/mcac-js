@@ -12,9 +12,6 @@ export default Ember.Component.extend({
     return `announcement-editor announcement-editor-${announcementId} ${deleted}`;
   }),
   actions: {
-    addAnnouncement: function() {
-      this.sendAction('add-announcement', this.get("announcement.position"));
-    },
     removeAnnouncement: function(announcement) {
       this.sendAction('remove-announcement', announcement);
     }
