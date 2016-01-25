@@ -435,49 +435,6 @@ test('editing bulletin announcements', function(assert) {
   });
 });
 
-test('deleting bulletin announcements', function(assert) {
-  assert.expect(4);
-
-  authenticateSession(application, sessionData);
-
-  var deletedBulletinId;
-
-  let bulletin = {
-    "description": "This is a service bulletin.",
-    "name": "Sunday Service",
-    "service-order": "This is the service order.",
-    "published-at": "2015-03-07T03:58:40+00:00"
-  };
-
-  mockBulletin("1", bulletin, true);
-  mockDefaultAnnouncements("1");
-
-  fakeServer.get("/api/v1/bulletins/1/announcements", function() {
-    let response = announcementsPayload("1");
-
-    return [
-      200,
-      { "Content-Type": "application/vnd.api+json" },
-      JSON.stringify(response)
-    ];
-  });
-
-  fakeServer.delete('/api/v1/announcements/:id', function(request) {
-    deletedBulletinId = request.params.id;
-    return [204, {"Content-Type": "application/vnd.api+json"}, ''];
-  });
-
-  visit('/english-service/bulletins/1/edit');
-  click('.announcement-editor-9 .remove-announcement');
-
-  andThen(function() {
-    assert.equal(find('.announcement-editor-8 .description').val(), 'This is an announcement');
-    assert.equal(find('.announcement-editor-10 .description').val(), 'This is the third announcement');
-    assert.equal(find('.announcement-editor').length, 2);
-    assert.equal(deletedBulletinId, '9');
-  });
-});
-
 function equalDate(assert, actual, expected) {
   assert.equal(window.moment(actual).toDate().getTime(),
         window.moment(expected).toDate().getTime());

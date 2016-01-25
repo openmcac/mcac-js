@@ -3,14 +3,15 @@
   Add Announcement
 </button>
 
-<ol id="announcements-editor">
-  {{#each announcements as |announcement|}}
-    <li class="draggable-announcement" data-id="{{announcement.id}}">
-      {{announcement-editor announcement=announcement
-                            add-announcement="addAnnouncement"
-                            remove-announcement="removeAnnouncement"}}
-    </li>
-  {{/each}}
-</ol>
+<div class="announcements-editor">
+  {{#sortable-group tagName="ul" model=bulletin onChange="reorderAnnouncements" as |group|}}
+    {{#each bulletin.sortedAnnouncements as |announcement|}}
+      {{#sortable-item tagName="li" model=announcement group=group handle=".handle"}}
+        {{announcement-editor announcement=announcement
+                              remove-announcement="removeAnnouncement"}}
+      {{/sortable-item}}
+    {{/each}}
+  {{/sortable-group}}
+</div>
 
 {{yield}}

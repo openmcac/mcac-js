@@ -1,18 +1,17 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-  announcementClass: Ember.computed('announcement.id', function() {
-    var announcementId = this.get('announcement.id');
+  announcementClass: Ember.computed("announcement.id", "announcement.isDeleted", function() {
+    let announcementId = this.get('announcement.id');
     if (Ember.isNone(announcementId)) {
       announcementId = "new";
     }
 
-    return `announcement-editor announcement-editor-${announcementId}`;
+    let deleted = this.get("announcement.isDeleted") ? "deleted" : "";
+
+    return `announcement-editor announcement-editor-${announcementId} ${deleted}`;
   }),
   actions: {
-    addAnnouncement: function() {
-      this.sendAction('add-announcement', this.position);
-    },
     removeAnnouncement: function(announcement) {
       this.sendAction('remove-announcement', announcement);
     }
