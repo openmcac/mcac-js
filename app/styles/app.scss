@@ -17,3 +17,7 @@
 body {
   background-color: $gray-extradark;
 }
+
+[data-ember-action] {
+  cursor: pointer;
+}
