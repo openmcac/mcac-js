@@ -34,6 +34,22 @@ export default function() {
     };
   });
 
+  this.post("/api/v1/groups", (db, request) => {
+    let data = JSON.parse(request.requestBody).data;
+    let attributes = data.attributes;
+    attributes.id = data.id;
+
+    db.groups.insert(data.attributes);
+
+    return {
+      data: {
+        type: "groups",
+        id: attributes.id,
+        attributes: attributes
+      }
+    };
+  });
+
   this.get("/api/v1/posts", function(db) {
     return {
       data: db.posts.map(attrs => ({
