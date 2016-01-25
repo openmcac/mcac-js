@@ -2,18 +2,19 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   actions: {
-    reorderAnnouncements(announcements, draggedAnnouncement) {
+    reorderAnnouncements(bulletin, announcements, draggedAnnouncement) {
       syncPositions(announcements);
-      this.set("announcements", announcements);
+      bulletin.set("announcements", announcements);
     },
     addAnnouncement: function(index) {
-      let announcements = this.get('announcements');
-      let store = this.get('targetObject').store;
+      this.get('bulletin.sortedAnnouncements').then((announcements) => {
+        let store = this.get('targetObject').store;
 
-      let newAnnouncement = store.createRecord('announcement', {});
-      newAnnouncement.set("bulletin", announcements.get("firstObject.bulletin"));
-      announcements.insertAt(index, newAnnouncement);
-      syncPositions(announcements);
+        let newAnnouncement = store.createRecord('announcement', {});
+        newAnnouncement.set("bulletin", this.get("bulletin"));
+        announcements.insertAt(index, newAnnouncement);
+        syncPositions(announcements);
+      });
     },
     removeAnnouncement: function(announcement) {
       announcement.deleteRecord();
@@ -25,7 +26,9 @@ export default Ember.Component.extend({
 });
 
 function syncPositions(announcements) {
-  announcements.forEach((announcement, index) => {
-    announcement.set("position", index + 1);
-  })
+  let position = 1;
+
+  announcements.
+    filter((a) => !a.get("isDeleted")).
+    forEach((a) => { a.set("position", position++) })
 }

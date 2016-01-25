@@ -12,8 +12,18 @@ export default Ember.Controller.extend({
       var bulletin = _this.get('model');
       bulletin.set('publishedAt', moment(bulletin.get('publishedAt')).toDate());
       Pace.restart();
-      bulletin.save().then(function() {
-        saveNextAnnouncement(bulletin);
+      bulletin.save().then(() => {
+        let position = 1;
+
+        bulletin.get("sortedAnnouncements").forEach((announcement) => {
+          if (!announcement.get("isDeleted")) {
+            announcement.set("position", position++);
+          }
+
+          announcement.save().then(() => {}, () => {
+            announcement.save();
+          });
+        });
       });
     },
     didUploadBanner: function(storageUrl) {

@@ -4,8 +4,8 @@
 </button>
 
 <div class="announcements-editor">
-  {{#sortable-group tagName="ul" onChange="reorderAnnouncements" as |group|}}
-    {{#each announcements as |announcement|}}
+  {{#sortable-group tagName="ul" model=bulletin onChange="reorderAnnouncements" as |group|}}
+    {{#each bulletin.sortedAnnouncements as |announcement|}}
       {{#sortable-item tagName="li" model=announcement group=group handle=".handle"}}
         {{announcement-editor announcement=announcement
                               add-announcement="addAnnouncement"
