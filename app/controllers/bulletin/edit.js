@@ -22,7 +22,9 @@ export default Ember.Controller.extend({
           }
 
           announcement.save().then(() => {}, () => {
-            announcement.save();
+            announcement.save().then(() => {}, () => {
+              this.get("notify").alert("Failed to save announcement.");
+            });
           });
         });
 
