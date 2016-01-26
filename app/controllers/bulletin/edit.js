@@ -1,6 +1,15 @@
 import Ember from 'ember';
+import EmberValidations from 'ember-validations';
 
-export default Ember.Controller.extend({
+export default Ember.Controller.extend(EmberValidations, {
+  validations: {
+    "model.name": {
+      presence: true
+    },
+    "model.publishedAt": {
+      presence: true
+    }
+  },
   notify: Ember.inject.service("notify"),
   actions: {
     appendAnnouncement: function() {
@@ -10,6 +19,10 @@ export default Ember.Controller.extend({
     },
     save: function() {
       var _this = this;
+      if (!this.get("isValid")) {
+        return;
+      }
+
       var bulletin = _this.get('model');
       bulletin.set('publishedAt', moment(bulletin.get('publishedAt')).toDate());
       Pace.restart();
@@ -42,5 +55,11 @@ export default Ember.Controller.extend({
   },
   bannerPreviewStyle: Ember.observer("model.bannerUrl", function() {
     return "is-hidden";
+  }),
+  errorClass() {
+    return this.get("errors.model");
+  },
+  disableSaveButton: Ember.computed("isValid", function() {
+    return !this.get("isValid");
   })
 });
