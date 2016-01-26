@@ -19,10 +19,6 @@ export default Ember.Controller.extend(EmberValidations, {
     },
     save: function() {
       var _this = this;
-      if (!this.get("isValid")) {
-        return;
-      }
-
       var bulletin = _this.get('model');
       bulletin.set('publishedAt', moment(bulletin.get('publishedAt')).toDate());
       Pace.restart();
@@ -56,9 +52,6 @@ export default Ember.Controller.extend(EmberValidations, {
   bannerPreviewStyle: Ember.observer("model.bannerUrl", function() {
     return "is-hidden";
   }),
-  errorClass() {
-    return this.get("errors.model");
-  },
   disableSaveButton: Ember.computed("isValid", function() {
     return !this.get("isValid");
   })
