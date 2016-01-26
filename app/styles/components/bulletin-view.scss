@@ -87,6 +87,10 @@
       }
     }
 
+    .contents .row {
+      display: flex;
+    }
+
     .contents,
     .secondary-info {
       @include flexbox();
