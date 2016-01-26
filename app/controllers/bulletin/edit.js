@@ -1,6 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
+  notify: Ember.inject.service("notify"),
   actions: {
     appendAnnouncement: function() {
       var bulletin = this.get('model');
@@ -24,6 +25,10 @@ export default Ember.Controller.extend({
             announcement.save();
           });
         });
+
+        this.get("notify").success("Bulletin saved.");
+      }, (response) => {
+        this.get("notify").alert(`Failed to save bulletin: ${response.errors[0].title}`);
       });
     },
     didUploadBanner: function(storageUrl) {
