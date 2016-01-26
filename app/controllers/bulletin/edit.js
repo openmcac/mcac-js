@@ -38,8 +38,8 @@ export default Ember.Controller.extend(EmberValidations, {
         });
 
         this.get("notify").success("Bulletin saved.");
-      }, (response) => {
-        this.get("notify").alert(`Failed to save bulletin: ${response.errors[0].title}`);
+      }, () => {
+        this.get("notify").alert("Failed to save bulletin");
       });
     },
     didUploadBanner: function(storageUrl) {
