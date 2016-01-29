@@ -66,6 +66,10 @@ footer {
     margin: $padding-l 0;
   }
 
+  .vision-statement {
+    font-style: italic;
+  }
+
   @media only screen and (min-width: $small-device-break) {
     h1 {
       font-size: 28px;
