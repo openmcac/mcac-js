@@ -60,6 +60,7 @@
     "ember-resize": "0.0.10",
     "ember-simple-auth": "1.0.1",
     "ember-sortable": "1.6.3",
+    "ember-validations": "2.0.0-alpha.4",
     "ember-watson": "^0.5.4",
     "express": "^4.8.5",
     "glob": "^4.0.5",

@@ -1,6 +1,15 @@
 import Ember from 'ember';
+import EmberValidations from 'ember-validations';
 
-export default Ember.Controller.extend({
+export default Ember.Controller.extend(EmberValidations, {
+  validations: {
+    "model.name": {
+      presence: true
+    },
+    "model.publishedAt": {
+      presence: true
+    }
+  },
   notify: Ember.inject.service("notify"),
   actions: {
     appendAnnouncement: function() {
@@ -9,8 +18,7 @@ export default Ember.Controller.extend({
       announcements.pushObject(this.store.createRecord('announcement', { position: announcements.get('length') + 1 }));
     },
     save: function() {
-      var _this = this;
-      var bulletin = _this.get('model');
+      let bulletin = this.get('model');
       bulletin.set('publishedAt', moment(bulletin.get('publishedAt')).toDate());
       Pace.restart();
       bulletin.save().then(() => {
@@ -29,8 +37,8 @@ export default Ember.Controller.extend({
         });
 
         this.get("notify").success("Bulletin saved.");
-      }, (response) => {
-        this.get("notify").alert(`Failed to save bulletin: ${response.errors[0].title}`);
+      }, () => {
+        this.get("notify").alert("Failed to save bulletin");
       });
     },
     didUploadBanner: function(storageUrl) {
@@ -42,5 +50,8 @@ export default Ember.Controller.extend({
   },
   bannerPreviewStyle: Ember.observer("model.bannerUrl", function() {
     return "is-hidden";
+  }),
+  disableSaveButton: Ember.computed("isValid", function() {
+    return !this.get("isValid");
   })
 });

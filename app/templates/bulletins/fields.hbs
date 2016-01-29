@@ -2,14 +2,14 @@
   <h3>Service Information</h3>
 
   <div class="row">
-    <div class="form-group col-md-10">
-      <label for="bulletinName">Name</label>
+    <div class="form-group col-md-10 {{if errors.model.name "has-error" ""}}">
+      <label class="control-label" for="bulletinName">Name {{errors.model.name}}</label>
       {{input id="bulletinName" value=model.name class="form-control bulletin-name"}}
     </div>
   </div>
   <div class="row">
-    <div class="form-group col-md-10">
-      <label for="publishedAt">Published at</label>
+    <div class="form-group col-md-10 {{if errors.model.publishedAt "has-error" ""}}">
+      <label class="control-label" for="publishedAt">Published at {{errors.model.publishedAt}}</label>
       {{bs-datetimepicker class="published-at" date=model.publishedAt updateDate=(action (mut model.publishedAt))}}
     </div>
   </div>
@@ -58,7 +58,8 @@
 
   <button type="submit"
           {{action 'save'}}
-          class="btn btn-primary save-bulletin">
+          class="btn btn-primary save-bulletin"
+          disabled={{disableSaveButton}}>
     Save
   </button>
 </section>
