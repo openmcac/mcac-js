@@ -5,20 +5,29 @@
     <div class="form-group col-md-10 {{if errors.model.name "has-error" ""}}"
       data-test-id="name">
       <label class="control-label" for="bulletinName">Name {{errors.model.name}}</label>
-      {{input id="bulletinName" value=model.name class="form-control bulletin-name"}}
+      {{input id="bulletinName"
+              value=model.name
+              class="form-control bulletin-name"
+              data-auto-id="bulletin-name"}}
     </div>
   </div>
   <div class="row">
     <div class="form-group col-md-10 {{if errors.model.publishedAt "has-error" ""}}"
       data-test-id="published-at">
       <label class="control-label" for="publishedAt">Published at {{errors.model.publishedAt}}</label>
-      {{bs-datetimepicker class="published-at" date=model.publishedAt updateDate=(action (mut model.publishedAt))}}
+      {{bs-datetimepicker class="published-at"
+                          date=model.publishedAt
+                          updateDate=(action (mut model.publishedAt))
+                          data-auto-id="bulletin-published-at"}}
     </div>
   </div>
   <div class="row">
     <div class="form-group col-md-10" data-test-id="description">
       <label for="description">Description</label>
-      {{input id="description" value=model.description class="form-control description"}}
+      {{input id="description"
+              value=model.description
+              class="form-control description"
+              data-auto-id="bulletin-description"}}
     </div>
   </div>
   <div class="row">
@@ -45,6 +54,7 @@
       {{markdown-textarea id="serviceOrder"
                           value=model.serviceOrder
                           class="form-control service-order"
+                          data-auto-id="bulletin-service-order"
                           rows="10"}}
     </div>
   </div>
@@ -54,6 +64,7 @@
       {{markdown-textarea id="sermonNotes"
                           value=model.sermonNotes
                           class="form-control sermon-notes"
+                          data-auto-id="bulletin-sermon-notes"
                           rows="10"}}
     </div>
   </div>
