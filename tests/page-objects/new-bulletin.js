@@ -1,9 +1,9 @@
 import BasePageObject from './base';
 
-export default class EditBulletinPage extends BasePageObject {
-  visit(groupSlug, bulletinId) {
+export default class NewBulletinPage extends BasePageObject {
+  visit(groupSlug) {
     return this.andThen(() => {
-      return visit(`/${groupSlug}/bulletins/${bulletinId}/edit`);
+      return visit(`/${groupSlug}/bulletins/new`);
     });
   }
   clickSubmit() {
@@ -45,7 +45,28 @@ export default class EditBulletinPage extends BasePageObject {
       return this.assertEqualDate(actualPublishedAt, publishedAt);
     });
   }
-  assertNoAnnouncements() {
-    return this.assertNotPresent("announcement-editor");
+  assertCreatedBulletin(server) {
+    return this.andThen(() => {
+      let bulletins = server.db.bulletins;
+      let createdBulletin = bulletins[bulletins.length - 1];
+
+      this.assert.equal(createdBulletin.name, this.find("bulletin-name").val());
+      this.assertEqualDate(createdBulletin["published-at"],
+          find("*[data-auto-id='bulletin-published-at'] input").val());
+      this.assert.equal(createdBulletin.description,
+          this.find("bulletin-description").val());
+      this.assert.equal(createdBulletin["service-order"],
+          this.find("bulletin-service-order").val());
+      this.assert.equal(createdBulletin["sermon-notes"],
+          this.find("bulletin-sermon-notes").val());
+    });
+  }
+  assertRedirectToEditPage(server, groupSlug) {
+    return this.andThen(() => {
+      let bulletins = server.db.bulletins;
+      let createdBulletin = bulletins[bulletins.length - 1];
+
+      this.assertURL(`/${groupSlug}/bulletins/${createdBulletin.id}/edit`);
+    });
   }
 };

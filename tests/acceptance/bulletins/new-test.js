@@ -1,5 +1,5 @@
 import Ember from "ember";
-import newBulletinPage from "mcac/tests/helpers/pages/bulletins/new";
+import NewBulletinPage from "mcac/tests/page-objects/new-bulletin";
 import nextService from 'mcac/utils/next-service';
 import sessionData from '../../helpers/payloads/sessionData';
 import startApp from "mcac/tests/helpers/start-app";
@@ -19,77 +19,51 @@ module('Acceptance | bulletins/new', {
 
 test("it requires authentication", assert => {
   let group = server.create("group");
-  Object.create(newBulletinPage()).visit(group.slug);
-
-  andThen(() => {
-    assert.equal(currentURL(), "/login");
-  });
+  new NewBulletinPage({ assert }).
+    visit(group.slug).
+    assertURL("/login");
 });
 
 test("it can create a new bulletin", assert => {
   authenticateSession(application, sessionData);
 
   let group = server.create("group");
-  newBulletinPage().visit(group.slug).
-    name("New Bulletin").
-    publishedAt("05/27/1984 9:30 AM").
-    description("New bulletin description").
-    serviceOrder("New service order").
-    sermonNotes("New sermon notes").
-    submit();
-
-  andThen(() => {
-    let bulletins = server.db.bulletins;
-    let createdBulletin = bulletins[bulletins.length - 1];
-
-    // it creates the bulletin
-    assert.equal(createdBulletin.name, "New Bulletin");
-    equalDate(assert, createdBulletin["published-at"], "05/27/1984 9:30 AM");
-    assert.equal(createdBulletin.description, "New bulletin description");
-    assert.equal(createdBulletin["service-order"], "New service order");
-    assert.equal(createdBulletin["sermon-notes"], "New sermon notes");
-
-    // it redirects to the edit page
-    let editUrl = `/${group.slug}/bulletins/${createdBulletin.id}/edit`;
-    assert.equal(currentURL(), editUrl);
-  });
+  new NewBulletinPage({ assert }).
+    visit(group.slug).
+    fillInName("New Bulletin").
+    fillInPublishedAt("05/27/1984 9:30 AM").
+    fillInDescription("New bulletin description").
+    fillInServiceOrder("New service order").
+    fillInSermonNotes("New sermon notes").
+    clickSubmit().
+    assertCreatedBulletin(server).
+    assertRedirectToEditPage(server, group.slug);
 });
 
 test("it populates default values", assert => {
   authenticateSession(application, sessionData);
 
   let group = server.create("group");
-  let page = newBulletinPage().visit(group.slug);
-
-  andThen(() => {
-    assert.equal(page.name(), "Sunday Worship Service");
-    assert.equal(page.serviceOrder(), "");
-    equalDate(assert, page.publishedAt(), nextService());
-    assert.equal(page.sermonNotes(), "");
-  });
+  new NewBulletinPage({ assert }).
+    visit(group.slug).
+    assertName("Sunday Worship Service").
+    assertServiceOrder("").
+    assertPublishedAt(nextService()).
+    assertSermonNotes("");
 });
 
 test("it defaults to last week's service order when available", assert => {
   authenticateSession(application, sessionData);
 
   let group = server.create("group");
-  let lastWeekBulletin =
-    server.create("bulletin", { "service-order": "My service order." });
+  let lastWeekBulletin = server.create("bulletin");
 
   mockLastWeekBulletin(assert, server, group, lastWeekBulletin);
 
-  let page = newBulletinPage().visit(group.slug);
-
-  andThen(() => {
-    let defaultServiceOrder = page.serviceOrder();
-    assert.equal(defaultServiceOrder, lastWeekBulletin["service-order"]);
-  });
+  new NewBulletinPage({ assert }).
+    visit(group.slug).
+    assertServiceOrder(lastWeekBulletin["service-order"]);
 });
-
-function equalDate(assert, actual, expected) {
-  assert.equal(window.moment(actual).toDate().getTime(),
-               window.moment(expected).toDate().getTime());
-}
 
 function mockLastWeekBulletin(assert, server, group, lastWeekBulletin) {
   let done = assert.async();

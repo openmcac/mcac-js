@@ -21,7 +21,7 @@ test("it requires authentication", assert => {
   let bulletin = server.create("bulletin", { groupId: group.id });
 
   new EditBulletinPage({ assert }).
-    visit(`/${group.slug}/bulletins/${bulletin.id}/edit`).
+    visit(group.slug, bulletin.id).
     assertURL("/login", "user is redirected to login page");
 });
 
@@ -35,7 +35,7 @@ test("it displays the current bulletin to be edited", assert => {
   });
 
   new EditBulletinPage({ assert }).
-    visit(`/${group.slug}/bulletins/${bulletin.id}/edit`).
+    visit(group.slug, bulletin.id).
     assertName(bulletin.name).
     assertDescription(bulletin.description).
     assertServiceOrder(bulletin["service-order"]).
