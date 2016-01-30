@@ -16,9 +16,67 @@ export default function() {
     return response;
   });
 
-  this.get("/api/v1/groups", function(db) {
+  this.get("/api/v1/bulletins", function(db) {
+    let bulletins = db.bulletins;
+
     return {
-      data: db.groups.map(attrs => ({
+      data: bulletins.map(attrs => ({
+        type: "bulletins",
+        id: attrs.id,
+        attributes: attrs,
+        relationships: {
+          groups: {
+            links: {
+              self: `/api/v1/bulletins/${attrs.id}/relationships/groups`,
+              related: `/api/v1/bulletins/${attrs.id}/groups`
+            }
+          }
+        }
+      }))
+    };
+  });
+
+  this.get("/api/v1/announcements", function(db, request) {
+    let announcements = db.announcements;
+
+    if (request.params &&
+        request.params.filter &&
+        request.params.filter.defaults_for_bulletin) {
+      let bulletinId = request.params.filter.defaults_for_bulletin;
+      let count = 0;
+      announcements = announcements.
+        select(a => a.bulletinId === bulletinId && count++ <= 5);
+    }
+
+    return {
+      data: announcements.map(attrs => ({
+        type: "announcements",
+        id: attrs.id,
+        attributes: attrs,
+        relationships: {
+          posts: {
+            links: {
+              self: `/api/v1/announcements/${attrs.id}/relationships/bulletins`,
+              related: `/api/v1/announcements/${attrs.id}/bulletins`
+            }
+          }
+        }
+      }))
+    };
+  });
+
+  this.get("/api/v1/groups", function(db, request) {
+    let groups = db.groups;
+
+    if (request.params &&
+        request.params.filter &&
+        request.params.filter.slug) {
+      let slug = request.params.filter.slug;
+      groups = groups.select(g => g.slug === slug);
+    }
+
+    return {
+      data: groups.map(attrs => ({
         type: "groups",
         id: attrs.id,
         attributes: attrs,
@@ -31,6 +89,22 @@ export default function() {
           }
         }
       }))
+    };
+  });
+
+  this.post("/api/v1/bulletins", (db, request) => {
+    let data = JSON.parse(request.requestBody).data;
+    let attributes = data.attributes;
+    attributes.id = data.id;
+
+    let createdBulletin = db.bulletins.insert(data.attributes);
+
+    return {
+      data: {
+        type: "bulletins",
+        id: createdBulletin.id,
+        attributes: createdBulletin
+      }
     };
   });
 

@@ -1,20 +1,22 @@
-<section class="service-information col-md-6">
+<section class="service-information col-md-6" data-test-id="bulletin-form">
   <h3>Service Information</h3>
 
   <div class="row">
-    <div class="form-group col-md-10 {{if errors.model.name "has-error" ""}}">
+    <div class="form-group col-md-10 {{if errors.model.name "has-error" ""}}"
+      data-test-id="name">
       <label class="control-label" for="bulletinName">Name {{errors.model.name}}</label>
       {{input id="bulletinName" value=model.name class="form-control bulletin-name"}}
     </div>
   </div>
   <div class="row">
-    <div class="form-group col-md-10 {{if errors.model.publishedAt "has-error" ""}}">
+    <div class="form-group col-md-10 {{if errors.model.publishedAt "has-error" ""}}"
+      data-test-id="published-at">
       <label class="control-label" for="publishedAt">Published at {{errors.model.publishedAt}}</label>
       {{bs-datetimepicker class="published-at" date=model.publishedAt updateDate=(action (mut model.publishedAt))}}
     </div>
   </div>
   <div class="row">
-    <div class="form-group col-md-10">
+    <div class="form-group col-md-10" data-test-id="description">
       <label for="description">Description</label>
       {{input id="description" value=model.description class="form-control description"}}
     </div>
@@ -38,7 +40,7 @@
     </div>
   </div>
   <div class="row">
-    <div class="form-group col-md-12">
+    <div class="form-group col-md-12" data-test-id="service-order">
       <label for="serviceOrder">Order</label>
       {{markdown-textarea id="serviceOrder"
                           value=model.serviceOrder
@@ -47,7 +49,7 @@
     </div>
   </div>
   <div class="row">
-    <div class="form-group col-md-12">
+    <div class="form-group col-md-12" data-test-id="sermon-notes">
       <label for="sermonNotes">Notes</label>
       {{markdown-textarea id="sermonNotes"
                           value=model.sermonNotes
