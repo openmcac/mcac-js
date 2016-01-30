@@ -16,6 +16,26 @@ export default function() {
     return response;
   });
 
+  this.get("/api/v1/bulletins/:id", function(db, request) {
+    let attrs = db.bulletins.find(request.params.id);
+
+    return {
+      data: {
+        type: "bulletins",
+        id: attrs.id,
+        attributes: attrs,
+        relationships: {
+          groups: {
+            links: {
+              self: `/api/v1/bulletins/${attrs.id}/relationships/groups`,
+              related: `/api/v1/bulletins/${attrs.id}/groups`
+            }
+          }
+        }
+      }
+    };
+  });
+
   this.get("/api/v1/bulletins", function(db) {
     let bulletins = db.bulletins;
 
@@ -38,15 +58,6 @@ export default function() {
 
   this.get("/api/v1/announcements", function(db, request) {
     let announcements = db.announcements;
-
-    if (request.params &&
-        request.params.filter &&
-        request.params.filter.defaults_for_bulletin) {
-      let bulletinId = request.params.filter.defaults_for_bulletin;
-      let count = 0;
-      announcements = announcements.
-        select(a => a.bulletinId === bulletinId && count++ <= 5);
-    }
 
     return {
       data: announcements.map(attrs => ({

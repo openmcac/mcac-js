@@ -8,13 +8,13 @@ export default Mirage.Factory.extend({
     return faker.date.past().toISOString();
   },
   "sermon-notes"() {
-    return faker.lorem.paragraphs(2);
+    return faker.lorem.sentence();
   },
   "service-order"() {
-    return faker.lorem.paragraphs(2);
+    return faker.lorem.sentence();
   },
   description() {
-    return faker.lorem.paragraphs(2);
+    return faker.lorem.sentence();
   },
   "audio-url"() {
     return `${faker.internet.url()}/audio.mp3`;
