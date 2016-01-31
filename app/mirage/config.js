@@ -56,7 +56,7 @@ export default function() {
     };
   });
 
-  this.get("/api/v1/announcements", function(db, request) {
+  this.get("/api/v1/announcements", function(db) {
     let announcements = db.announcements;
 
     return {

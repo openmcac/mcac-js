@@ -1,4 +1,4 @@
-import EditBulletinPage from "mcac/tests/page-objects/edit-bulletin";
+import page from "mcac/tests/pages/edit-bulletin";
 import Ember from "ember";
 import sessionData from '../../helpers/payloads/sessionData';
 import startApp from "mcac/tests/helpers/start-app";
@@ -20,9 +20,11 @@ test("it requires authentication", assert => {
   let group = server.create("group");
   let bulletin = server.create("bulletin", { groupId: group.id });
 
-  new EditBulletinPage({ assert }).
-    visit(group.slug, bulletin.id).
-    assertURL("/login", "user is redirected to login page");
+  page.visit({ groupSlug: group.slug, bulletinId: bulletin.id });
+
+  andThen(() => {
+    assert.equal(currentURL(), "/login");
+  });
 });
 
 test("it displays the current bulletin to be edited", assert => {
@@ -30,16 +32,23 @@ test("it displays the current bulletin to be edited", assert => {
 
   let group = server.create("group");
   let bulletin = server.create("bulletin", {
-    groupId: group.id,
     "published-at": window.moment().seconds(0).milliseconds(0)
   });
 
-  new EditBulletinPage({ assert }).
-    visit(group.slug, bulletin.id).
-    assertName(bulletin.name).
-    assertDescription(bulletin.description).
-    assertServiceOrder(bulletin["service-order"]).
-    assertSermonNotes(bulletin["sermon-notes"]).
-    assertPublishedAt(bulletin["published-at"]).
-    assertNoAnnouncements();
+  page.visit({ groupSlug: group.slug, bulletinId: bulletin.id });
+
+  andThen(() => {
+    assert.equal(page.name(), bulletin.name);
+    assert.equal(page.description(), bulletin.description);
+    assert.equal(page.serviceOrder(), bulletin["service-order"]);
+    assert.equal(page.sermonNotes(), bulletin["sermon-notes"]);
+    equalDate(assert, page.publishedAt(), bulletin["published-at"]);
+
+    // TODO add check for no announcements
+  });
 });
+
+function equalDate(assert, actual, expected) {
+  assert.equal(window.moment(actual).toDate().getTime(),
+               window.moment(expected).toDate().getTime());
+}

@@ -1,5 +1,5 @@
 import Ember from "ember";
-import NewBulletinPage from "mcac/tests/page-objects/new-bulletin";
+import page from "mcac/tests/pages/new-bulletin";
 import nextService from 'mcac/utils/next-service';
 import sessionData from '../../helpers/payloads/sessionData';
 import startApp from "mcac/tests/helpers/start-app";
@@ -19,37 +19,53 @@ module('Acceptance | bulletins/new', {
 
 test("it requires authentication", assert => {
   let group = server.create("group");
-  new NewBulletinPage({ assert }).
-    visit(group.slug).
-    assertURL("/login");
+  page.visit({ groupSlug: group.slug });
+
+  andThen(() => {
+    assert.equal(currentURL(), "/login");
+  });
 });
 
 test("it can create a new bulletin", assert => {
   authenticateSession(application, sessionData);
 
   let group = server.create("group");
-  new NewBulletinPage({ assert }).
-    visit(group.slug).
-    fillInName("New Bulletin").
-    fillInPublishedAt("05/27/1984 9:30 AM").
-    fillInDescription("New bulletin description").
-    fillInServiceOrder("New service order").
-    fillInSermonNotes("New sermon notes").
-    clickSubmit().
-    assertCreatedBulletin(server).
-    assertRedirectToEditPage(server, group.slug);
+
+  page.
+    visit({ groupSlug: group.slug }).
+    fillName("New Bulletin").
+    fillPublishedAt("05/27/1984 9:30 AM").
+    fillDescription("New bulletin description").
+    fillServiceOrder("New service order").
+    fillSermonNotes("New sermon notes").
+    submit();
+
+  andThen(() => {
+    let bulletins = server.db.bulletins;
+    let createdBulletin = bulletins[bulletins.length - 1];
+
+    assert.equal(createdBulletin.name, page.name());
+    assert.equal(createdBulletin.description, page.description());
+    equalDate(assert, createdBulletin["published-at"], page.publishedAt());
+    assert.equal(createdBulletin["sermon-notes"], page.sermonNotes());
+    assert.equal(createdBulletin["service-order"], page.serviceOrder());
+    assert.equal(currentURL(),
+                 `/${group.slug}/bulletins/${createdBulletin.id}/edit`);
+  });
 });
 
 test("it populates default values", assert => {
   authenticateSession(application, sessionData);
 
   let group = server.create("group");
-  new NewBulletinPage({ assert }).
-    visit(group.slug).
-    assertName("Sunday Worship Service").
-    assertServiceOrder("").
-    assertPublishedAt(nextService()).
-    assertSermonNotes("");
+  page.visit({ groupSlug: group.slug });
+
+  andThen(() => {
+    assert.equal(page.name(), "Sunday Worship Service");
+    assert.equal(page.serviceOrder(), "");
+    equalDate(assert, page.publishedAt(), nextService());
+    assert.equal(page.sermonNotes(), "");
+  });
 });
 
 test("it defaults to last week's service order when available", assert => {
@@ -60,9 +76,11 @@ test("it defaults to last week's service order when available", assert => {
 
   mockLastWeekBulletin(assert, server, group, lastWeekBulletin);
 
-  new NewBulletinPage({ assert }).
-    visit(group.slug).
-    assertServiceOrder(lastWeekBulletin["service-order"]);
+  page.visit({ groupSlug: group.slug });
+
+  andThen(() => {
+    assert.equal(page.serviceOrder(), lastWeekBulletin["service-order"]);
+  });
 });
 
 function mockLastWeekBulletin(assert, server, group, lastWeekBulletin) {
@@ -92,4 +110,9 @@ function mockLastWeekBulletin(assert, server, group, lastWeekBulletin) {
       }))
     };
   });
+}
+
+function equalDate(assert, actual, expected) {
+  assert.equal(window.moment(actual).toDate().getTime(),
+               window.moment(expected).toDate().getTime());
 }
