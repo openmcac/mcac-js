@@ -36,7 +36,7 @@
       <div class="form-control banner">
         {{s3-upload url="/api/v1/bulletins/sign" didUpload="didUploadBanner"}}
       </div>
-      {{image-preview url=model.bannerUrl}}
+      {{image-preview url=model.bannerUrl data-auto-id="bulletin-banner-preview"}}
     </div>
   </div>
   <div class="row">
@@ -45,7 +45,7 @@
       <div class="form-control audio">
         {{s3-upload url="/api/v1/bulletins/sign" didUpload="didUploadAudio"}}
       </div>
-      {{file-preview url=model.audioUrl}}
+      {{file-preview url=model.audioUrl data-auto-id="bulletin-audio-preview"}}
     </div>
   </div>
   <div class="row">

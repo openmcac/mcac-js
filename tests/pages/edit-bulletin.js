@@ -1,6 +1,6 @@
 import PageObject from '../page-object';
 
-let { visitable, fillable, clickable } = PageObject;
+const { visitable, fillable, clickable, collection } = PageObject;
 
 export default PageObject.create({
   visit: visitable("/:groupSlug/bulletins/:bulletinId/edit"),
@@ -14,7 +14,24 @@ export default PageObject.create({
   description: PageObject.value(selector("description")),
   publishedAt: PageObject.value(`${selector("published-at")} input`),
   serviceOrder: PageObject.value(selector("service-order")),
-  sermonNotes: PageObject.value(selector("sermon-notes"))
+  sermonNotes: PageObject.value(selector("sermon-notes")),
+  bannerUrl() {
+    const backgroundImageStyle =
+      find(`${selector("banner-preview")} .preview`).
+      css("background-image");
+    return backgroundImageStyle.substring(5, backgroundImageStyle.length - 2);
+  },
+  audioUrl() {
+    return find(`${selector("audio-preview")} *[data-auto-id='preview']`).
+      attr("href");
+  },
+  announcements: collection({
+    itemScope: "*[data-auto-id='announcements-editor'] *[data-auto-id='announcement-editor']",
+    item: {
+      url: PageObject.value("*[data-auto-id='announcement-url']"),
+      description: PageObject.value("*[data-auto-id='announcement-description']")
+    }
+  })
 });
 
 function selector(s) {

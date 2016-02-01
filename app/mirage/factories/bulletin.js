@@ -17,10 +17,10 @@ export default Mirage.Factory.extend({
     return faker.lorem.sentence();
   },
   "audio-url"() {
-    return `${faker.internet.url()}/audio.mp3`;
+    return null;
   },
   "banner-url"() {
-    return `${faker.internet.url()}/banner.png`;
+    return null;
   }
 });
 

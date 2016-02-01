@@ -24,11 +24,20 @@ export default function() {
         type: "bulletins",
         id: attrs.id,
         attributes: attrs,
+        links: {
+          self: `/api/v1/bulletins/${attrs.id}`
+        },
         relationships: {
-          groups: {
+          announcements: {
             links: {
-              self: `/api/v1/bulletins/${attrs.id}/relationships/groups`,
-              related: `/api/v1/bulletins/${attrs.id}/groups`
+              self: `/api/v1/bulletins/${attrs.id}/relationships/announcements`,
+              related: `/api/v1/bulletins/${attrs.id}/announcements`
+            }
+          },
+          group: {
+            links: {
+              self: `/api/v1/bulletins/${attrs.id}/relationships/group`,
+              related: `/api/v1/bulletins/${attrs.id}/group`
             }
           }
         }
@@ -55,6 +64,8 @@ export default function() {
       }))
     };
   });
+
+  this.get("/api/v1/bulletins/:bulletinId/announcements", () => ({ data: [] }));
 
   this.get("/api/v1/announcements", function(db) {
     let announcements = db.announcements;
