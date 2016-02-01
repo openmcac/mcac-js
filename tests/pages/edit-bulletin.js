@@ -16,10 +16,11 @@ export default PageObject.create({
   serviceOrder: PageObject.value(selector("service-order")),
   sermonNotes: PageObject.value(selector("sermon-notes")),
   bannerUrl() {
-    const backgroundImageStyle =
-      find(`${selector("banner-preview")} .preview`).
-      css("background-image");
-    return backgroundImageStyle.substring(5, backgroundImageStyle.length - 2);
+    const backgroundImageStyle = find(`${selector("banner-preview")} .preview`).
+      css("background-image").
+      replace(/['"]+/g, '');
+
+    return backgroundImageStyle.substring(4, backgroundImageStyle.length - 1);
   },
   audioUrl() {
     return find(`${selector("audio-preview")} *[data-auto-id='preview']`).
