@@ -18,7 +18,7 @@ module('Acceptance | bulletins/new', {
 });
 
 test("it requires authentication", assert => {
-  let group = server.create("group");
+  const group = server.create("group");
   page.visit({ groupSlug: group.slug });
 
   andThen(() => {
@@ -29,7 +29,7 @@ test("it requires authentication", assert => {
 test("it can create a new bulletin", assert => {
   authenticateSession(application, sessionData);
 
-  let group = server.create("group");
+  const group = server.create("group");
 
   page.
     visit({ groupSlug: group.slug }).
@@ -41,8 +41,8 @@ test("it can create a new bulletin", assert => {
     submit();
 
   andThen(() => {
-    let bulletins = server.db.bulletins;
-    let createdBulletin = bulletins[bulletins.length - 1];
+    const bulletins = server.db.bulletins;
+    const createdBulletin = bulletins[bulletins.length - 1];
 
     assert.equal(createdBulletin.name, page.name());
     assert.equal(createdBulletin.description, page.description());
@@ -57,7 +57,7 @@ test("it can create a new bulletin", assert => {
 test("it populates default values", assert => {
   authenticateSession(application, sessionData);
 
-  let group = server.create("group");
+  const group = server.create("group");
   page.visit({ groupSlug: group.slug });
 
   andThen(() => {
@@ -71,8 +71,8 @@ test("it populates default values", assert => {
 test("it defaults to last week's service order when available", assert => {
   authenticateSession(application, sessionData);
 
-  let group = server.create("group");
-  let lastWeekBulletin = server.create("bulletin");
+  const group = server.create("group");
+  const lastWeekBulletin = server.create("bulletin");
 
   mockLastWeekBulletin(assert, server, group, lastWeekBulletin);
 
@@ -84,10 +84,10 @@ test("it defaults to last week's service order when available", assert => {
 });
 
 function mockLastWeekBulletin(assert, server, group, lastWeekBulletin) {
-  let done = assert.async();
+  const done = assert.async();
 
   server.get("/api/v1/bulletins", (db, request) => {
-    let bulletins = [lastWeekBulletin];
+    const bulletins = [lastWeekBulletin];
 
     assert.equal(request.queryParams["filter[latest_for_group]"],
                  `${group.id}`);

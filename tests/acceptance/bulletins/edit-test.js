@@ -18,8 +18,8 @@ module('Acceptance | bulletins/edit', {
 });
 
 test("it requires authentication", assert => {
-  let group = server.create("group");
-  let bulletin = server.create("bulletin", { groupId: group.id });
+  const group = server.create("group");
+  const bulletin = server.create("bulletin", { groupId: group.id });
 
   page.visit({ groupSlug: group.slug, bulletinId: bulletin.id });
 
@@ -31,8 +31,8 @@ test("it requires authentication", assert => {
 test("it displays the bulletin to be edited", assert => {
   authenticateSession(application, sessionData);
 
-  let group = server.create("group");
-  let bulletin = server.create("bulletin", {
+  const group = server.create("group");
+  const bulletin = server.create("bulletin", {
     "published-at": window.moment().seconds(0).milliseconds(0),
     "banner-url": `${faker.internet.url()}/banner.png`,
     "audio-url": `${faker.internet.url()}/audio.mp3`
@@ -56,16 +56,16 @@ test("it adds announcement editors when announcements are available",
     assert => {
   authenticateSession(application, sessionData);
 
-  let group = server.create("group");
-  let bulletin = server.create("bulletin", {
+  const group = server.create("group");
+  const bulletin = server.create("bulletin", {
     "published-at": window.moment().seconds(0).milliseconds(0)
   });
 
-  let firstAnnouncement = server.create("announcement", { position: 1 });
-  let secondAnnouncement = server.create("announcement", { position: 2 });
-  let thirdAnnouncement = server.create("announcement", { position: 3 });
+  const firstAnnouncement = server.create("announcement", { position: 1 });
+  const secondAnnouncement = server.create("announcement", { position: 2 });
+  const thirdAnnouncement = server.create("announcement", { position: 3 });
 
-  let announcements = [
+  const announcements = [
     secondAnnouncement,
     thirdAnnouncement,
     firstAnnouncement
@@ -116,15 +116,15 @@ test("it updates the current bulletin", assert => {
   page.submit();
 
   andThen(() => {
-    let updatedBulletin = server.db.bulletins.find(bulletin.id);
+    const updatedBulletin = server.db.bulletins.find(bulletin.id);
     assert.equal(updatedBulletin.name, page.name());
     assert.equal(updatedBulletin.description, page.description());
     equalDate(assert, updatedBulletin["published-at"], page.publishedAt());
     assert.equal(updatedBulletin["sermon-notes"], page.sermonNotes());
     assert.equal(updatedBulletin["service-order"], page.serviceOrder());
 
-    let updatedAnnouncement = server.db.announcements.find(announcement.id);
-    let announcementEditor = page.announcements(1);
+    const updatedAnnouncement = server.db.announcements.find(announcement.id);
+    const announcementEditor = page.announcements(1);
     assert.equal(updatedAnnouncement.url, announcementEditor.url());
     assert.equal(updatedAnnouncement.description,
                  announcementEditor.description());
@@ -164,7 +164,7 @@ function equalDate(assert, actual, expected) {
 }
 
 function mockAnnouncementsForBulletinId(assert, server, bulletinId, announcements) {
-  let done = assert.async();
+  const done = assert.async();
 
   server.get("/api/v1/bulletins/:bulletinId/announcements", (db, request) => {
     assert.equal(request.params.bulletinId, `${bulletinId}`);

@@ -1,6 +1,6 @@
 import PageObject from '../page-object';
 
-let { visitable, fillable, clickable } = PageObject;
+const { visitable, fillable, clickable } = PageObject;
 
 export default PageObject.create({
   visit: visitable("/:groupSlug/bulletins/new"),
