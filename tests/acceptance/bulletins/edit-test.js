@@ -89,6 +89,75 @@ test("it adds announcement editors when announcements are available",
   });
 });
 
+test("it updates the current bulletin", assert => {
+  authenticateSession(application, sessionData);
+
+  const group = server.create("group");
+  const bulletin = server.create("bulletin", {
+    "published-at": window.moment().seconds(0).milliseconds(0),
+    "banner-url": `${faker.internet.url()}/banner.png`,
+    "audio-url": `${faker.internet.url()}/audio.mp3`
+  });
+
+  const announcement = server.create("announcement", { position: 1 });
+  mockAnnouncementsForBulletinId(assert, server, bulletin.id, [announcement]);
+
+  page.visit({ groupSlug: group.slug, bulletinId: bulletin.id }).
+    fillName("updated name").
+    fillPublishedAt("05/27/1984 9:30 AM").
+    fillDescription("updated desc").
+    fillServiceOrder("updated service order").
+    fillSermonNotes("updated sermon notes");
+
+  page.announcements(1).
+    fillUrl("http://updated.com").
+    fillDescription("updated announcement");
+
+  page.submit();
+
+  andThen(() => {
+    let updatedBulletin = server.db.bulletins.find(bulletin.id);
+    assert.equal(updatedBulletin.name, page.name());
+    assert.equal(updatedBulletin.description, page.description());
+    equalDate(assert, updatedBulletin["published-at"], page.publishedAt());
+    assert.equal(updatedBulletin["sermon-notes"], page.sermonNotes());
+    assert.equal(updatedBulletin["service-order"], page.serviceOrder());
+
+    let updatedAnnouncement = server.db.announcements.find(announcement.id);
+    let announcementEditor = page.announcements(1);
+    assert.equal(updatedAnnouncement.url, announcementEditor.url());
+    assert.equal(updatedAnnouncement.description,
+                 announcementEditor.description());
+  });
+});
+
+test("it allows user to create a new announcement", assert => {
+  authenticateSession(application, sessionData);
+
+  const group = server.create("group");
+  const bulletin = server.create("bulletin", {
+    "published-at": window.moment().seconds(0).milliseconds(0)
+  });
+
+  page.visit({ groupSlug: group.slug, bulletinId: bulletin.id }).
+    appendNewAnnouncement();
+
+  page.announcements(1).
+    fillUrl("http://test.com").
+    fillDescription("new desc");
+
+  page.submit();
+
+  andThen(() => {
+    const announcements = server.db.announcements;
+    const lastAnnouncement = announcements[announcements.length - 1];
+    const announcementEditor = page.announcements(1);
+
+    assert.equal(lastAnnouncement.url, announcementEditor.url());
+    assert.equal(lastAnnouncement.description, announcementEditor.description());
+  });
+});
+
 function equalDate(assert, actual, expected) {
   assert.equal(window.moment(actual).toDate().getTime(),
                window.moment(expected).toDate().getTime());

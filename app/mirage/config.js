@@ -45,6 +45,36 @@ export default function() {
     };
   });
 
+  this.patch("/api/v1/bulletins/:id", function(db, request) {
+    let data = JSON.parse(request.requestBody).data;
+    let attrs = db.bulletins.update(request.params.id, data.attributes);
+
+    return {
+      data: {
+        type: "bulletins",
+        id: attrs.id,
+        attributes: attrs,
+        links: {
+          self: `/api/v1/bulletins/${attrs.id}`
+        },
+        relationships: {
+          announcements: {
+            links: {
+              self: `/api/v1/bulletins/${attrs.id}/relationships/announcements`,
+              related: `/api/v1/bulletins/${attrs.id}/announcements`
+            }
+          },
+          group: {
+            links: {
+              self: `/api/v1/bulletins/${attrs.id}/relationships/group`,
+              related: `/api/v1/bulletins/${attrs.id}/group`
+            }
+          }
+        }
+      }
+    };
+  });
+
   this.get("/api/v1/bulletins", function(db) {
     let bulletins = db.bulletins;
 
@@ -54,10 +84,10 @@ export default function() {
         id: attrs.id,
         attributes: attrs,
         relationships: {
-          groups: {
+          group: {
             links: {
-              self: `/api/v1/bulletins/${attrs.id}/relationships/groups`,
-              related: `/api/v1/bulletins/${attrs.id}/groups`
+              self: `/api/v1/bulletins/${attrs.id}/relationships/group`,
+              related: `/api/v1/bulletins/${attrs.id}/group`
             }
           }
         }
@@ -66,6 +96,30 @@ export default function() {
   });
 
   this.get("/api/v1/bulletins/:bulletinId/announcements", () => ({ data: [] }));
+
+  this.patch("/api/v1/announcements/:id", function(db, request) {
+    let data = JSON.parse(request.requestBody).data;
+    let attrs = db.announcements.update(request.params.id, data.attributes);
+
+    return {
+      data: {
+        type: "announcements",
+        id: attrs.id,
+        attributes: attrs,
+        links: {
+          self: `/api/v1/announcements/${attrs.id}`
+        },
+        relationships: {
+          bulletin: {
+            links: {
+              self: `/api/v1/announcements/${attrs.id}/relationships/bulletin`,
+              related: `/api/v1/announcements/${attrs.id}/bulletin`
+            }
+          }
+        }
+      }
+    };
+  });
 
   this.get("/api/v1/announcements", function(db) {
     let announcements = db.announcements;
@@ -76,14 +130,35 @@ export default function() {
         id: attrs.id,
         attributes: attrs,
         relationships: {
-          posts: {
+          bulletin: {
             links: {
-              self: `/api/v1/announcements/${attrs.id}/relationships/bulletins`,
-              related: `/api/v1/announcements/${attrs.id}/bulletins`
+              self: `/api/v1/announcements/${attrs.id}/relationships/bulletin`,
+              related: `/api/v1/announcements/${attrs.id}/bulletin`
             }
           }
         }
       }))
+    };
+  });
+
+  this.post("/api/v1/announcements", function(db, request) {
+    const data = JSON.parse(request.requestBody).data;
+    const attrs = db.announcements.insert(data.attributes);
+
+    return {
+      data: {
+        type: "announcements",
+        id: attrs.id,
+        attributes: attrs,
+        relationships: {
+          bulletin: {
+            links: {
+              self: `/api/v1/announcements/${attrs.id}/relationships/bulletin`,
+              related: `/api/v1/announcements/${attrs.id}/bulletin`
+            }
+          }
+        }
+      }
     };
   });
 

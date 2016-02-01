@@ -30,9 +30,12 @@ export default PageObject.create({
     itemScope: "*[data-auto-id='announcements-editor'] *[data-auto-id='announcement-editor']",
     item: {
       url: PageObject.value("*[data-auto-id='announcement-url']"),
-      description: PageObject.value("*[data-auto-id='announcement-description']")
+      description: PageObject.value("*[data-auto-id='announcement-description']"),
+      fillUrl: fillable("*[data-auto-id='announcement-url']"),
+      fillDescription: fillable("*[data-auto-id='announcement-description']")
     }
-  })
+  }),
+  appendNewAnnouncement: clickable("*[data-auto-id='announcements-editor'] *[data-auto-id='append-announcement']")
 });
 
 function selector(s) {
