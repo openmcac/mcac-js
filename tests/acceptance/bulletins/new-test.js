@@ -1,138 +1,116 @@
-import Ember from 'ember';
-import { module, test } from 'qunit';
-import startApp from '../../helpers/start-app';
+import Ember from "ember";
+import page from "mcac/tests/pages/new-bulletin";
 import nextService from 'mcac/utils/next-service';
-import mockServer from '../../helpers/server';
-import BulletinPayload from '../../helpers/payloads/bulletin';
 import sessionData from '../../helpers/payloads/sessionData';
+import startApp from "mcac/tests/helpers/start-app";
 import { authenticateSession } from 'mcac/tests/helpers/ember-simple-auth';
+import { module, test } from 'qunit';
 
-var application, fakeServer;
+let application;
 
-function mockDefaultAnnouncements(bulletinId) {
-  fakeServer.get('/api/v1/announcements', function(request) {
-    if (request.queryParams["filter[defaults_for_bulletin]"] === `${bulletinId}`) {
-      var response = { "data": [] };
-      return [
-        200,
-        { "Content-Type": "application/vnd.api+json" },
-        JSON.stringify(response)
-      ];
-    }
-  });
-}
-
-function mockBulletins(bulletins) {
-  fakeServer.get('/api/v1/bulletins', function(request) {
-    if (request.queryParams["filter[latest_for_group]"] === '1') {
-      return [
-        200,
-        {"Content-Type": "application/vnd.api+json"},
-        JSON.stringify({ data: bulletins })
-      ];
-    }
-  });
-}
-
-function mockBulletin(bulletinId, bulletin, withAnnouncements = false) {
-  fakeServer.get(`/api/v1/bulletins/${bulletinId}`, function() {
-    let response = {
-      "data": BulletinPayload.build(bulletinId, bulletin, {
-        withAnnouncements: withAnnouncements
-      })
-    };
-
-    return [200, {"Content-Type": "application/vnd.api+json"}, JSON.stringify(response)];
-  });
-
-  if (!withAnnouncements) {
-    fakeServer.get(`/api/v1/bulletins/${bulletinId}/announcements`, function() {
-      return [
-        200,
-        {"Content-Type": "application/vnd.api+json"},
-        JSON.stringify({ "data": [] })
-      ];
-    });
-  }
-}
-
-module('Acceptance: New bulletin form', {
-  needs: ['model:bulletin', 'model:group'],
-  beforeEach: function() {
+module('Acceptance | bulletins/new', {
+  beforeEach() {
     application = startApp();
-    fakeServer = mockServer();
-
-    authenticateSession(application, sessionData);
   },
-  afterEach: function() {
-    fakeServer.shutdown();
+  afterEach() {
     Ember.run(application, 'destroy');
   }
 });
 
-test('default bulletin values without a previous bulletin', function(assert) {
-  assert.expect(3);
+test("it requires authentication", assert => {
+  const group = server.create("group");
+  page.visit({ groupSlug: group.slug });
 
-  mockBulletins([]);
-
-  visit('/english-service/bulletins/new');
-
-  andThen(function() {
-    assert.equal(find('.bulletin-name').val(), 'Sunday Worship Service');
-    equalDate(assert, find('.published-at input').val(), nextService());
-    assert.equal(find('.service-order').val(), '');
+  andThen(() => {
+    assert.equal(currentURL(), "/login");
   });
 });
 
-test("defaults with last week's service order if available", function(assert) {
-  assert.expect(1);
+test("it can create a new bulletin", assert => {
+  authenticateSession(application, sessionData);
 
-  mockBulletins([BulletinPayload.build("1", {
-    "service-order": "Last week's service order"
-  })]);
+  const group = server.create("group");
 
-  visit('/english-service/bulletins/new');
+  page.
+    visit({ groupSlug: group.slug }).
+    fillName("New Bulletin").
+    fillPublishedAt("05/27/1984 9:30 AM").
+    fillDescription("New bulletin description").
+    fillServiceOrder("New service order").
+    fillSermonNotes("New sermon notes").
+    submit();
 
-  andThen(function() {
-    assert.equal(find('.service-order').val(), "Last week's service order");
+  andThen(() => {
+    const bulletins = server.db.bulletins;
+    const createdBulletin = bulletins[bulletins.length - 1];
+
+    assert.equal(createdBulletin.name, page.name());
+    assert.equal(createdBulletin.description, page.description());
+    equalDate(assert, createdBulletin["published-at"], page.publishedAt());
+    assert.equal(createdBulletin["sermon-notes"], page.sermonNotes());
+    assert.equal(createdBulletin["service-order"], page.serviceOrder());
+    assert.equal(currentURL(),
+                 `/${group.slug}/bulletins/${createdBulletin.id}/edit`);
   });
 });
 
-test('saving a bulletin navigates to edit page', function(assert) {
-  var createdBulletin;
+test("it populates default values", assert => {
+  authenticateSession(application, sessionData);
 
-  mockBulletins([]);
-  mockDefaultAnnouncements("2");
+  const group = server.create("group");
+  page.visit({ groupSlug: group.slug });
 
-  fakeServer.post("/api/v1/bulletins", function(request) {
-    let requestBody = JSON.parse(request.requestBody);
-    createdBulletin = {
-      "data": BulletinPayload.build("2", requestBody.data.attributes)
+  andThen(() => {
+    assert.equal(page.name(), "Sunday Worship Service");
+    assert.equal(page.serviceOrder(), "");
+    equalDate(assert, page.publishedAt(), nextService());
+    assert.equal(page.sermonNotes(), "");
+  });
+});
+
+test("it defaults to last week's service order when available", assert => {
+  authenticateSession(application, sessionData);
+
+  const group = server.create("group");
+  const lastWeekBulletin = server.create("bulletin");
+
+  mockLastWeekBulletin(assert, server, group, lastWeekBulletin);
+
+  page.visit({ groupSlug: group.slug });
+
+  andThen(() => {
+    assert.equal(page.serviceOrder(), lastWeekBulletin["service-order"]);
+  });
+});
+
+function mockLastWeekBulletin(assert, server, group, lastWeekBulletin) {
+  const done = assert.async();
+
+  server.get("/api/v1/bulletins", (db, request) => {
+    const bulletins = [lastWeekBulletin];
+
+    assert.equal(request.queryParams["filter[latest_for_group]"],
+                 `${group.id}`);
+
+    done();
+
+    return {
+      data: bulletins.map(attrs => ({
+        type: "bulletins",
+        id: attrs.id,
+        attributes: attrs,
+        relationships: {
+          groups: {
+            links: {
+              self: `/api/v1/bulletins/${attrs.id}/relationships/groups`,
+              related: `/api/v1/bulletins/${attrs.id}/groups`
+            }
+          }
+        }
+      }))
     };
-
-    mockBulletin("2", requestBody.data.attributes);
-
-    return [
-      201,
-      {"Content-Type": "application/vnd.api+json"},
-      JSON.stringify(createdBulletin)
-    ];
   });
-
-  visit('/english-service/bulletins/new');
-  fillIn('.published-at input', '03/10/2010 9:30 AM');
-  fillIn(".sermon-notes", "these are sermon notes");
-  click(':submit');
-
-  andThen(function() {
-    equalDate(assert,
-              find(".published-at input").val(),
-              window.moment(createdBulletin.data.attributes["published-at"]));
-    assert.equal(createdBulletin.data.attributes["sermon-notes"],
-                 "these are sermon notes");
-    assert.equal(currentURL(), "/english-service/bulletins/2/edit");
-  });
-});
+}
 
 function equalDate(assert, actual, expected) {
   assert.equal(window.moment(actual).toDate().getTime(),

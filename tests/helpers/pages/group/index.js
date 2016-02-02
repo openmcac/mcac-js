@@ -8,10 +8,12 @@ export default function(slug) {
     visit: visitable(`/${slug}`),
     name: text("*[data-test-id='name']"),
     about: text("*[data-test-id='about']"),
-    bannerUrl: function() {
-      let backgroundImage =
-        find("*[data-test-id='group-banner']")[0].style.backgroundImage;
-      return backgroundImage.substring(4, backgroundImage.length - 1);
+    bannerUrl() {
+      const backgroundImageStyle = find(selector("banner")).
+        css("background-image").
+        replace(/['"]+/g, '');
+
+      return backgroundImageStyle.substring(4, backgroundImageStyle.length - 1);
     },
     posts: collection({
       itemScope: "*[data-test-id='post']",
@@ -21,4 +23,8 @@ export default function(slug) {
       }
     })
   });
+}
+
+function selector(s) {
+  return `*[data-auto-id='group-${s}']`;
 }

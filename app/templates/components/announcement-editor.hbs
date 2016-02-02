@@ -1,9 +1,13 @@
-<div class="{{announcementClass}}" data-position="{{announcement.position}}">
+<div class="{{announcementClass}}"
+     data-position="{{announcement.position}}"
+     data-auto-id="announcement-editor">
   {{input value=announcement.url
           class="url"
+          data-auto-id="announcement-url"
           placeholder="Link to more information..."}}
 
   {{textarea placeholder="Enter announcement description..."
+             data-auto-id="announcement-description"
              class="description"
              value=announcement.description}}
 
