@@ -1,0 +1,18 @@
+<div class="container dashboard">
+  <h2>Welcome to Dashboard</h2>
+
+  <div data-auto-id="dashboard-bulletins">
+    {{#each model.bulletins as |bulletin|}}
+      <div class="row" data-auto-id="dashboard-bulletin">
+        <span data-auto-id="dashboard-bulletin-name">
+          {{bulletin.name}} 
+        </span>
+        {{#link-to 'bulletin.edit' bulletin
+                   class='btn btn-primary edit-bulletin'}}
+          Edit
+        {{/link-to}}
+      </div>
+    {{/each}}
+  </div>
+</div>
+{{outlet}}
