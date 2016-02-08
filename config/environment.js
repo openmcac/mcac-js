@@ -27,8 +27,10 @@ module.exports = function(environment) {
     },
     "simple-auth": {
       authorizer: 'authorizer:mcac'
+    },
+    moment: {
+      includeTimezone: "all"
     }
-
   };
 
   if (environment === 'development') {

@@ -1,18 +1,39 @@
 <div class="container dashboard">
   <h2>Welcome to Dashboard</h2>
 
-  <div data-auto-id="dashboard-bulletins">
-    {{#each model.bulletins as |bulletin|}}
-      <div class="row" data-auto-id="dashboard-bulletin">
-        <span data-auto-id="dashboard-bulletin-name">
-          {{bulletin.name}} 
-        </span>
-        {{#link-to 'bulletin.edit' bulletin
-                   class='btn btn-primary edit-bulletin'}}
-          Edit
-        {{/link-to}}
-      </div>
-    {{/each}}
+  <div class="row">
+    <div class="col-sm-6 latest-bulletins">
+      <h3>Latest Bulletins</h3>
+      <table class="table table-hover" data-auto-id="dashboard-bulletins">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each model.bulletins as |bulletin|}}
+            <tr data-auto-id="dashboard-bulletin">
+              <td>
+                <div data-auto-id="dashboard-bulletin-name">
+                  {{bulletin.name}}
+                </div>
+                <small data-auto-id="dashboard-bulletin-published-at">
+                  {{moment-format bulletin.publishedAt}}
+                </small>
+              </td>
+              <td>
+                {{#link-to 'bulletin.edit' 'english-service' bulletin
+                           class='btn btn-primary'
+                           data-auto-id="dashboard-bulletin-edit"}}
+                  Edit
+                {{/link-to}}
+              </td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
 {{outlet}}

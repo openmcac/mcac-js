@@ -5,7 +5,11 @@ export default Mirage.Factory.extend({
     return faker.company.companyName();
   },
   "published-at"() {
-    return faker.date.past().toISOString();
+    const publishedAt = faker.date.past();
+    publishedAt.setMilliseconds(0);
+    publishedAt.setSeconds(0);
+
+    return publishedAt.toISOString();
   },
   "sermon-notes"() {
     return faker.lorem.sentence();
