@@ -16,6 +16,35 @@ export default function() {
     return response;
   });
 
+  this.get("/api/v1/sunday", function(db) {
+    let attrs = db.bulletins[0];
+
+    return {
+      data: {
+        type: "bulletins",
+        id: attrs.id,
+        attributes: attrs,
+        links: {
+          self: `/api/v1/bulletins/${attrs.id}`
+        },
+        relationships: {
+          announcements: {
+            links: {
+              self: `/api/v1/bulletins/${attrs.id}/relationships/announcements`,
+              related: `/api/v1/bulletins/${attrs.id}/announcements`
+            }
+          },
+          group: {
+            links: {
+              self: `/api/v1/bulletins/${attrs.id}/relationships/group`,
+              related: `/api/v1/bulletins/${attrs.id}/group`
+            }
+          }
+        }
+      }
+    };
+  });
+
   this.get("/api/v1/bulletins/:id", function(db, request) {
     let attrs = db.bulletins.find(request.params.id);
 
