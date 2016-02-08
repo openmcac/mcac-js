@@ -1,0 +1,16 @@
+.dashboard {
+  background-color: $gray-extralight;
+  padding-bottom: $padding-xl;
+  padding-top: $padding-xl;
+
+  .latest-bulletins {
+    padding-top: $padding-l;
+  }
+
+  @media only screen and (min-width: $small-device-break) {
+  }
+
+  @media only screen and (min-width: $medium-device-break) {
+  }
+}
+

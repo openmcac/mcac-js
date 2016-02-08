@@ -1,3 +1,13 @@
-{{input type="text" value=email class="email" insert-newline="login"}}
-{{input type="password" value=password class="password" insert-newline="login"}}
-<button {{action 'login'}} class="submit">Login</button>
+{{input type="text"
+        value=email
+        class="email"
+        insert-newline="login"
+        data-auto-id="login-email"}}
+
+{{input type="password"
+        value=password
+        class="password"
+        insert-newline="login"
+        data-auto-id="login-password"}}
+
+<button {{action 'login'}} type="submit" class="submit">Login</button>

@@ -48,6 +48,7 @@ Router.map(function() {
   this.resource('groups', function() {
     this.route('new');
   });
+  this.route('dashboard', function() {});
 });
 
 export default Router;

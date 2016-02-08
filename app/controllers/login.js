@@ -13,7 +13,7 @@ export default Ember.Controller.extend({
           data: this.get("session.data.authenticated.data")
         });
 
-        this.transitionToRoute("index");
+        this.transitionToRoute("dashboard");
       });
     }
   }
