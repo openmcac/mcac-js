@@ -5,25 +5,25 @@ export default Ember.Component.extend({
   classNames: ["bulletin-navigator"],
   store: Ember.inject.service(),
   actions: {
-    nextBulletin() {
-      let store = this.get("store");
-      let router = this.get("router");
-      let nextBulletinUrl = `/api/v1/bulletins/${this.get("bulletin.id")}/next`;
-
-      return request(nextBulletinUrl).
-        then(transitionToBulletinFn(store, router));
-    },
-    previousBulletin() {
-      let store = this.get("store");
-      let router = this.get("router");
-      let previousBulletinUrl =
-        `/api/v1/bulletins/${this.get("bulletin.id")}/previous`;
-
-      return request(previousBulletinUrl).
-        then(transitionToBulletinFn(store, router));
-    }
+    nextBulletin: navigationFn("next"),
+    previousBulletin: navigationFn("previous")
   }
 });
+
+function navigationFn(direction) {
+  return function() {
+    handleNavigationAction(direction, this);
+  };
+}
+
+// direction: "previous" or "next"
+function handleNavigationAction(direction, context) {
+  let store = context.get("store");
+  let router = context.get("router");
+  let bulletinId = context.get("bulletin.id");
+  return request(`/api/v1/bulletins/${bulletinId}/${direction}`).
+    then(transitionToBulletinFn(store, router));
+}
 
 function transitionToBulletinFn(store, router) {
   return function(data) {
