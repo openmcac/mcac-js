@@ -16,8 +16,15 @@
     margin: 0;
   }
 
-  .name {
+  .published-at {
     @include display-font();
+    color: $white;
+  }
+
+  .name {
+    font-weight: normal;
+    font-size: 12px;
+    text-transform: uppercase;
     color: $white;
   }
 
@@ -53,9 +60,12 @@
       padding-left: $padding-xl;
     }
 
-    .name {
+    .published-at {
       font-size: 60px;
-      line-height: 50px;
+    }
+
+    .name {
+      font-size: 14px;
     }
 
     .description {
