@@ -4,7 +4,7 @@ export default function(){
   this.transition(
     this.toValue(function(toValue, fromValue) {
       if (!transitionBetweenBulletins(toValue, fromValue)) {
-        return false
+        return false;
       }
 
       if (toValue.publishedEarlierThan(fromValue)) {
@@ -19,7 +19,7 @@ export default function(){
   this.transition(
     this.toValue(function(toValue, fromValue) {
       if (!transitionBetweenBulletins(toValue, fromValue)) {
-        return false
+        return false;
       }
 
       if (!toValue.publishedEarlierThan(fromValue)) {
@@ -42,7 +42,7 @@ export default function(){
     this.use('toRight'),
     this.debug()
   );
-};
+}
 
 function transitionBetweenBulletins(toValue, fromValue) {
   return toValue instanceof Bulletin && fromValue instanceof Bulletin;

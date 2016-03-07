@@ -26,8 +26,8 @@ export default DS.Model.extend({
     return this.get('sortedAnnouncements').filterBy('hasDirtyAttributes');
   }),
   publishedEarlierThan(bulletin) {
-    return this.get("publishedAt").getTime() <=
-      bulletin.get("publishedAt").getTime()
+    return this.get("publishedAt").getTime() <
+      bulletin.get("publishedAt").getTime();
   }
 });
 
