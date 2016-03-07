@@ -19,7 +19,7 @@ Router.map(function() {
     this.route("index", { path: "/" }, function() {});
     this.route("edit", function() {});
 
-    this.resource("bulletin", { path: "bulletin/:bulletin_id" }, function() {
+    this.resource("bulletin", { path: "bulletins/:bulletin_id" }, function() {
       this.route("edit");
     });
 
