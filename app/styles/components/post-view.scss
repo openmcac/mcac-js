@@ -1,26 +1,26 @@
 .post-view {
   @include body-font();
 
-  font-size: 16px;
+  font-size: 14px;
   padding-top: $nav-bar-height;
+  background-color: $white;
 
   .post-container {
     @include padding-bottom-xl();
     @include padding-top-xl();
     background-color: $white;
-    border-left-style: solid;
-    border-right-style: solid;
     border-color: $gray-extralight;
     border-width: 1px;
   }
 
   h1 {
-    @include display-font();
-    font-size: 26px;
+    @include post-display-font();
+    font-size: 36px;
+    margin-bottom: 0;
   }
 
   blockquote {
-    @include display-font();
+    @include post-display-font();
     @include padding-bottom-l();
     @include padding-top-l();
     border-left-style: none;
@@ -38,7 +38,8 @@
 
   .metadata {
     color: $gray-dark;
-    font-size: smaller;
+    font-size: 12px;
+    font-style: italic;
   }
 
   .banner {
@@ -105,10 +106,6 @@
 
 
   @media only screen and (min-width: $small-device-break) {
-    .post-container {
-      border-bottom-style: solid;
-    }
-
     footer {
       &::after,
       &::before {
@@ -118,10 +115,11 @@
   }
 
   @media only screen and (min-width: $medium-device-break) {
-    font-size: 18px;
+    font-size: 16px;
 
     h1 {
       font-size: 36px;
+      margin-bottom: $padding-s;
     }
 
     blockquote {
