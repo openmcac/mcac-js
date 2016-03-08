@@ -24,7 +24,11 @@ export default DS.Model.extend({
   unsavedAnnouncements: Ember.computed('sortedAnnouncements.@each.hasDirtyAttributes',
                                        function() {
     return this.get('sortedAnnouncements').filterBy('hasDirtyAttributes');
-  })
+  }),
+  publishedEarlierThan(bulletin) {
+    return this.get("publishedAt").getTime() <
+      bulletin.get("publishedAt").getTime();
+  }
 });
 
 function markedOrEmptyString(markdown) {

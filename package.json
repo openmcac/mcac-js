@@ -65,6 +65,7 @@
     "ember-watson": "^0.5.4",
     "express": "^4.8.5",
     "glob": "^4.0.5",
+    "liquid-fire": "0.23.0",
     "moment": "2.11.1",
     "moment-timezone": "0.5.0",
     "morgan": "^1.5.2",
