@@ -37,14 +37,13 @@
   }
 
   .metadata {
+    @include padding-bottom-xl();
     color: $gray-dark;
     font-size: 12px;
     font-style: italic;
   }
 
   .banner {
-    @include padding-bottom-m();
-
     img {
       width: 100%;
     }
@@ -119,7 +118,6 @@
 
     h1 {
       font-size: 60px;
-      margin-bottom: $padding-s;
     }
 
     blockquote {
