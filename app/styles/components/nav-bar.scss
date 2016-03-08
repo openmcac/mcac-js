@@ -1,7 +1,7 @@
 .navbar {
   background-color: $gray-extradark;
-  height: 30px;
-  min-height: 30px;
+  height: $nav-bar-height;
+  min-height: $nav-bar-height;
 
   &.navbar-default {
     border-color: $gray-extradark;
@@ -11,14 +11,19 @@
     @include brand-font();
 
     color: $gray;
-    padding: 4px 15px;
+    padding: 4px 0;
+    height: initial;
 
     strong {
-      color: $gray-extralight;
+      color: $gray-light;
     }
 
     abbr {
       border-bottom-style: none;
+    }
+
+    &:hover {
+      color: $gray-extralight;
     }
   }
 
@@ -31,6 +36,11 @@
   }
 
   @media only screen and (min-width: $small-device-break) {
+    .navbar-brand {
+      padding-left: 15px;
+      padding-right: 15px;
+    }
+
     .long-brand {
       display: inline-block;
     }

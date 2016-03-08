@@ -15,7 +15,7 @@
 
   h1 {
     @include post-display-font();
-    font-size: 36px;
+    font-size: 42px;
     margin-bottom: 0;
   }
 
@@ -118,7 +118,7 @@
     font-size: 16px;
 
     h1 {
-      font-size: 36px;
+      font-size: 60px;
       margin-bottom: $padding-s;
     }
 

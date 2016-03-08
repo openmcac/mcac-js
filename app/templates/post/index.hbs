@@ -28,11 +28,7 @@
               <div class="banner"><img src="{{url}}" /></div>
             {{/with}}
             <div class="metadata">
-              Posted in 
-              {{#link-to "group.index" model.group.slug class="group-name"}}
-                {{model.group.name}}
-              {{/link-to}}
-              on
+              Posted in <strong>{{model.group.name}}</strong> on
               <span class="published-at">{{displayPublishedAt}}</span>.
             </div>
           </header>
