@@ -39,8 +39,7 @@ export default function(){
   this.transition(
     this.fromRoute('bulletin/sunday'),
     this.toRoute('group'),
-    this.use('toRight'),
-    this.debug()
+    this.use('toRight')
   );
 }
 
