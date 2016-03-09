@@ -32,12 +32,11 @@ h5 {
 }
 
 @mixin brand-font() {
-  font-family: 'Roboto', serif;
-  font-weight: 700;
+  font-family: 'Source Sans Pro', sans-serif;
+  font-weight: 300;
   text-transform: uppercase;
-  font-style: italic;
   strong {
-    font-weight: 900;
+    font-weight: 400;
   }
 }
 
