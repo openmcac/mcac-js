@@ -1,0 +1,43 @@
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+    {{#link-to "index" class="navbar-brand brand"}}
+      <i class="icon icon-cma"></i>
+      <span class="long-brand">
+        <strong>Montreal</strong> Chinese
+        <strong>Alliance</strong> Church
+      </span>
+      <span class="short-brand">
+        <strong>
+          <abbr title="Montreal Chinese Alliance Church">MCAC</abbr>
+        </strong>
+      </span>
+    {{/link-to}}
+  </div>
+</nav>
+
+<div class="page-view">
+  <article class="page page-{{model.id}}">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-8 page-container">
+          <header>
+            <h1 class="title">
+              {{#link-to 'page.index' model}}{{model.title}}{{/link-to}}
+            </h1>
+            <div class="metadata">
+              <span class="published-at">{{displayPublishedAt}}</span>
+            </div>
+            {{#with model.bannerUrl as |url|}}
+              <div class="banner"><img src="{{url}}" /></div>
+            {{/with}}
+          </header>
+          <div class="content">
+            {{{model.contentHtml}}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  {{liquid-outlet}}
+</div>

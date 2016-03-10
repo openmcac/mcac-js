@@ -28,6 +28,10 @@ Router.map(function() {
       this.route("edit", { path: "post/:post_id/edit" }, function() {});
     });
 
+    this.resource("page", { path: ":slug" }, function() {
+      this.route("index", { path: "/" }, function() {});
+    });
+
     this.resource('posts', { path: 'posts' }, function() {
       this.route('new', function() {});
     });

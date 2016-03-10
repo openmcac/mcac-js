@@ -10,6 +10,7 @@ export default DS.Model.extend({
   slug: DS.attr("string"),
   tags: DS.attr(),
   title: DS.attr("string"),
+  kind: DS.attr("string"),
   tagList: Ember.computed("tags.[]", {
     get: function() {
       return getTags(this).toArray().join(", ");
@@ -22,6 +23,12 @@ export default DS.Model.extend({
   contentHtml: Ember.computed("content", function() {
     return markedOrEmptyString(this.get("content"));
   }),
+  isPost: Ember.computed("kind", function() {
+    return this.get("kind") === "post";
+  }),
+  isPage: Ember.computed("kind", function() {
+    return this.get("kind") === "page";
+  })
 });
 
 function getTags(context) {
