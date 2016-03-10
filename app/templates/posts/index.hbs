@@ -19,7 +19,7 @@
           {{/if}}
 
           {{#if post.isPage}}
-            {{#link-to "page.index" post class='btn btn-default show-post'}}
+            {{#link-to "page.index" post.slug class='btn btn-default show-post'}}
               Show
             {{/link-to}}
           {{/if}}
