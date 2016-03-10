@@ -25,7 +25,7 @@
               {{#link-to 'post.index' model}}{{model.title}}{{/link-to}}
             </h1>
             <div class="metadata">
-              Posted in <strong>{{model.group.name}}</strong> on
+              Posted in <strong class="group-name">{{model.group.name}}</strong> on
               <span class="published-at">{{displayPublishedAt}}</span>.
             </div>
             {{#with model.bannerUrl as |url|}}

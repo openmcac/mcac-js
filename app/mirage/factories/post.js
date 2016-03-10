@@ -18,6 +18,9 @@ export default Mirage.Factory.extend({
   },
   "published-at"() {
     return faker.date.past().toISOString();
+  },
+  "kind"() {
+    return "post";
   }
 });
 
