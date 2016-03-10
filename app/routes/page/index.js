@@ -9,7 +9,11 @@ export default Ember.Route.extend({
       kind: KIND_PAGE
     };
     return this.store.query("post", { filter: filter }).then((pages) => {
-      return pages.get("firstObject");
+      if (pages.get("length") > 0) {
+        return pages.get("firstObject");
+      } else {
+        this.transitionTo("/404");
+      }
     });
   }
 });

@@ -1,0 +1,13 @@
+.not-found {
+  color: $gray;
+  padding-bottom: $padding-xl;
+  padding-top: $padding-xl;
+
+  @media only screen and
+    (min-width: $small-device-break) and
+    (max-width: $medium-device-break) {
+  }
+
+  @media only screen and (min-width: $medium-device-break) {
+  }
+}
