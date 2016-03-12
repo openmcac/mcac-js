@@ -30,6 +30,15 @@
                               rows="10"}}
         </div>
       </div>
+      <div class="row">
+        <div class="form-group col-md-10" data-auto-id="kind">
+          <label>Kind</label>
+          {{#x-select value=post.kind class="form-control"}}
+            {{#x-option value="post"}}Post{{/x-option}}
+            {{#x-option value="page"}}Page{{/x-option}}
+          {{/x-select}}
+        </div>
+      </div>
       <button type="submit" {{action 'save'}} class="btn btn-primary save">
         Save
       </button>

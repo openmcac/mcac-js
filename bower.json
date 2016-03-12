@@ -24,7 +24,8 @@
     "lodash": "~3.7.0",
     "Faker": "~3.0.0",
     "es5-shim": "^4.0.5",
-    "eonasdan-bootstrap-datetimepicker": "~4.14.30"
+    "eonasdan-bootstrap-datetimepicker": "~4.14.30",
+    "select2": "3.5.2"
   },
   "resolutions": {
     "ember": "2.2.0",
