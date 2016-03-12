@@ -31,27 +31,16 @@ test("it lists the three latest bulletins", assert => {
   page.visit();
 
   andThen(() => {
-    assert.equal(page.createBulletinUrl(), "/english-service/bulletins/new");
-    assert.equal(page.bulletins(1).name(), bulletins[0].name);
-    equalDate(assert, page.bulletins(1).publishedAt(), bulletins[0]["published-at"]);
-    assert.equal(page.bulletins(1).showUrl(),
-                 `/english-service/bulletins/${bulletins[0].id}`);
-    assert.equal(page.bulletins(1).editUrl(),
-                 `/english-service/bulletins/${bulletins[0].id}/edit`);
+    assert.equal(page.createBulletinUrl, "/english-service/bulletins/new");
 
-    assert.equal(page.bulletins(2).name(), bulletins[1].name);
-    equalDate(assert, page.bulletins(2).publishedAt(), bulletins[1]["published-at"]);
-    assert.equal(page.bulletins(2).showUrl(),
-                 `/english-service/bulletins/${bulletins[1].id}`);
-    assert.equal(page.bulletins(2).editUrl(),
-                 `/english-service/bulletins/${bulletins[1].id}/edit`);
-
-    assert.equal(page.bulletins(3).name(), bulletins[2].name);
-    equalDate(assert, page.bulletins(3).publishedAt(), bulletins[2]["published-at"]);
-    assert.equal(page.bulletins(3).showUrl(),
-                 `/english-service/bulletins/${bulletins[2].id}`);
-    assert.equal(page.bulletins(3).editUrl(),
-                 `/english-service/bulletins/${bulletins[2].id}/edit`);
+    bulletins.forEach((bulletin, i) => {
+      assert.equal(page.bulletins(i).name, bulletins[i].name);
+      equalDate(assert, page.bulletins(i).publishedAt, bulletins[i]["published-at"]);
+      assert.equal(page.bulletins(i).showUrl,
+                   `/english-service/bulletins/${bulletins[i].id}`);
+      assert.equal(page.bulletins(i).editUrl,
+                   `/english-service/bulletins/${bulletins[i].id}/edit`);
+    });
 
     assert.equal(currentURL(), "/dashboard");
   });
