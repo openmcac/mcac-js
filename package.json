@@ -36,6 +36,7 @@
     "ember-cli-deploy-rsync": "0.0.1",
     "ember-cli-deploy-s3": "0.2.0",
     "ember-cli-deploy-ssh-tunnel": "0.2.1",
+    "ember-cli-es5-shim": "^0.2.0",
     "ember-cli-htmlbars": "^1.0.1",
     "ember-cli-htmlbars-inline-precompile": "^0.3.1",
     "ember-cli-ic-ajax": "0.2.1",
