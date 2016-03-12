@@ -24,10 +24,10 @@ footer {
   }
 
   h1 {
+    @include header-font();
     color: $gray-dark;
-    margin-bottom: 0;
-    text-transform: uppercase;
     font-size: 16px;
+    margin-bottom: 0;
   }
 
   h2 {
@@ -37,8 +37,8 @@ footer {
   }
 
   .address {
+    @include header-font();
     color: $gray-dark;
-    text-transform: uppercase;
     font-size: 12px;
 
     a {

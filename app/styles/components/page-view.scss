@@ -1,11 +1,11 @@
-.post-view {
+.page-view {
   @include body-font();
 
   font-size: 14px;
   padding-top: $nav-bar-height;
   background-color: $white;
 
-  .post-container {
+  .page-container {
     @include padding-bottom-xl();
     @include padding-top-xl();
     background-color: $white;

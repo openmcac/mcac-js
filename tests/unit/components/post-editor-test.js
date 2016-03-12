@@ -5,9 +5,11 @@ var component, post;
 
 moduleForComponent("post-editor", {
   needs: [
-    "component:s3-upload",
     "component:image-preview",
-    "component:markdown-textarea"
+    "component:markdown-textarea",
+    "component:s3-upload",
+    "component:x-option",
+    "component:x-select"
   ],
   beforeEach: function() {
     post = {

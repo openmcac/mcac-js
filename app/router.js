@@ -16,7 +16,7 @@ Ember.Route.reopen({
 
 Router.map(function() {
   this.resource("group", { path: ":group_slug" }, function() {
-    this.route("index", { path: "/" }, function() {});
+    // this.route("index", { path: "/" }, function() {});
     this.route("edit", function() {});
 
     this.resource("bulletin", { path: "bulletins/:bulletin_id" }, function() {
@@ -26,6 +26,10 @@ Router.map(function() {
     this.resource("post", { path: "" }, function() {
       this.route("index", { path: ":year/:month/:day/:post_id/:slug" }, function() {});
       this.route("edit", { path: "post/:post_id/edit" }, function() {});
+    });
+
+    this.resource("page", { path: ":slug" }, function() {
+      this.route("index", { path: "/" }, function() {});
     });
 
     this.resource('posts', { path: 'posts' }, function() {
@@ -49,6 +53,7 @@ Router.map(function() {
     this.route('new');
   });
   this.route('dashboard', function() {});
+  this.route("not-found", { path: "*path" });
 });
 
 export default Router;

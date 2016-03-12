@@ -15,24 +15,23 @@
   </div>
 </nav>
 
-<div class="post-view">
-  <article class="post post-{{model.id}}">
+<div class="page-view">
+  <article class="page page-{{model.id}}">
     <div class="container">
       <div class="row">
-        <div class="col-sm-8 post-container">
+        <div class="col-sm-8 page-container">
           <header>
-            <h1 class="post-title">
-              {{#link-to 'post.index' model}}{{model.title}}{{/link-to}}
+            <h1 class="title">
+              {{#link-to "page.index" model data-auto-id="page-title"}}{{model.title}}{{/link-to}}
             </h1>
             <div class="metadata">
-              Posted in <strong class="group-name">{{model.group.name}}</strong> on
-              <span class="published-at">{{displayPublishedAt}}</span>.
+              <span class="published-at">{{displayPublishedAt}}</span>
             </div>
             {{#with model.bannerUrl as |url|}}
               <div class="banner"><img src="{{url}}" /></div>
             {{/with}}
           </header>
-          <div class="content">
+          <div class="content" data-auto-id="page-content">
             {{{model.contentHtml}}}
           </div>
         </div>
