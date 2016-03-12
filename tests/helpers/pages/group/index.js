@@ -4,7 +4,7 @@ let { text, visitable, collection } = PageObject;
 // let { clickable, fillable, text, visitable, collection, selectable } = PageObject;
 
 export default function(slug) {
-  return PageObject.build({
+  return PageObject.create({
     visit: visitable(`/${slug}`),
     name: text("*[data-test-id='name']"),
     about: text("*[data-test-id='about']"),

@@ -41,12 +41,12 @@ test("it displays the bulletin to be edited", assert => {
   page.visit({ groupSlug: group.slug, bulletinId: bulletin.id });
 
   andThen(() => {
-    assert.equal(page.name(), bulletin.name);
-    assert.equal(page.description(), bulletin.description);
-    assert.equal(page.serviceOrder(), bulletin["service-order"]);
-    assert.equal(page.sermonNotes(), bulletin["sermon-notes"]);
-    equalDate(assert, page.publishedAt(), bulletin["published-at"]);
-    assert.equal(page.announcements().count(), 0);
+    assert.equal(page.name, bulletin.name);
+    assert.equal(page.description, bulletin.description);
+    assert.equal(page.serviceOrder, bulletin["service-order"]);
+    assert.equal(page.sermonNotes, bulletin["sermon-notes"]);
+    equalDate(assert, page.publishedAt, bulletin["published-at"]);
+    assert.equal(page.announcements().count, 0);
     assert.equal(page.bannerUrl(), bulletin["banner-url"]);
     assert.equal(page.audioUrl(), bulletin["audio-url"]);
   });
@@ -76,15 +76,15 @@ test("it adds announcement editors when announcements are available",
   page.visit({ groupSlug: group.slug, bulletinId: bulletin.id });
 
   andThen(() => {
-    assert.equal(page.announcements().count(), 3);
-    assert.equal(page.announcements(1).url(), firstAnnouncement.url);
-    assert.equal(page.announcements(1).description(),
+    assert.equal(page.announcements().count, 3);
+    assert.equal(page.announcements(0).url, firstAnnouncement.url);
+    assert.equal(page.announcements(0).description,
                  firstAnnouncement.description);
-    assert.equal(page.announcements(2).url(), secondAnnouncement.url);
-    assert.equal(page.announcements(2).description(),
+    assert.equal(page.announcements(1).url, secondAnnouncement.url);
+    assert.equal(page.announcements(1).description,
                  secondAnnouncement.description);
-    assert.equal(page.announcements(3).url(), thirdAnnouncement.url);
-    assert.equal(page.announcements(3).description(),
+    assert.equal(page.announcements(2).url, thirdAnnouncement.url);
+    assert.equal(page.announcements(2).description,
                  thirdAnnouncement.description);
   });
 });
@@ -109,7 +109,7 @@ test("it updates the current bulletin", assert => {
     fillServiceOrder("updated service order").
     fillSermonNotes("updated sermon notes");
 
-  page.announcements(1).
+  page.announcements(0).
     fillUrl("http://updated.com").
     fillDescription("updated announcement");
 
@@ -117,17 +117,17 @@ test("it updates the current bulletin", assert => {
 
   andThen(() => {
     const updatedBulletin = server.db.bulletins.find(bulletin.id);
-    assert.equal(updatedBulletin.name, page.name());
-    assert.equal(updatedBulletin.description, page.description());
-    equalDate(assert, updatedBulletin["published-at"], page.publishedAt());
-    assert.equal(updatedBulletin["sermon-notes"], page.sermonNotes());
-    assert.equal(updatedBulletin["service-order"], page.serviceOrder());
+    assert.equal(updatedBulletin.name, page.name);
+    assert.equal(updatedBulletin.description, page.description);
+    equalDate(assert, updatedBulletin["published-at"], page.publishedAt);
+    assert.equal(updatedBulletin["sermon-notes"], page.sermonNotes);
+    assert.equal(updatedBulletin["service-order"], page.serviceOrder);
 
     const updatedAnnouncement = server.db.announcements.find(announcement.id);
-    const announcementEditor = page.announcements(1);
-    assert.equal(updatedAnnouncement.url, announcementEditor.url());
+    const announcementEditor = page.announcements(0);
+    assert.equal(updatedAnnouncement.url, announcementEditor.url);
     assert.equal(updatedAnnouncement.description,
-                 announcementEditor.description());
+                 announcementEditor.description);
   });
 });
 
@@ -142,7 +142,7 @@ test("it allows user to create a new announcement", assert => {
   page.visit({ groupSlug: group.slug, bulletinId: bulletin.id }).
     appendNewAnnouncement();
 
-  page.announcements(1).
+  page.announcements(0).
     fillUrl("http://test.com").
     fillDescription("new desc");
 
@@ -151,10 +151,10 @@ test("it allows user to create a new announcement", assert => {
   andThen(() => {
     const announcements = server.db.announcements;
     const lastAnnouncement = announcements[announcements.length - 1];
-    const announcementEditor = page.announcements(1);
+    const announcementEditor = page.announcements(0);
 
-    assert.equal(lastAnnouncement.url, announcementEditor.url());
-    assert.equal(lastAnnouncement.description, announcementEditor.description());
+    assert.equal(lastAnnouncement.url, announcementEditor.url);
+    assert.equal(lastAnnouncement.description, announcementEditor.description);
   });
 });
 

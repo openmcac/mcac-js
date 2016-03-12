@@ -44,11 +44,11 @@ test("it can create a new bulletin", assert => {
     const bulletins = server.db.bulletins;
     const createdBulletin = bulletins[bulletins.length - 1];
 
-    assert.equal(createdBulletin.name, page.name());
-    assert.equal(createdBulletin.description, page.description());
-    equalDate(assert, createdBulletin["published-at"], page.publishedAt());
-    assert.equal(createdBulletin["sermon-notes"], page.sermonNotes());
-    assert.equal(createdBulletin["service-order"], page.serviceOrder());
+    assert.equal(createdBulletin.name, page.name);
+    assert.equal(createdBulletin.description, page.description);
+    equalDate(assert, createdBulletin["published-at"], page.publishedAt);
+    assert.equal(createdBulletin["sermon-notes"], page.sermonNotes);
+    assert.equal(createdBulletin["service-order"], page.serviceOrder);
     assert.equal(currentURL(),
                  `/${group.slug}/bulletins/${createdBulletin.id}/edit`);
   });
@@ -61,10 +61,10 @@ test("it populates default values", assert => {
   page.visit({ groupSlug: group.slug });
 
   andThen(() => {
-    assert.equal(page.name(), "Sunday Worship Service");
-    assert.equal(page.serviceOrder(), "");
-    equalDate(assert, page.publishedAt(), nextService());
-    assert.equal(page.sermonNotes(), "");
+    assert.equal(page.name, "Sunday Worship Service");
+    assert.equal(page.serviceOrder, "");
+    equalDate(assert, page.publishedAt, nextService());
+    assert.equal(page.sermonNotes, "");
   });
 });
 
@@ -79,7 +79,7 @@ test("it defaults to last week's service order when available", assert => {
   page.visit({ groupSlug: group.slug });
 
   andThen(() => {
-    assert.equal(page.serviceOrder(), lastWeekBulletin["service-order"]);
+    assert.equal(page.serviceOrder, lastWeekBulletin["service-order"]);
   });
 });
 

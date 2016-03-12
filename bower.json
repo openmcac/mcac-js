@@ -7,7 +7,6 @@
     "ember": "~2.4.1",
     "ember-cli-shims": "0.1.0",
     "ember-cli-test-loader": "0.2.2",
-    "ember-data": "2.4.0",
     "ember-load-initializers": "ember-cli/ember-load-initializers#0.1.5",
     "ember-qunit-notifications": "0.1.0",
     "ember-resolver": "~0.1.15",
@@ -23,7 +22,8 @@
     "moment-timezone": ">= 0.1.0",
     "pace": "~1.0.2",
     "pretender": "~0.10.1",
-    "qunit": "~1.17.1"
+    "qunit": "~1.17.1",
+    "ceibo": "~1.1.0"
   },
   "resolutions": {
     "ember": "~2.4.1"
