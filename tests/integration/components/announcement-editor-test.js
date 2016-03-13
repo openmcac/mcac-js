@@ -23,7 +23,7 @@ test("it renders an announcement editor", function(assert) {
   this.render(hbs`
     {{announcement-editor
       announcement=announcement
-      remove-announcement=(action externalAction)}}
+      removeannouncement=(action externalAction)}}
   `);
 
   assert.equal(find(this, "url").val(), announcement.url);
