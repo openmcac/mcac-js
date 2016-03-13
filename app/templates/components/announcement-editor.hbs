@@ -1,22 +1,23 @@
 <div class="{{announcementClass}}"
-     data-position="{{announcement.position}}"
-     data-auto-id="announcement-editor">
+  data-position="{{announcement.position}}"
+  data-auto-id="announcement-editor">
   {{input value=announcement.url
-          class="url"
-          data-auto-id="announcement-url"
-          placeholder="Link to more information..."}}
+    class="url"
+    data-auto-id="url"
+    placeholder="Link to more information..."}}
 
   {{textarea placeholder="Enter announcement description..."
-             data-auto-id="announcement-description"
-             class="description"
-             value=announcement.description}}
+    data-auto-id="description"
+    class="description"
+    value=announcement.description}}
 
   <div class="handle">
     <button {{action 'removeAnnouncement' announcement}}
-            class="btn btn-danger remove-announcement">
+      class="btn btn-danger remove-announcement"
+      data-auto-id="remove">
       Remove
     </button>
   </div>
-
-  {{yield}}
 </div>
+
+{{yield}}
