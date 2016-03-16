@@ -5,20 +5,106 @@ moduleForComponent('bulletin-editor', 'Integration | Component | bulletin editor
   integration: true
 });
 
-test('it renders', function(assert) {
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });
+test('it fires the removeannouncement action with the announcement to remove',
+    function(assert) {
+  assert.expect(1);
 
-  this.render(hbs`{{bulletin-editor}}`);
+  enableAutoIdAttribute();
 
-  assert.equal(this.$().text().trim(), '');
+  const announcements = [
+    { url: "http://nba.com", description: "announcement 1", position: 1 },
+    { url: "", description: "announcement 2", position: 2 },
+    { url: "http://mcac.church", description: "announcement 3", position: 3 }
+  ];
 
-  // Template block usage:
+  const bulletin = {
+    name: "Sunday Worship Service",
+    publishedAt: new Date(),
+    description: "My description",
+    bannerUrl: "",
+    audioUrl: "",
+    serviceOrder: "My service order",
+    sermonNotes: "My sermon notes",
+    announcements: announcements
+  };
+
+  this.set("bulletin", bulletin);
+
+  this.set("removeAnnouncement", (actual) => {
+    assert.equal(actual, announcements[2]);
+  });
+
+  this.set("appendAnnouncement", (actual) => {
+    assert.notOk("should not have fired this action");
+  });
+
+  this.set("reorderAnnouncements", (actual) => {
+    assert.notOk("should not have fired this action");
+  });
+
   this.render(hbs`
-    {{#bulletin-editor}}
-      template block text
-    {{/bulletin-editor}}
+    {{bulletin-editor
+        bulletin=bulletin
+        appendannouncement=(action appendAnnouncement)
+        removeannouncement=(action removeAnnouncement)
+        reorderannouncements=(action reorderAnnouncements)}}
   `);
 
-  assert.equal(this.$().text().trim(), 'template block text');
+  this.$("*[data-auto-id='announcement-editor'] *[data-auto-id='remove']")[2].
+    click();
 });
+
+test('it fires the appendannouncement action', function(assert) {
+  assert.expect(1);
+
+  enableAutoIdAttribute();
+
+  const announcements = [
+    { url: "http://nba.com", description: "announcement 1", position: 1 },
+    { url: "http://mcac.church", description: "announcement 2", position: 2 },
+    { url: "", description: "announcement 3", position: 3 }
+  ];
+
+  const bulletin = {
+    name: "Sunday Worship Service",
+    publishedAt: new Date(),
+    description: "My description",
+    bannerUrl: "",
+    audioUrl: "",
+    serviceOrder: "My service order",
+    sermonNotes: "My sermon notes",
+    announcements: []
+  };
+
+  this.set("removeAnnouncement", (actual) => {
+    assert.notOk("should not have fired this action");
+  });
+
+  this.set("appendAnnouncement", (actual) => {
+    assert.ok("fires action to append announcement");
+  });
+
+  this.set("reorderAnnouncements", (actual) => {
+    assert.notOk("should not have fired this action");
+  });
+
+  this.render(hbs`
+    {{bulletin-editor
+        bulletin=bulletin
+        appendannouncement=(action appendAnnouncement)
+        removeannouncement=(action removeAnnouncement)
+        reorderannouncements=(action reorderAnnouncements)}}
+  `);
+
+  this.$("*[data-auto-id='append-announcement']").click();
+});
+
+function enableAutoIdAttribute() {
+  Ember.TextField.reopen({
+    attributeBindings: ["data-auto-id"]
+  });
+
+  Ember.TextArea.reopen({
+    attributeBindings: ["data-auto-id"]
+  });
+}

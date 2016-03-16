@@ -4,12 +4,19 @@ import EmberValidations from 'ember-validations';
 export default Ember.Controller.extend({
   notify: Ember.inject.service("notify"),
   actions: {
-    appendAnnouncement(bulletin) {
-      const announcements = bulletin.get('announcements');
-      const newAnnouncement = this.store.createRecord('announcement', {
-        position: announcements.get('length') + 1
+    reorderAnnouncements(announcements) {
+
+    },
+    removeAnnouncement(announcement) {
+      announcement.deleteRecord();
+    },
+    appendAnnouncement() {
+      this.get("model.announcements").then((announcements) => {
+        const newAnnouncement = this.store.createRecord('announcement', {
+          position: announcements.get('length') + 1
+        });
+        announcements.pushObject(newAnnouncement);
       });
-      announcements.pushObject(newAnnouncement);
     },
     saveBulletin(bulletin) {
       bulletin.set('publishedAt', moment(bulletin.get('publishedAt')).toDate());
@@ -40,5 +47,5 @@ export default Ember.Controller.extend({
     didUploadAudio(storageUrl, bulletin) {
       bulletin.set('audioUrl', storageUrl);
     }
-  })
+  }
 });

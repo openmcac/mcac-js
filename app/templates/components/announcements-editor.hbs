@@ -1,16 +1,23 @@
 <div data-auto-id="announcements-editor">
-  <button {{action 'appendAnnouncement'}}
-          class="btn btn-default append-announcement"
-          data-auto-id="append-announcement">
+  <button {{action (action this.attrs.append)}}
+    class="btn btn-default append-announcement"
+    data-auto-id="append-announcement">
     Add Announcement
   </button>
 
   <div class="announcements-editor">
-    {{#sortable-group tagName="ul" model=bulletin onChange="reorderAnnouncements" as |group|}}
-      {{#each bulletin.sortedAnnouncements as |announcement|}}
-        {{#sortable-item tagName="li" model=announcement group=group handle=".handle"}}
-          {{announcement-editor announcement=announcement
-            remove-announcement="removeAnnouncement"}}
+    {{#sortable-group
+        tagName="ul"
+        onChange=(action this.attrs.reorder announcements) as |group|}}
+      {{#each announcements as |announcement|}}
+        {{#sortable-item
+            tagName="li"
+            model=announcement
+            group=group
+            handle=".handle"}}
+          {{announcement-editor
+              announcement=announcement
+              removeannouncement=(action this.attrs.remove)}}
         {{/sortable-item}}
       {{/each}}
     {{/sortable-group}}

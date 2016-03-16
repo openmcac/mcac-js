@@ -11,10 +11,6 @@ export default Ember.Component.extend(EmberValidations, {
     }
   },
   actions: {
-    save() {
-      const bulletin = this.get("bulletin");
-      this.sendAction("on-save", bulletin);
-    },
     didUploadBanner(storageUrl) {
       const bulletin = this.get("bulletin");
       this.sendAction("did-upload-banner", storageUrl, bulletin);
@@ -22,10 +18,6 @@ export default Ember.Component.extend(EmberValidations, {
     didUploadAudio(storageUrl) {
       const bulletin = this.get("bulletin");
       this.sendAction("did-upload-audio", storageUrl, bulletin);
-    },
-    appendAnnouncement() {
-      const bulletin = this.get("bulletin");
-      this.sendAction("append-announcement", bulletin);
     }
   },
   disableSaveButton: Ember.computed("isValid", function() {

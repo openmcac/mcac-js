@@ -1,8 +1,10 @@
 <div class="container bulletin-form">
   <h2>Update bulletin</h2>
   {{bulletin-editor bulletin=model
-      on-save="saveBulletin"
+      onsave=(action "saveBulletin")
       did-upload-banner="didUploadBanner"
       did-upload-audio="didUploadAudio"
-      append-announcement="appendAnnouncement"}}
+      appendannouncement=(action "appendAnnouncement")
+      removeannouncement=(action "removeAnnouncement")
+      reorderannouncements=(action "reorderAnnouncements")}}
 </div>
