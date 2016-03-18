@@ -1,3 +1,4 @@
+import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
@@ -34,11 +35,11 @@ test('it fires the removeannouncement action with the announcement to remove',
     assert.equal(actual, announcements[2]);
   });
 
-  this.set("appendAnnouncement", (actual) => {
+  this.set("appendAnnouncement", () => {
     assert.notOk("should not have fired this action");
   });
 
-  this.set("reorderAnnouncements", (actual) => {
+  this.set("reorderAnnouncements", () => {
     assert.notOk("should not have fired this action");
   });
 
@@ -73,18 +74,18 @@ test('it fires the appendannouncement action', function(assert) {
     audioUrl: "",
     serviceOrder: "My service order",
     sermonNotes: "My sermon notes",
-    announcements: []
+    announcements: announcements
   };
 
-  this.set("removeAnnouncement", (actual) => {
+  this.set("removeAnnouncement", () => {
     assert.notOk("should not have fired this action");
   });
 
-  this.set("appendAnnouncement", (actual) => {
+  this.set("appendAnnouncement", () => {
     assert.ok("fires action to append announcement");
   });
 
-  this.set("reorderAnnouncements", (actual) => {
+  this.set("reorderAnnouncements", () => {
     assert.notOk("should not have fired this action");
   });
 

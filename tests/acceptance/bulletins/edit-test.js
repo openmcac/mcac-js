@@ -17,7 +17,7 @@ module('Acceptance | bulletins/edit', {
       Ember.run(application, 'destroy');
     } catch(e) {
       Ember.run(application, 'destroy');
-    };
+    }
   }
 });
 
