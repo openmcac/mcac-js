@@ -18,6 +18,7 @@ export default Ember.Controller.extend({
     },
     didUploadAudio(storageUrl, bulletin) {
       bulletin.set('audioUrl', storageUrl);
-    }
+    },
+    noop() {}
   }
 });
