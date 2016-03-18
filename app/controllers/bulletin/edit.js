@@ -1,10 +1,9 @@
 import Ember from 'ember';
-import EmberValidations from 'ember-validations';
 
 export default Ember.Controller.extend({
   notify: Ember.inject.service("notify"),
   actions: {
-    reorderAnnouncements(announcements) {
+    reorderAnnouncements(/*announcements*/) {
 
     },
     removeAnnouncement(announcement) {

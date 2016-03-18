@@ -26,7 +26,7 @@ test('it fires the removeannouncement action with the announcement to remove',
     audioUrl: "",
     serviceOrder: "My service order",
     sermonNotes: "My sermon notes",
-    announcements: announcements
+    sortedAnnouncements: announcements
   };
 
   this.set("bulletin", bulletin);
@@ -35,20 +35,17 @@ test('it fires the removeannouncement action with the announcement to remove',
     assert.equal(actual, announcements[2]);
   });
 
-  this.set("appendAnnouncement", () => {
-    assert.notOk("should not have fired this action");
-  });
-
-  this.set("reorderAnnouncements", () => {
+  this.set("notFired", () => {
     assert.notOk("should not have fired this action");
   });
 
   this.render(hbs`
     {{bulletin-editor
         bulletin=bulletin
-        appendannouncement=(action appendAnnouncement)
+        onsave=(action notFired)
+        appendannouncement=(action notFired)
         removeannouncement=(action removeAnnouncement)
-        reorderannouncements=(action reorderAnnouncements)}}
+        reorderannouncements=(action notFired)}}
   `);
 
   this.$("*[data-auto-id='announcement-editor'] *[data-auto-id='remove']")[2].
@@ -77,24 +74,23 @@ test('it fires the appendannouncement action', function(assert) {
     announcements: announcements
   };
 
-  this.set("removeAnnouncement", () => {
-    assert.notOk("should not have fired this action");
-  });
+  this.set("bulletin", bulletin);
 
   this.set("appendAnnouncement", () => {
     assert.ok("fires action to append announcement");
   });
 
-  this.set("reorderAnnouncements", () => {
+  this.set("notFired", () => {
     assert.notOk("should not have fired this action");
   });
 
   this.render(hbs`
     {{bulletin-editor
         bulletin=bulletin
+        onsave=(action notFired)
         appendannouncement=(action appendAnnouncement)
-        removeannouncement=(action removeAnnouncement)
-        reorderannouncements=(action reorderAnnouncements)}}
+        removeannouncement=(action notFired)
+        reorderannouncements=(action notFired)}}
   `);
 
   this.$("*[data-auto-id='append-announcement']").click();
