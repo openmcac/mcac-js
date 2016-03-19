@@ -34,7 +34,8 @@
         <div class="form-group col-md-10">
           <label for="banner">Banner</label>
           <div class="form-control banner">
-            {{s3-upload url="/api/v1/bulletins/sign" didUpload="didUploadBanner"}}
+            {{s3-upload url="/api/v1/bulletins/sign"
+                didupload=(action this.attrs.diduploadbanner)}}
           </div>
           {{image-preview
               clearimage=(action this.attrs.clearbanner)
@@ -46,7 +47,8 @@
         <div class="form-group col-md-10">
           <label for="audio">Audio</label>
           <div class="form-control audio">
-            {{s3-upload url="/api/v1/bulletins/sign" didUpload="didUploadAudio"}}
+            {{s3-upload url="/api/v1/bulletins/sign"
+                didupload=(action this.attrs.diduploadaudio)}}
           </div>
           {{file-preview
               clearfile=(action this.attrs.clearaudio)

@@ -10,14 +10,6 @@ export default Ember.Component.extend(EmberValidations, {
       presence: true
     }
   },
-  actions: {
-    didUploadBanner(storageUrl) {
-      this.sendAction("diduploadbanner", storageUrl);
-    },
-    didUploadAudio(storageUrl) {
-      this.sendAction("diduploadaudio", storageUrl);
-    }
-  },
   disableSaveButton: Ember.computed("isValid", function() {
     return !this.get("isValid");
   })
