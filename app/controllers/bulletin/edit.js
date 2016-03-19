@@ -40,11 +40,11 @@ export default Ember.Controller.extend({
         this.get("notify").alert("Failed to save bulletin");
       });
     },
-    didUploadBanner(storageUrl, bulletin) {
-      bulletin.set('bannerUrl', storageUrl);
+    didUploadBanner(storageUrl) {
+      this.set("model.bannerUrl", storageUrl);
     },
-    didUploadAudio(storageUrl, bulletin) {
-      bulletin.set('audioUrl', storageUrl);
+    didUploadAudio(storageUrl) {
+      this.set("model.audioUrl", storageUrl);
     }
   }
 });

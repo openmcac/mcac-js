@@ -12,12 +12,10 @@ export default Ember.Component.extend(EmberValidations, {
   },
   actions: {
     didUploadBanner(storageUrl) {
-      const bulletin = this.get("bulletin");
-      this.sendAction("did-upload-banner", storageUrl, bulletin);
+      this.sendAction("diduploadbanner", storageUrl);
     },
     didUploadAudio(storageUrl) {
-      const bulletin = this.get("bulletin");
-      this.sendAction("did-upload-audio", storageUrl, bulletin);
+      this.sendAction("diduploadaudio", storageUrl);
     }
   },
   disableSaveButton: Ember.computed("isValid", function() {

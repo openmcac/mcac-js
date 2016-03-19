@@ -1,10 +1,10 @@
 <div class="container bulletin-form">
   <h2>Add a bulletin</h2>
   {{bulletin-editor bulletin=model
-      onsave=(action "saveBulletin")
-      did-upload-banner="didUploadBanner"
-      did-upload-audio="didUploadAudio"
       appendannouncement=(action "noop")
+      diduploadaudio=(action "didUploadAudio")
+      diduploadbanner=(action "didUploadBanner")
+      onsave=(action "saveBulletin")
       removeannouncement=(action "noop")
       reorderannouncements=(action "noop")}}
 </div>
