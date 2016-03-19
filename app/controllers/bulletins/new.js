@@ -19,6 +19,12 @@ export default Ember.Controller.extend({
     didUploadAudio(storageUrl) {
       this.set("model.audioUrl", storageUrl);
     },
+    clearBanner() {
+      this.set("model.bannerUrl", "");
+    },
+    clearAudio() {
+      this.set("model.audioUrl", "");
+    },
     noop() {}
   }
 });

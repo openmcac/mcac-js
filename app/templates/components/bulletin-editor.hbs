@@ -36,7 +36,10 @@
           <div class="form-control banner">
             {{s3-upload url="/api/v1/bulletins/sign" didUpload="didUploadBanner"}}
           </div>
-          {{image-preview url=bulletin.bannerUrl data-auto-id="bulletin-banner-preview"}}
+          {{image-preview
+              clearimage=(action this.attrs.clearbanner)
+              url=bulletin.bannerUrl
+              data-auto-id="bulletin-banner-preview"}}
         </div>
       </div>
       <div class="row">
@@ -45,7 +48,10 @@
           <div class="form-control audio">
             {{s3-upload url="/api/v1/bulletins/sign" didUpload="didUploadAudio"}}
           </div>
-          {{file-preview url=bulletin.audioUrl data-auto-id="bulletin-audio-preview"}}
+          {{file-preview
+              clearfile=(action this.attrs.clearaudio)
+              url=bulletin.audioUrl
+              data-auto-id="bulletin-audio-preview"}}
         </div>
       </div>
       <div class="row">
