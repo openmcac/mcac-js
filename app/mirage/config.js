@@ -259,4 +259,17 @@ export default function() {
       }))
     };
   });
+
+  this.delete("/api/v1/announcements/:id", function(db, request) {
+    db.announcements.remove(parseInt(request.params.id));
+    const response =  {
+      data: {
+        type: "announcements",
+        id: request.params.id,
+        attributes: {}
+      }
+    };
+
+    return response;
+  });
 }

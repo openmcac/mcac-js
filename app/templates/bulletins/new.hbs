@@ -1,9 +1,9 @@
 <div class="container bulletin-form">
   <h2>Add a bulletin</h2>
-
-  <form action="#">
-    <div class="row">
-      {{partial "bulletins/fields"}}
-    </div>
-  </form>
+  {{bulletin-editor bulletin=model
+      diduploadaudio=(action "didUploadAudio")
+      diduploadbanner=(action "didUploadBanner")
+      clearbanner=(action "clearBanner")
+      clearaudio=(action "clearAudio")
+      onsave=(action "saveBulletin")}}
 </div>

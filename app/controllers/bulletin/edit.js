@@ -1,24 +1,24 @@
 import Ember from 'ember';
-import EmberValidations from 'ember-validations';
 
-export default Ember.Controller.extend(EmberValidations, {
-  validations: {
-    "model.name": {
-      presence: true
-    },
-    "model.publishedAt": {
-      presence: true
-    }
-  },
+export default Ember.Controller.extend({
   notify: Ember.inject.service("notify"),
   actions: {
-    appendAnnouncement: function() {
-      var bulletin = this.get('model');
-      var announcements = bulletin.get('announcements');
-      announcements.pushObject(this.store.createRecord('announcement', { position: announcements.get('length') + 1 }));
+    reorderAnnouncements(_, announcements) {
+      syncPositions(announcements);
+      this.set("model.announcements", announcements);
     },
-    save: function() {
-      let bulletin = this.get('model');
+    removeAnnouncement(announcement) {
+      announcement.deleteRecord();
+    },
+    appendAnnouncement() {
+      this.get("model.announcements").then((announcements) => {
+        const newAnnouncement = this.store.createRecord('announcement', {
+          position: announcements.get('length') + 1
+        });
+        announcements.pushObject(newAnnouncement);
+      });
+    },
+    saveBulletin(bulletin) {
       bulletin.set('publishedAt', moment(bulletin.get('publishedAt')).toDate());
       Pace.restart();
       bulletin.save().then(() => {
@@ -41,17 +41,23 @@ export default Ember.Controller.extend(EmberValidations, {
         this.get("notify").alert("Failed to save bulletin");
       });
     },
-    didUploadBanner: function(storageUrl) {
-      this.get('model').set('bannerUrl', storageUrl);
+    clearBanner() {
+      this.set("model.bannerUrl", "");
     },
-    didUploadAudio: function(storageUrl) {
-      this.get('model').set('audioUrl', storageUrl);
+    clearAudio() {
+      this.set("model.audioUrl", "");
+    },
+    didUploadBanner(storageUrl) {
+      this.set("model.bannerUrl", storageUrl);
+    },
+    didUploadAudio(storageUrl) {
+      this.set("model.audioUrl", storageUrl);
     }
-  },
-  bannerPreviewStyle: Ember.observer("model.bannerUrl", function() {
-    return "is-hidden";
-  }),
-  disableSaveButton: Ember.computed("isValid", function() {
-    return !this.get("isValid");
-  })
+  }
 });
+
+function syncPositions(announcements) {
+  announcements.
+    filter((a) => !a.get("isDeleted")).
+    forEach((a, i) => a.set("position", ++i));
+}

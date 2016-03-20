@@ -10,10 +10,5 @@ export default Ember.Component.extend({
     let deleted = this.get("announcement.isDeleted") ? "deleted" : "";
 
     return `announcement-editor announcement-editor-${announcementId} ${deleted}`;
-  }),
-  actions: {
-    removeAnnouncement: function(announcement) {
-      this.sendAction('remove-announcement', announcement);
-    }
-  }
+  })
 });

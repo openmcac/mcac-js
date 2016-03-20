@@ -3,11 +3,6 @@ import Ember from "ember";
 export default Ember.Component.extend({
   attributeBindings: ["data-auto-id"],
   classNameBindings: ["hasFile:is-shown:is-hidden"],
-  actions: {
-    remove: function() {
-      this.set("url", "");
-    }
-  },
   hasFile: Ember.computed("url", function() {
     return !Ember.isEmpty(this.get("url"));
   }),
@@ -17,5 +12,5 @@ export default Ember.Component.extend({
     }
 
     return this.get("url").htmlSafe();
-  }),
+  })
 });

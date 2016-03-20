@@ -13,7 +13,11 @@ module('Acceptance | bulletins/edit', {
     application = startApp();
   },
   afterEach() {
-    Ember.run(application, 'destroy');
+    try {
+      Ember.run(application, 'destroy');
+    } catch(e) {
+      Ember.run(application, 'destroy');
+    }
   }
 });
 
@@ -88,6 +92,45 @@ test("it adds announcement editors when announcements are available",
                  thirdAnnouncement.description);
   });
 });
+
+test("it allows announcements to be deleted", function(assert) {
+  authenticateSession(application, sessionData);
+
+  const group = server.create("group");
+  const bulletin = server.create("bulletin", {
+    "published-at": window.moment().seconds(0).milliseconds(0)
+  });
+
+  const firstAnnouncement = server.create("announcement", { id: 1, position: 1 });
+  const secondAnnouncement = server.create("announcement", { id: 2, position: 2 });
+  const thirdAnnouncement = server.create("announcement", { id: 3, position: 3 });
+
+  const announcements = [
+    secondAnnouncement,
+    thirdAnnouncement,
+    firstAnnouncement
+  ];
+
+  mockAnnouncementsForBulletinId(assert, server, bulletin.id, announcements);
+
+  page.visit({ groupSlug: group.slug, bulletinId: bulletin.id });
+
+  page.announcements(1).clickRemove();
+
+  page.submit();
+
+  andThen(() => {
+    assert.equal(server.db.announcements.length, 2);
+    assert.equal(page.announcements().count, 2);
+    assert.equal(page.announcements(0).url, firstAnnouncement.url);
+    assert.equal(page.announcements(0).description,
+                 firstAnnouncement.description);
+    assert.equal(page.announcements(1).url, thirdAnnouncement.url);
+    assert.equal(page.announcements(1).description,
+                 thirdAnnouncement.description);
+  });
+});
+
 
 test("it updates the current bulletin", assert => {
   authenticateSession(application, sessionData);

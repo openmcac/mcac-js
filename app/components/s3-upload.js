@@ -22,7 +22,7 @@ export default EmberUploader.FileField.extend({
     });
 
     uploader.on("didUpload", function(response) {
-      _this.sendAction("didUpload", getUploadedUrl(response));
+      _this.sendAction("didupload", getUploadedUrl(response));
       $progress.hide();
     });
 

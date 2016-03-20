@@ -1,6 +1,10 @@
-<div class="image-preview">
-  <div class="preview" style="background-image: url('{{url}}')"></div>
-  <div class="remove" {{action "remove"}}>
+<div class="image-preview" data-auto-id="image-preview">
+  <div class="preview"
+      data-auto-id="canvas"
+      style="background-image: url('{{url}}')"></div>
+  <div class="remove"
+      data-auto-id="remove"
+      {{action (action this.attrs.clearimage)}}>
     <span class="glyphicon glyphicon-remove"></span>
   </div>
 </div>
