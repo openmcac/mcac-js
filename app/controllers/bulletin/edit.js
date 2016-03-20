@@ -3,8 +3,9 @@ import Ember from 'ember';
 export default Ember.Controller.extend({
   notify: Ember.inject.service("notify"),
   actions: {
-    reorderAnnouncements(/*announcements*/) {
-
+    reorderAnnouncements(_, announcements) {
+      syncPositions(announcements);
+      this.set("model.announcements", announcements);
     },
     removeAnnouncement(announcement) {
       announcement.deleteRecord();
@@ -40,6 +41,12 @@ export default Ember.Controller.extend({
         this.get("notify").alert("Failed to save bulletin");
       });
     },
+    clearBanner() {
+      this.set("model.bannerUrl", "");
+    },
+    clearAudio() {
+      this.set("model.audioUrl", "");
+    },
     didUploadBanner(storageUrl) {
       this.set("model.bannerUrl", storageUrl);
     },
@@ -48,3 +55,9 @@ export default Ember.Controller.extend({
     }
   }
 });
+
+function syncPositions(announcements) {
+  announcements.
+    filter((a) => !a.get("isDeleted")).
+    forEach((a, i) => a.set("position", ++i));
+}

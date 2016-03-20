@@ -11,6 +11,9 @@ export default Ember.Controller.extend({
     didUploadBanner: function(storageUrl) {
       let group = this.get('model');
       group.set('bannerUrl', storageUrl);
+    },
+    clearBanner() {
+      this.set("model.bannerUrl", "");
     }
   }
 });

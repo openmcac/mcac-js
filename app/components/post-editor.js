@@ -7,6 +7,9 @@ export default Ember.Component.extend({
     },
     didUploadBanner: function(storageUrl) {
       this.set("post.bannerUrl", storageUrl);
+    },
+    clearBanner() {
+      this.set("post.bannerUrl", "");
     }
   }
 });

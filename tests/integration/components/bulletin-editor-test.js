@@ -41,9 +41,13 @@ test('it fires the removeannouncement action with the announcement to remove',
 
   this.render(hbs`
     {{bulletin-editor
-        bulletin=bulletin
-        onsave=(action notFired)
         appendannouncement=(action notFired)
+        bulletin=bulletin
+        clearaudio=(action notFired)
+        clearbanner=(action notFired)
+        diduploadaudio=(action notFired)
+        diduploadbanner=(action notFired)
+        onsave=(action notFired)
         removeannouncement=(action removeAnnouncement)
         reorderannouncements=(action notFired)}}
   `);
@@ -87,6 +91,10 @@ test('it fires the appendannouncement action', function(assert) {
   this.render(hbs`
     {{bulletin-editor
         bulletin=bulletin
+        clearaudio=(action notFired)
+        clearbanner=(action notFired)
+        diduploadaudio=(action notFired)
+        diduploadbanner=(action notFired)
         onsave=(action notFired)
         appendannouncement=(action appendAnnouncement)
         removeannouncement=(action notFired)

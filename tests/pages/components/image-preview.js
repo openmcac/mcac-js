@@ -5,9 +5,7 @@ const { clickable } = PageObject;
 export default PageObject.create({
   remove: clickable(selector("remove")),
   isHidden() {
-    const preview = $($.find("*[data-auto-id='image-preview']"));
-    debugger;
-    
+    return $($.find("*[data-auto-id='image-preview']"));
   },
   url() {
     const backgroundImageStyle = $($.find(`${selector("canvas")}`)).

@@ -14,9 +14,9 @@
   <div class="form-group col-md-10">
     <label for="banner">Banner</label>
     <div class="form-control banner">
-      {{s3-upload url="/api/v1/groups/sign" didUpload="didUploadBanner"}}
+      {{s3-upload url="/api/v1/groups/sign" didupload="didUploadBanner"}}
     </div>
-    {{image-preview url=model.bannerUrl}}
+    {{image-preview url=model.bannerUrl clearimage=(action "clearBanner")}}
   </div>
 </div>
 <div class="row">
