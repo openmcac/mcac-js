@@ -2,7 +2,7 @@ import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('bulletin-editor', 'Integration | Component | bulletin editor', {
+moduleForComponent('bulletin-editor', 'Integration | Component | BulletinEditor', {
   integration: true
 });
 
@@ -35,21 +35,19 @@ test('it fires the removeannouncement action with the announcement to remove',
     assert.equal(actual, announcements[2]);
   });
 
-  this.set("notFired", () => {
-    assert.notOk("should not have fired this action");
-  });
+  this.set("_", () => assert.notOk("should not have fired this action"));
 
   this.render(hbs`
     {{bulletin-editor
-        appendannouncement=(action notFired)
+        appendannouncement=(action _)
         bulletin=bulletin
-        clearaudio=(action notFired)
-        clearbanner=(action notFired)
-        diduploadaudio=(action notFired)
-        diduploadbanner=(action notFired)
-        onsave=(action notFired)
+        clearaudio=(action _)
+        clearbanner=(action _)
+        diduploadaudio=(action _)
+        diduploadbanner=(action _)
+        onsave=(action _)
         removeannouncement=(action removeAnnouncement)
-        reorderannouncements=(action notFired)}}
+        reorderannouncements=(action _)}}
   `);
 
   this.$("*[data-auto-id='announcement-editor'] *[data-auto-id='remove']")[2].
@@ -84,24 +82,54 @@ test('it fires the appendannouncement action', function(assert) {
     assert.ok("fires action to append announcement");
   });
 
-  this.set("notFired", () => {
-    assert.notOk("should not have fired this action");
-  });
+  this.set("_", () => assert.notOk("should not have fired this action"));
 
   this.render(hbs`
     {{bulletin-editor
         bulletin=bulletin
-        clearaudio=(action notFired)
-        clearbanner=(action notFired)
-        diduploadaudio=(action notFired)
-        diduploadbanner=(action notFired)
-        onsave=(action notFired)
+        clearaudio=(action _)
+        clearbanner=(action _)
+        diduploadaudio=(action _)
+        diduploadbanner=(action _)
+        onsave=(action _)
         appendannouncement=(action appendAnnouncement)
-        removeannouncement=(action notFired)
-        reorderannouncements=(action notFired)}}
+        removeannouncement=(action _)
+        reorderannouncements=(action _)}}
   `);
 
   this.$("*[data-auto-id='append-announcement']").click();
+});
+
+test("Optional announcement actions", function(assert) {
+  assert.expect(1);
+
+  enableAutoIdAttribute();
+
+  const bulletin = {
+    name: "Sunday Worship Service",
+    publishedAt: new Date(),
+    description: "My description",
+    bannerUrl: "",
+    audioUrl: "",
+    serviceOrder: "My service order",
+    sermonNotes: "My sermon notes"
+  };
+
+  this.set("bulletin", bulletin);
+
+  this.set("_", () => assert.notOk("should not have fired this action"));
+
+  this.render(hbs`
+    {{bulletin-editor bulletin=bulletin
+        clearaudio=(action _)
+        clearbanner=(action _)
+        diduploadaudio=(action _)
+        diduploadbanner=(action _)
+        onsave=(action _)}}
+  `);
+
+  assert.ok(this.$("*[data-auto-id='announcements-editor']").length === 0,
+            "Hides announcements editor");
 });
 
 function enableAutoIdAttribute() {

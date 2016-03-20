@@ -24,7 +24,6 @@ export default Ember.Controller.extend({
     },
     clearAudio() {
       this.set("model.audioUrl", "");
-    },
-    noop() {}
+    }
   }
 });
