@@ -4,15 +4,12 @@ import EmberUploader from "ember-uploader";
 export default EmberUploader.FileField.extend({
   session: Ember.inject.service("session"),
   url: "",
-
-  filesDidChange: Ember.observer("files", function() {
-    let _this = this;
-    let uploadUrl = this.get("url");
-    let files = this.get("files");
+  filesDidChange(files) {
     let $progress;
-    let auth = this.get("session.data.authenticated.auth");
 
-    let uploader = EmberUploader.S3Uploader.create({
+    const uploadUrl = this.get("url");
+    const auth = this.get("session.data.authenticated.auth");
+    const uploader = EmberUploader.S3Uploader.create({
       url: uploadUrl,
       headers: {
         "access-token": auth.accessToken,
@@ -21,14 +18,12 @@ export default EmberUploader.FileField.extend({
       }
     });
 
-    uploader.on("didUpload", function(response) {
-      _this.sendAction("didupload", getUploadedUrl(response));
+    uploader.on("didUpload", response => {
+      this.sendAction("didupload", getUploadedUrl(response));
       $progress.hide();
     });
 
-    uploader.on("progress", function(e) {
-      $progress.attr("value", e.percent);
-    });
+    uploader.on("progress", e => $progress.attr("value", e.percent));
 
     if (!Ember.isEmpty(files)) {
       // Uploader will send a sign request then upload to S3
@@ -42,7 +37,7 @@ export default EmberUploader.FileField.extend({
         Ember.$(this.element).parent().append($progress);
       }
     }
-  })
+  }
 });
 
 function createProgressElement() {
