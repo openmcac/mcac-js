@@ -15,28 +15,28 @@ Ember.Route.reopen({
 });
 
 Router.map(function() {
-  this.resource("group", { path: ":group_slug" }, function() {
+  this.route("group", { path: ":group_slug" }, function() {
     // this.route("index", { path: "/" }, function() {});
     this.route("edit", function() {});
 
-    this.resource("bulletin", { path: "bulletins/:bulletin_id" }, function() {
+    this.route("bulletin", { resetNamespace: true, path: "bulletins/:bulletin_id" }, function() {
       this.route("edit");
     });
 
-    this.resource("post", { path: "" }, function() {
+    this.route("post", { resetNamespace: true, path: "" }, function() {
       this.route("index", { path: ":year/:month/:day/:post_id/:slug" }, function() {});
       this.route("edit", { path: "post/:post_id/edit" }, function() {});
     });
 
-    this.resource("page", { path: ":slug" }, function() {
+    this.route("page", { resetNamespace: true, path: ":slug" }, function() {
       this.route("index", { path: "/" }, function() {});
     });
 
-    this.resource('posts', { path: 'posts' }, function() {
+    this.route('posts', { resetNamespace: true, path: 'posts' }, function() {
       this.route('new', function() {});
     });
 
-    this.resource("bulletins", { path: "bulletins" }, function() {
+    this.route("bulletins", { resetNamespace: true, path: "bulletins" }, function() {
       this.route("new", function() {
         this.route("announcements");
       });
@@ -49,7 +49,7 @@ Router.map(function() {
   this.route("login");
   this.route("logout");
 
-  this.resource('groups', function() {
+  this.route('groups', function() {
     this.route('new');
   });
   this.route('dashboard', function() {});
