@@ -1,7 +1,10 @@
 import Ember from "ember";
 
 export default Ember.Route.extend({
-  model: function(params) {
+  titleToken(model) {
+    return model.get("title");
+  },
+  model(params) {
     return this.store.findRecord("post", params.post_id).then((post) => {
       if (post.get("isPage")) {
         this.transitionTo("page", post.get("slug"));
@@ -12,7 +15,7 @@ export default Ember.Route.extend({
       return post;
     });
   },
-  serialize: function(model) {
+  serialize(model) {
     var publishedAt = model.get("publishedAt");
 
     return {
