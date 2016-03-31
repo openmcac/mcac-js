@@ -2,37 +2,22 @@ import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-rout
 import Ember from 'ember';
 
 export default Ember.Route.extend(AuthenticatedRouteMixin, {
+  defaultAnnouncementsService: Ember.inject.service("default-announcements"),
   model: function() {
-    let bulletin = this.modelFor("bulletin");
+    const bulletin = this.modelFor("bulletin");
 
-    bulletin.get("announcements").then((announcements) => {
-      if (announcements.get("length") === 0) {
-        populateLatestAnnouncements(bulletin, this.store);
-      }
+    bulletin.get("announcements").then(announcements => {
+      if (announcements.get("length") > 0) return;
+
+      const groupId = this.modelFor("group").get("id");
+      const defaultAnnouncements =
+        this.get("defaultAnnouncementsService").process(groupId);
+
+      defaultAnnouncements.then(defaults => {
+        defaults.forEach(a => announcements.addObject(a))
+      });
     });
 
     return bulletin;
   }
 });
-
-function populateLatestAnnouncements(bulletin, store) {
-  let query = { filter: { defaults_for_bulletin: bulletin.id } };
-  store.query('announcement', query).then(function(announcements) {
-    copyAnnouncementsIntoBulletin(store, announcements, bulletin);
-  });
-}
-
-function copyAnnouncementsIntoBulletin(store, announcements, bulletin) {
-  announcements.forEach(function(announcement) {
-    bulletin.get('announcements').
-             addObject(cloneAnnouncement(store, announcement));
-  });
-}
-
-function cloneAnnouncement(store, announcement) {
-  return store.createRecord('announcement', {
-    description: announcement.get('description'),
-    url: announcement.get('url'),
-    position: announcement.get('position')
-  });
-}
