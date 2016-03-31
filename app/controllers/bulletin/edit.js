@@ -1,8 +1,8 @@
 import Ember from 'ember';
-import { task } from 'ember-concurrency';
 
 export default Ember.Controller.extend({
   notify: Ember.inject.service("notify"),
+  saveBulletinService: Ember.inject.service("save-bulletin"),
   actions: {
     reorderAnnouncements(_, announcements) {
       syncPositions(announcements);
@@ -20,7 +20,11 @@ export default Ember.Controller.extend({
       });
     },
     saveBulletin(bulletin) {
-      this.get("saveBulletinTask").perform(bulletin);
+      if (this.get("saveBulletinService").save(bulletin)) {
+        this.get("notify").success("Bulletin saved.");
+      } else {
+        this.get("notify").alert("Failed to save bulletin. Please try again.");
+      }
     },
     clearBanner() {
       this.set("model.bannerUrl", "");
@@ -34,36 +38,7 @@ export default Ember.Controller.extend({
     didUploadAudio(storageUrl) {
       this.set("model.audioUrl", storageUrl);
     }
-  },
-  saveBulletinTask: task(function * (bulletin) {
-    bulletin.set('publishedAt', moment(bulletin.get('publishedAt')).toDate());
-    Pace.restart();
-
-    try {
-      yield bulletin.save();
-    } catch (e) {
-      this.get("notify").alert("Failed to save bulletin");
-    }
-
-    const announcements = bulletin.get("announcements");
-
-    announcements.forEach((announcement) => {
-      this.get("saveAnnouncementTask").perform(announcement);
-    });
-
-    this.get("notify").success("Bulletin saved.");
-  }),
-  saveAnnouncementTask: task(function * (announcement) {
-    try {
-      yield announcement.save();
-    } catch (e) {
-      try {
-        yield announcement.save();
-      } catch (e) {
-        this.get("notify").alert("Failed to save announcement.");
-      }
-    }
-  })
+  }
 });
 
 function syncPositions(announcements) {
