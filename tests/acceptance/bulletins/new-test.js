@@ -31,26 +31,33 @@ test("it can create a new bulletin", assert => {
 
   const group = server.create("group");
 
+  const bulletin = {
+    name: "New Bulletin",
+    publishedAt: "05/27/1984 9:30 AM",
+    description: "New bulletin description",
+    serviceOrder: "New service order",
+    sermonNotes: "New sermon notes"
+  };
+
   page.
     visit({ groupSlug: group.slug }).
-    fillName("New Bulletin").
-    fillPublishedAt("05/27/1984 9:30 AM").
-    fillDescription("New bulletin description").
-    fillServiceOrder("New service order").
-    fillSermonNotes("New sermon notes").
+    fillName(bulletin.name).
+    fillPublishedAt(bulletin.publishedAt).
+    fillDescription(bulletin.description).
+    fillServiceOrder(bulletin.serviceOrder).
+    fillSermonNotes(bulletin.sermonNotes).
     submit();
 
   andThen(() => {
     const bulletins = server.db.bulletins;
     const createdBulletin = bulletins[bulletins.length - 1];
 
-    assert.equal(createdBulletin.name, page.name);
-    assert.equal(createdBulletin.description, page.description);
-    equalDate(assert, createdBulletin["published-at"], page.publishedAt);
-    assert.equal(createdBulletin["sermon-notes"], page.sermonNotes);
-    assert.equal(createdBulletin["service-order"], page.serviceOrder);
-    assert.equal(currentURL(),
-                 `/${group.slug}/bulletins/${createdBulletin.id}/edit`);
+    assert.equal(createdBulletin.name, bulletin.name);
+    assert.equal(createdBulletin.description, bulletin.description);
+    equalDate(assert, createdBulletin["published-at"], bulletin.publishedAt);
+    assert.equal(createdBulletin["sermon-notes"], bulletin.sermonNotes);
+    assert.equal(createdBulletin["service-order"], bulletin.serviceOrder);
+    assert.equal(currentURL(), "/dashboard");
   });
 });
 

@@ -3,9 +3,21 @@ import { task } from 'ember-concurrency';
 
 export default Ember.Service.extend({
   store: Ember.inject.service(),
-  process(groupId) {
-    return this.get("_fetchAnnouncementsTask").perform(groupId);
+  process(bulletin) {
+    return this.get("_populateDefaultAnnouncementsTask").perform(bulletin);
   },
+  _populateDefaultAnnouncementsTask: task(function * (bulletin) {
+    const announcements = yield bulletin.get("announcements");
+    if (announcements.get("length") > 0) {
+      return;
+    }
+
+    const groupId = yield bulletin.get("group.id");
+    const defaultAnnouncements =
+      yield this.get("_fetchAnnouncementsTask").perform(groupId);
+
+    defaultAnnouncements.forEach(a => announcements.addObject(a));
+  }),
   _fetchAnnouncementsTask: task(function * (groupId) {
     const store = this.get("store");
     const query = { filter: { latest_for_group: groupId } };
