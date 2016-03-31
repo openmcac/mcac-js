@@ -22,13 +22,9 @@ export default Ember.Controller.extend({
       bulletin.set('publishedAt', moment(bulletin.get('publishedAt')).toDate());
       Pace.restart();
       bulletin.save().then(() => {
-        let position = 1;
+        const announcements = bulletin.get("announcements");
 
-        bulletin.get("sortedAnnouncements").forEach((announcement) => {
-          if (!announcement.get("isDeleted")) {
-            announcement.set("position", position++);
-          }
-
+        announcements.forEach((announcement) => {
           announcement.save().then(() => {}, () => {
             announcement.save().then(() => {}, () => {
               this.get("notify").alert("Failed to save announcement.");
