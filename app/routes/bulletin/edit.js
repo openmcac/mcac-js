@@ -8,5 +8,5 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
     bulletin.set("group", this.modelFor("group"));
     this.get("defaultAnnouncementsService").process(bulletin);
     return bulletin;
-  },
+  }
 });

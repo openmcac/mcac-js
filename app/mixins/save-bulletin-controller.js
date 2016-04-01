@@ -2,6 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Mixin.create({
   saveBulletinService: Ember.inject.service("save-bulletin"),
+  store: Ember.inject.service("store"),
   actions: {
     reorderAnnouncements(_, announcements) {
       syncPositions(announcements);
@@ -12,7 +13,7 @@ export default Ember.Mixin.create({
     },
     appendAnnouncement() {
       this.get("model.announcements").then((announcements) => {
-        const newAnnouncement = this.store.createRecord('announcement', {
+        const newAnnouncement = this.get("store").createRecord('announcement', {
           position: announcements.get('length') + 1
         });
         announcements.pushObject(newAnnouncement);
