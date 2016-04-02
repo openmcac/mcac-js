@@ -1,29 +1,15 @@
 import Ember from 'ember';
+import SaveBulletinController from "mcac/mixins/save-bulletin-controller";
 
-export default Ember.Controller.extend({
+export default Ember.Controller.extend(SaveBulletinController, {
   notify: Ember.inject.service("notify"),
   actions: {
-    saveBulletin(bulletin) {
-      bulletin.set('publishedAt', moment(bulletin.get('publishedAt')).toDate());
-      bulletin.save().then((savedBulletin) => {
-        this.transitionToRoute('bulletin.edit', savedBulletin);
-        this.get("notify").
-          info("Your bulletin was created! Now, let's create some announcements...");
-      }, () => {
-        this.get("notify").alert("Failed to create bulletin.");
-      });
+    bulletinSaved() {
+      this.get("notify").success("Bulletin saved.");
+      this.transitionToRoute("dashboard.index");
     },
-    didUploadBanner(storageUrl) {
-      this.set("model.bannerUrl", storageUrl);
-    },
-    didUploadAudio(storageUrl) {
-      this.set("model.audioUrl", storageUrl);
-    },
-    clearBanner() {
-      this.set("model.bannerUrl", "");
-    },
-    clearAudio() {
-      this.set("model.audioUrl", "");
+    bulletinSaveFailed() {
+      this.get("notify").alert("Failed to save bulletin. Please try again.");
     }
   }
 });

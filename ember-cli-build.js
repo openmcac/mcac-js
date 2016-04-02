@@ -23,6 +23,9 @@ module.exports = function(defaults) {
 
   var app = new EmberApp(defaults, {
     fingerprint: fingerprintOptions,
+    babel: {
+      includePolyfill: true,
+    },
     emberCLIDeploy: {
       configFile: "config/deploy.js",
       shouldActivate: true
