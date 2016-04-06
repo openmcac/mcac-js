@@ -23,13 +23,13 @@ export default Ember.Controller.extend({
         dataType: "json"
       };
 
-      request("/api/auth/password", options).then((data) => {
+      request("/api/auth/password", options).then(() => {
         this.set("model.password", "");
         this.set("model.passwordConfirmation", "");
         this.set("model.currentPassword", "");
         this.get("notify").success("Your password has been updated.");
       }, () => {
-        this.get("notify").alert("Unable to update your password.")
+        this.get("notify").alert("Unable to update your password.");
       });
     }
   }
