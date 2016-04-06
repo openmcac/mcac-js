@@ -2,48 +2,68 @@
   <h2>Welcome to Dashboard</h2>
 
   <div class="row">
-    <div class="col-sm-6 latest-bulletins">
-      <h3>Latest Bulletins</h3>
-      {{#link-to 'bulletins.new' 'english-service'
-                 class='btn btn-default'
-                 data-auto-id="dashboard-bulletins-create"}}
-        Create
-      {{/link-to}}
-      <table class="table table-hover" data-auto-id="dashboard-bulletins">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {{#each model.bulletins as |bulletin|}}
-            <tr data-auto-id="dashboard-bulletin">
-              <td>
-                <div data-auto-id="dashboard-bulletin-name">
-                  {{bulletin.name}}
-                </div>
-                <small data-auto-id="dashboard-bulletin-published-at">
-                  {{moment-format bulletin.publishedAt}}
-                </small>
-              </td>
-              <td>
-                {{#link-to 'bulletin.index' 'english-service' bulletin
-                           class='btn btn-default'
-                           data-auto-id="dashboard-bulletin-show"}}
-                  Show
-                {{/link-to}}
-
-                {{#link-to 'bulletin.edit' 'english-service' bulletin
-                           class='btn btn-default'
-                           data-auto-id="dashboard-bulletin-edit"}}
-                  Edit
-                {{/link-to}}
-              </td>
+    <div class="col-sm-6">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Bulletins</h3>
+        </div>
+        <div class="panel-body">
+          {{#link-to 'bulletins.new' 'english-service'
+                     class='btn btn-default'
+                     data-auto-id="dashboard-bulletins-create"}}
+            Create
+          {{/link-to}}
+        </div>
+        <table class="table table-hover" data-auto-id="dashboard-bulletins">
+          <thead>
+            <tr>
+              <th>Bulletin</th>
+              <th>Actions</th>
             </tr>
-          {{/each}}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {{#each model.bulletins as |bulletin|}}
+              <tr data-auto-id="dashboard-bulletin">
+                <td>
+                  <div data-auto-id="dashboard-bulletin-name">
+                    {{bulletin.name}}
+                  </div>
+                  <small data-auto-id="dashboard-bulletin-published-at">
+                    {{moment-format bulletin.publishedAt}}
+                  </small>
+                </td>
+                <td>
+                  {{#link-to 'bulletin.index' 'english-service' bulletin
+                             class='btn btn-default'
+                             data-auto-id="dashboard-bulletin-show"}}
+                    Show
+                  {{/link-to}}
+
+                  {{#link-to 'bulletin.edit' 'english-service' bulletin
+                             class='btn btn-default'
+                             data-auto-id="dashboard-bulletin-edit"}}
+                    Edit
+                  {{/link-to}}
+                </td>
+              </tr>
+            {{/each}}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Settings</h3>
+        </div>
+        <div class="panel-body">
+           {{#link-to 'settings.password'
+               class='btn btn-default'
+               data-auto-id="dashboard-update-password"}}
+             Update your password
+           {{/link-to}}
+        </div>
+      </div>
     </div>
   </div>
 </div>
