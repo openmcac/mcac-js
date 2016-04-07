@@ -2,10 +2,10 @@ import Ember from 'ember';
 
 export default Ember.Controller.extend({
   notify: Ember.inject.service("notify"),
-  updatePassword: Ember.inject.service("update-password"),
+  updatePasswordService: Ember.inject.service("update-password"),
   actions: {
     updatePassword() {
-      const passwordUpdated = this.get("updatePassword").
+      const passwordUpdated = this.get("updatePasswordService").
         process(this.get("model.currentPassword"), this.get("model.password"));
 
       passwordUpdated.then(() => {
