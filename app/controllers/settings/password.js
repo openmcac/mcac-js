@@ -1,36 +1,24 @@
 import Ember from 'ember';
-import request from 'ic-ajax';
 
 export default Ember.Controller.extend({
   notify: Ember.inject.service("notify"),
-  session: Ember.inject.service("session"),
+  updatePassword: Ember.inject.service("update-password"),
   actions: {
     updatePassword() {
-      const auth = this.get("session.data.authenticated.auth");
-      const options = {
-        method: "PUT",
-        data: JSON.stringify({
-          "password": this.get("model.password"),
-          "password_confirmation": this.get("model.passwordConfirmation"),
-          "current_password": this.get("model.currentPassword")
-        }),
-        contentType: "application/vnd.api+json",
-        headers: {
-          "access-token": auth.accessToken,
-          client: auth.client,
-          uid: auth.uid
-        },
-        dataType: "json"
-      };
+      const passwordUpdated = this.get("updatePassword").
+        process(this.get("model.currentPassword"), this.get("model.password"));
 
-      request("/api/auth/password", options).then(() => {
-        this.set("model.password", "");
-        this.set("model.passwordConfirmation", "");
-        this.set("model.currentPassword", "");
+      passwordUpdated.then(() => {
         this.get("notify").success("Your password has been updated.");
+        this.clearForm();
       }, () => {
         this.get("notify").alert("Unable to update your password.");
       });
     }
+  },
+  clearForm() {
+    this.set("model.password", "");
+    this.set("model.passwordConfirmation", "");
+    this.set("model.currentPassword", "");
   }
 });
