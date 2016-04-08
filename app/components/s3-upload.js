@@ -49,7 +49,10 @@ function createProgressElement() {
 
 function getUploadedUrl(response) {
   // S3 will return XML with url
-  var uploadedUrl = Ember.$(response).find("Location")[0].textContent;
+  const uploadedUrl = Ember.$(response).
+    find("Location")[0].
+    textContent.
+    replace(/^http:/g, "https:");
 
   // => http://yourbucket.s3.amazonaws.com/file.png
   return decodeURIComponent(uploadedUrl);
