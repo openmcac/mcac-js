@@ -54,6 +54,10 @@ Router.map(function() {
   });
   this.route('dashboard', function() {});
   this.route("not-found", { path: "*path" });
+
+  this.route('settings', function() {
+    this.route('password');
+  });
 });
 
 export default Router;

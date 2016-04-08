@@ -1,7 +1,7 @@
 import Ember from 'ember';
-import request from "ic-ajax";
 
 export default Ember.Component.extend({
+  ajax: Ember.inject.service(),
   classNames: ["bulletin-navigator"],
   store: Ember.inject.service(),
   actions: {
@@ -21,7 +21,8 @@ function handleNavigationAction(direction, context) {
   let store = context.get("store");
   let router = context.get("router");
   let bulletinId = context.get("bulletin.id");
-  return request(`/api/v1/bulletins/${bulletinId}/${direction}`).
+  return context.get("ajax").
+    request(`/api/v1/bulletins/${bulletinId}/${direction}`).
     then(transitionToBulletinFn(store, router));
 }
 
