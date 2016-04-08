@@ -1,6 +1,18 @@
 import Ember from 'ember';
+import EmberValidations from "ember-validations";
 
-export default Ember.Controller.extend({
+export default Ember.Controller.extend(EmberValidations, {
+  validations: {
+    "model.currentPassword": {
+      presence: true
+    },
+    "model.password": {
+      presence: true,
+      confirmation: {
+        message: "doesn't match"
+      }
+    }
+  },
   notify: Ember.inject.service("notify"),
   updatePasswordService: Ember.inject.service("update-password"),
   actions: {
@@ -20,5 +32,8 @@ export default Ember.Controller.extend({
     this.set("model.password", "");
     this.set("model.passwordConfirmation", "");
     this.set("model.currentPassword", "");
-  }
+  },
+  disableUpdateButton: Ember.computed("isValid", function() {
+    return !this.get("isValid");
+  })
 });
