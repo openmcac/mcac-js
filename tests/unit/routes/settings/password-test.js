@@ -1,8 +1,7 @@
 import { moduleFor, test } from 'ember-qunit';
 
 moduleFor('route:settings/password', 'Unit | Route | settings/password', {
-  // Specify the other units that are required for this test.
-  // needs: ['controller:foo']
+  needs: ['service:metrics']
 });
 
 test('it exists', function(assert) {

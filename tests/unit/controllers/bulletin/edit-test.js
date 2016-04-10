@@ -2,6 +2,7 @@ import Ember from "ember";
 import { moduleFor, test } from "ember-qunit";
 
 moduleFor("controller:bulletin/edit", "Unit | Controller | Edit Bulletin", {
+  needs: ['service:metrics']
 });
 
 test('Reordering announcements', function(assert) {

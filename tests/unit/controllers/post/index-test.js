@@ -2,8 +2,7 @@ import { moduleFor, test } from "ember-qunit";
 import Ember from "ember";
 
 moduleFor("controller:post/index", {
-  // Specify the other units that are required for this test.
-  // needs: ["controller:foo"]
+  needs: ['service:metrics']
 });
 
 test("displayPublishedAt: returns empty string when no date", function(assert) {
