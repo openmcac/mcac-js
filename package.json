@@ -57,6 +57,7 @@
     "ember-export-application-global": "^1.0.4",
     "ember-load-initializers": "^0.5.0",
     "ember-marked": "0.0.4",
+    "ember-metrics": "0.6.0",
     "ember-moment": "6.0.0",
     "ember-notify": "^4.3.1",
     "ember-resize": "0.0.10",
