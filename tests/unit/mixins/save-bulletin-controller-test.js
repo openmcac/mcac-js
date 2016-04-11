@@ -2,7 +2,9 @@ import Ember from 'ember';
 import SaveBulletinControllerMixin from 'mcac/mixins/save-bulletin-controller';
 import { module, test } from 'qunit';
 
-module('Unit | Mixin | save bulletin controller');
+module('Unit | Mixin | save bulletin controller', {
+  needs: ['service:metrics']
+});
 
 // Replace this with your real tests.
 test('it clears the banner', function(assert) {

@@ -2,6 +2,7 @@ import Ember from "ember";
 import { moduleFor, test } from "ember-qunit";
 
 moduleFor("controller:groups/new", {
+  needs: ['service:metrics']
 });
 
 test("saving banner url on didUploadBanner callback", function(assert) {

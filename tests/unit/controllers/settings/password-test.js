@@ -2,8 +2,7 @@ import Ember from "ember";
 import { moduleFor, test } from 'ember-qunit';
 
 moduleFor('controller:settings/password', 'Unit | Controller | settings/password', {
-  // Specify the other units that are required for this test.
-  // needs: ['controller:foo']
+  needs: ['service:metrics']
 });
 
 test('it clears form after updating password', function(assert) {

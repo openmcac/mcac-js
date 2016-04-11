@@ -30,7 +30,14 @@ module.exports = function(environment) {
     },
     moment: {
       includeTimezone: "all"
-    }
+    },
+    metricsAdapters: [{
+      name: "GoogleAnalytics",
+      environments: ["production"],
+      config: {
+        id: "UA-61127901-1"
+      }
+    }]
   };
 
   if (environment === 'development') {
@@ -54,10 +61,6 @@ module.exports = function(environment) {
     ENV['simple-auth'] = {
       store: 'simple-auth-session-store:ephemeral'
     };
-  }
-
-  if (environment === 'production') {
-    ENV.EmberENV.googleAnalyticsId = "UA-61127901-1";
   }
 
   return ENV;
