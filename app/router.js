@@ -31,7 +31,7 @@ Ember.Route.reopen({
 
 Router.map(function() {
   this.route("group", { path: ":group_slug" }, function() {
-    // this.route("index", { path: "/" }, function() {});
+    this.route("index", { path: "/" }, function() {});
     this.route("edit", function() {});
 
     this.route("bulletin", { resetNamespace: true, path: "bulletins/:bulletin_id" }, function() {
