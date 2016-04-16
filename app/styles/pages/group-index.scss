@@ -1,22 +1,58 @@
 @mixin panel() {
   background-color: $white;
-  border-color: $gray-light;
-  border-style: solid;
-  border-width: 1px;
-  padding: $padding-m;
-  margin-bottom: $padding-m;
+  margin-bottom: $padding-xl;
 }
 
 .group-index {
   background-color: $gray-extralight;
+
+  .group-details {
+    text-align: center;
+    margin: $padding-m 0;
+
+    .group-name {
+      font-size: 16px;
+      margin-top: $padding-m;
+    }
+
+    .short-description {
+      display: none;
+    }
+
+    .group-info {
+      color: $gray;
+      font-size: 12px;
+    }
+  }
+
+  .profile-picture {
+    margin: -60px auto 0 auto;
+    background-position: center;
+    background-size: cover;
+    background-color: $gray;
+    width: 120px;
+    height: 120px;
+    border-style: solid;
+    border-color: $white;
+    border-width: $padding-s;
+  }
+
+  .post-view-banner {
+    background-color: $gray-dark;
+    background-position: center;
+    background-size: cover;
+    color: $white;
+    margin-bottom: $padding-m;
+    padding: 110px $padding-l $padding-l $padding-l;
+    position: relative;
+  }
 
   .group-banner {
     background-color: $gray-dark;
     background-position: center;
     background-size: cover;
     color: $white;
-    margin-bottom: $padding-m;
-    padding: 250px $padding-l $padding-l $padding-l;
+    padding: 75px $padding-l $padding-l $padding-l;
     position: relative;
 
     h1 {
@@ -42,8 +78,28 @@
     }
   }
 
+  .group-posts {
+    background-color: $white;
+  }
+
   .post {
     @include panel();
+
+    h3 {
+      font-size: 18px;
+      font-weight: bold;
+      text-transform: uppercase;
+
+      a {
+        color: $gray-dark;
+      }
+    }
+
+    .post-details {
+      color: $gray;
+      font-size: 12px;
+      margin-bottom: $padding-m;
+    }
   }
 
   h2 {
@@ -52,13 +108,54 @@
     text-transform: uppercase;
   }
 
-  h3 {
-    font-size: 12px;
-    font-weight: normal;
-    text-transform: uppercase;
+  @media only screen and (min-width: $small-device-break) {
+    .group-banner {
+      padding-top: 200px;
+    }
 
-    a {
-      color: $gray-dark;
+    .post-view-banner {
+      padding-top: 200px;
+    }
+
+    .group-details {
+      text-align: initial;
+
+      .profile-picture {
+        margin-top: initial;
+        background-position: center;
+        background-size: cover;
+        color: $white;
+        width: 120px;
+        height: 120px;
+        border-style: solid;
+        border-color: $white;
+        border-width: $padding-s;
+      }
+
+      .group-name {
+        font-size: 22px;
+      }
+
+      .short-description {
+        display: block;
+        margin: $padding-m 0;
+      }
+
+      .group-info {
+      }
+    }
+  }
+
+  @media only screen and (min-width: $medium-device-break) {
+    .group-details {
+      .group-name {
+      }
+
+      .short-description {
+      }
+
+      .group-info {
+      }
     }
   }
 }

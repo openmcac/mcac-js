@@ -10,7 +10,19 @@ export default Mirage.Factory.extend({
   about() {
     return faker.lorem.paragraphs(2);
   },
+  "meet-details"() {
+    return faker.lorem.sentence();
+  },
+  "target-audience"() {
+    return faker.lorem.sentence();
+  },
+  "short-description"() {
+    return faker.lorem.sentence();
+  },
   "banner-url"() {
     return `${faker.internet.url()}/banner.png`;
+  },
+  "profile-picture-url"() {
+    return `${faker.internet.url()}/profile.png`;
   }
 });
