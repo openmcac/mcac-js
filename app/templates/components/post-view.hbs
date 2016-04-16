@@ -1,4 +1,4 @@
-<div class="post" data-test-id="post">
+<div class="post" data-auto-id="post-view">
   {{#if post.bannerUrl}}
     <header class="post-view-banner"
             style="background-image: url('{{post.bannerUrl}}')"
@@ -6,7 +6,7 @@
     </header>
   {{/if}}
   {{#if post.title}}
-    <h3 data-test-id="title">
+    <h3 data-auto-id="title">
       {{#link-to "post.index" post}}{{post.title}}{{/link-to}}
     </h3>
   {{/if}}

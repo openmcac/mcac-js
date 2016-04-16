@@ -1,6 +1,6 @@
 import PageObject from '../page-object';
 
-const { visitable, text } = PageObject;
+const { visitable, text, collection } = PageObject;
 
 export default PageObject.create({
   visit: visitable("/:slug"),
@@ -14,6 +14,12 @@ export default PageObject.create({
   profilePictureUrl() {
     return imageUrl("profile-picture");
   },
+  posts: collection({
+    itemScope: "*[data-auto-id='group-posts'] *[data-auto-id='post-view']",
+    item: {
+      title: text("*[data-auto-id='title']")
+    }
+  })
 });
 
 function imageUrl(elementSelector) {
