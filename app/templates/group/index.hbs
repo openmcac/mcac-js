@@ -1,7 +1,7 @@
 <div class="container group-index">
   <div class="row">
     <header class="col-sm-12 group-banner"
-            style="background-image: url('{{model.bannerUrl}}')"
+            style="background-image: url('{{group.bannerUrl}}')"
             data-auto-id="group-banner">
     </header>
   </div>
@@ -11,23 +11,23 @@
       <div class="profile-picture-wrapper">
         <div class="profile-picture"
            data-auto-id="group-profile-picture"
-           style="background-image: url('{{model.profilePictureUrl}}')"></div>
+           style="background-image: url('{{group.profilePictureUrl}}')"></div>
       </div>
     </div>
 
     <div class="col-xs-12 col-sm-9">
       <h1 class="group-name" data-auto-id="group-name">
-        {{#link-to "group.index" model.slug}}{{model.name}}{{/link-to}}
+        {{#link-to "group.index" group.slug}}{{group.name}}{{/link-to}}
       </h1>
 
       <div class="short-description" data-auto-id="group-short-description">
-        {{model.shortDescription}}
+        {{group.shortDescription}}
       </div>
 
       <div class="group-info">
-        <span data-auto-id="group-target-audience">{{model.targetAudience}}</span>
+        <span data-auto-id="group-target-audience">{{group.targetAudience}}</span>
         &middot;
-        <span data-auto-id="group-meet-details">{{model.meetDetails}}</span>
+        <span data-auto-id="group-meet-details">{{group.meetDetails}}</span>
       </div>
     </div>
   </div>
@@ -46,8 +46,8 @@
 
   <div class="row about-group">
     <section class="col-sm-offset-2 col-sm-8 col-md-offset-3 col-md-6">
-      <h2>About {{model.name}}</h2>
-      {{{model.aboutHtml}}}
+      <h2>About {{group.name}}</h2>
+      {{{group.aboutHtml}}}
     </section>
   </div>
 </div>
