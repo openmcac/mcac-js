@@ -8,9 +8,11 @@
 
   <div class="row group-details">
     <div class="col-xs-12 col-sm-2 col-sm-offset-1">
-      <div class="profile-picture"
-         data-auto-id="group-profile-picture"
-         style="background-image: url('{{model.profilePictureUrl}}')"></div>
+      <div class="profile-picture-wrapper">
+        <div class="profile-picture"
+           data-auto-id="group-profile-picture"
+           style="background-image: url('{{model.profilePictureUrl}}')"></div>
+      </div>
     </div>
 
     <div class="col-xs-12 col-sm-9">
@@ -30,11 +32,21 @@
     </div>
   </div>
 
-  <div class="row group-posts">
-    <div class="col-sm-offset-3 col-sm-6">
-      {{#each model.posts as |post|}}
-        {{post-view post=post}}
-      {{/each}}
+  {{#if model.posts.length}}
+    <div class="row latest-news">
+      <section class="col-sm-offset-2 col-sm-8 col-md-offset-3 col-md-6">
+        <h2>Latest news</h2>
+        {{#each model.posts as |post|}}
+          {{post-view post=post}}
+        {{/each}}
+      </section>
     </div>
+  {{/if}}
+
+  <div class="row about-group">
+    <section class="col-sm-offset-2 col-sm-8 col-md-offset-3 col-md-6">
+      <h2>About {{model.name}}</h2>
+      {{{model.aboutHtml}}}
+    </section>
   </div>
 </div>

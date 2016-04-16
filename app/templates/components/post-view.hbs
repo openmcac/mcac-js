@@ -1,12 +1,21 @@
 <div class="post" data-test-id="post">
-  <header class="post-view-banner"
-          style="background-image: url('{{post.bannerUrl}}')"
-          data-auto-id="post-view-banner">
-  </header>
-  <h3 data-test-id="title">
-    {{#link-to "post.index" post}}{{post.title}}{{/link-to}}
-  </h3>
-  <div class="post-details">{{displayPublishedAt}}</div>
+  {{#if post.bannerUrl}}
+    <header class="post-view-banner"
+            style="background-image: url('{{post.bannerUrl}}')"
+            data-auto-id="post-view-banner">
+    </header>
+  {{/if}}
+  {{#if post.title}}
+    <h3 data-test-id="title">
+      {{#link-to "post.index" post}}{{post.title}}{{/link-to}}
+    </h3>
+  {{/if}}
+  <div class="post-details">
+    {{#link-to "post.index" post}}
+      {{displayPublishedAt}}
+    {{/link-to}}
+  </div>
   <div data-test-id="content">{{{post.contentHtml}}}</div>
+  <div class="separator"><i class="icon icon-cma"></i></div>
 </div>
 {{yield}}

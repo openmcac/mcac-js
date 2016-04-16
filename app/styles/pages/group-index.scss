@@ -13,6 +13,10 @@
     .group-name {
       font-size: 16px;
       margin-top: $padding-m;
+
+      a, a:hover, a:visited {
+        color: $accent-color;
+      }
     }
 
     .short-description {
@@ -69,17 +73,20 @@
     }
   }
 
-  .group-about {
-    @include panel();
-    font-size: 12px;
+  .latest-news {
+    background-color: $white;
+    padding-top: $padding-m;
 
-    ul {
-      padding-left: 14px;
+    .post-view:nth-of-type(1) {
+      padding-top: 0;
     }
   }
 
-  .group-posts {
-    background-color: $white;
+  .about-group {
+    padding-top: $padding-m;
+    ul {
+      padding-left: 14px;
+    }
   }
 
   .post {
@@ -125,8 +132,8 @@
         background-position: center;
         background-size: cover;
         color: $white;
-        width: 120px;
-        height: 120px;
+        width: 90px;
+        height: 90px;
         border-style: solid;
         border-color: $white;
         border-width: $padding-s;
@@ -134,6 +141,7 @@
 
       .group-name {
         font-size: 22px;
+        margin: 0;
       }
 
       .short-description {
@@ -148,6 +156,15 @@
 
   @media only screen and (min-width: $medium-device-break) {
     .group-details {
+      .profile-picture-wrapper {
+        text-align: center;
+
+        .profile-picture {
+          width: 125px;
+          height: 125px;
+        }
+      }
+
       .group-name {
       }
 

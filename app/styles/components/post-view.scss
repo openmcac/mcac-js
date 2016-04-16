@@ -3,12 +3,10 @@
 
   font-size: 14px;
   padding-top: $nav-bar-height;
-  background-color: $white;
 
   .post-container {
     @include padding-bottom-xl();
     @include padding-top-xl();
-    background-color: $white;
     border-color: $gray-extralight;
     border-width: 1px;
   }
@@ -57,6 +55,20 @@
     img {
       width: 100%;
     }
+  }
+
+  .post-details {
+    a, a:hover, a:visited {
+      color: $gray;
+    }
+  }
+
+  .separator {
+    font-size: 34px;
+    color: $gray-extralight;
+    text-align: center;
+    margin-top: $padding-m;
+    margin-bottom: $padding-l;
   }
 
   footer {
