@@ -4,6 +4,37 @@
   font-size: 14px;
   padding-top: $nav-bar-height;
 
+  .post-view-banner {
+    background-color: $gray-dark;
+    background-position: center;
+    background-size: cover;
+    color: $white;
+    margin-bottom: $padding-m;
+    padding: 110px $padding-l $padding-l $padding-l;
+    position: relative;
+  }
+
+  .post {
+    background-color: $white;
+    margin-bottom: $padding-xl;
+
+    h3 {
+      font-size: 18px;
+      font-weight: bold;
+      text-transform: uppercase;
+
+      a {
+        color: $gray-dark;
+      }
+    }
+
+    .post-details {
+      color: $gray;
+      font-size: 12px;
+      margin-bottom: $padding-m;
+    }
+  }
+
   .post-container {
     @include padding-bottom-xl();
     @include padding-top-xl();
@@ -125,8 +156,11 @@
     }
   }
 
-
   @media only screen and (min-width: $small-device-break) {
+    .post-view-banner {
+      padding-top: 200px;
+    }
+
     footer {
       &::after,
       &::before {
