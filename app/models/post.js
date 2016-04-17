@@ -28,6 +28,12 @@ export default DS.Model.extend({
   }),
   isPage: Ember.computed("kind", function() {
     return this.get("kind") === "page";
+  }),
+  showReadMoreLink: Ember.computed("content", function() {
+    return this.get("content").length > 650;
+  }),
+  snippetHtml: Ember.computed("content", function() {
+    return marked(this.get("content").substring(0, 600));
   })
 });
 

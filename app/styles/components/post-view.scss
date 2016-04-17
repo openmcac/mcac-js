@@ -102,6 +102,32 @@
     margin-bottom: $padding-l;
   }
 
+  .read-more {
+    $fade-height: 80px;
+
+    font-size: 12px;
+    margin-top: - ($fade-height + 20px);
+    text-transform: uppercase;
+
+    a, a:hover, a:visited {
+      color: $accent-color;
+    }
+
+    &::before {
+      background-image: linear-gradient(to bottom, transparent, $white);
+      content: " ";
+      display: block;
+      margin-top: - ($fade-height);
+      padding-top: $fade-height;
+      position: relative;
+    }
+
+    .read-more-handle {
+      background-color: $white;
+      position: relative;
+    }
+  }
+
   footer {
     @include padding-bottom-xl();
 

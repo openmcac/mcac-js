@@ -15,7 +15,24 @@
       {{displayPublishedAt}}
     {{/link-to}}
   </div>
-  <div data-test-id="content">{{{post.contentHtml}}}</div>
+  <div data-test-id="content">
+    {{#if snippets}}
+      {{{post.snippetHtml}}}
+
+      {{#if post.showReadMoreLink}}
+        <div class="read-more">
+          <div class="read-more-handle">
+            {{#link-to "post.index" post}}
+              <i class="icon icon-angle-right"></i>
+              Read more
+            {{/link-to}}
+          </div>
+        </div>
+      {{/if}}
+    {{else}}
+      {{{post.contentHtml}}}
+    {{/if}}
+  </div>
   <div class="separator">
     <hr />
     <i class="icon icon-cma"></i>
