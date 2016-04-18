@@ -1,11 +1,13 @@
-<div class="container group-index">
+<div class="container group-index" data-auto-id="group">
   {{#if posts.length}}
     <div class="row latest-news">
       <section class="col-sm-offset-2 col-sm-8 col-md-offset-3 col-md-6"
         data-auto-id="group-posts">
         <h2>Latest news</h2>
         {{#each posts as |post|}}
-          {{post-view post=post snippets=true}}
+          <div data-auto-id="post">
+            {{post-view post=post snippets=true}}
+          </div>
         {{/each}}
       </section>
     </div>

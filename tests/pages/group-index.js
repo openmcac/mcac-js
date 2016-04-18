@@ -1,4 +1,5 @@
 import PageObject from '../page-object';
+import postView from "mcac/tests/pages/components/post-view";
 
 const { visitable, text, collection } = PageObject;
 
@@ -15,10 +16,8 @@ export default PageObject.create({
     return imageUrl("profile-picture");
   },
   posts: collection({
-    itemScope: "*[data-auto-id='group-posts'] *[data-auto-id='post-view']",
-    item: {
-      title: text("*[data-auto-id='title']")
-    }
+    itemScope: "*[data-auto-id='group'] *[data-auto-id='post']",
+    item: postView
   })
 });
 

@@ -10,12 +10,12 @@ test("renders the post", function(assert) {
   this.set("post", post);
   this.render(hbs`{{post-view post=post}}`);
 
-  let $component = this.$('.post-view');
+  let $component = this.$('*[data-auto-id="post-view"]');
 
-  assert.equal(element("title", $component)[0].innerText, post.title);
-  assert.equal(element("content", $component)[0].innerText, post.contentHtml);
+  assert.equal(element("title", $component)[0].textContent.trim(), post.title);
+  assert.equal(element("content", $component)[0].textContent.trim(), post.contentHtml);
 });
 
 function element(id, scope) {
-  return scope.find(`[data-test-id='${id}']`);
+  return scope.find(`[data-auto-id='${id}']`);
 }

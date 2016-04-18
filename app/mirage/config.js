@@ -260,6 +260,18 @@ export default function() {
     };
   });
 
+  this.get("/api/v1/posts/:id", function(db, request) {
+    const attrs = db.posts.find(request.params.id);
+
+    return {
+      data: {
+        type: "posts",
+        id: attrs.id,
+        attributes: attrs
+      }
+    };
+  });
+
   this.delete("/api/v1/announcements/:id", function(db, request) {
     db.announcements.remove(parseInt(request.params.id));
     const response =  {

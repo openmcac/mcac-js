@@ -12,10 +12,10 @@
   {{/if}}
   <div class="post-details">
     {{#link-to "post.index" post}}
-      {{displayPublishedAt}}
+      <span data-auto-id="published-at">{{displayPublishedAt}}</span>
     {{/link-to}}
   </div>
-  <div data-test-id="content">
+  <div data-auto-id="content">
     {{#if snippets}}
       {{{post.snippetHtml}}}
 
