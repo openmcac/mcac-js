@@ -114,7 +114,7 @@
     }
 
     &::before {
-      background-image: linear-gradient(to bottom, transparent, $white);
+      background-image: linear-gradient(to bottom, rgba(255,255,255,0), $white);
       content: " ";
       display: block;
       margin-top: - ($fade-height);
