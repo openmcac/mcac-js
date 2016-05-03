@@ -31,7 +31,19 @@
 {{#with bulletin.bannerUrl as |url|}}
   <style type="text/css">
   .bulletin-cover {
-    background-image: url("{{url}}");
+    background-image: url("{{cloudinary-fetch url=bulletin.bannerUrl width=768}}");
+  }
+
+  @media only screen and (min-width: 768px) {
+    .bulletin-cover {
+      background-image: url("{{cloudinary-fetch url=bulletin.bannerUrl width=1280}}");
+    }
+  }
+
+  @media only screen and (min-width: 992px) {
+    .bulletin-cover {
+      background-image: url("{{cloudinary-fetch url=bulletin.bannerUrl width=1920}}");
+    }
   }
   </style>
 {{/with}}

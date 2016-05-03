@@ -16,6 +16,9 @@ module.exports = function(environment) {
       // Here you can pass flags/options to your application instance
       // when it is created
     },
+    cloudinary: {
+      cloudName: process.env.CLOUDINARY_CLOUD_NAME
+    },
     marked: {
       js: false,
       highlightjs: false
