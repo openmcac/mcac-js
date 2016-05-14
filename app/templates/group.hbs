@@ -7,7 +7,7 @@
   </div>
 
   <div class="row group-details">
-    <div class="col-xs-12 col-sm-2 col-sm-offset-1">
+    <div class="col-xs-12 col-sm-2 col-md-offset-1">
       <div class="profile-picture-wrapper">
         <div class="profile-picture"
            data-auto-id="group-profile-picture"
@@ -15,7 +15,7 @@
       </div>
     </div>
 
-    <div class="col-xs-12 col-sm-9">
+    <div class="col-xs-12 col-sm-10 col-md-9">
       <h1 class="group-name" data-auto-id="group-name">
         {{#link-to "group.index" model.slug}}{{model.name}}{{/link-to}}
       </h1>
@@ -25,9 +25,12 @@
       </div>
 
       <div class="group-info">
-        <span data-auto-id="group-target-audience">{{model.targetAudience}}</span>
-        &middot;
-        <span data-auto-id="group-meet-details">{{model.meetDetails}}</span>
+        <div class="target-audience" data-auto-id="group-target-audience">
+          {{model.targetAudience}}
+        </div>
+        <div class="meet-details" data-auto-id="group-meet-details">
+          {{model.meetDetails}}
+        </div>
       </div>
     </div>
   </div>

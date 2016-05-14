@@ -45,13 +45,13 @@ h5 {
 }
 
 @mixin post-display-font() {
-  font-family: 'Roboto', serif;
+  font-family: 'Roboto', sans-serif;
   font-weight: 700;
   text-transform: uppercase;
 }
 
 @mixin header-font() {
-  font-family: 'Roboto', serif;
+  font-family: 'Roboto', sans-serif;
   font-weight: 700;
   text-transform: uppercase;
 }

@@ -1,38 +1,37 @@
 .group-header {
-  background-color: $gray-extralight;
+  background-color: $white;
 
   .profile-picture {
     margin: -60px auto 0 auto;
     background-position: center;
     background-size: cover;
-    background-color: $gray;
+    background-color: $white;
     width: 120px;
     height: 120px;
     border-style: solid;
     border-color: $white;
     border-width: $padding-s;
+    outline: $padding-xs solid $black;
   }
 
   .group-details {
     text-align: center;
-    margin: $padding-m 0;
+    margin: $padding-m 0 $padding-l;
 
     .group-name {
       font-size: 16px;
-      margin-top: $padding-m;
+      font-weight: normal;
+      margin: $padding-l 0 0 0;
 
       a, a:hover, a:visited {
         color: $accent-color;
       }
     }
 
-    .short-description {
-      display: none;
-    }
-
     .group-info {
       color: $gray;
       font-size: 12px;
+      margin: $padding-m 0 0 0;
     }
   }
 
@@ -43,11 +42,6 @@
     color: $white;
     padding: 75px $padding-l $padding-l $padding-l;
     position: relative;
-
-    h1 {
-      font-size: 24px;
-      font-weight: normal;
-    }
 
     a {
       color: $white;
@@ -84,8 +78,19 @@
       }
 
       .short-description {
-        display: block;
         margin: $padding-m 0;
+      }
+
+      .target-audience {
+        display: inline-block;
+      }
+
+      .meet-details {
+        display: inline-block;
+
+        &:before {
+          content: '•';
+        }
       }
     }
   }

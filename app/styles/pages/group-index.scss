@@ -1,9 +1,16 @@
 .group-index {
-  background-color: $gray-extralight;
+  background-color: $white;
+
+  h2 {
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    font-size: 11px;
+    text-transform: uppercase;
+  }
 
   .latest-news {
-    background-color: $white;
     padding-top: $padding-m;
+
 
     .post-view:nth-of-type(1) {
       padding-top: 0;
@@ -12,17 +19,15 @@
 
   .about-group {
     padding-top: $padding-m;
+
     ul {
       padding-left: 14px;
     }
   }
 
-  h2 {
-    color: $gray-dark;
-    font-size: 11px;
-    text-transform: uppercase;
-  }
-
-  @media only screen and (min-width: $medium-device-break) {
+  @media only screen and (min-width: $small-device-break) {
+    .about-group {
+      font-size: 12px;
+    }
   }
 }

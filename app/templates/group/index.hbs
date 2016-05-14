@@ -1,7 +1,7 @@
 <div class="container group-index" data-auto-id="group">
   {{#if posts.length}}
-    <div class="row latest-news">
-      <section class="col-sm-offset-2 col-sm-8 col-md-offset-3 col-md-6"
+    <div class="row">
+      <section class="col-sm-7 col-md-offset-1 col-md-6 latest-news"
         data-auto-id="group-posts">
         <h2>Latest news</h2>
         {{#each posts as |post|}}
@@ -10,13 +10,10 @@
           </div>
         {{/each}}
       </section>
+      <section class="col-sm-5 col-md-4 about-group">
+        <h2>About</h2>
+        {{{group.aboutHtml}}}
+      </section>
     </div>
   {{/if}}
-
-  <div class="row about-group">
-    <section class="col-sm-offset-2 col-sm-8 col-md-offset-3 col-md-6">
-      <h2>About {{group.name}}</h2>
-      {{{group.aboutHtml}}}
-    </section>
-  </div>
 </div>
