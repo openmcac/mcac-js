@@ -38,6 +38,14 @@ module.exports = function(defaults) {
     },
     minifyJS: {
       enabled: isProductionLikeBuild
+    },
+    dotEnv: {
+      clientAllowedKeys: ["CLOUDINARY_CLOUD_NAME"],
+      path: {
+        development: '.env',
+        test: '.env.test',
+        production: '.env.production'
+      }
     }
   });
 
