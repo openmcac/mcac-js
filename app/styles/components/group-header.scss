@@ -1,4 +1,6 @@
 .group-header {
+  background-color: $background-color;
+
   .profile-picture {
     margin: -60px auto 0 auto;
     background-position: center;
@@ -51,6 +53,10 @@
   }
 
   @media only screen and (min-width: $small-device-break) {
+    border-width: 0 1px;
+    border-style: solid;
+    border-color: $gray-extralight;
+
     .group-banner {
       padding-top: 200px;
     }

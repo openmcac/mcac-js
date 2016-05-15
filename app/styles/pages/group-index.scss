@@ -1,4 +1,6 @@
 .group-index {
+  background-color: $background-color;
+
   h2 {
     border-bottom-style: solid;
     border-bottom-width: 1px;
@@ -29,6 +31,10 @@
   }
 
   @media only screen and (min-width: $small-device-break) {
+    border-width: 0 1px;
+    border-style: solid;
+    border-color: $gray-extralight;
+
     .about-group {
       font-size: 12px;
     }

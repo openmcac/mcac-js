@@ -1,8 +1,9 @@
 footer {
+  background-color: $background-color;
   color: $gray;
-  font-size: 12px;
-  margin-bottom: $padding-m;
-  margin-top: $padding-xl;
+  font-size: 11px;
+  padding-bottom: $padding-m;
+  padding-top: $padding-xl;
   text-align: center;
 
   ul {
@@ -16,20 +17,14 @@ footer {
   }
 
   h1 {
-    font-size: 13px;
+    font-size: 12px;
     font-weight: normal;
     margin-bottom: 0;
     text-transform: uppercase;
     letter-spacing: 1px;
   }
 
-  h2 {
-    font-size: 14px;
-  }
-
   .address {
-    font-size: 12px;
-
     a {
       color: $gray;
     }
@@ -57,5 +52,11 @@ footer {
 
   .vision-statement {
     font-style: italic;
+  }
+
+  @media only screen and (min-width: $small-device-break) {
+    border-width: 0 1px;
+    border-style: solid;
+    border-color: $gray-extralight;
   }
 }
