@@ -5,14 +5,16 @@
   font-size: 14px;
   margin-bottom: $padding-l;
   padding: $padding-m;
-  border: $padding-xs solid $gray-extralight;
+  border-style: solid;
+  border-color: $gray-extralight;
+  border-width: $padding-xs 0;
 
   .post-view-banner {
     background-color: $gray-dark;
     background-position: center;
     background-size: cover;
     color: $white;
-    margin-top: $padding-m;
+    margin: $padding-m -15px;
     padding: 110px $padding-l $padding-l $padding-l;
     position: relative;
   }
@@ -189,8 +191,12 @@
   }
 
   @media only screen and (min-width: $small-device-break) {
+    border-width: $padding-xs;
+
     .post-view-banner {
       padding-top: 200px;
+      margin-left: -10px;
+      margin-right: -10px;
     }
 
     footer {

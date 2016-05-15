@@ -23,9 +23,19 @@
     }
   }
 
+  .latest-news > div {
+    margin-right: -15px;
+    margin-left: -15px;
+  }
+
   @media only screen and (min-width: $small-device-break) {
     .about-group {
       font-size: 12px;
+    }
+
+    .latest-news > div {
+      margin-right: 0;
+      margin-left: 0;
     }
   }
 }

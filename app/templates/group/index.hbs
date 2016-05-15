@@ -4,11 +4,13 @@
       <section class="col-sm-7 col-md-offset-1 col-md-6 latest-news"
         data-auto-id="group-posts">
         <h2>Latest news</h2>
-        {{#each posts as |post|}}
-          <div data-auto-id="post">
-            {{post-view post=post snippets=true}}
-          </div>
-        {{/each}}
+        <div>
+          {{#each posts as |post|}}
+            <div data-auto-id="post">
+              {{post-view post=post snippets=true}}
+            </div>
+          {{/each}}
+        </div>
       </section>
       <section class="col-sm-5 col-md-4 about-group">
         <h2>About</h2>
