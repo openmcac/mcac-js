@@ -1,3 +1,19 @@
 .post-index {
-  background-color: $white;
+  background-color: $background-color;
+
+  > div {
+    margin-right: -30px;
+    margin-left: -30px;
+  }
+
+  @media only screen and (min-width: $small-device-break) {
+    border-width: 0 1px;
+    border-style: solid;
+    border-color: $gray-extralight;
+
+    > div {
+      margin-right: -15px;
+      margin-left: -15px;
+    }
+  }
 }
