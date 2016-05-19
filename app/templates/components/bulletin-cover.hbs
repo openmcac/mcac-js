@@ -1,30 +1,17 @@
 <div class="tint-dark">
   <div class="inner">
     <h1 class="bulletin-info">
-      <span class="published-at">
+      <div class="published-at">
         {{moment-format bulletin.publishedAt "MMMM Do YYYY, h:mm a"}}
-      </span><br/>
-      <span class="description">{{bulletin.description}}</span><br/>
-      <small class="name">{{bulletin.name}}</small>
+      </div>
+      <div class="description">{{bulletin.description}}</div>
+      <div class="name">{{bulletin.name}}</div>
     </h1>
     {{#with bulletin.audioUrl as |url|}}
       <audio src="{{url}}" controls>
         Your browser does not support the <code>audio</code> element.
       </audio>
     {{/with}}
-    <footer>
-      <i class="icon-cma"></i>
-      <a href="http://mcac.church">Montreal Chinese Alliance Church</a> |
-      <a href="http://mcac.church">mcac.church</a> |
-      <a href="https://maps.google.ca/maps?f=q&source=s_q&hl=en&geocode=&q=13+Finchley+St,+Hampstead,+QC&aq=0&oq=13+finchley&sll=53.796105,-68.44248&sspn=35.749029,47.197266&vpsrc=0&ie=UTF8&hq=&hnear=13+Finchley+St,+Hampstead,+Quebec+H3X+2Z4&ll=45.479106,-73.631852&spn=0.010246,0.011523&t=m&z=16&iwloc=A">13 Finchley, Hampstead</a> |
-      <a href="tel:5144822703">514.482.2703</a> |
-      {{#if session.isAuthenticated}}
-        {{#link-to 'dashboard'}}Dashboard{{/link-to}} |
-        <a {{action 'invalidateSession'}}>Logout</a>
-      {{else}}
-        {{#link-to 'login'}}Login{{/link-to}}
-      {{/if}}
-    </footer>
   </div>
 </div>
 

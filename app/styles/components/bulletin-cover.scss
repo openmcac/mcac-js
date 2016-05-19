@@ -3,39 +3,41 @@
   background-position: center;
   background-size: cover;
   position: relative;
-  text-align: center;
+  padding: 0 $padding-m;
 
   .inner {
     bottom: $padding-m;
     color: $white;
     position: absolute;
-    width: 100%;
   }
 
   h1 {
     margin: 0;
   }
 
-  .published-at {
-    @include display-font();
-    color: $white;
-  }
-
   .name {
     font-weight: normal;
-    font-size: 12px;
+    font-size: 11px;
     text-transform: uppercase;
+    color: $gray;
+  }
+
+  .published-at {
     color: $white;
+    font-family: 'Roboto', sans-serif;
+    font-size: 18px;
+    margin-bottom: $padding-m;
   }
 
   .description {
     color: $white;
-    font-size: 18px;
-    font-style: normal;
+    font-size: 16px;
+    font-weight: normal;
+    margin-bottom: $padding-m;
   }
 
   audio {
-    margin-top: $padding-l;
+    margin-top: $padding-m;
   }
 
   footer {
