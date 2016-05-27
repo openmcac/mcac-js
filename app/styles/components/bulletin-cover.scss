@@ -3,12 +3,18 @@
   background-position: center;
   background-size: cover;
   position: relative;
-  padding: 0 $padding-m;
+  margin: 0 $padding-m $padding-m $padding-m;
+  top: $nav-bar-height;
 
   .inner {
     bottom: $padding-m;
     color: $white;
     position: absolute;
+    margin: $padding-m;
+
+    audio {
+      max-width: 250px
+    }
   }
 
   h1 {
@@ -55,15 +61,17 @@
     }
   }
 
-  @media only screen and (min-width: $medium-device-break) {
-    text-align: left;
-
+  @media only screen and (min-width: $small-device-break) {
     .inner {
-      padding-left: $padding-xl;
+      padding: 0 $padding-xl;
+
+      audio {
+        max-width: initial;
+      }
     }
 
     .published-at {
-      font-size: 60px;
+      font-size: 40px;
     }
 
     .name {
