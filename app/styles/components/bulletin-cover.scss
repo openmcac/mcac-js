@@ -26,6 +26,10 @@
     font-size: 11px;
     text-transform: uppercase;
     color: $gray;
+
+    a, a:visited {
+      color: $gray;
+    }
   }
 
   .published-at {
