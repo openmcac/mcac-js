@@ -6,7 +6,14 @@
       <div class="address">
         <a href="https://www.google.ca/maps/place/13+Rue+Finchley,+Hampstead,+QC+H3X+2Z4/@45.4791032,-73.6348992,17z/data=!3m1!4b1!4m2!3m1!1s0x4cc917507e7efe21:0x334fc9316d4951e3">
           13 Finchley, Hampstead, Québec H3X 2Z4
-        </a>
+        </a> |
+        <a href="tel:5144822703">514.482.2703</a> |
+        {{#if session.isAuthenticated}}
+          {{#link-to "dashboard"}}Dashboard{{/link-to}} |
+          <a {{action "invalidateSession"}}>Logout</a>
+        {{else}}
+          {{#link-to "login"}}Login{{/link-to}}
+        {{/if}}
       </div>
     </div>
   </div>
