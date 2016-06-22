@@ -1,1 +1,38 @@
+<div class="container group-header">
+  <div class="row">
+    <header class="col-sm-12 group-banner"
+            style="background-image: url('{{model.bannerUrl}}')"
+            data-auto-id="group-banner">
+    </header>
+  </div>
+
+  <div class="row group-details">
+    <div class="col-xs-12 col-sm-2 col-md-offset-1">
+      <div class="profile-picture-wrapper">
+        <div class="profile-picture"
+           data-auto-id="group-profile-picture"
+           style="background-image: url('{{model.profilePictureUrl}}')"></div>
+      </div>
+    </div>
+
+    <div class="col-xs-12 col-sm-10 col-md-9">
+      <h1 class="group-name" data-auto-id="group-name">
+        {{#link-to "group.index" model.slug}}{{model.name}}{{/link-to}}
+      </h1>
+
+      <div class="short-description" data-auto-id="group-short-description">
+        {{model.shortDescription}}
+      </div>
+
+      <div class="group-info">
+        <div class="target-audience" data-auto-id="group-target-audience">
+          {{model.targetAudience}}
+        </div>
+        <div class="meet-details" data-auto-id="group-meet-details">
+          {{model.meetDetails}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 {{liquid-outlet}}

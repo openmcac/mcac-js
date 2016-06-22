@@ -1,0 +1,115 @@
+.group-header {
+  background-color: $background-color;
+
+  .profile-picture {
+    margin: -60px auto 0 auto;
+    background-position: center;
+    background-size: cover;
+    background-color: $white;
+    width: 120px;
+    height: 120px;
+    border-style: solid;
+    border-color: $white;
+    border-width: $padding-s;
+    outline: $padding-xs solid $black;
+  }
+
+  .group-details {
+    text-align: center;
+    margin: $padding-m 0 $padding-l;
+
+    .group-name {
+      font-size: 16px;
+      font-weight: normal;
+      margin: $padding-l 0 0 0;
+
+      a, a:hover, a:visited {
+        color: $accent-color;
+      }
+    }
+
+    .group-info {
+      color: $gray;
+      font-size: 12px;
+      margin: $padding-m 0 0 0;
+    }
+  }
+
+  .group-banner {
+    background-color: $gray-dark;
+    background-position: center;
+    background-size: cover;
+    color: $white;
+    padding: 75px $padding-l $padding-l $padding-l;
+    position: relative;
+
+    a {
+      color: $white;
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
+
+  @media only screen and (min-width: $small-device-break) {
+    border-width: 0 1px;
+    border-style: solid;
+    border-color: $gray-extralight;
+
+    .group-banner {
+      padding-top: 200px;
+    }
+
+    .group-details {
+      text-align: initial;
+      margin: $padding-l 0;
+
+      .profile-picture {
+        margin-top: initial;
+        background-position: center;
+        background-size: cover;
+        color: $white;
+        width: 90px;
+        height: 90px;
+        border-style: solid;
+        border-color: $white;
+        border-width: $padding-s;
+      }
+
+      .group-name {
+        font-size: 22px;
+        margin: 0;
+      }
+
+      .short-description {
+        margin: $padding-m 0;
+      }
+
+      .target-audience {
+        display: inline-block;
+      }
+
+      .meet-details {
+        display: inline-block;
+
+        &:before {
+          content: '•';
+        }
+      }
+    }
+  }
+
+  @media only screen and (min-width: $medium-device-break) {
+    .group-details {
+      .profile-picture-wrapper {
+        text-align: center;
+
+        .profile-picture {
+          width: 125px;
+          height: 125px;
+        }
+      }
+    }
+  }
+}

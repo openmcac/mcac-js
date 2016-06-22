@@ -101,7 +101,7 @@ test('visiting /sunday', function(assert) {
   visit('/sunday');
 
   andThen(function() {
-    assert.equal(find('.bulletin-info .name').text(), 'Sunday Service');
+    assert.equal(find('.bulletin-info .name').text().trim(), 'Sunday Service');
     assert.equal(find('audio').length, 0);
     assert.equal(find('.announcements li:nth-child(1)').text().trim(),
                  'This is the first announcement');

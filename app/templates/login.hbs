@@ -1,13 +1,19 @@
-{{input type="text"
-        value=email
-        class="email"
-        insert-newline="login"
-        data-auto-id="login-email"}}
+<div class="container login-form">
+  <form class="form-inline">
+    {{input class="form-control email"
+            data-auto-id="login-email"
+            insert-newline="login"
+            placeholder="Email"
+            type="email"
+            value=email}}
 
-{{input type="password"
-        value=password
-        class="password"
-        insert-newline="login"
-        data-auto-id="login-password"}}
+    {{input class="form-control password"
+            data-auto-id="login-password"
+            insert-newline="login"
+            placeholder="Password"
+            type="password"
+            value=password}}
 
-<button {{action 'login'}} type="submit" class="submit">Login</button>
+    <button {{action 'login'}} type="submit" class="btn btn-default submit">Login</button>
+  </form>
+</div>

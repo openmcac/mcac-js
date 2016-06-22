@@ -3,39 +3,51 @@
   background-position: center;
   background-size: cover;
   position: relative;
-  text-align: center;
+  margin: 0 $padding-m $padding-m $padding-m;
+  top: $nav-bar-height;
 
   .inner {
     bottom: $padding-m;
     color: $white;
     position: absolute;
-    width: 100%;
+    margin: $padding-m;
+
+    audio {
+      max-width: 250px
+    }
   }
 
   h1 {
     margin: 0;
   }
 
-  .published-at {
-    @include display-font();
-    color: $white;
-  }
-
   .name {
     font-weight: normal;
-    font-size: 12px;
+    font-size: 11px;
     text-transform: uppercase;
+    color: $gray;
+
+    a, a:visited {
+      color: $gray;
+    }
+  }
+
+  .published-at {
     color: $white;
+    font-family: 'Roboto', sans-serif;
+    font-size: 18px;
+    margin-bottom: $padding-m;
   }
 
   .description {
     color: $white;
-    font-size: 18px;
-    font-style: normal;
+    font-size: 16px;
+    font-weight: normal;
+    margin-bottom: $padding-m;
   }
 
   audio {
-    margin-top: $padding-l;
+    margin-top: $padding-m;
   }
 
   footer {
@@ -53,15 +65,17 @@
     }
   }
 
-  @media only screen and (min-width: $medium-device-break) {
-    text-align: left;
-
+  @media only screen and (min-width: $small-device-break) {
     .inner {
-      padding-left: $padding-xl;
+      padding: 0 $padding-xl;
+
+      audio {
+        max-width: initial;
+      }
     }
 
     .published-at {
-      font-size: 60px;
+      font-size: 40px;
     }
 
     .name {

@@ -1,0 +1,25 @@
+.navbar {
+  background-color: $white;
+  height: $nav-bar-height;
+  min-height: $nav-bar-height;
+  width: 100%;
+  border-style: none;
+
+  > .container {
+    background-color: $white;
+  }
+
+  .navbar-header {
+    text-align: center;
+    float: none;
+
+    .navbar-brand {
+      color: $accent-color;
+      float: none;
+      line-height: $nav-bar-height;
+    }
+  }
+
+  @media only screen and (min-width: $small-device-break) {
+  }
+}

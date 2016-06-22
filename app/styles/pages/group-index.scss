@@ -1,64 +1,48 @@
-@mixin panel() {
-  background-color: $white;
-  border-color: $gray-light;
-  border-style: solid;
-  border-width: 1px;
-  padding: $padding-m;
-  margin-bottom: $padding-m;
-}
-
 .group-index {
-  background-color: $gray-extralight;
+  background-color: $background-color;
 
-  .group-banner {
-    background-color: $gray-dark;
-    background-position: center;
-    background-size: cover;
-    color: $white;
-    margin-bottom: $padding-m;
-    padding: 250px $padding-l $padding-l $padding-l;
-    position: relative;
+  section > h2 {
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    font-size: 11px;
+    text-transform: uppercase;
+    color: $gray-light;
+  }
 
-    h1 {
-      font-size: 24px;
-      font-weight: normal;
-    }
+  .latest-news {
+    padding-top: $padding-m;
 
-    a {
-      color: $white;
 
-      &:hover {
-        text-decoration: none;
-      }
+    .post-view:nth-of-type(1) {
+      padding-top: 0;
     }
   }
 
-  .group-about {
-    @include panel();
-    font-size: 12px;
+  .about-group {
+    padding-top: $padding-m;
 
     ul {
       padding-left: 14px;
     }
   }
 
-  .post {
-    @include panel();
+  .latest-news > div {
+    margin-right: -15px;
+    margin-left: -15px;
   }
 
-  h2 {
-    color: $gray-dark;
-    font-size: 11px;
-    text-transform: uppercase;
-  }
+  @media only screen and (min-width: $small-device-break) {
+    border-width: 0 1px;
+    border-style: solid;
+    border-color: $gray-extralight;
 
-  h3 {
-    font-size: 12px;
-    font-weight: normal;
-    text-transform: uppercase;
+    .about-group {
+      font-size: 12px;
+    }
 
-    a {
-      color: $gray-dark;
+    .latest-news > div {
+      margin-right: 0;
+      margin-left: 0;
     }
   }
 }

@@ -1,8 +1,10 @@
 footer {
-  margin-top: $padding-xl;
-  margin-bottom: $padding-m;
-  font-size: 12px;
+  background-color: $background-color;
   color: $gray;
+  font-size: 11px;
+  padding-bottom: $padding-m;
+  padding-top: $padding-xl;
+  text-align: center;
 
   ul {
     list-style-type: none;
@@ -11,38 +13,20 @@ footer {
 
 
   .logo {
-    background-color: $gray-dark;
-    padding: 10px;
-    margin-right: 10px;
     font-size: 36px;
-
-    i {
-      &:before {
-        color: $gray-extradark;
-      }
-    }
   }
 
   h1 {
-    @include header-font();
-    color: $gray-dark;
-    font-size: 16px;
+    font-size: 12px;
+    font-weight: normal;
     margin-bottom: 0;
-  }
-
-  h2 {
-    color: $gray-light;
-    font-size: 14px;
     text-transform: uppercase;
+    letter-spacing: 1px;
   }
 
   .address {
-    @include header-font();
-    color: $gray-dark;
-    font-size: 12px;
-
     a {
-      color: $gray-dark;
+      color: $gray;
     }
   }
 
@@ -58,7 +42,7 @@ footer {
     }
 
     &:visited {
-      color: $gray-dark;
+      color: $gray;
     }
   }
 
@@ -71,26 +55,8 @@ footer {
   }
 
   @media only screen and (min-width: $small-device-break) {
-    h1 {
-      font-size: 28px;
-    }
-
-    .address {
-      font-size: 16px;
-    }
-
-    .about {
-      font-size: 22px;
-    }
-  }
-
-  @media only screen and (min-width: $medium-device-break) {
-    h1 {
-      font-size: 36px;
-    }
-
-    .about {
-      font-size: 24px;
-    }
+    border-width: 0 1px;
+    border-style: solid;
+    border-color: $gray-extralight;
   }
 }

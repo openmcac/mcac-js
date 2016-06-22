@@ -1,7 +1,37 @@
-<div class="post" data-test-id="post">
-  <h3 data-test-id="title">
-    {{#link-to "post.index" post}}{{post.title}}{{/link-to}}
-  </h3>
-  <div data-test-id="content">{{{post.contentHtml}}}</div>
-</div>
+<article class="post" data-auto-id="post-view">
+  {{#if post.title}}
+    <h1 data-auto-id="title">
+      {{#link-to "post.index" post}}{{post.title}}{{/link-to}}
+    </h1>
+  {{/if}}
+  <div class="post-details">
+    {{#link-to "post.index" post}}
+      <span data-auto-id="published-at">{{displayPublishedAt}}</span>
+    {{/link-to}}
+  </div>
+  {{#if post.bannerUrl}}
+    <div class="post-view-banner"
+            style="background-image: url('{{post.bannerUrl}}')"
+            data-auto-id="post-view-banner">
+    </div>
+  {{/if}}
+  <div class="post-content" data-auto-id="content">
+    {{#if snippets}}
+      {{{post.snippetHtml}}}
+
+      {{#if post.showReadMoreLink}}
+        <div class="read-more">
+          <div class="read-more-handle">
+            {{#link-to "post.index" post}}
+              <i class="icon icon-angle-right"></i>
+              Read more
+            {{/link-to}}
+          </div>
+        </div>
+      {{/if}}
+    {{else}}
+      {{{post.contentHtml}}}
+    {{/if}}
+  </div>
+</article>
 {{yield}}

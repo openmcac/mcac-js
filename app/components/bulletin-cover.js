@@ -20,5 +20,5 @@ export default Ember.Component.extend({
 });
 
 function suitableScreenHeight() {
-  return Math.max(Ember.$(window).height(), 320);
+  return Math.max(Ember.$(window).height() - 40, 320);
 }

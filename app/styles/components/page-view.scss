@@ -3,12 +3,41 @@
 
   font-size: 14px;
   padding-top: $nav-bar-height;
-  background-color: $white;
 
-  .page-container {
+  .post-view-banner {
+    background-color: $gray-dark;
+    background-position: center;
+    background-size: cover;
+    color: $white;
+    margin-bottom: $padding-m;
+    padding: 110px $padding-l $padding-l $padding-l;
+    position: relative;
+  }
+
+  .post {
+    background-color: $white;
+    margin-bottom: $padding-xl;
+
+    h3 {
+      font-size: 18px;
+      font-weight: bold;
+      text-transform: uppercase;
+
+      a {
+        color: $gray-dark;
+      }
+    }
+
+    .post-details {
+      color: $gray;
+      font-size: 12px;
+      margin-bottom: $padding-m;
+    }
+  }
+
+  .post-container {
     @include padding-bottom-xl();
     @include padding-top-xl();
-    background-color: $white;
     border-color: $gray-extralight;
     border-width: 1px;
   }
@@ -56,6 +85,46 @@
     @include padding-top-xl();
     img {
       width: 100%;
+    }
+  }
+
+  .post-details {
+    a, a:hover, a:visited {
+      color: $gray;
+    }
+  }
+
+  .separator {
+    font-size: 34px;
+    color: $gray-light;
+    text-align: center;
+    margin-top: $padding-m;
+    margin-bottom: $padding-l;
+  }
+
+  .read-more {
+    $fade-height: 80px;
+
+    font-size: 12px;
+    margin-top: - ($fade-height + 20px);
+    text-transform: uppercase;
+
+    a, a:hover, a:visited {
+      color: $accent-color;
+    }
+
+    &::before {
+      background-image: linear-gradient(to bottom, rgba(255,255,255,0), $white);
+      content: " ";
+      display: block;
+      margin-top: - ($fade-height);
+      padding-top: $fade-height;
+      position: relative;
+    }
+
+    .read-more-handle {
+      background-color: $white;
+      position: relative;
     }
   }
 
@@ -113,8 +182,11 @@
     }
   }
 
-
   @media only screen and (min-width: $small-device-break) {
+    .post-view-banner {
+      padding-top: 200px;
+    }
+
     footer {
       &::after,
       &::before {
@@ -124,8 +196,6 @@
   }
 
   @media only screen and (min-width: $medium-device-break) {
-    font-size: 16px;
-
     h1 {
       font-size: 60px;
     }

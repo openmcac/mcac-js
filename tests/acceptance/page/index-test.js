@@ -23,8 +23,8 @@ test("it renders the specified page", assert => {
 
   andThen(() => {
     assert.equal(currentURL(), `/${group.slug}/${p.slug}`);
-    assert.equal(page.title, p.title);
-    assert.equal(page.content.replace(/\s/g, ''),
+    assert.equal(page.page.title, p.title);
+    assert.equal(page.page.content.replace(/\s/g, ''),
                  p.content.replace(/\s/g, ''));
   });
 });

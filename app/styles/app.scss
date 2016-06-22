@@ -3,8 +3,9 @@
 @import "components/bulletin-cover";
 @import "components/bulletin-navigator";
 @import "components/bulletin-view";
+@import "components/group-header";
 @import "components/image-preview";
-@import "components/nav-bar";
+@import "components/mcac-header.scss";
 @import "components/pace";
 @import "components/page-view";
 @import "components/post-composer";
@@ -14,12 +15,14 @@
 @import "pages/bulletin-form";
 @import "pages/dashboard-index";
 @import "pages/group-index";
+@import "pages/login";
 @import "pages/not-found";
 @import "pages/password-form";
+@import "pages/post-index";
 @import "pages/sunday-index";
 
 body {
-  background-color: $gray-extradark;
+  background-color: $white;
 }
 
 [data-ember-action] {

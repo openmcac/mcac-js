@@ -1,9 +1,11 @@
 .bulletin-view {
   .contents {
     background-color: $white;
+    padding-top: 20px; /** cover overflow bug */
+
     section {
-      padding-bottom: 100px;
-      padding-top: 100px;
+      padding-bottom: $padding-xl;
+      padding-top: $padding-xl;
 
       h1 {
         font-size: 14px;
@@ -44,8 +46,6 @@
   }
 
   .announcements {
-    background-color: $bulletin-announcements-color;
-
     ol {
       padding-left: 30px;
     }
@@ -60,15 +60,13 @@
     (min-width: $small-device-break) and
     (max-width: $medium-device-break) {
     .container {
-      border-color: $gray-light;
-      border-style: solid;
-      border-width: 0 1px;
     }
 
     .secondary-info {
       border-color: $gray-light;
       border-style: solid;
       border-width: 1px 0;
+      padding: 10px 0;
     }
 
     .announcements {
@@ -91,13 +89,39 @@
       }
     }
 
-    .contents .row {
-      display: flex;
+    .contents {
+      padding-top: 30px;
+
+      .row {
+        display: flex;
+      }
+
+      section {
+        padding-top: $padding-xl;
+        padding-bottom: $padding-xl;
+      }
+    }
+
+    .announcements {
+      border-style: solid;
+      border-width: 0 1px;
+      border-color: $gray-extralight;
     }
 
     .contents,
     .secondary-info {
       @include flexbox();
     }
+  }
+}
+
+.bulletin-sunday, .bulletin-index {
+  .group-header {
+    display: none;
+  }
+
+  footer {
+    background-color: $white;
+    border-style: none;
   }
 }

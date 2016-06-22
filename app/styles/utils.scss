@@ -45,13 +45,13 @@ h5 {
 }
 
 @mixin post-display-font() {
-  font-family: 'Roboto', serif;
+  font-family: 'Roboto', sans-serif;
   font-weight: 700;
   text-transform: uppercase;
 }
 
 @mixin header-font() {
-  font-family: 'Roboto', serif;
+  font-family: 'Roboto', sans-serif;
   font-weight: 700;
   text-transform: uppercase;
 }
@@ -99,6 +99,14 @@ h5 {
 
   @media only screen and (min-width: $medium-device-break) {
     padding-top: $padding-l;
+  }
+}
+
+@mixin padding-top-m() {
+  padding-top: $padding-s;
+
+  @media only screen and (min-width: $medium-device-break) {
+    padding-top: $padding-m;
   }
 }
 

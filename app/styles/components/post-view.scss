@@ -1,32 +1,68 @@
-.post-view {
+.post-view .post {
   @include body-font();
 
-  font-size: 14px;
-  padding-top: $nav-bar-height;
   background-color: $white;
+  font-size: 14px;
+  margin-bottom: $padding-l;
+  padding: $padding-m;
+  border-style: solid;
+  border-color: $gray-extralight;
+  border-width: $padding-xs 0;
 
-  .post-container {
-    @include padding-bottom-xl();
-    @include padding-top-xl();
-    background-color: $white;
-    border-color: $gray-extralight;
-    border-width: 1px;
-  }
-
-  .content {
-    h2, h3 {
-      @include padding-top-l();
-    }
-
-    h2:first-child {
-      padding-top: 0px;
-    }
+  .post-view-banner {
+    background-color: $gray-dark;
+    background-position: center;
+    background-size: cover;
+    color: $white;
+    margin: $padding-m -15px;
+    padding: 110px $padding-l $padding-l $padding-l;
+    position: relative;
   }
 
   h1 {
     @include post-display-font();
-    font-size: 42px;
+
+    font-size: 16px;
     margin-bottom: 0;
+
+    a {
+      color: $gray-dark;
+    }
+  }
+
+  h2 {
+    font-size: 18px;
+    @include padding-top-l();
+  }
+
+  h3 {
+    font-size: 14px;
+    font-weight: bold;
+    @include padding-top-l();
+  }
+
+  .post-details {
+    color: $gray;
+    font-size: 12px;
+  }
+
+  .post-container {
+    @include padding-bottom-xl();
+    @include padding-top-xl();
+    border-color: $gray-extralight;
+    border-width: 1px;
+  }
+
+  .post-content {
+    @include padding-top-m();
+
+    h2:nth-of-type(1) {
+      padding-top: 0px;
+    }
+
+    p:last-of-type {
+      margin: 0;
+    }
   }
 
   blockquote {
@@ -56,6 +92,47 @@
     @include padding-top-xl();
     img {
       width: 100%;
+    }
+  }
+
+  .post-details {
+    a, a:hover, a:visited {
+      color: $gray;
+    }
+  }
+
+  .separator {
+    font-size: 34px;
+    color: $gray-light;
+    text-align: center;
+    margin-top: $padding-m;
+    margin-bottom: $padding-l;
+  }
+
+  .read-more {
+    $fade-height: 80px;
+
+    font-size: 12px;
+    margin-top: - ($fade-height + 15px);
+    text-transform: uppercase;
+
+    a, a:hover, a:visited {
+      color: $accent-color;
+      text-decoration: none;
+    }
+
+    &::before {
+      background-image: linear-gradient(to bottom, rgba(255,255,255,0), $white);
+      content: " ";
+      display: block;
+      margin-top: - ($fade-height);
+      padding-top: $fade-height;
+      position: relative;
+    }
+
+    .read-more-handle {
+      background-color: $white;
+      position: relative;
     }
   }
 
@@ -113,8 +190,15 @@
     }
   }
 
-
   @media only screen and (min-width: $small-device-break) {
+    border-width: $padding-xs;
+
+    .post-view-banner {
+      padding-top: 200px;
+      margin-left: -10px;
+      margin-right: -10px;
+    }
+
     footer {
       &::after,
       &::before {
@@ -124,10 +208,7 @@
   }
 
   @media only screen and (min-width: $medium-device-break) {
-    font-size: 16px;
-
     h1 {
-      font-size: 60px;
     }
 
     blockquote {

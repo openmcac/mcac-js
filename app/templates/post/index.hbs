@@ -1,44 +1,8 @@
-<nav class="navbar navbar-default navbar-fixed-top">
-  <div class="container">
-    {{#link-to "index" class="navbar-brand brand"}}
-      <i class="icon icon-cma"></i>
-      <span class="long-brand">
-        <strong>Montreal</strong> Chinese
-        <strong>Alliance</strong> Church
-      </span>
-      <span class="short-brand">
-        <strong>
-          <abbr title="Montreal Chinese Alliance Church">MCAC</abbr>
-        </strong>
-      </span>
-    {{/link-to}}
-  </div>
-</nav>
-
-<div class="post-view">
-  <article class="post post-{{model.id}}">
-    <div class="container">
-      <div class="row">
-        <div class="col-sm-8 post-container">
-          <header>
-            <h1 class="post-title">
-              {{#link-to 'post.index' model}}{{model.title}}{{/link-to}}
-            </h1>
-            <div class="metadata">
-              Posted in <strong class="group-name">{{model.group.name}}</strong> on
-              <span class="published-at">{{displayPublishedAt}}</span>.
-            </div>
-            {{#with model.bannerUrl as |url|}}
-              <div class="banner"><img src="{{url}}" /></div>
-            {{/with}}
-          </header>
-          <div class="content">
-            {{{model.contentHtml}}}
-          </div>
-        </div>
-      </div>
+<div class="container post-index" data-auto-id="post-index">
+  <div class="row">
+    <div class="col-sm-offset-2 col-sm-8 col-md-offset-3 col-md-6">
+      {{post-view post=model snippets=false}}
     </div>
-  </article>
-
-  {{liquid-outlet}}
+  </div>
 </div>
+{{liquid-outlet}}

@@ -26,12 +26,27 @@ Ember.Route.reopen({
   }),
   deactivatePace: Ember.on('deactivate', function() {
     return Pace.stop();
-  })
+  }),
+  activate() {
+    const cssClass = this.toCssClass();
+    if (cssClass !== "application") {
+      Ember.$("body").addClass(cssClass);
+    }
+  },
+  deactivate() {
+    Ember.$("body").removeClass(this.toCssClass());
+  },
+  toCssClass() {
+    return this.slugify(this.routeName);
+  },
+  slugify(string) {
+    return string.toLowerCase().trim().replace(/[\s\W-]+/g, '-');
+  }
 });
 
 Router.map(function() {
   this.route("group", { path: ":group_slug" }, function() {
-    // this.route("index", { path: "/" }, function() {});
+    this.route("index", { path: "/" }, function() {});
     this.route("edit", function() {});
 
     this.route("bulletin", { resetNamespace: true, path: "bulletins/:bulletin_id" }, function() {

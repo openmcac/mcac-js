@@ -12,11 +12,12 @@ export default Ember.Route.extend({
       kind: KIND_PAGE
     };
     return this.store.query("post", { filter: filter }).then((pages) => {
-      if (pages.get("length") > 0) {
-        return pages.get("firstObject");
-      } else {
-        this.transitionTo("/404");
-      }
+      return pages.get("firstObject");
     });
+  },
+  afterModel(model) {
+    if (Ember.isNone(model)) {
+      this.transitionTo("not-found", "404");
+    }
   }
 });

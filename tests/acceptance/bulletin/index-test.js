@@ -89,7 +89,7 @@ test('visiting /english-service/bulletin/1', function(assert) {
 
   andThen(function() {
     // bulletin name is displayed
-    assert.equal(find('.bulletin-info .name').text(), 'Sunday Service');
+    assert.equal(find('.bulletin-info .name').text().trim(), 'Sunday Service');
 
     // announcement descriptions are displayed
     assert.equal(find('.announcements li:nth-child(1) .announcement').text().trim(),
@@ -126,7 +126,7 @@ test("when there are sermon notes", function(assert) {
   visit("/english-service/bulletins/1");
 
   andThen(function() {
-    assert.equal(find(".bulletin-info .name").text(), "Sunday Service");
+    assert.equal(find(".bulletin-info .name").text().trim(), "Sunday Service");
     assert.equal(find(".sermon-notes .no-notes").length, 0);
   });
 });
