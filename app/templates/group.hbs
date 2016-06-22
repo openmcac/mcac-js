@@ -1,7 +1,7 @@
 <div class="container group-header">
   <div class="row">
     <header class="col-sm-12 group-banner"
-            style="background-image: url('{{model.bannerUrl}}')"
+            style="background-image: url('{{cloudinary-fetch url=model.bannerUrl width=1920}}')"
             data-auto-id="group-banner">
     </header>
   </div>
@@ -11,7 +11,7 @@
       <div class="profile-picture-wrapper">
         <div class="profile-picture"
            data-auto-id="group-profile-picture"
-           style="background-image: url('{{model.profilePictureUrl}}')"></div>
+           style="background-image: url('{{cloudinary-fetch url=model.profilePictureUrl width=200}}')"></div>
       </div>
     </div>
 
