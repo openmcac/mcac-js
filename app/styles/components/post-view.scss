@@ -1,4 +1,4 @@
-.post-view .post {
+.post-view .post, .page-view .page {
   @include body-font();
 
   background-color: $white;
@@ -9,7 +9,7 @@
   border-color: $gray-extralight;
   border-width: $padding-xs 0;
 
-  .post-view-banner {
+  .banner {
     background-color: $gray-dark;
     background-position: center;
     background-size: cover;
@@ -41,19 +41,12 @@
     @include padding-top-l();
   }
 
-  .post-details {
+  .details {
     color: $gray;
     font-size: 12px;
   }
 
-  .post-container {
-    @include padding-bottom-xl();
-    @include padding-top-xl();
-    border-color: $gray-extralight;
-    border-width: 1px;
-  }
-
-  .post-content {
+  .content {
     @include padding-top-m();
 
     h2:nth-of-type(1) {
@@ -95,7 +88,7 @@
     }
   }
 
-  .post-details {
+  .details {
     a, a:hover, a:visited {
       color: $gray;
     }
@@ -136,64 +129,10 @@
     }
   }
 
-  footer {
-    @include padding-bottom-xl();
-
-    padding-top: 200px;
-    font-size: 10px;
-    text-align: center;
-    position: relative;
-
-    &,
-    a {
-      color: $gray-light;
-    }
-
-    a, i {
-      background-color: $black;
-      padding: 0 4px;
-    }
-
-    .icon {
-      font-size: 24px;
-    }
-
-    &::after,
-    &::before {
-      height: 270px;
-    }
-
-    &::before {
-      background-image: url("images/post-footer.jpg");
-      background-position: center bottom;
-      background-size: cover;
-      bottom: 0;
-      content: "";
-      display: table;
-      left: 0;
-      position: absolute;
-      right: 0;
-      width: 100%;
-      z-index: -100;
-    }
-
-    &::after {
-      background-image: linear-gradient(white, transparent);
-      bottom: 0;
-      content: "";
-      display: table;
-      left: 0;
-      position: absolute;
-      right: 0;
-      width: 100%;
-      z-index: -99;
-    }
-  }
-
   @media only screen and (min-width: $small-device-break) {
     border-width: $padding-xs;
 
-    .post-view-banner {
+    .banner {
       padding-top: 200px;
       margin-left: -10px;
       margin-right: -10px;

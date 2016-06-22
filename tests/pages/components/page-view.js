@@ -6,7 +6,7 @@ export default {
   title: text(selector("title")),
   content: text(selector("content")),
   bannerUrl() {
-    return imageUrl("post-view-banner");
+    return imageUrl("page-view-banner");
   },
   publishedAt: text(selector("published-at")),
   hasBanner() {
@@ -15,7 +15,7 @@ export default {
 };
 
 function selector(s) {
-  return `*[data-auto-id="post-view"] *[data-auto-id="${s}"]`;
+  return `*[data-auto-id="page-view"] *[data-auto-id="${s}"]`;
 }
 
 function imageUrl(elementSelector) {

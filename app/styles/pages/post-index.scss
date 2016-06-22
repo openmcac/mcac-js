@@ -1,5 +1,9 @@
-.post-index {
-  background-color: $background-color;
+.post-index, .page-index {
+  background-color: $white;
+
+  .row {
+    background-color: $background-color;
+  }
 
   > div {
     margin-right: -30px;

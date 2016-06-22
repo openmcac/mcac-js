@@ -1,28 +1,28 @@
-<article class="post" data-auto-id="post-view">
-  {{#if post.title}}
+<article class="page" data-auto-id="page-view">
+  {{#if page.title}}
     <h1 data-auto-id="title">
-      {{#link-to "post.index" post}}{{post.title}}{{/link-to}}
+      {{#link-to "page.index" page}}{{page.title}}{{/link-to}}
     </h1>
   {{/if}}
   <div class="details">
-    {{#link-to "post.index" post}}
+    {{#link-to "page.index" page}}
       <span data-auto-id="published-at">{{displayPublishedAt}}</span>
     {{/link-to}}
   </div>
-  {{#if post.bannerUrl}}
+  {{#if page.bannerUrl}}
     <div class="banner"
-            style="background-image: url('{{post.bannerUrl}}')"
-            data-auto-id="post-view-banner">
+            style="background-image: url('{{page.bannerUrl}}')"
+            data-auto-id="page-view-banner">
     </div>
   {{/if}}
   <div class="content" data-auto-id="content">
     {{#if snippets}}
-      {{{post.snippetHtml}}}
+      {{{page.snippetHtml}}}
 
-      {{#if post.showReadMoreLink}}
+      {{#if page.showReadMoreLink}}
         <div class="read-more">
           <div class="read-more-handle">
-            {{#link-to "post.index" post}}
+            {{#link-to "page.index" page}}
               <i class="icon icon-angle-right"></i>
               Read more
             {{/link-to}}
@@ -30,7 +30,7 @@
         </div>
       {{/if}}
     {{else}}
-      {{{post.contentHtml}}}
+      {{{page.contentHtml}}}
     {{/if}}
   </div>
 </article>
