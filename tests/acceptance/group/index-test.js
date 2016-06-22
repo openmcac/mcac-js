@@ -1,3 +1,4 @@
+import ENV from "mcac/config/environment";
 import Ember from "ember";
 import page from "mcac/tests/pages/group-index";
 import startApp from "mcac/tests/helpers/start-app";
@@ -35,8 +36,8 @@ test("renders appropriate group details", function(assert) {
   andThen(() => {
     assert.equal(page.name, group.name);
     assert.equal(page.shortDescription, group["short-description"]);
-    assert.equal(page.bannerUrl(), group["banner-url"]);
-    assert.equal(page.profilePictureUrl(), group["profile-picture-url"]);
+    assert.equal(page.bannerUrl(), `https://res.cloudinary.com/${ENV['CLOUDINARY_CLOUD_NAME']}/image/fetch/w_1920/${group["banner-url"]}`);
+    assert.equal(page.profilePictureUrl(), `https://res.cloudinary.com/${ENV['CLOUDINARY_CLOUD_NAME']}/image/fetch/w_200/${group["profile-picture-url"]}`);
     assert.equal(page.meetDetails, group["meet-details"]);
     assert.equal(page.targetAudience, group["target-audience"]);
 
