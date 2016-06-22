@@ -1,5 +1,9 @@
 .group-index {
-  background-color: $background-color;
+  background-color: $white;
+
+  .row {
+    background-color: $background-color;
+  }
 
   section > h2 {
     border-bottom-style: solid;

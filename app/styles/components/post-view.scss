@@ -82,7 +82,8 @@
   }
 
   .banner {
-    @include padding-top-xl();
+    padding-top: 200px;
+
     img {
       width: 100%;
     }
