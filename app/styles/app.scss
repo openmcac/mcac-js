@@ -23,6 +23,7 @@
 
 body {
   background-color: $white;
+  padding-top: $nav-bar-height;
 }
 
 [data-ember-action] {
