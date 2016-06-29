@@ -45,6 +45,19 @@ export default function() {
     };
   });
 
+  this.get("/api/v1/bulletins/:id/group", function(db, request) {
+    const bulletin = db.bulletins.find(request.params.id);
+    const attrs = bulletin.group;
+
+    return {
+      data: {
+        type: "groups",
+        id: attrs.id,
+        attributes: attrs
+      }
+    };
+  });
+
   this.get("/api/v1/bulletins/:id", function(db, request) {
     let attrs = db.bulletins.find(request.params.id);
 
@@ -117,6 +130,12 @@ export default function() {
             links: {
               self: `/api/v1/bulletins/${attrs.id}/relationships/group`,
               related: `/api/v1/bulletins/${attrs.id}/group`
+            }
+          },
+          announcements: {
+            links: {
+              self: `/api/v1/bulletins/${attrs.id}/relationships/announcements`,
+              related: `/api/v1/bulletins/${attrs.id}/announcements`
             }
           }
         }
@@ -229,7 +248,15 @@ export default function() {
       data: {
         type: "bulletins",
         id: createdBulletin.id,
-        attributes: createdBulletin
+        attributes: createdBulletin,
+        relationships: {
+          sermon: {
+            links: {
+              self: `/api/v1/bulletins/${attrs.id}/relationships/sermon`,
+              related: `/api/v1/bulletins/${attrs.id}/sermon`
+            }
+          }
+        }
       }
     };
   });

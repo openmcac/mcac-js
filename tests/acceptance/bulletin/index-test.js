@@ -1,91 +1,31 @@
-import AnnouncementPayload from "../../helpers/payloads/announcement";
-import BulletinPayload from "../../helpers/payloads/bulletin";
 import Ember from "ember";
-import mockServer from "../../helpers/server";
 import startApp from "../../helpers/start-app";
 import { test, module } from "qunit";
 
-let application, fakeServer;
-
-function mockBulletin(bulletin, withAnnouncements = false) {
-  fakeServer.get("/api/v1/bulletins/1", function() {
-    let response = {
-      "data": BulletinPayload.build(1, bulletin, {
-        withAnnouncements: withAnnouncements
-      })
-    };
-
-    return [
-      200,
-      { "Content-Type": "application/vnd.api+json" },
-      JSON.stringify(response)
-    ];
-  });
-
-  if (!withAnnouncements) {
-    fakeServer.get("/api/v1/bulletins/1/announcements", function() {
-      return [
-        200,
-        {"Content-Type": "application/vnd.api+json"},
-        JSON.stringify({ "data": [] })
-      ];
-    });
-  }
-}
-
-function mockAnnouncements(bulletinId) {
-  fakeServer.get(`/api/v1/bulletins/${bulletinId}/announcements`,
-      function() {
-    let response = {
-      "data": [
-        AnnouncementPayload.build("1", bulletinId, {
-          "description": "This is the first announcement",
-          "position": 1
-        }),
-        AnnouncementPayload.build("2", bulletinId, {
-          "url": "http://nba.com",
-          "description": "This is the second announcement",
-          "position": 2
-        }),
-        AnnouncementPayload.build("3", bulletinId, {
-          "description": "This is the third announcement",
-          "position": 3
-        })
-      ]
-    };
-
-    return [
-      200,
-      {"Content-Type": "application/vnd.api+json"},
-      JSON.stringify(response)
-    ];
-  });
-}
+let application;
 
 module('Acceptance: View bulletin', {
-  beforeEach: function() {
-    application = startApp();
-    fakeServer = mockServer();
-  },
-  afterEach: function() {
-    Ember.run(application, 'destroy');
-  }
+  beforeEach: () => application = startApp(),
+  afterEach: () => Ember.run(application, 'destroy')
 });
 
 test('visiting /english-service/bulletin/1', function(assert) {
-  mockBulletin({
-    "audio-url": null,
-    "banner-url": null,
-    "description": "This is a service bulletin.",
-    "name": "Sunday Service",
-    "published-at": "2014-12-21T13:58:27-05:00",
-    "sermon-notes": null,
+  const bulletin = server.create("bulletin", {
+    name: "Sunday Service",
+    "published-at": Date.parse("2014-12-21T13:58:27-05:00"),
     "service-order": "This is the service order.",
-  }, true);
+    "group": server.create("group", { slug: "english-service" })
+  });
 
-  mockAnnouncements("1");
+  const announcements = [
+    server.create("announcement", { url: "" }),
+    server.create("announcement"),
+    server.create("announcement", { url: "" })
+  ];
 
-  visit('/english-service/bulletins/1');
+  mockAnnouncementsForBulletinId(assert, server, bulletin.id, announcements);
+
+  visit(`/english-service/bulletins/${bulletin.id}`);
 
   andThen(function() {
     // bulletin name is displayed
@@ -93,11 +33,11 @@ test('visiting /english-service/bulletin/1', function(assert) {
 
     // announcement descriptions are displayed
     assert.equal(find('.announcements li:nth-child(1) .announcement').text().trim(),
-                 'This is the first announcement');
+                 announcements[0].description);
     assert.equal(find('.announcements li:nth-child(2) .announcement').text().trim(),
-                 'This is the second announcement');
+                 announcements[1].description);
     assert.equal(find('.announcements li:nth-child(3) .announcement').text().trim(),
-                 'This is the third announcement');
+                 announcements[2].description);
 
     // announcement external link placeholders are not rendered if they do
     // not have external links
@@ -106,27 +46,58 @@ test('visiting /english-service/bulletin/1', function(assert) {
 
     // announcement external links are rendered when present
     assert.equal(find('.announcements li:nth-child(2) .external-link a').attr('href'),
-                 'http://nba.com');
+                 announcements[1].url);
 
     assert.equal(find(".sermon-notes .no-notes").length, 1);
   });
 });
 
 test("when there are sermon notes", function(assert) {
-  mockBulletin({
-    "audio-url": null,
-    "banner-url": null,
-    "description": "This is a service bulletin.",
-    "name": "Sunday Service",
-    "published-at": "2014-12-21T13:58:27-05:00",
-    "sermon-notes": "Here are sermon notes",
+  const bulletin = server.create("bulletin", {
+    name: "Sunday Service",
+    "published-at": Date.parse("2014-12-21T13:58:27-05:00"),
     "service-order": "This is the service order.",
+    "group": server.create("group", { slug: "english-service" }),
+    "sermon-notes": "Here are sermon notes"
   });
 
-  visit("/english-service/bulletins/1");
+  const announcements = [
+    server.create("announcement", { url: "" }),
+    server.create("announcement"),
+    server.create("announcement", { url: "" })
+  ];
+
+  mockAnnouncementsForBulletinId(assert, server, bulletin.id, announcements);
+
+  visit(`/english-service/bulletins/${bulletin.id}`);
 
   andThen(function() {
     assert.equal(find(".bulletin-info .name").text().trim(), "Sunday Service");
     assert.equal(find(".sermon-notes .no-notes").length, 0);
   });
 });
+
+function mockAnnouncementsForBulletinId(assert, server, bulletinId, announcements) {
+  const done = assert.async();
+
+  server.get("/api/v1/bulletins/:bulletinId/announcements", (db, request) => {
+    assert.equal(request.params.bulletinId, `${bulletinId}`);
+    done();
+
+    return {
+      data: announcements.map(attrs => ({
+        type: "announcements",
+        id: attrs.id,
+        attributes: attrs,
+        relationships: {
+          groups: {
+            links: {
+              self: `/api/v1/announcements/${attrs.id}/relationships/bulletin`,
+              related: `/api/v1/announcements/${attrs.id}/bulletin`
+            }
+          }
+        }
+      }))
+    };
+  });
+}
