@@ -1,19 +1,27 @@
 <div class="container login-form">
-  <form class="form-inline">
-    {{input class="form-control email"
+  <img src="" alt="This image should load when the e-mail field is filled" class="login-thumbnail img-thumbnail">
+  <form class="form-group has-warning has-feedback">
+    {{input class="login-form-control form-control email"
             data-auto-id="login-email"
             insert-newline="login"
             placeholder="Email"
+            aria-describedby="login-email"
             type="email"
             value=email}}
-
-    {{input class="form-control password"
+ <!--<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+ <span id="login-email" class="sr-only">(error)</span>-->
+ <div class="form-group">
+    {{input class="password-margin-left login-form-control form-control  password"
             data-auto-id="login-password"
             insert-newline="login"
             placeholder="Password"
             type="password"
             value=password}}
 
-    <button {{action 'login'}} type="submit" class="btn btn-default submit">Login</button>
+<div class="btn btn-primary btn-md">
+  <div {{action 'login'}} type="submit">Login</div>
+</div>
+  </div>
+
   </form>
 </div>

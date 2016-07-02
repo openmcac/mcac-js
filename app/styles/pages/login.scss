@@ -5,4 +5,32 @@
   border-width: 0 1px;
   margin-top: $nav-bar-height;
   padding-top: $padding-m;
+  text-align: center;
+}
+
+.login-thumbnail {
+    height: 150px;
+    width: 150px;
+    margin-bottom: 10px;
+  }
+
+.login-input-group-addon {
+  background-color: $white;
+  width: 0%;
+}
+
+.login-input-group-addon:hover {
+  background-color: $black;
+  color: $white;
+}
+
+.login-form-control {
+  display: inline-block;
+  margin-bottom: 10px;
+  text-align: center;
+  width: 50%;
+}
+
+.password-margin-left {
+  margin-left: 64px;
 }
