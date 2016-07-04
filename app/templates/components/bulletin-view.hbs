@@ -1,24 +1,26 @@
-{{bulletin-navigator bulletin=bulletin}}
+<div data-auto-id="bulletin-view">
+  {{bulletin-navigator bulletin=bulletin}}
 
-{{#liquid-bind bulletin as |b|}}
-  <section class="cover">
-    {{bulletin-cover bulletin=b}}
-  </section>
-  <div class="contents">
-    <div class="container">
-      <div class="row">
-        <section class="col-sm-12 col-md-3 service-order">
-          {{service-order order=b.serviceOrderHtml}}
-        </section>
-        <div class="col-sm-12 col-md-9 secondary-info">
-          <section class="col-sm-6 col-md-7 announcements">
-            {{bulletin-announcements announcements=b.sortedAnnouncements}}
+  {{#liquid-bind bulletin as |b|}}
+    <section class="cover">
+      {{bulletin-cover bulletin=b}}
+    </section>
+    <div class="contents">
+      <div class="container">
+        <div class="row">
+          <section data-auto-id="service-order" class="col-sm-12 col-md-3 service-order">
+            {{{b.serviceOrderHtml}}}
           </section>
-          <section class="col-sm-6 col-md-5 sermon-notes">
-            {{sermon-notes notes=b.sermonNotesHtml}}
-          </section>
+          <div class="col-sm-12 col-md-9 secondary-info">
+            <section class="col-sm-6 col-md-7 announcements">
+              {{bulletin-announcements announcements=b.sortedAnnouncements}}
+            </section>
+            <section class="col-sm-6 col-md-5 sermon-notes">
+              {{sermon-notes notes=b.sermonNotesHtml}}
+            </section>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-{{/liquid-bind}}
+  {{/liquid-bind}}
+</div>

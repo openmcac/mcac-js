@@ -1,21 +1,13 @@
-<h1>Announcements</h1>
-<ol>
-  {{#each announcements as |announcement|}}
-  <li>
-    <div class="announcement">
-      {{{announcement.descriptionHtml}}}
-    </div>
-    {{#with announcement.url as |url|}}
-      <div class="external-link">
-        <a href="{{url}}">
-          See more
-          <i class="glyphicon glyphicon-arrow-right"></i>
-        </a>
-      </div>
-    {{/with}}
-  </li>
-  {{else}}
-  <li>No announcements yet</li>
-  {{/each}}
-</ol>
-{{yield}}
+<div data-auto-id="bulletin-announcements">
+  <h1 data-auto-id="title">Announcements</h1>
+  <ol>
+    {{#each announcements as |announcement|}}
+    <li data-auto-id="announcement">
+      <div data-auto-id="description">{{{announcement.descriptionHtml}}}</div>
+    </li>
+    {{else}}
+    <li data-auto-id="no-announcements">No announcements yet.</li>
+    {{/each}}
+  </ol>
+  {{yield}}
+</div>

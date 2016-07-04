@@ -1,6 +1,7 @@
 import Ember from "ember";
 import startApp from "../../helpers/start-app";
 import { test, module } from "qunit";
+import page from "mcac/tests/pages/bulletin-index";
 
 let application;
 
@@ -11,53 +12,25 @@ module('Acceptance: View bulletin', {
 
 test('visiting /english-service/bulletin/1', function(assert) {
   const bulletin = server.create("bulletin", {
+    group: server.create("group", { slug: "english-service" }),
     name: "Sunday Service",
     "published-at": Date.parse("2014-12-21T13:58:27-05:00"),
-    "service-order": "This is the service order.",
-    "group": server.create("group", { slug: "english-service" })
+    "service-order": "This is the service order."
   });
 
-  const announcements = [
-    server.create("announcement", { url: "" }),
-    server.create("announcement"),
-    server.create("announcement", { url: "" })
-  ];
-
-  mockAnnouncementsForBulletinId(assert, server, bulletin.id, announcements);
-
-  visit(`/english-service/bulletins/${bulletin.id}`);
+  page.visit({ groupSlug: bulletin.group.slug, id: bulletin.id });
 
   andThen(function() {
-    // bulletin name is displayed
-    assert.equal(find('.bulletin-info .name').text().trim(), 'Sunday Service');
-
-    // announcement descriptions are displayed
-    assert.equal(find('.announcements li:nth-child(1) .announcement').text().trim(),
-                 announcements[0].description);
-    assert.equal(find('.announcements li:nth-child(2) .announcement').text().trim(),
-                 announcements[1].description);
-    assert.equal(find('.announcements li:nth-child(3) .announcement').text().trim(),
-                 announcements[2].description);
-
-    // announcement external link placeholders are not rendered if they do
-    // not have external links
-    assert.equal(find('.announcements li:nth-child(1) .external-link').length, 0);
-    assert.equal(find('.announcements li:nth-child(3) .external-link').length, 0);
-
-    // announcement external links are rendered when present
-    assert.equal(find('.announcements li:nth-child(2) .external-link a').attr('href'),
-                 announcements[1].url);
-
-    assert.equal(find(".sermon-notes .no-notes").length, 1);
+    assertBulletinCover(page, bulletin, assert);
+    assert.equal(page.bulletin.serviceOrder, bulletin["service-order"]);
+    assert.ok(page.bulletin.announcements.noAnnouncementsIndicatorShown());
+    assert.ok(page.bulletin.sermonNotes.noNotesIndicatorShown());
   });
 });
 
-test("when there are sermon notes", function(assert) {
+test("when there are announcements", function(assert) {
   const bulletin = server.create("bulletin", {
-    name: "Sunday Service",
-    "published-at": Date.parse("2014-12-21T13:58:27-05:00"),
-    "service-order": "This is the service order.",
-    "group": server.create("group", { slug: "english-service" }),
+    group: server.create("group", { slug: "english-service" }),
     "sermon-notes": "Here are sermon notes"
   });
 
@@ -69,11 +42,23 @@ test("when there are sermon notes", function(assert) {
 
   mockAnnouncementsForBulletinId(assert, server, bulletin.id, announcements);
 
-  visit(`/english-service/bulletins/${bulletin.id}`);
+  page.visit({ groupSlug: bulletin.group.slug, id: bulletin.id });
 
   andThen(function() {
-    assert.equal(find(".bulletin-info .name").text().trim(), "Sunday Service");
-    assert.equal(find(".sermon-notes .no-notes").length, 0);
+    assertAnnouncements(page, announcements, assert);
+  });
+});
+
+test("when there are sermon notes", function(assert) {
+  const bulletin = server.create("bulletin", {
+    "group": server.create("group", { slug: "english-service" }),
+    "sermon-notes": "Here are sermon notes"
+  });
+
+  page.visit({ groupSlug: bulletin.group.slug, id: bulletin.id });
+
+  andThen(function() {
+    assert.notOk(page.bulletin.sermonNotes.noNotesIndicatorShown());
   });
 });
 
@@ -100,4 +85,22 @@ function mockAnnouncementsForBulletinId(assert, server, bulletinId, announcement
       }))
     };
   });
+}
+
+function assertBulletinCover(page, bulletin, assert) {
+  assert.equal(page.bulletin.cover.name, bulletin.name);
+  assert.equal(page.bulletin.cover.publishedAt, "December 21st 2014, 1:58 pm");
+  // TODO test sermon title and sermon audio
+}
+
+function assertAnnouncements(page, announcements, assert) {
+  assert.equal(page.bulletin.announcements.title, "Announcements");
+  assert.equal(page.bulletin.announcements.announcements().count, announcements.length);
+  assert.equal(page.bulletin.announcements.announcements(0).description,
+               announcements[0]["description"]);
+  assert.equal(page.bulletin.announcements.announcements(1).description,
+               announcements[1]["description"]);
+  assert.equal(page.bulletin.announcements.announcements(2).description,
+               announcements[2]["description"]);
+  assert.notOk(page.bulletin.announcements.noAnnouncementsIndicatorShown());
 }

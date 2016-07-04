@@ -1,11 +1,13 @@
-<div class="tint-dark">
+<div data-auto-id="bulletin-cover" class="tint-dark">
   <div class="inner">
     <h1 class="bulletin-info">
-      <div class="published-at">
+      <div data-auto-id="published-at" class="published-at">
         {{moment-format bulletin.publishedAt "MMMM Do YYYY, h:mm a"}}
       </div>
-      <div class="description">{{bulletin.description}}</div>
-      <div class="name">
+      <div data-auto-id="sermon-title" class="description">
+        {{bulletin.description}}
+      </div>
+      <div data-auto-id="name" class="name">
         {{#link-to "bulletin.index" bulletin.group.slug bulletin}}{{bulletin.name}}{{/link-to}}
       </div>
     </h1>
@@ -15,6 +17,8 @@
       </audio>
     {{/with}}
   </div>
+
+  {{yield}}
 </div>
 
 {{#with bulletin.bannerUrl as |url|}}
@@ -36,5 +40,3 @@
   }
   </style>
 {{/with}}
-
-{{yield}}

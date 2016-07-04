@@ -252,8 +252,8 @@ export default function() {
         relationships: {
           sermon: {
             links: {
-              self: `/api/v1/bulletins/${attrs.id}/relationships/sermon`,
-              related: `/api/v1/bulletins/${attrs.id}/sermon`
+              self: `/api/v1/bulletins/${attributes.id}/relationships/sermon`,
+              related: `/api/v1/bulletins/${attributes.id}/sermon`
             }
           }
         }
