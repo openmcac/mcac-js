@@ -2,10 +2,11 @@
   <h2>Update bulletin</h2>
   {{bulletin-editor bulletin=model
       appendannouncement=(action "appendAnnouncement")
+      clearaudio=(action "clearAudio")
+      clearbanner=(action "clearBanner")
       diduploadaudio=(action "didUploadAudio")
       diduploadbanner=(action "didUploadBanner")
-      clearbanner=(action "clearBanner")
-      clearaudio=(action "clearAudio")
+      includesermon=true
       onsave=(action "saveBulletin")
       removeannouncement=(action "removeAnnouncement")
       reorderannouncements=(action "reorderAnnouncements")}}
