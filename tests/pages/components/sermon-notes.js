@@ -4,7 +4,6 @@ const { text } = PageObject;
 
 export default {
   title: text(selector("title")),
-  content: text(selector("content")),
   noNotesIndicatorShown() {
     return $.find(selector("no-notes")).length > 0;
   },

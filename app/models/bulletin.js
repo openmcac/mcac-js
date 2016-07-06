@@ -3,19 +3,23 @@ import DS from 'ember-data';
 
 export default DS.Model.extend({
   announcements: DS.hasMany('announcement', { async: true }),
-  audioUrl: DS.attr('string'),
   bannerUrl: DS.attr('string'),
-  description: DS.attr('string'),
   group: DS.belongsTo('group', { async: true }),
   name: DS.attr('string'),
   publishedAt: DS.attr('date'),
   serviceOrder: DS.attr('string'),
-  sermonNotes: DS.attr('string'),
+  sermon: DS.belongsTo("sermon", { async: true }),
+  sermonAudioUrl: Ember.computed("sermon.audioUrl", function() {
+    return this.get("sermon.audioUrl");
+  }),
   serviceOrderHtml: Ember.computed("serviceOrder", function() {
     return markedOrEmptyString(this.get("serviceOrder"));
   }),
-  sermonNotesHtml: Ember.computed("sermonNotes", function() {
-    return markedOrEmptyString(this.get("sermonNotes"));
+  sermonName: Ember.computed("sermon.name", function() {
+    return this.get("sermon.name");
+  }),
+  sermonNotesHtml: Ember.computed("sermon.notes", function() {
+    return markedOrEmptyString(this.get("sermon.notes"));
   }),
   sortedAnnouncements: Ember.computed('announcements.@each.position',
                                       function() {

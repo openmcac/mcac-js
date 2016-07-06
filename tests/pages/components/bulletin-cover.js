@@ -3,11 +3,12 @@ import PageObject from '../../page-object';
 const { text } = PageObject;
 
 export default {
-  publishedAt: text(selector("published-at")),
-  sermonTitle: text(selector("sermon-title")),
   name: text(selector("name")),
+  publishedAt: text(selector("published-at")),
   sermonAudioUrl() {
-  }
+    return $($.find(selector("audio"))[0]).attr("src");
+  },
+  sermonName: text(selector("sermon-name"))
 };
 
 function selector(s) {

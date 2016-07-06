@@ -30,8 +30,7 @@ test('visiting /english-service/bulletin/1', function(assert) {
 
 test("when there are announcements", function(assert) {
   const bulletin = server.create("bulletin", {
-    group: server.create("group", { slug: "english-service" }),
-    "sermon-notes": "Here are sermon notes"
+    group: server.create("group", { slug: "english-service" })
   });
 
   const announcements = [
@@ -49,18 +48,45 @@ test("when there are announcements", function(assert) {
   });
 });
 
-test("when there are sermon notes", function(assert) {
+test("when there is a sermon", function(assert) {
+  const sermon = server.create("sermon");
   const bulletin = server.create("bulletin", {
-    "group": server.create("group", { slug: "english-service" }),
-    "sermon-notes": "Here are sermon notes"
+    group: server.create("group", { slug: "english-service" })
   });
+
+  mockSermonForBulletinId(assert, server, bulletin.id, sermon);
 
   page.visit({ groupSlug: bulletin.group.slug, id: bulletin.id });
 
   andThen(function() {
     assert.notOk(page.bulletin.sermonNotes.noNotesIndicatorShown());
+    assert.equal(page.bulletin.sermonNotes.notes, sermon.notes);
+    assert.equal(page.bulletin.cover.sermonAudioUrl(), sermon["audio-url"]);
+    assert.equal(page.bulletin.cover.sermonName, sermon.name);
   });
 });
+
+function mockSermonForBulletinId(assert, server, bulletinId, sermon) {
+  server.get("/api/v1/bulletins/:bulletinId/sermon", (db, request) => {
+    assert.equal(request.params.bulletinId, `${bulletinId}`);
+
+    return {
+      data: {
+        type: "sermons",
+        id: sermon.id,
+        attributes: sermon,
+        relationships: {
+          groups: {
+            links: {
+              self: `/api/v1/sermons/${sermon.id}/relationships/bulletin`,
+              related: `/api/v1/sermons/${sermon.id}/bulletin`
+            }
+          }
+        }
+      }
+    };
+  });
+}
 
 function mockAnnouncementsForBulletinId(assert, server, bulletinId, announcements) {
   const done = assert.async();

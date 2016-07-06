@@ -39,6 +39,12 @@ export default function() {
               self: `/api/v1/bulletins/${attrs.id}/relationships/group`,
               related: `/api/v1/bulletins/${attrs.id}/group`
             }
+          },
+          sermon: {
+            links: {
+              self: `/api/v1/bulletins/${attrs.id}/relationships/sermon`,
+              related: `/api/v1/bulletins/${attrs.id}/sermon`
+            }
           }
         }
       }
@@ -80,6 +86,12 @@ export default function() {
             links: {
               self: `/api/v1/bulletins/${attrs.id}/relationships/group`,
               related: `/api/v1/bulletins/${attrs.id}/group`
+            }
+          },
+          sermon: {
+            links: {
+              self: `/api/v1/bulletins/${attrs.id}/relationships/sermon`,
+              related: `/api/v1/bulletins/${attrs.id}/sermon`
             }
           }
         }
@@ -144,6 +156,7 @@ export default function() {
   });
 
   this.get("/api/v1/bulletins/:bulletinId/announcements", () => ({ data: [] }));
+  this.get("/api/v1/bulletins/:bulletinId/sermon", () => ({ data: [] }));
 
   this.patch("/api/v1/announcements/:id", function(db, request) {
     let data = JSON.parse(request.requestBody).data;

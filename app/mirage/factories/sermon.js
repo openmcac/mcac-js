@@ -21,7 +21,7 @@ export default Mirage.Factory.extend({
     return faker.company.companyName();
   },
   "audio-url"() {
-    return null;
+    return `${faker.internet.url()}/audio.mp3`;
   },
   "banner-url"() {
     return null;
