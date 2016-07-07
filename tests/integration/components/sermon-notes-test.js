@@ -1,9 +1,13 @@
+import PageObject from "../../page-object";
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import page from "mcac/tests/pages/components/sermon-notes";
+import component from "mcac/tests/pages/components/sermon-notes";
+
+let page;
 
 moduleForComponent('sermon-notes', 'Integration | Component | sermon notes', {
   integration: true,
+  beforeEach: () => page = PageObject.create(component),
   afterEach: () => page.removeContext()
 });
 

@@ -18,9 +18,9 @@ test('it clears the banner', function(assert) {
 test('it clears the audio', function(assert) {
   let SaveBulletinControllerObject = Ember.Controller.extend(SaveBulletinControllerMixin);
   let subject = SaveBulletinControllerObject.create();
-  subject.set("model", { audioUrl: "http://nba.com" });
+  subject.set("model", { sermon: { audioUrl: "http://nba.com" } });
   subject.send("clearAudio");
-  assert.equal(subject.get("model.audioUrl"), "");
+  assert.equal(subject.get("model.sermon.audioUrl"), "");
 });
 
 test('it assigns the banner', function(assert) {
@@ -36,11 +36,11 @@ test('it assigns the banner', function(assert) {
 test('it assigns the audio', function(assert) {
   const SaveBulletinControllerObject = Ember.Controller.extend(SaveBulletinControllerMixin);
   const subject = SaveBulletinControllerObject.create();
-  subject.set("model", { audioUrl: "http://nba.com" });
+  subject.set("model", { sermon: { audioUrl: "http://nba.com" } });
 
   const newAudioUrl = "http://audiophile.com/audio.mp3";
   subject.send("didUploadAudio", newAudioUrl);
-  assert.equal(subject.get("model.audioUrl"), newAudioUrl);
+  assert.equal(subject.get("model.sermon.audioUrl"), newAudioUrl);
 });
 
 test('it removes announcements', function(assert) {

@@ -1,6 +1,6 @@
 import PageObject from '../../page-object';
 
-const { text, fillable } = PageObject;
+const { fillable } = PageObject;
 
 export default {
   fillName: fillable(selector("name")),

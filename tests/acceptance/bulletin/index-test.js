@@ -1,6 +1,6 @@
 import Ember from "ember";
-import startApp from "../../helpers/start-app";
 import { test, module } from "qunit";
+import startApp from "../../helpers/start-app";
 import page from "mcac/tests/pages/bulletin-index";
 
 let application;
@@ -115,8 +115,7 @@ function mockAnnouncementsForBulletinId(assert, server, bulletinId, announcement
 
 function assertBulletinCover(page, bulletin, assert) {
   assert.equal(page.bulletin.cover.name, bulletin.name);
-  assert.equal(page.bulletin.cover.publishedAt, "December 21st 2014, 1:58 pm");
-  // TODO test sermon title and sermon audio
+  equalDate(assert, page.bulletin.cover.publishedAt, bulletin["published-at"]);
 }
 
 function assertAnnouncements(page, announcements, assert) {
@@ -129,4 +128,16 @@ function assertAnnouncements(page, announcements, assert) {
   assert.equal(page.bulletin.announcements.announcements(2).description,
                announcements[2]["description"]);
   assert.notOk(page.bulletin.announcements.noAnnouncementsIndicatorShown());
+}
+
+function equalDate(assert, actual, expected) {
+  const actualDate = window.moment(actual, "MMMM Do YYYY, h:mm a").toDate();
+  const expectedDate = window.moment(expected).toDate();
+
+  actualDate.setSeconds(0);
+  actualDate.setMilliseconds(0);
+  expectedDate.setSeconds(0);
+  expectedDate.setMilliseconds(0);
+
+  assert.equal(actualDate.getTime(), expectedDate.getTime());
 }

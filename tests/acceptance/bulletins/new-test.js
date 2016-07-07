@@ -67,7 +67,6 @@ test("it populates default values", assert => {
     assert.equal(page.name, "Sunday Worship Service");
     assert.equal(page.serviceOrder, "");
     equalDate(assert, page.publishedAt, nextService());
-    assert.equal(page.sermonNotes, "");
   });
 });
 

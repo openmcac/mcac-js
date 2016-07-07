@@ -1,9 +1,13 @@
+import PageObject from '../../page-object';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import page from "mcac/tests/pages/components/bulletin-announcements";
+import component from "mcac/tests/pages/components/bulletin-announcements";
+
+let page;
 
 moduleForComponent('bulletin-announcements', 'Integration | Component | bulletin announcements', {
   integration: true,
+  beforeEach: () => { page = PageObject.create(component); },
   afterEach: () => page.removeContext()
 });
 
