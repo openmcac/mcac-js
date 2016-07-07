@@ -99,6 +99,30 @@ export default function() {
     };
   });
 
+  this.patch("/api/v1/sermons/:id", function(db, request) {
+    let data = JSON.parse(request.requestBody).data;
+    let attrs = db.sermons.update(request.params.id, data.attributes);
+
+    return {
+      data: {
+        type: "sermons",
+        id: attrs.id,
+        attributes: attrs,
+        links: {
+          self: `/api/v1/sermons/${attrs.id}`
+        },
+        relationships: {
+          group: {
+            links: {
+              self: `/api/v1/bulletins/${attrs.id}/relationships/group`,
+              related: `/api/v1/bulletins/${attrs.id}/group`
+            }
+          }
+        }
+      }
+    };
+  });
+
   this.patch("/api/v1/bulletins/:id", function(db, request) {
     let data = JSON.parse(request.requestBody).data;
     let attrs = db.bulletins.update(request.params.id, data.attributes);
