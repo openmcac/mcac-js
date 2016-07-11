@@ -193,6 +193,56 @@ test("it updates the current bulletin", assert => {
   });
 });
 
+test("when updating a bulletin without a sermon", assert => {
+  authenticateSession(application, sessionData);
+
+  const group = server.create("group");
+  const bulletin = server.create("bulletin", {
+    "published-at": window.moment().seconds(0).milliseconds(0),
+    "banner-url": `${faker.internet.url()}/banner.png`
+  });
+
+  page.visit({ groupSlug: group.slug, bulletinId: bulletin.id }).
+    fillName("updated name").
+    submit();
+
+  andThen(() => {
+    assert.equal(server.db.sermons.length, 0);
+    const updatedBulletin = server.db.bulletins.find(bulletin.id);
+    assert.equal(updatedBulletin.name, page.name);
+  });
+});
+
+test("when bulletin doesn't have a sermon yet", assert => {
+  authenticateSession(application, sessionData);
+
+  const group = server.create("group");
+  const bulletin = server.create("bulletin", {
+    "published-at": window.moment().seconds(0).milliseconds(0),
+    "banner-url": `${faker.internet.url()}/banner.png`
+  });
+
+  page.visit({ groupSlug: group.slug, bulletinId: bulletin.id });
+
+  page.sermon.
+    fillName("sermon name").
+    fillNotes("updated sermon notes").
+    fillSeries("my series").
+    fillSpeaker("my series");
+
+  page.submit();
+
+  andThen(() => {
+    const updatedSermon = server.db.sermons[server.db.sermons.length - 1];
+    assert.equal(updatedSermon.name, page.sermon.name);
+    assert.equal(updatedSermon.notes, page.sermon.notes);
+    assert.equal(updatedSermon.series, page.sermon.series);
+    assert.equal(updatedSermon.speaker, page.sermon.speaker);
+    equalDate(assert, updatedSermon["published-at"], page.publishedAt);
+    assert.equal(updatedSermon["banner-url"], page.bannerUrl());
+  });
+});
+
 test("it allows user to create a new announcement", assert => {
   authenticateSession(application, sessionData);
 

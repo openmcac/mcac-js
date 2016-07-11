@@ -274,6 +274,22 @@ export default function() {
     };
   });
 
+  this.post("/api/v1/sermons", (db, request) => {
+    const data = JSON.parse(request.requestBody).data;
+    const attributes = data.attributes;
+    attributes.id = data.id;
+
+    const createdSermon = db.sermons.insert(data.attributes);
+
+    return {
+      data: {
+        type: "bulletins",
+        id: createdSermon.id,
+        attributes: createdSermon
+      }
+    };
+  });
+
   this.post("/api/v1/bulletins", (db, request) => {
     let data = JSON.parse(request.requestBody).data;
     let attributes = data.attributes;

@@ -10,13 +10,14 @@ export default Ember.Service.extend({
     bulletin.set('publishedAt', moment(bulletin.get('publishedAt')).toDate());
 
     try {
-      yield bulletin.save();
-
       const sermon = yield bulletin.get("sermon");
-      if (!Ember.isEmpty(sermon)) {
+      if (hasSermon(sermon)) {
         syncBulletinToSermon(bulletin, sermon);
-        this.get("_saveResourceTask").perform(sermon);
+        yield this.get("_saveResourceTask").perform(sermon);
+        bulletin.set("sermon", sermon);
       }
+
+      yield bulletin.save();
 
       const announcements = bulletin.get("announcements");
       announcements.forEach((a) => this.get("_saveResourceTask").perform(a));
@@ -36,7 +37,17 @@ export default Ember.Service.extend({
   })
 });
 
+function hasSermon(sermon) {
+  return !(Ember.isEmpty(sermon) ||
+      (Ember.isEmpty(sermon.get("series")) &&
+        Ember.isEmpty(sermon.get("speaker")) &&
+        Ember.isEmpty(sermon.get("name")) &&
+        Ember.isEmpty(sermon.get("audioUrl")) &&
+        Ember.isEmpty(sermon.get("notes"))));
+}
+
 function syncBulletinToSermon(bulletin, sermon) {
   sermon.set("publishedAt", bulletin.get("publishedAt"));
   sermon.set("bannerUrl", bulletin.get("bannerUrl"));
+  sermon.set("group", bulletin.get("group"));
 }

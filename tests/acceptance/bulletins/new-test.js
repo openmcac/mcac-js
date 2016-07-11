@@ -35,8 +35,7 @@ test("it can create a new bulletin", assert => {
     name: "New Bulletin",
     publishedAt: "05/27/1984 9:30 AM",
     description: "New bulletin description",
-    serviceOrder: "New service order",
-    sermonNotes: "New sermon notes"
+    serviceOrder: "New service order"
   };
 
   page.
