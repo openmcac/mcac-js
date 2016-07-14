@@ -24,6 +24,7 @@
 body {
   background-color: $white;
   padding-top: $nav-bar-height;
+  @include body-font();
 }
 
 [data-ember-action] {
