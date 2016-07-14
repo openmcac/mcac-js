@@ -92,7 +92,6 @@ test('visiting /sunday', function(assert) {
     "description": "This is a service bulletin.",
     "name": "Sunday Service",
     "published-at": "2014-12-21T13:58:27-05:00",
-    "sermon-notes": null,
     "service-order": "This is the service order."
   }, true);
 
@@ -109,23 +108,5 @@ test('visiting /sunday', function(assert) {
                  'This is the second announcement');
     assert.equal(find('.announcements li:nth-child(3)').text().trim(),
                  'This is the third announcement');
-  });
-});
-
-test('visiting a bulletin with audio', function(assert) {
-  mockSunday({
-    "audio-url": "http://example.com/audio.mp3",
-    "banner-url": null,
-    "description": "This is a service bulletin.",
-    "name": "Sunday Service",
-    "published-at": "2014-12-21T13:58:27-05:00",
-    "sermon-notes": null,
-    "service-order": "This is the service order."
-  });
-
-  visit('/sunday');
-
-  andThen(function() {
-    assert.equal(find('audio').length, 1);
   });
 });

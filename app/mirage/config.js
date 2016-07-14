@@ -39,8 +39,27 @@ export default function() {
               self: `/api/v1/bulletins/${attrs.id}/relationships/group`,
               related: `/api/v1/bulletins/${attrs.id}/group`
             }
+          },
+          sermon: {
+            links: {
+              self: `/api/v1/bulletins/${attrs.id}/relationships/sermon`,
+              related: `/api/v1/bulletins/${attrs.id}/sermon`
+            }
           }
         }
+      }
+    };
+  });
+
+  this.get("/api/v1/bulletins/:id/group", function(db, request) {
+    const bulletin = db.bulletins.find(request.params.id);
+    const attrs = bulletin.group;
+
+    return {
+      data: {
+        type: "groups",
+        id: attrs.id,
+        attributes: attrs
       }
     };
   });
@@ -63,6 +82,36 @@ export default function() {
               related: `/api/v1/bulletins/${attrs.id}/announcements`
             }
           },
+          group: {
+            links: {
+              self: `/api/v1/bulletins/${attrs.id}/relationships/group`,
+              related: `/api/v1/bulletins/${attrs.id}/group`
+            }
+          },
+          sermon: {
+            links: {
+              self: `/api/v1/bulletins/${attrs.id}/relationships/sermon`,
+              related: `/api/v1/bulletins/${attrs.id}/sermon`
+            }
+          }
+        }
+      }
+    };
+  });
+
+  this.patch("/api/v1/sermons/:id", function(db, request) {
+    let data = JSON.parse(request.requestBody).data;
+    let attrs = db.sermons.update(request.params.id, data.attributes);
+
+    return {
+      data: {
+        type: "sermons",
+        id: attrs.id,
+        attributes: attrs,
+        links: {
+          self: `/api/v1/sermons/${attrs.id}`
+        },
+        relationships: {
           group: {
             links: {
               self: `/api/v1/bulletins/${attrs.id}/relationships/group`,
@@ -118,6 +167,12 @@ export default function() {
               self: `/api/v1/bulletins/${attrs.id}/relationships/group`,
               related: `/api/v1/bulletins/${attrs.id}/group`
             }
+          },
+          announcements: {
+            links: {
+              self: `/api/v1/bulletins/${attrs.id}/relationships/announcements`,
+              related: `/api/v1/bulletins/${attrs.id}/announcements`
+            }
           }
         }
       }))
@@ -125,6 +180,7 @@ export default function() {
   });
 
   this.get("/api/v1/bulletins/:bulletinId/announcements", () => ({ data: [] }));
+  this.get("/api/v1/bulletins/:bulletinId/sermon", () => ({ data: [] }));
 
   this.patch("/api/v1/announcements/:id", function(db, request) {
     let data = JSON.parse(request.requestBody).data;
@@ -218,6 +274,22 @@ export default function() {
     };
   });
 
+  this.post("/api/v1/sermons", (db, request) => {
+    const data = JSON.parse(request.requestBody).data;
+    const attributes = data.attributes;
+    attributes.id = data.id;
+
+    const createdSermon = db.sermons.insert(data.attributes);
+
+    return {
+      data: {
+        type: "bulletins",
+        id: createdSermon.id,
+        attributes: createdSermon
+      }
+    };
+  });
+
   this.post("/api/v1/bulletins", (db, request) => {
     let data = JSON.parse(request.requestBody).data;
     let attributes = data.attributes;
@@ -229,7 +301,15 @@ export default function() {
       data: {
         type: "bulletins",
         id: createdBulletin.id,
-        attributes: createdBulletin
+        attributes: createdBulletin,
+        relationships: {
+          sermon: {
+            links: {
+              self: `/api/v1/bulletins/${attributes.id}/relationships/sermon`,
+              related: `/api/v1/bulletins/${attributes.id}/sermon`
+            }
+          }
+        }
       }
     };
   });

@@ -1,7 +1,9 @@
-<h1>Notes</h1>
-{{#if notes}}
-  {{{notes}}}
-{{else}}
-  <p class="no-notes">There are no sermon notes available.</p>
-{{/if}}
-{{yield}}
+<div data-auto-id="sermon-notes">
+  <h1 data-auto-id="title">Notes</h1>
+  {{#if notes}}
+    <div data-auto-id="notes">{{{notes}}}</div>
+  {{else}}
+    <p class="no-notes" data-auto-id="no-notes">There are no sermon notes available.</p>
+  {{/if}}
+  {{yield}}
+</div>

@@ -1,132 +1,143 @@
-import AnnouncementPayload from "../../helpers/payloads/announcement";
-import BulletinPayload from "../../helpers/payloads/bulletin";
 import Ember from "ember";
-import mockServer from "../../helpers/server";
-import startApp from "../../helpers/start-app";
 import { test, module } from "qunit";
+import startApp from "../../helpers/start-app";
+import page from "mcac/tests/pages/bulletin-index";
 
-let application, fakeServer;
-
-function mockBulletin(bulletin, withAnnouncements = false) {
-  fakeServer.get("/api/v1/bulletins/1", function() {
-    let response = {
-      "data": BulletinPayload.build(1, bulletin, {
-        withAnnouncements: withAnnouncements
-      })
-    };
-
-    return [
-      200,
-      { "Content-Type": "application/vnd.api+json" },
-      JSON.stringify(response)
-    ];
-  });
-
-  if (!withAnnouncements) {
-    fakeServer.get("/api/v1/bulletins/1/announcements", function() {
-      return [
-        200,
-        {"Content-Type": "application/vnd.api+json"},
-        JSON.stringify({ "data": [] })
-      ];
-    });
-  }
-}
-
-function mockAnnouncements(bulletinId) {
-  fakeServer.get(`/api/v1/bulletins/${bulletinId}/announcements`,
-      function() {
-    let response = {
-      "data": [
-        AnnouncementPayload.build("1", bulletinId, {
-          "description": "This is the first announcement",
-          "position": 1
-        }),
-        AnnouncementPayload.build("2", bulletinId, {
-          "url": "http://nba.com",
-          "description": "This is the second announcement",
-          "position": 2
-        }),
-        AnnouncementPayload.build("3", bulletinId, {
-          "description": "This is the third announcement",
-          "position": 3
-        })
-      ]
-    };
-
-    return [
-      200,
-      {"Content-Type": "application/vnd.api+json"},
-      JSON.stringify(response)
-    ];
-  });
-}
+let application;
 
 module('Acceptance: View bulletin', {
-  beforeEach: function() {
-    application = startApp();
-    fakeServer = mockServer();
-  },
-  afterEach: function() {
-    Ember.run(application, 'destroy');
-  }
+  beforeEach: () => application = startApp(),
+  afterEach: () => Ember.run(application, 'destroy')
 });
 
 test('visiting /english-service/bulletin/1', function(assert) {
-  mockBulletin({
-    "audio-url": null,
-    "banner-url": null,
-    "description": "This is a service bulletin.",
-    "name": "Sunday Service",
-    "published-at": "2014-12-21T13:58:27-05:00",
-    "sermon-notes": null,
-    "service-order": "This is the service order.",
-  }, true);
+  const bulletin = server.create("bulletin", {
+    group: server.create("group", { slug: "english-service" }),
+    name: "Sunday Service",
+    "published-at": Date.parse("2014-12-21T13:58:27-05:00"),
+    "service-order": "This is the service order."
+  });
 
-  mockAnnouncements("1");
-
-  visit('/english-service/bulletins/1');
+  page.visit({ groupSlug: bulletin.group.slug, id: bulletin.id });
 
   andThen(function() {
-    // bulletin name is displayed
-    assert.equal(find('.bulletin-info .name').text().trim(), 'Sunday Service');
-
-    // announcement descriptions are displayed
-    assert.equal(find('.announcements li:nth-child(1) .announcement').text().trim(),
-                 'This is the first announcement');
-    assert.equal(find('.announcements li:nth-child(2) .announcement').text().trim(),
-                 'This is the second announcement');
-    assert.equal(find('.announcements li:nth-child(3) .announcement').text().trim(),
-                 'This is the third announcement');
-
-    // announcement external link placeholders are not rendered if they do
-    // not have external links
-    assert.equal(find('.announcements li:nth-child(1) .external-link').length, 0);
-    assert.equal(find('.announcements li:nth-child(3) .external-link').length, 0);
-
-    // announcement external links are rendered when present
-    assert.equal(find('.announcements li:nth-child(2) .external-link a').attr('href'),
-                 'http://nba.com');
-
-    assert.equal(find(".sermon-notes .no-notes").length, 1);
+    assertBulletinCover(page, bulletin, assert);
+    assert.equal(page.bulletin.serviceOrder, bulletin["service-order"]);
+    assert.ok(page.bulletin.announcements.noAnnouncementsIndicatorShown());
+    assert.ok(page.bulletin.sermonNotes.noNotesIndicatorShown());
   });
 });
 
-test("when there are sermon notes", function(assert) {
-  mockBulletin({
-    "audio-url": null,
-    "banner-url": null,
-    "description": "This is a service bulletin.",
-    "name": "Sunday Service",
-    "published-at": "2014-12-21T13:58:27-05:00",
-    "sermon-notes": "Here are sermon notes",
-    "service-order": "This is the service order.",
+test("when there are announcements", function(assert) {
+  const bulletin = server.create("bulletin", {
+    group: server.create("group", { slug: "english-service" })
   });
 
-  visit("/english-service/bulletins/1");
+  const announcements = [
+    server.create("announcement", { url: "" }),
+    server.create("announcement"),
+    server.create("announcement", { url: "" })
+  ];
+
+  mockAnnouncementsForBulletinId(assert, server, bulletin.id, announcements);
+
+  page.visit({ groupSlug: bulletin.group.slug, id: bulletin.id });
 
   andThen(function() {
-    assert.equal(find(".bulletin-info .name").text().trim(), "Sunday Service");
-    assert.equal(find(".sermon-notes .no-notes").length, 0);
+    assertAnnouncements(page, announcements, assert);
   });
 });
+
+test("when there is a sermon", function(assert) {
+  const sermon = server.create("sermon");
+  const bulletin = server.create("bulletin", {
+    group: server.create("group", { slug: "english-service" })
+  });
+
+  mockSermonForBulletinId(assert, server, bulletin.id, sermon);
+
+  page.visit({ groupSlug: bulletin.group.slug, id: bulletin.id });
+
+  andThen(function() {
+    assert.notOk(page.bulletin.sermonNotes.noNotesIndicatorShown());
+    assert.equal(page.bulletin.sermonNotes.notes, sermon.notes);
+    assert.equal(page.bulletin.cover.sermonAudioUrl(), sermon["audio-url"]);
+    assert.equal(page.bulletin.cover.sermonName, sermon.name);
+  });
+});
+
+function mockSermonForBulletinId(assert, server, bulletinId, sermon) {
+  server.get("/api/v1/bulletins/:bulletinId/sermon", (db, request) => {
+    assert.equal(request.params.bulletinId, `${bulletinId}`);
+
+    return {
+      data: {
+        type: "sermons",
+        id: sermon.id,
+        attributes: sermon,
+        relationships: {
+          groups: {
+            links: {
+              self: `/api/v1/sermons/${sermon.id}/relationships/bulletin`,
+              related: `/api/v1/sermons/${sermon.id}/bulletin`
+            }
+          }
+        }
+      }
+    };
+  });
+}
+
+function mockAnnouncementsForBulletinId(assert, server, bulletinId, announcements) {
+  const done = assert.async();
+
+  server.get("/api/v1/bulletins/:bulletinId/announcements", (db, request) => {
+    assert.equal(request.params.bulletinId, `${bulletinId}`);
+    done();
+
+    return {
+      data: announcements.map(attrs => ({
+        type: "announcements",
+        id: attrs.id,
+        attributes: attrs,
+        relationships: {
+          groups: {
+            links: {
+              self: `/api/v1/announcements/${attrs.id}/relationships/bulletin`,
+              related: `/api/v1/announcements/${attrs.id}/bulletin`
+            }
+          }
+        }
+      }))
+    };
+  });
+}
+
+function assertBulletinCover(page, bulletin, assert) {
+  assert.equal(page.bulletin.cover.name, bulletin.name);
+  equalDate(assert, page.bulletin.cover.publishedAt, bulletin["published-at"]);
+}
+
+function assertAnnouncements(page, announcements, assert) {
+  assert.equal(page.bulletin.announcements.title, "Announcements");
+  assert.equal(page.bulletin.announcements.announcements().count, announcements.length);
+  assert.equal(page.bulletin.announcements.announcements(0).description,
+               announcements[0]["description"]);
+  assert.equal(page.bulletin.announcements.announcements(1).description,
+               announcements[1]["description"]);
+  assert.equal(page.bulletin.announcements.announcements(2).description,
+               announcements[2]["description"]);
+  assert.notOk(page.bulletin.announcements.noAnnouncementsIndicatorShown());
+}
+
+function equalDate(assert, actual, expected) {
+  const actualDate = window.moment(actual, "MMMM Do YYYY, h:mm a").toDate();
+  const expectedDate = window.moment(expected).toDate();
+
+  actualDate.setSeconds(0);
+  actualDate.setMilliseconds(0);
+  expectedDate.setSeconds(0);
+  expectedDate.setMilliseconds(0);
+
+  assert.equal(actualDate.getTime(), expectedDate.getTime());
+}

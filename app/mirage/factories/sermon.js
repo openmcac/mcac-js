@@ -11,11 +11,17 @@ export default Mirage.Factory.extend({
 
     return publishedAt.toISOString();
   },
-  "service-order"() {
+  notes() {
     return faker.lorem.sentence();
   },
+  speaker() {
+    return faker.name.findName();
+  },
+  series() {
+    return faker.company.companyName();
+  },
   "audio-url"() {
-    return null;
+    return `${faker.internet.url()}/audio.mp3`;
   },
   "banner-url"() {
     return null;

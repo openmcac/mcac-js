@@ -1,0 +1,39 @@
+<section data-auto-id="sermon-editor">
+  <div class="form-group">
+    <label for="series">Series</label>
+    {{input value=sermon.series
+            class="form-control"
+            data-auto-id="series"}}
+  </div>
+  <div class="form-group">
+    <label for="sermon-name">Name</label>
+    {{input value=sermon.name
+            class="form-control"
+            data-auto-id="name"}}
+  </div>
+  <div class="form-group">
+    <label for="speaker">Speaker</label>
+    {{input value=sermon.speaker
+            class="form-control"
+            data-auto-id="speaker"}}
+  </div>
+  <div class="form-group">
+    <label for="audio">Audio</label>
+    <div class="form-control audio">
+      {{s3-upload url="/api/v1/bulletins/sign"
+          didupload=(action this.attrs.diduploadaudio)}}
+    </div>
+    {{file-preview
+        clearfile=(action this.attrs.clearaudio)
+        url=sermon.audioUrl
+        data-auto-id="audio-preview"}}
+  </div>
+  <div class="form-group">
+    <label for="sermonNotes">Notes</label>
+    {{markdown-textarea value=sermon.notes
+        class="form-conrol sermon-notes"
+        data-auto-id="notes"
+        rows="10"}}
+  </div>
+  {{yield}}
+</section>

@@ -30,13 +30,13 @@ export default Ember.Mixin.create({
       this.set("model.bannerUrl", "");
     },
     clearAudio() {
-      this.set("model.audioUrl", "");
+      this.set("model.sermon.audioUrl", "");
     },
     didUploadBanner(storageUrl) {
       this.set("model.bannerUrl", storageUrl);
     },
     didUploadAudio(storageUrl) {
-      this.set("model.audioUrl", storageUrl);
+      this.set("model.sermon.audioUrl", storageUrl);
     }
   }
 });

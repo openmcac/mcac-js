@@ -36,23 +36,29 @@ test("it displays the bulletin to be edited", assert => {
   authenticateSession(application, sessionData);
 
   const group = server.create("group");
-  const bulletin = server.create("bulletin", {
-    "published-at": window.moment().seconds(0).milliseconds(0),
-    "banner-url": `${faker.internet.url()}/banner.png`,
+  const sermon = server.create("sermon", {
     "audio-url": `${faker.internet.url()}/audio.mp3`
   });
+  const bulletin = server.create("bulletin", {
+    "published-at": window.moment().seconds(0).milliseconds(0),
+    "banner-url": `${faker.internet.url()}/banner.png`
+  });
+
+  mockSermonForBulletinId(assert, server, bulletin.id, sermon);
 
   page.visit({ groupSlug: group.slug, bulletinId: bulletin.id });
 
   andThen(() => {
     assert.equal(page.name, bulletin.name);
-    assert.equal(page.description, bulletin.description);
     assert.equal(page.serviceOrder, bulletin["service-order"]);
-    assert.equal(page.sermonNotes, bulletin["sermon-notes"]);
     equalDate(assert, page.publishedAt, bulletin["published-at"]);
     assert.equal(page.announcements().count, 0);
     assert.equal(page.bannerUrl(), bulletin["banner-url"]);
-    assert.equal(page.audioUrl(), bulletin["audio-url"]);
+    assert.equal(page.sermon.notes, sermon.notes);
+    assert.equal(page.sermon.audioUrl(), sermon["audio-url"]);
+    assert.equal(page.sermon.speaker, sermon.speaker);
+    assert.equal(page.sermon.series, sermon.series);
+    assert.equal(page.sermon.name, sermon.name);
   });
 });
 
@@ -145,12 +151,17 @@ test("it updates the current bulletin", assert => {
   const announcement = server.create("announcement", { position: 1 });
   mockAnnouncementsForBulletinId(assert, server, bulletin.id, [announcement]);
 
+  const sermon = server.create("sermon", {
+    "audio-url": `${faker.internet.url()}/audio.mp3`
+  });
+  mockSermonForBulletinId(assert, server, bulletin.id, sermon);
+
   page.visit({ groupSlug: group.slug, bulletinId: bulletin.id }).
     fillName("updated name").
     fillPublishedAt("05/27/1984 9:30 AM").
-    fillDescription("updated desc").
-    fillServiceOrder("updated service order").
-    fillSermonNotes("updated sermon notes");
+    fillServiceOrder("updated service order");
+
+  page.sermon.fillNotes("updated sermon notes");
 
   page.announcements(0).
     fillUrl("http://updated.com").
@@ -163,14 +174,72 @@ test("it updates the current bulletin", assert => {
     assert.equal(updatedBulletin.name, page.name);
     assert.equal(updatedBulletin.description, page.description);
     equalDate(assert, updatedBulletin["published-at"], page.publishedAt);
-    assert.equal(updatedBulletin["sermon-notes"], page.sermonNotes);
     assert.equal(updatedBulletin["service-order"], page.serviceOrder);
+
+    const updatedSermon = server.db.sermons.find(sermon.id);
+    assert.equal(updatedSermon.name, page.sermon.name);
+    assert.equal(updatedSermon.notes, page.sermon.notes);
+    assert.equal(updatedSermon.series, page.sermon.series);
+    assert.equal(updatedSermon.speaker, page.sermon.speaker);
+    equalDate(assert, updatedSermon["published-at"], page.publishedAt);
+    assert.equal(updatedSermon["audio-url"], page.sermon.audioUrl());
+    assert.equal(updatedSermon["banner-url"], page.bannerUrl());
 
     const updatedAnnouncement = server.db.announcements.find(announcement.id);
     const announcementEditor = page.announcements(0);
     assert.equal(updatedAnnouncement.url, announcementEditor.url);
     assert.equal(updatedAnnouncement.description,
                  announcementEditor.description);
+  });
+});
+
+test("when updating a bulletin without a sermon", assert => {
+  authenticateSession(application, sessionData);
+
+  const group = server.create("group");
+  const bulletin = server.create("bulletin", {
+    "published-at": window.moment().seconds(0).milliseconds(0),
+    "banner-url": `${faker.internet.url()}/banner.png`
+  });
+
+  page.visit({ groupSlug: group.slug, bulletinId: bulletin.id }).
+    fillName("updated name").
+    submit();
+
+  andThen(() => {
+    assert.equal(server.db.sermons.length, 0);
+    const updatedBulletin = server.db.bulletins.find(bulletin.id);
+    assert.equal(updatedBulletin.name, page.name);
+  });
+});
+
+test("when bulletin doesn't have a sermon yet", assert => {
+  authenticateSession(application, sessionData);
+
+  const group = server.create("group");
+  const bulletin = server.create("bulletin", {
+    "published-at": window.moment().seconds(0).milliseconds(0),
+    "banner-url": `${faker.internet.url()}/banner.png`
+  });
+
+  page.visit({ groupSlug: group.slug, bulletinId: bulletin.id });
+
+  page.sermon.
+    fillName("sermon name").
+    fillNotes("updated sermon notes").
+    fillSeries("my series").
+    fillSpeaker("my series");
+
+  page.submit();
+
+  andThen(() => {
+    const updatedSermon = server.db.sermons[server.db.sermons.length - 1];
+    assert.equal(updatedSermon.name, page.sermon.name);
+    assert.equal(updatedSermon.notes, page.sermon.notes);
+    assert.equal(updatedSermon.series, page.sermon.series);
+    assert.equal(updatedSermon.speaker, page.sermon.speaker);
+    equalDate(assert, updatedSermon["published-at"], page.publishedAt);
+    assert.equal(updatedSermon["banner-url"], page.bannerUrl());
   });
 });
 
@@ -227,6 +296,28 @@ function mockAnnouncementsForBulletinId(assert, server, bulletinId, announcement
           }
         }
       }))
+    };
+  });
+}
+
+function mockSermonForBulletinId(assert, server, bulletinId, sermon) {
+  server.get("/api/v1/bulletins/:bulletinId/sermon", (db, request) => {
+    assert.equal(request.params.bulletinId, `${bulletinId}`);
+
+    return {
+      data: {
+        type: "sermons",
+        id: sermon.id,
+        attributes: sermon,
+        relationships: {
+          groups: {
+            links: {
+              self: `/api/v1/sermons/${sermon.id}/relationships/bulletin`,
+              related: `/api/v1/sermons/${sermon.id}/bulletin`
+            }
+          }
+        }
+      }
     };
   });
 }

@@ -23,14 +23,6 @@
         </div>
       </div>
       <div class="row">
-        <div class="form-group col-md-10" data-test-id="description">
-          <label for="description">Description</label>
-          {{input value=bulletin.description
-                  class="form-control description"
-                  data-auto-id="bulletin-description"}}
-        </div>
-      </div>
-      <div class="row">
         <div class="form-group col-md-10">
           <label for="banner">Banner</label>
           <div class="form-control banner">
@@ -44,19 +36,6 @@
         </div>
       </div>
       <div class="row">
-        <div class="form-group col-md-10">
-          <label for="audio">Audio</label>
-          <div class="form-control audio">
-            {{s3-upload url="/api/v1/bulletins/sign"
-                didupload=(action this.attrs.diduploadaudio)}}
-          </div>
-          {{file-preview
-              clearfile=(action this.attrs.clearaudio)
-              url=bulletin.audioUrl
-              data-auto-id="bulletin-audio-preview"}}
-        </div>
-      </div>
-      <div class="row">
         <div class="form-group col-md-12" data-test-id="service-order">
           <label for="serviceOrder">Order</label>
           {{markdown-textarea value=bulletin.serviceOrder
@@ -65,15 +44,20 @@
                               rows="10"}}
         </div>
       </div>
-      <div class="row">
-        <div class="form-group col-md-12" data-test-id="sermon-notes">
-          <label for="sermonNotes">Notes</label>
-          {{markdown-textarea value=bulletin.sermonNotes
-                              class="form-control sermon-notes"
-                              data-auto-id="bulletin-sermon-notes"
-                              rows="10"}}
+      {{#if this.attrs.includesermon}}
+        <div class="panel panel-default">
+          <fieldset>
+            <div class="panel-heading">
+              <h3 class="panel-title">Sermon</h3>
+            </div>
+            <div class="panel-body">
+              {{sermon-editor sermon=bulletin.sermon
+                  diduploadaudio=(action this.attrs.diduploadaudio)
+                  clearaudio=(action this.attrs.clearaudio)}}
+            </div>
+          </fieldset>
         </div>
-      </div>
+      {{/if}}
     </section>
     {{#if this.attrs.appendannouncement}}
       <section class="announcements col-md-6">
