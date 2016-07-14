@@ -7,11 +7,8 @@
   height: 100%;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5 {
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+  font-weight: bold;
   margin-top: 0;
 }
 
@@ -41,18 +38,14 @@ h5 {
 }
 
 @mixin body-font() {
-  font-family: sans-serif;
+  font-family: -apple-system, ".SFNSText-Regular", "San Francisco", "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif;
 }
 
 @mixin post-display-font() {
-  font-family: 'Roboto', sans-serif;
-  font-weight: 700;
   text-transform: uppercase;
 }
 
 @mixin header-font() {
-  font-family: 'Roboto', sans-serif;
-  font-weight: 700;
   text-transform: uppercase;
 }
 
