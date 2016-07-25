@@ -7,9 +7,13 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
     const bulletin = this.modelFor("bulletin");
     bulletin.set("group", this.modelFor("group"));
 
-    if (!Ember.isEmpty(bulletin.get("sermon"))) {
-      bulletin.set("sermon", this.get("store").createRecord("sermon"));
-    }
+    const store = this.get("store");
+
+    bulletin.get("sermon").then((sermon) => {
+      if (Ember.isEmpty(sermon)) {
+        bulletin.set("sermon", store.createRecord("sermon"));
+      }
+    });
 
     this.get("defaultAnnouncementsService").process(bulletin);
     return bulletin;
