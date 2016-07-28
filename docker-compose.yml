@@ -1,6 +1,8 @@
 version: "2"
 services:
   web:
+    environment:
+      EMBER_ENV: development
     build: .
     command: ember s
     volumes:
