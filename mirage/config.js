@@ -279,17 +279,7 @@ export default function() {
     return schema.posts.all();
   });
 
-  this.get("/api/v1/posts/:id", function(db, request) {
-    const attrs = db.posts.find(request.params.id);
-
-    return {
-      data: {
-        type: "posts",
-        id: attrs.id,
-        attributes: attrs
-      }
-    };
-  });
+  this.get("/api/v1/posts/:id");
 
   this.get("/api/v1/announcements/:id");
 

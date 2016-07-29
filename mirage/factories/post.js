@@ -7,19 +7,19 @@ export default Factory.extend({
   slug() {
     return faker.helpers.slugify(this.title).toLowerCase();
   },
-  "groupSlug"() {
+  groupSlug() {
     return faker.helpers.slugify(this.title).toLowerCase();
   },
   content() {
     return faker.lorem.paragraphs(2);
   },
-  "bannerUrl"() {
+  bannerUrl() {
     return `${faker.internet.url()}/banner.png`;
   },
-  "publishedAt"() {
+  publishedAt() {
     return faker.date.past().toISOString();
   },
-  "kind"() {
+  kind() {
     return "post";
   }
 });
