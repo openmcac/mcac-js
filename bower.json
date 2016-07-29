@@ -26,6 +26,7 @@
     "ceibo": "~1.1.0"
   },
   "resolutions": {
-    "ember": "~2.4.1"
+    "ember": "~2.4.1",
+    "FakeXMLHttpRequest": "^1.4.0"
   }
 }

@@ -247,32 +247,32 @@ export default function() {
     };
   });
 
-  this.get("/api/v1/groups", function(db, request) {
-    let groups = db.groups;
-
-    if (request.params &&
-        request.params.filter &&
-        request.params.filter.slug) {
-      let slug = request.params.filter.slug;
-      groups = groups.select(g => g.slug === slug);
-    }
-
-    return {
-      data: groups.map(attrs => ({
-        type: "groups",
-        id: attrs.id,
-        attributes: attrs,
-        relationships: {
-          posts: {
-            links: {
-              self: `/api/v1/groups/${attrs.id}/relationships/posts`,
-              related: `/api/v1/groups/${attrs.id}/posts`
-            }
-          }
-        }
-      }))
-    };
-  });
+  this.get("/api/v1/groups");
+//    let groups = db.groups;
+//
+//    if (request.params &&
+//        request.params.filter &&
+//        request.params.filter.slug) {
+//      let slug = request.params.filter.slug;
+//      groups = groups.select(g => g.slug === slug);
+//    }
+//
+//    return {
+//      data: groups.map(attrs => ({
+//        type: "groups",
+//        id: attrs.id,
+//        attributes: attrs,
+//        relationships: {
+//          posts: {
+//            links: {
+//              self: `/api/v1/groups/${attrs.id}/relationships/posts`,
+//              related: `/api/v1/groups/${attrs.id}/posts`
+//            }
+//          }
+//        }
+//      }))
+//    };
+//  });
 
   this.post("/api/v1/sermons", (db, request) => {
     const data = JSON.parse(request.requestBody).data;
@@ -314,30 +314,18 @@ export default function() {
     };
   });
 
-  this.post("/api/v1/groups", (db, request) => {
-    let data = JSON.parse(request.requestBody).data;
-    let attributes = data.attributes;
-    attributes.id = data.id;
+  this.post("/api/v1/groups");
 
-    db.groups.insert(data.attributes);
+  this.get("/api/v1/posts", function(schema, request) {
+    const db = schema.db;
+    const groupId = request.queryParams["filter[group]"];
 
-    return {
-      data: {
-        type: "groups",
-        id: attributes.id,
-        attributes: attributes
-      }
-    };
-  });
+    if (groupId) {
+      const group = schema.groups.find(groupId);
+      return group.posts;
+    }
 
-  this.get("/api/v1/posts", function(db) {
-    return {
-      data: db.posts.map(attrs => ({
-        type: "posts",
-        id: attrs.id,
-        attributes: attrs
-      }))
-    };
+    return schema.posts.all();
   });
 
   this.get("/api/v1/posts/:id", function(db, request) {
