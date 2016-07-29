@@ -24,10 +24,7 @@ test("handles groups that do not exist", function(assert) {
 });
 
 test("renders appropriate group details", function(assert) {
-  const group = server.create("group", {
-    slug: "random"
-  });
-
+  const group = server.create("group", { slug: "random" });
   const posts = server.createList("post", 3, { group });
 
   page.visit({ slug: group.slug });

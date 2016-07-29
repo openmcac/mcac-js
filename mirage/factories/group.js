@@ -5,7 +5,7 @@ export default Factory.extend({
     return faker.company.companyName();
   },
   slug() {
-    return faker.helpers.slugify(this.name()).toLowerCase();
+    return faker.helpers.slugify(this.name).toLowerCase();
   },
   about() {
     return faker.lorem.paragraphs(2);

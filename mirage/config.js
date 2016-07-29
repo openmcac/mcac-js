@@ -64,40 +64,9 @@ export default function() {
     };
   });
 
-  this.get("/api/v1/bulletins/:id", function(db, request) {
-    let attrs = db.bulletins.find(request.params.id);
+  this.get("/api/v1/bulletins/:id");
 
-    return {
-      data: {
-        type: "bulletins",
-        id: attrs.id,
-        attributes: attrs,
-        links: {
-          self: `/api/v1/bulletins/${attrs.id}`
-        },
-        relationships: {
-          announcements: {
-            links: {
-              self: `/api/v1/bulletins/${attrs.id}/relationships/announcements`,
-              related: `/api/v1/bulletins/${attrs.id}/announcements`
-            }
-          },
-          group: {
-            links: {
-              self: `/api/v1/bulletins/${attrs.id}/relationships/group`,
-              related: `/api/v1/bulletins/${attrs.id}/group`
-            }
-          },
-          sermon: {
-            links: {
-              self: `/api/v1/bulletins/${attrs.id}/relationships/sermon`,
-              related: `/api/v1/bulletins/${attrs.id}/sermon`
-            }
-          }
-        }
-      }
-    };
-  });
+  this.get("/api/v1/sermons/:id");
 
   this.patch("/api/v1/sermons/:id", function(db, request) {
     let data = JSON.parse(request.requestBody).data;
@@ -206,25 +175,7 @@ export default function() {
     };
   });
 
-  this.get("/api/v1/announcements", function(db) {
-    let announcements = db.announcements;
-
-    return {
-      data: announcements.map(attrs => ({
-        type: "announcements",
-        id: attrs.id,
-        attributes: attrs,
-        relationships: {
-          bulletin: {
-            links: {
-              self: `/api/v1/announcements/${attrs.id}/relationships/bulletin`,
-              related: `/api/v1/announcements/${attrs.id}/bulletin`
-            }
-          }
-        }
-      }))
-    };
-  });
+  this.get("/api/v1/announcements");
 
   this.post("/api/v1/announcements", function(db, request) {
     const data = JSON.parse(request.requestBody).data;
@@ -339,6 +290,8 @@ export default function() {
       }
     };
   });
+
+  this.get("/api/v1/announcements/:id");
 
   this.delete("/api/v1/announcements/:id", function(db, request) {
     db.announcements.remove(parseInt(request.params.id));
