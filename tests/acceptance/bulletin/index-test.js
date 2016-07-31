@@ -34,9 +34,9 @@ test("when there are announcements", function(assert) {
   const group = server.create("group");
   const bulletin = server.create("bulletin", { group });
   const announcements = [
-    server.create("announcement", { url: "", bulletin }),
-    server.create("announcement", { bulletin }),
-    server.create("announcement", { url: "", bulletin })
+    server.create("announcement", { url: "", position: 1, bulletin }),
+    server.create("announcement", { position: 2, bulletin }),
+    server.create("announcement", { url: "", position: 3, bulletin })
   ];
 
   page.visit({ groupSlug: bulletin.group.slug, id: bulletin.id });

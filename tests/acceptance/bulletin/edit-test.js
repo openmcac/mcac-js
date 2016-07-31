@@ -76,12 +76,6 @@ test("it adds announcement editors when announcements are available",
   const secondAnnouncement = server.create("announcement", { position: 2, bulletin });
   const thirdAnnouncement = server.create("announcement", { position: 3, bulletin });
 
-  const announcements = [
-    secondAnnouncement,
-    thirdAnnouncement,
-    firstAnnouncement
-  ];
-
   page.visit({ groupSlug: group.slug, bulletinId: bulletin.id });
 
   andThen(() => {
@@ -108,14 +102,8 @@ test("it allows announcements to be deleted", function(assert) {
   });
 
   const firstAnnouncement = server.create("announcement", { position: 1, bulletin });
-  const secondAnnouncement = server.create("announcement", { position: 2, bulletin });
+  server.create("announcement", { position: 2, bulletin });
   const thirdAnnouncement = server.create("announcement", { position: 3, bulletin });
-
-  const announcements = [
-    secondAnnouncement,
-    thirdAnnouncement,
-    firstAnnouncement
-  ];
 
   page.visit({ groupSlug: group.slug, bulletinId: bulletin.id });
 

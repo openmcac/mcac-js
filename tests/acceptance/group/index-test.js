@@ -33,8 +33,8 @@ test("renders appropriate group details", function(assert) {
     ["name", "shortDescription", "meetDetails", "targetAudience"].
       forEach(key => assert.equal(page[key], group[key]));
 
-    // assert.equal(page.bannerUrl(), `https://res.cloudinary.com/${ENV['CLOUDINARY_CLOUD_NAME']}/image/fetch/w_1920/${group["banner-url"]}`);
-    // assert.equal(page.profilePictureUrl(), `https://res.cloudinary.com/${ENV['CLOUDINARY_CLOUD_NAME']}/image/fetch/w_200/${group["profile-picture-url"]}`);
+    assert.equal(page.bannerUrl(), `https://res.cloudinary.com/${ENV['CLOUDINARY_CLOUD_NAME']}/image/fetch/w_1920/${group.bannerUrl}`);
+    assert.equal(page.profilePictureUrl(), `https://res.cloudinary.com/${ENV['CLOUDINARY_CLOUD_NAME']}/image/fetch/w_200/${group.profilePictureUrl}`);
 
     posts.forEach(function(post, i) {
       assert.equal(page.posts(i).title, posts[i].title);

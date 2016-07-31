@@ -16,7 +16,7 @@ export default function() {
     return response;
   });
 
-  this.get("/api/v1/sunday", function(db) {
+  this.get("/api/v1/sunday", function({ db }) {
     let attrs = db.bulletins[0];
 
     return {
