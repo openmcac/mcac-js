@@ -4,7 +4,7 @@ export default Mirage.Factory.extend({
   description() {
     return faker.lorem.sentence();
   },
-  postition() {
+  position() {
     return faker.random.number();
   },
   url() {

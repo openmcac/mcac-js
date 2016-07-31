@@ -68,135 +68,20 @@ export default function() {
 
   this.get("/api/v1/sermons/:id");
 
-  this.patch("/api/v1/sermons/:id", function(db, request) {
-    let data = JSON.parse(request.requestBody).data;
-    let attrs = db.sermons.update(request.params.id, data.attributes);
+  this.patch("/api/v1/sermons/:id");
 
-    return {
-      data: {
-        type: "sermons",
-        id: attrs.id,
-        attributes: attrs,
-        links: {
-          self: `/api/v1/sermons/${attrs.id}`
-        },
-        relationships: {
-          group: {
-            links: {
-              self: `/api/v1/bulletins/${attrs.id}/relationships/group`,
-              related: `/api/v1/bulletins/${attrs.id}/group`
-            }
-          }
-        }
-      }
-    };
-  });
+  this.patch("/api/v1/bulletins/:id");
 
-  this.patch("/api/v1/bulletins/:id", function(db, request) {
-    let data = JSON.parse(request.requestBody).data;
-    let attrs = db.bulletins.update(request.params.id, data.attributes);
-
-    return {
-      data: {
-        type: "bulletins",
-        id: attrs.id,
-        attributes: attrs,
-        links: {
-          self: `/api/v1/bulletins/${attrs.id}`
-        },
-        relationships: {
-          announcements: {
-            links: {
-              self: `/api/v1/bulletins/${attrs.id}/relationships/announcements`,
-              related: `/api/v1/bulletins/${attrs.id}/announcements`
-            }
-          },
-          group: {
-            links: {
-              self: `/api/v1/bulletins/${attrs.id}/relationships/group`,
-              related: `/api/v1/bulletins/${attrs.id}/group`
-            }
-          }
-        }
-      }
-    };
-  });
-
-  this.get("/api/v1/bulletins", function(db) {
-    let bulletins = db.bulletins;
-
-    return {
-      data: bulletins.map(attrs => ({
-        type: "bulletins",
-        id: attrs.id,
-        attributes: attrs,
-        relationships: {
-          group: {
-            links: {
-              self: `/api/v1/bulletins/${attrs.id}/relationships/group`,
-              related: `/api/v1/bulletins/${attrs.id}/group`
-            }
-          },
-          announcements: {
-            links: {
-              self: `/api/v1/bulletins/${attrs.id}/relationships/announcements`,
-              related: `/api/v1/bulletins/${attrs.id}/announcements`
-            }
-          }
-        }
-      }))
-    };
-  });
+  this.get("/api/v1/bulletins");
 
   this.get("/api/v1/bulletins/:bulletinId/announcements", () => ({ data: [] }));
   this.get("/api/v1/bulletins/:bulletinId/sermon", () => ({ data: [] }));
 
-  this.patch("/api/v1/announcements/:id", function(db, request) {
-    let data = JSON.parse(request.requestBody).data;
-    let attrs = db.announcements.update(request.params.id, data.attributes);
-
-    return {
-      data: {
-        type: "announcements",
-        id: attrs.id,
-        attributes: attrs,
-        links: {
-          self: `/api/v1/announcements/${attrs.id}`
-        },
-        relationships: {
-          bulletin: {
-            links: {
-              self: `/api/v1/announcements/${attrs.id}/relationships/bulletin`,
-              related: `/api/v1/announcements/${attrs.id}/bulletin`
-            }
-          }
-        }
-      }
-    };
-  });
+  this.patch("/api/v1/announcements/:id");
 
   this.get("/api/v1/announcements");
 
-  this.post("/api/v1/announcements", function(db, request) {
-    const data = JSON.parse(request.requestBody).data;
-    const attrs = db.announcements.insert(data.attributes);
-
-    return {
-      data: {
-        type: "announcements",
-        id: attrs.id,
-        attributes: attrs,
-        relationships: {
-          bulletin: {
-            links: {
-              self: `/api/v1/announcements/${attrs.id}/relationships/bulletin`,
-              related: `/api/v1/announcements/${attrs.id}/bulletin`
-            }
-          }
-        }
-      }
-    };
-  });
+  this.post("/api/v1/announcements");
 
   this.get("/api/v1/groups");
 //    let groups = db.groups;
@@ -225,50 +110,13 @@ export default function() {
 //    };
 //  });
 
-  this.post("/api/v1/sermons", (db, request) => {
-    const data = JSON.parse(request.requestBody).data;
-    const attributes = data.attributes;
-    attributes.id = data.id;
+  this.post("/api/v1/sermons");
 
-    const createdSermon = db.sermons.insert(data.attributes);
-
-    return {
-      data: {
-        type: "bulletins",
-        id: createdSermon.id,
-        attributes: createdSermon
-      }
-    };
-  });
-
-  this.post("/api/v1/bulletins", (db, request) => {
-    let data = JSON.parse(request.requestBody).data;
-    let attributes = data.attributes;
-    attributes.id = data.id;
-
-    let createdBulletin = db.bulletins.insert(data.attributes);
-
-    return {
-      data: {
-        type: "bulletins",
-        id: createdBulletin.id,
-        attributes: createdBulletin,
-        relationships: {
-          sermon: {
-            links: {
-              self: `/api/v1/bulletins/${attributes.id}/relationships/sermon`,
-              related: `/api/v1/bulletins/${attributes.id}/sermon`
-            }
-          }
-        }
-      }
-    };
-  });
+  this.post("/api/v1/bulletins");
 
   this.post("/api/v1/groups");
 
   this.get("/api/v1/posts", function(schema, request) {
-    const db = schema.db;
     const groupId = request.queryParams["filter[group]"];
 
     if (groupId) {
@@ -283,16 +131,5 @@ export default function() {
 
   this.get("/api/v1/announcements/:id");
 
-  this.delete("/api/v1/announcements/:id", function(db, request) {
-    db.announcements.remove(parseInt(request.params.id));
-    const response =  {
-      data: {
-        type: "announcements",
-        id: request.params.id,
-        attributes: {}
-      }
-    };
-
-    return response;
-  });
+  this.delete("/api/v1/announcements/:id");
 }
