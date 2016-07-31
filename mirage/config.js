@@ -1,33 +1,24 @@
 export default function() {
-  this.get("/api/v1/bulletins/:id");
-
-  this.get("/api/v1/sermons/:id");
-
-  this.patch("/api/v1/sermons/:id");
-
-  this.patch("/api/v1/bulletins/:id");
-
-  this.get("/api/v1/bulletins");
-
-  this.patch("/api/v1/announcements/:id");
-
+  this.delete("/api/v1/announcements/:id");
   this.get("/api/v1/announcements");
-
+  this.get("/api/v1/announcements/:id");
+  this.patch("/api/v1/announcements/:id");
   this.post("/api/v1/announcements");
 
-  this.get("/api/v1/groups");
-
-  this.post("/api/v1/sermons");
-
+  this.get("/api/v1/bulletins");
+  this.get("/api/v1/bulletins/:id");
+  this.get("/api/v1/bulletins/:id/sermon");
+  this.patch("/api/v1/bulletins/:id");
   this.post("/api/v1/bulletins");
 
+  this.get("/api/v1/groups");
   this.post("/api/v1/groups");
 
   this.get("/api/v1/posts/:id");
 
-  this.get("/api/v1/announcements/:id");
-
-  this.delete("/api/v1/announcements/:id");
+  this.get("/api/v1/sermons/:id");
+  this.patch("/api/v1/sermons/:id");
+  this.post("/api/v1/sermons");
 
   this.get("/api/v1/posts", function(schema, request) {
     const groupId = request.queryParams["filter[group]"];
@@ -73,5 +64,10 @@ export default function() {
         }
       }
     };
+  });
+
+  this.get("/api/v1/bulletins/:id/announcements", ({ bulletins }, request) => {
+    const bulletin = bulletins.find(request.params.id);
+    return bulletin.announcements;
   });
 }
