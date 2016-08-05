@@ -18,6 +18,7 @@ module('Acceptance: Login', {
 
 test('logging in by clicking the submit button', function(assert) {
   server.create("bulletin");
+  server.namespace = "";
   server.post('/api/auth/sign_in', function(db, request) {
     const body = JSON.parse(request.requestBody);
 

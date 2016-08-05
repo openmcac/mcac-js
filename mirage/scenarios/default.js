@@ -11,8 +11,15 @@ export default function(server) {
       targetAudience: "Members and seekers"
     });
 
-  const sermon = server.create("sermon");
-  const bulletin = server.create("bulletin", { group: englishService, sermon });
+  for (let i = 0; i < 10; i++) {
+    const sermon = server.create("sermon");
+    const bulletin = server.create("bulletin", {
+      group: englishService,
+      serviceOrder: "- ## Call to Worship\n- ## Praise & Worship\n- ## Announcements\n- ## Offering\n- ## Sermon\n- ## Doxology\n- ## Benediction",
+      sermon
+    });
+    server.createList("announcement", 5, { bulletin });
+  }
 
-  server.createList("announcement", 5, { bulletin });
+  server.createList("post", 10, { group: englishService });
 }

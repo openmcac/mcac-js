@@ -37,7 +37,8 @@ test("it displays the bulletin to be edited", assert => {
 
   const group = server.create("group");
   const sermon = server.create("sermon", {
-    audioUrl: `${faker.internet.url()}/audio.mp3`
+    audioUrl: `${faker.internet.url()}/audio.mp3`,
+    notes: "these are shorter notes"
   });
   const bulletin = server.create("bulletin", {
     bannerUrl: `${faker.internet.url()}/banner.png`,
@@ -80,13 +81,13 @@ test("it adds announcement editors when announcements are available",
 
   andThen(() => {
     assert.equal(page.announcements().count, 3);
-    assert.equal(page.announcements(0).url, firstAnnouncement.url);
+    assert.equal(page.announcements(0).url || "", firstAnnouncement.url || "");
     assert.equal(page.announcements(0).description,
                  firstAnnouncement.description);
-    assert.equal(page.announcements(1).url, secondAnnouncement.url);
+    assert.equal(page.announcements(1).url || "", secondAnnouncement.url || "");
     assert.equal(page.announcements(1).description,
                  secondAnnouncement.description);
-    assert.equal(page.announcements(2).url, thirdAnnouncement.url);
+    assert.equal(page.announcements(2).url || "", thirdAnnouncement.url || "");
     assert.equal(page.announcements(2).description,
                  thirdAnnouncement.description);
   });
@@ -114,10 +115,10 @@ test("it allows announcements to be deleted", function(assert) {
   andThen(() => {
     assert.equal(server.db.announcements.length, 2);
     assert.equal(page.announcements().count, 2);
-    assert.equal(page.announcements(0).url, firstAnnouncement.url);
+    assert.equal(page.announcements(0).url || "", firstAnnouncement.url || "");
     assert.equal(page.announcements(0).description,
                  firstAnnouncement.description);
-    assert.equal(page.announcements(1).url, thirdAnnouncement.url);
+    assert.equal(page.announcements(1).url || "", thirdAnnouncement.url || "");
     assert.equal(page.announcements(1).description,
                  thirdAnnouncement.description);
   });

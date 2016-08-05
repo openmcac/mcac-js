@@ -12,7 +12,7 @@ export default Factory.extend({
     return publishedAt.toISOString();
   },
   notes() {
-    return faker.lorem.sentence();
+    return faker.lorem.paragraphs(1);
   },
   speaker() {
     return faker.name.findName();

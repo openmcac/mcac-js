@@ -11,7 +11,7 @@ export default Factory.extend({
     return faker.helpers.slugify(this.title).toLowerCase();
   },
   content() {
-    return faker.lorem.paragraphs(2);
+    return faker.lorem.paragraphs(faker.random.number(8) + 1);
   },
   bannerUrl() {
     return `${faker.internet.url()}/banner.png`;
@@ -23,4 +23,3 @@ export default Factory.extend({
     return "post";
   }
 });
-
