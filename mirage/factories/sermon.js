@@ -1,10 +1,10 @@
-import Mirage, { faker } from "ember-cli-mirage";
+import { faker, Factory } from "ember-cli-mirage";
 
-export default Mirage.Factory.extend({
+export default Factory.extend({
   name() {
     return faker.company.companyName();
   },
-  "published-at"() {
+  publishedAt() {
     const publishedAt = faker.date.past();
     publishedAt.setMilliseconds(0);
     publishedAt.setSeconds(0);
@@ -12,7 +12,7 @@ export default Mirage.Factory.extend({
     return publishedAt.toISOString();
   },
   notes() {
-    return faker.lorem.sentence();
+    return faker.lorem.paragraphs(1);
   },
   speaker() {
     return faker.name.findName();
@@ -20,10 +20,10 @@ export default Mirage.Factory.extend({
   series() {
     return faker.company.companyName();
   },
-  "audio-url"() {
+  audioUrl() {
     return `${faker.internet.url()}/audio.mp3`;
   },
-  "banner-url"() {
+  bannerUrl() {
     return null;
   }
 });

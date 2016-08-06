@@ -17,9 +17,11 @@ export default Ember.Service.extend({
         bulletin.set("sermon", sermon);
       }
 
+      const announcements = yield bulletin.get("announcements");
+      explicityDeleteAnnouncementsForMirageWorkaround(announcements);
+
       yield bulletin.save();
 
-      const announcements = bulletin.get("announcements");
       announcements.forEach((a) => this.get("_saveResourceTask").perform(a));
 
       success = true;
@@ -36,6 +38,13 @@ export default Ember.Service.extend({
     }
   })
 });
+
+function explicityDeleteAnnouncementsForMirageWorkaround(announcements) {
+  // Not sure, but it seems that Mirage does not include deleted records in
+  // their associations after the model has been saved. As a result, the
+  // deleted record cannot be "saved" in order to execute the delete request.
+  announcements.filterBy("isDeleted").forEach(a => a.destroyRecord());
+}
 
 function hasSermon(sermon) {
   return !(Ember.isEmpty(sermon) ||

@@ -1,24 +1,23 @@
-import Mirage, { faker } from "ember-cli-mirage";
+import { Factory, faker } from "ember-cli-mirage";
 
-export default Mirage.Factory.extend({
+export default Factory.extend({
   name() {
     return faker.company.companyName();
   },
-  "published-at"() {
+  publishedAt() {
     const publishedAt = faker.date.past();
     publishedAt.setMilliseconds(0);
     publishedAt.setSeconds(0);
 
     return publishedAt.toISOString();
   },
-  "service-order"() {
+  serviceOrder() {
     return faker.lorem.sentence();
   },
-  "audio-url"() {
+  audioUrl() {
     return null;
   },
-  "banner-url"() {
+  bannerUrl() {
     return null;
   }
 });
-

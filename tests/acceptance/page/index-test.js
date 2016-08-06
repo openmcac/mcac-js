@@ -15,9 +15,8 @@ module('Acceptance | PageIndex', {
 });
 
 test("it renders the specified page", assert => {
-  const p = server.create("post", { kind: "page" });
   const group = server.create("group");
-  mockPageToFetch(assert, server, p);
+  const p = server.create("post", { kind: "page", group });
 
   page.visit({ groupSlug: group.slug, slug: p.slug });
 
@@ -28,33 +27,3 @@ test("it renders the specified page", assert => {
                  p.content.replace(/\s/g, ''));
   });
 });
-
-function mockPageToFetch(assert, server, page) {
-  const done = assert.async();
-
-  server.get("/api/v1/posts", function(db, request) {
-    assert.equal(request.queryParams["filter[group_id]"], "1");
-    assert.equal(request.queryParams["filter[kind]"], "1");
-    assert.equal(request.queryParams["filter[slug]"], page.slug);
-
-    done();
-
-    const p = {
-      data: [page].map(attrs => ({
-        type: "posts",
-        id: attrs.id,
-        attributes: attrs,
-        relationships: {
-          group: {
-            links: {
-              self: `/api/v1/bulletins/${attrs.id}/relationships/group`,
-              related: `/api/v1/bulletins/${attrs.id}/group`
-            }
-          }
-        }
-      }))
-    };
-
-    return p;
-  });
-}

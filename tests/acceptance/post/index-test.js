@@ -16,17 +16,16 @@ module('Acceptance: PostIndex', {
 });
 
 test('visiting a post', function(assert) {
-  const group = server.create("group", { slug: "english-service" });
-
+  const group = server.create("group");
   const post = server.create("post", {
-    "group-id": group.id,
-    "published-at": Date.parse("2015-03-06T04:01:33+00:00"),
-    "content": "this is my content",
-    "banner-url": null
+    bannerUrl: null,
+    content: "this is my content",
+    group,
+    publishedAt: Date.parse("2015-03-06T04:01:33+00:00")
   });
 
   page.visit({
-    groupSlug: "english-service",
+    groupSlug: group.slug,
     year: "2015",
     month: "03",
     day: "06",
@@ -43,12 +42,11 @@ test('visiting a post', function(assert) {
 });
 
 test("shows a banner when it has one", function(assert) {
-  const group = server.create("group", { slug: "english-service" });
-
+  const group = server.create("group");
   const post = server.create("post", {
-    "group-id": group.id,
-    "published-at": Date.parse("2015-03-06T04:01:33+00:00"),
-    "content": "this is my content"
+    content: "this is my content",
+    group,
+    publishedAt: Date.parse("2015-03-06T04:01:33+00:00")
   });
 
   page.visit({
@@ -61,21 +59,20 @@ test("shows a banner when it has one", function(assert) {
   });
 
   andThen(function() {
-    assert.equal(page.post.bannerUrl(), post["banner-url"]);
+    assert.equal(page.post.bannerUrl(), post.bannerUrl);
   });
 });
 
 test('Corrects the url if slug is wrong', function(assert) {
-  const group = server.create("group", { slug: "english-service" });
-
+  const group = server.create("group");
   const post = server.create("post", {
-    "group-id": group.id,
-    "published-at": Date.parse("2015-03-06T04:01:33+00:00"),
-    "content": "this is my content"
+    content: "this is my content",
+    group,
+    publishedAt: Date.parse("2015-03-06T04:01:33+00:00")
   });
 
   page.visit({
-    groupSlug: "english-service",
+    groupSlug: group.slug,
     year: "2015",
     month: "03",
     day: "06",
@@ -84,21 +81,20 @@ test('Corrects the url if slug is wrong', function(assert) {
   });
 
   andThen(function() {
-    assert.equal(currentURL(), `/english-service/2015/03/06/${post.id}/${post.slug}`);
+    assert.equal(currentURL(), `/${group.slug}/2015/03/06/${post.id}/${post.slug}`);
   });
 });
 
 test('Corrects the url if year is wrong', function(assert) {
-  const group = server.create("group", { slug: "english-service" });
-
+  const group = server.create("group");
   const post = server.create("post", {
-    "group-id": group.id,
-    "published-at": Date.parse("2015-03-06T04:01:33+00:00"),
-    "content": "this is my content"
+    content: "this is my content",
+    group,
+    publishedAt: Date.parse("2015-03-06T04:01:33+00:00")
   });
 
   page.visit({
-    groupSlug: "english-service",
+    groupSlug: group.slug,
     year: "2014",
     month: "03",
     day: "06",
@@ -107,21 +103,20 @@ test('Corrects the url if year is wrong', function(assert) {
   });
 
   andThen(function() {
-    assert.equal(currentURL(), `/english-service/2015/03/06/${post.id}/${post.slug}`);
+    assert.equal(currentURL(), `/${group.slug}/2015/03/06/${post.id}/${post.slug}`);
   });
 });
 
 test('Corrects the url if month is wrong', function(assert) {
-  const group = server.create("group", { slug: "english-service" });
-
+  const group = server.create("group");
   const post = server.create("post", {
-    "group-id": group.id,
-    "published-at": Date.parse("2015-03-06T04:01:33+00:00"),
-    "content": "this is my content"
+    content: "this is my content",
+    group,
+    publishedAt: Date.parse("2015-03-06T04:01:33+00:00")
   });
 
   page.visit({
-    groupSlug: "english-service",
+    groupSlug: group.slug,
     year: "2015",
     month: "07",
     day: "06",
@@ -130,21 +125,20 @@ test('Corrects the url if month is wrong', function(assert) {
   });
 
   andThen(function() {
-    assert.equal(currentURL(), `/english-service/2015/03/06/${post.id}/${post.slug}`);
+    assert.equal(currentURL(), `/${group.slug}/2015/03/06/${post.id}/${post.slug}`);
   });
 });
 
 test('Corrects the url if day is wrong', function(assert) {
-  const group = server.create("group", { slug: "english-service" });
-
+  const group = server.create("group");
   const post = server.create("post", {
-    "group-id": group.id,
-    "published-at": Date.parse("2015-03-06T04:01:33+00:00"),
-    "content": "this is my content"
+    content: "this is my content",
+    group,
+    publishedAt: Date.parse("2015-03-06T04:01:33+00:00")
   });
 
   page.visit({
-    groupSlug: "english-service",
+    groupSlug: group.slug,
     year: "2015",
     month: "03",
     day: "22",
@@ -153,6 +147,6 @@ test('Corrects the url if day is wrong', function(assert) {
   });
 
   andThen(function() {
-    assert.equal(currentURL(), `/english-service/2015/03/06/${post.id}/${post.slug}`);
+    assert.equal(currentURL(), `/${group.slug}/2015/03/06/${post.id}/${post.slug}`);
   });
 });

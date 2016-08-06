@@ -1,28 +1,28 @@
-import Mirage, { faker } from "ember-cli-mirage";
+import { Factory, faker } from "ember-cli-mirage";
 
-export default Mirage.Factory.extend({
+export default Factory.extend({
   name() {
     return faker.company.companyName();
   },
   slug() {
-    return faker.helpers.slugify(this.name()).toLowerCase();
+    return faker.helpers.slugify(this.name).toLowerCase();
   },
   about() {
     return faker.lorem.paragraphs(2);
   },
-  "meet-details"() {
+  "meetDetails"() {
     return faker.lorem.sentence();
   },
-  "target-audience"() {
+  "targetAudience"() {
     return faker.lorem.sentence();
   },
-  "short-description"() {
+  "shortDescription"() {
     return faker.lorem.sentence();
   },
-  "banner-url"() {
+  "bannerUrl"() {
     return `${faker.internet.url()}/banner.png`;
   },
-  "profile-picture-url"() {
+  "profilePictureUrl"() {
     return `${faker.internet.url()}/profile.png`;
   }
 });
