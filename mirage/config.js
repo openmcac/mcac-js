@@ -1,5 +1,5 @@
 export default function() {
-  this.namespace = "api/v1";
+  this.namespace = "/api/v1";
 
   this.delete("/announcements/:id");
   this.get("/announcements");

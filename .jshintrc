@@ -15,7 +15,7 @@
   "devel": true,
   "eqeqeq": true,
   "eqnull": true,
-  "esnext": true,
+  "esversion": 6,
   "evil": true,
   "forin": false,
   "immed": false,

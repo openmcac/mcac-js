@@ -6,7 +6,6 @@
     "bootstrap-markdown": "~2.8.0",
     "ember": "~2.7.0",
     "ember-cli-shims": "0.1.0",
-    "ember-cli-test-loader": "0.2.2",
     "ember-load-initializers": "ember-cli/ember-load-initializers#0.1.5",
     "ember-qunit-notifications": "0.1.0",
     "ember-resolver": "~0.1.15",
