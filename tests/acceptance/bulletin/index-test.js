@@ -13,11 +13,18 @@ module('Acceptance: View bulletin', {
 test('visiting /english-service/bulletin/1', function(assert) {
   const group = server.create("group");
   const bulletin = server.create("bulletin", {
+    group,
     name: "Sunday Service",
     publishedAt: Date.parse("2014-12-21T13:58:27-05:00"),
     serviceOrder: "This is the service order."
-  }, {
-    group
+  });
+
+  const done = assert.async();
+  server.get(`/bulletins/:id`, function(schema, request) {
+    const includedRelationships = request.queryParams.include.split(",").sort();
+    assert.deepEqual(includedRelationships, ["announcements", "sermon"]);
+    done();
+    return schema.bulletins.find(request.params.id);
   });
 
   page.visit({ groupSlug: group.slug, id: bulletin.id });

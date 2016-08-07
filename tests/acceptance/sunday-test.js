@@ -1,112 +1,76 @@
-import AnnouncementPayload from "../helpers/payloads/announcement";
-import BulletinPayload from "../helpers/payloads/bulletin";
 import Ember from "ember";
-import mockServer from "../helpers/server";
 import startApp from "../helpers/start-app";
 import { test, module } from "qunit";
+import page from "mcac/tests/pages/sunday";
 
-let application, fakeServer;
+let application;
 
 module('Acceptance: Sunday', {
   beforeEach: function() {
     application = startApp();
-    fakeServer = mockServer();
   },
   afterEach: function() {
     Ember.run(application, 'destroy');
   }
 });
 
-function mockSunday(bulletin, withAnnouncements = false) {
-  fakeServer.get("/api/v1/sunday", function() {
-    let response = {
-      "data": BulletinPayload.build(1, bulletin, {
-        withAnnouncements: withAnnouncements
-      })
-    };
-
-    return [
-      200,
-      { "Content-Type": "application/vnd.api+json" },
-      JSON.stringify(response)
-    ];
-  });
-
-  fakeServer.get("/api/v1/bulletins/1", function() {
-    let response = {
-      "data": BulletinPayload.build(1, bulletin, {
-        withAnnouncements: withAnnouncements
-      })
-    };
-
-    return [
-      200,
-      { "Content-Type": "application/vnd.api+json" },
-      JSON.stringify(response)
-    ];
-  });
-
-  if (!withAnnouncements) {
-    fakeServer.get("/api/v1/bulletins/1/announcements", function() {
-      return [
-        200,
-        {"Content-Type": "application/vnd.api+json"},
-        JSON.stringify({ "data": [] })
-      ];
-    });
-  }
-}
-
-function mockAnnouncements(bulletinId) {
-  fakeServer.get(`/api/v1/bulletins/${bulletinId}/announcements`,
-      function() {
-    let response = {
-      "data": [
-        AnnouncementPayload.build("1", bulletinId, {
-          "description": "This is the first announcement",
-          "position": 1
-        }),
-        AnnouncementPayload.build("2", bulletinId, {
-          "description": "This is the second announcement",
-          "position": 2
-        }),
-        AnnouncementPayload.build("3", bulletinId, {
-          "description": "This is the third announcement",
-          "position": 3
-        })
-      ]
-    };
-
-    return [
-      200,
-      {"Content-Type": "application/vnd.api+json"},
-      JSON.stringify(response)
-    ];
-  });
-}
-
 test('visiting /sunday', function(assert) {
-  mockSunday({
-    "audio-url": null,
-    "banner-url": null,
-    "description": "This is a service bulletin.",
-    "name": "Sunday Service",
-    "published-at": "2014-12-21T13:58:27-05:00",
-    "service-order": "This is the service order."
-  }, true);
+  const done = assert.async();
 
-  mockAnnouncements("1");
+  server.get("/sunday", function(schema, request) {
+    const includedRelationships = request.queryParams.include.split(",").sort();
+    assert.deepEqual(includedRelationships, ["announcements", "group", "sermon"]);
+    done();
+    return schema.bulletins.find(1);
+  });
+  const group = server.create("group");
+  const bulletin =
+    server.create("bulletin", {
+      group,
+      name: "Sunday Service",
+      publishedAt: Date.parse("2014-12-21T13:58:27-05:00"),
+      serviceOrder: "This is the service order."
+    });
+  const announcements = [
+    server.create("announcement", { url: "", position: 1, bulletin }),
+    server.create("announcement", { position: 2, bulletin }),
+    server.create("announcement", { url: "", position: 3, bulletin })
+  ];
 
-  visit('/sunday');
+  page.visit({ groupSlug: group.slug, id: bulletin.id });
 
   andThen(function() {
-    assert.equal(find('.bulletin-info .name').text().trim(), 'Sunday Service');
-    assert.equal(find('audio').length, 0);
-    assert.equal(find('.announcements li:nth-child(1)').text().trim(),
-                 'This is the first announcement');
-    assert.equal(find('.announcements li:nth-child(2)').text().trim(),
-                 'This is the second announcement');
-    assert.equal(find('.announcements li:nth-child(3)').text().trim(),
-                 'This is the third announcement');
+    assertBulletinCover(page, bulletin, assert);
+    assert.equal(page.bulletin.serviceOrder, bulletin.serviceOrder);
+    assertAnnouncements(page, announcements, assert);
   });
 });
+
+function assertBulletinCover(page, bulletin, assert) {
+  assert.equal(page.bulletin.cover.name, bulletin.name);
+  equalDate(assert, page.bulletin.cover.publishedAt, bulletin.publishedAt);
+}
+
+function assertAnnouncements(page, announcements, assert) {
+  assert.equal(page.bulletin.announcements.title, "Announcements");
+  assert.equal(page.bulletin.announcements.announcements().count, announcements.length);
+  assert.equal(page.bulletin.announcements.announcements(0).description,
+               announcements[0].description);
+  assert.equal(page.bulletin.announcements.announcements(1).description,
+               announcements[1].description);
+  assert.equal(page.bulletin.announcements.announcements(2).description,
+               announcements[2].description);
+  assert.notOk(page.bulletin.announcements.noAnnouncementsIndicatorShown());
+}
+
+function equalDate(assert, actual, expected) {
+  const actualDate = window.moment(actual, "MMMM Do YYYY, h:mm a").toDate();
+  const expectedDate = window.moment(expected).toDate();
+
+  actualDate.setSeconds(0);
+  actualDate.setMilliseconds(0);
+  expectedDate.setSeconds(0);
+  expectedDate.setMilliseconds(0);
+
+  assert.equal(actualDate.getTime(), expectedDate.getTime());
+}

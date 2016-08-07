@@ -18,24 +18,23 @@ function navigationFn(direction) {
 
 // direction: "previous" or "next"
 function handleNavigationAction(direction, context) {
-  let store = context.get("store");
-  let router = context.get("router");
-  let bulletinId = context.get("bulletin.id");
-  return context.get("ajax").
-    request(`/api/v1/bulletins/${bulletinId}/${direction}`).
-    then(transitionToBulletinFn(store, router));
-}
-
-function transitionToBulletinFn(store, router) {
-  return function(data) {
-    transitionToBulletinFromResponse(store, router, data);
+  const store = context.get("store");
+  const router = context.get("router");
+  const bulletinId = context.get("bulletin.id");
+  const query = {
+    bulletinId,
+    custom: "navigator",
+    direction,
+    include: "announcements,sermon"
   };
+
+  return store.
+    queryRecord("bulletin", query).
+    then(bulletin => transitionToBulletin(bulletin, router));
 }
 
-function transitionToBulletinFromResponse(store, router, data) {
-  store.pushPayload("bulletin", data);
-  let bulletin = store.peekRecord('bulletin', data.data.id);
-  bulletin.get("group").then((group) => {
-    router.transitionTo("bulletin.index", group.get("slug"), bulletin);
-  });
+function transitionToBulletin(bulletin, router) {
+  bulletin.
+    get("group").
+    then(g => router.transitionTo("bulletin.index", g.get("slug"), bulletin));
 }
