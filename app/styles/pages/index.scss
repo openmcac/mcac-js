@@ -1,0 +1,29 @@
+.main-index {
+  padding-bottom: 500px;
+
+  .theme-cover {
+    height: 400px;
+    background-attachment: fixed;
+    background-image: url("images/main.jpg");
+    background-position: center;
+    background-size: cover;
+    position: relative;
+
+    .inner {
+      padding: 100px 0;
+      position: absolute;
+      text-align: center;
+      width: 100%;
+    }
+
+    h1 {
+      color: $white;
+      font-weight: normal;
+      text-transform: uppercase;
+    }
+
+    button {
+      margin-top: $padding-l;
+    }
+  }
+}

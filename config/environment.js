@@ -26,7 +26,8 @@ module.exports = function(environment) {
     resizeServiceDefaults: {
       debounceTimeout: 100,
       heightSensitive: true,
-      widthSensitive: false
+      widthSensitive: false,
+      injectionFactories: ["component", "controller"]
     },
     "simple-auth": {
       authorizer: 'authorizer:mcac'
