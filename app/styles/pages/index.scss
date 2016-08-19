@@ -1,17 +1,11 @@
 .main-index {
   padding-bottom: 500px;
 
-  .theme-cover {
-    height: 400px;
-    background-attachment: fixed;
+  .cover-page {
     background-image: url("images/main.jpg");
-    background-position: center;
-    background-size: cover;
-    position: relative;
 
     .inner {
-      padding: 100px 0;
-      position: absolute;
+      padding: 200px 0;
       text-align: center;
       width: 100%;
     }
@@ -24,6 +18,19 @@
 
     button {
       margin-top: $padding-l;
+    }
+  }
+
+  @media only screen and (min-width: $small-device-break) {
+    .cover-page {
+      .inner {
+        padding-top: 350px;
+      }
+
+      h1 {
+        font-size: 64px;
+        font-weight: bold;
+      }
     }
   }
 }

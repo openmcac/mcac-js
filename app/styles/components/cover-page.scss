@@ -1,0 +1,11 @@
+.cover-page {
+  height: 400px;
+  background-attachment: fixed;
+  background-position: center;
+  background-size: cover;
+  position: relative;
+
+  .inner {
+    position: absolute;
+  }
+}
