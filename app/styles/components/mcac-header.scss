@@ -1,18 +1,15 @@
 .navbar {
-  background-color: $white;
-  width: 100%;
+  background-color: transparent;
   border-style: none;
-
-  > .container {
-    background-color: $white;
-  }
+  color: $white;
+  width: 100%;
 
   .navbar-header {
     float: none;
     padding: 6px 0 0 $padding-m;
 
     .navbar-brand {
-      color: $accent-color;
+      color: $white;
       float: none;
       line-height: $nav-bar-height;
       padding: 0;

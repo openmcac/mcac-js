@@ -1,8 +1,8 @@
 .main-index {
-  padding-bottom: 500px;
+  text-align: center;
 
   .cover-page {
-    background-image: url("images/main.jpg");
+    background-image: url("images/main-1920.jpg");
 
     .inner {
       padding: 100px 0;
@@ -16,29 +16,74 @@
       text-transform: uppercase;
     }
 
-    button {
-      margin-top: $padding-l;
+    .view-bulletin {
+      margin-top: $padding-m;
     }
+  }
+
+  .theme {
+    background-color: $gray-blue-light;
+  }
+
+  .around-church {
+    .body {
+      margin-bottom: $padding-xl;
+    }
+
+    .group {
+      text-align: center;
+
+      .description {
+        margin-top: $padding-m;
+      }
+    }
+  }
+
+  section {
+    font-size: 18px;
+    padding-top: $padding-xl;
+    padding-bottom: $padding-xl;
   }
 
   @media only screen and (min-width: $small-device-break) {
     .cover-page {
-      .inner {
-        padding-top: 350px;
-      }
-
       h1 {
         font-size: 64px;
         font-weight: bold;
       }
+    }
+
+    .theme {
+      background-color: $gray-blue-light;
+    }
+
+    section {
+      font-size: 22px;
+      padding-bottom: $padding-xl * 2;
+      padding-top: $padding-xl * 2;
     }
   }
 
   @media only screen and (min-height: 420px) {
     .cover-page {
       .inner {
-        padding: 200px 0;
+        padding-top: 250px;
       }
     }
+  }
+
+  @media only screen and (min-height: 800px) {
+    .cover-page {
+      .inner {
+        padding-top: 350px;
+      }
+    }
+  }
+}
+
+.index {
+  footer {
+    background-color: transparent;
+    border-style: none;
   }
 }
