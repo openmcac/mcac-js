@@ -1,7 +1,5 @@
 .navbar {
   background-color: $white;
-  height: $nav-bar-height;
-  min-height: $nav-bar-height;
   width: 100%;
   border-style: none;
 
@@ -10,13 +8,28 @@
   }
 
   .navbar-header {
-    text-align: center;
     float: none;
+    padding: 6px 0 0 $padding-m;
 
     .navbar-brand {
       color: $accent-color;
       float: none;
       line-height: $nav-bar-height;
+      padding: 0;
+      position: relative;
+    }
+
+    i.logo {
+      font-size: 36px;
+
+      &:before {
+      }
+    }
+
+    abbr[title] {
+      border-style: none;
+      position: absolute;
+      top: -8px;
     }
   }
 
