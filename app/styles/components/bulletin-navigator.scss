@@ -1,6 +1,6 @@
 .bulletin-navigator {
-  margin-left: $padding-l;
-  margin-top: $padding-l;
+  margin-left: $padding-m * 2;
+  margin-top: $padding-m * 2;
   position: absolute;
   z-index: 100;
 
@@ -16,6 +16,6 @@
   }
 
   @media only screen and (min-width: $medium-device-break) {
-    margin-left: $padding-xl;
+    padding-left: $padding-xl;
   }
 }

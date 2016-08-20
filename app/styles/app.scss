@@ -1,4 +1,5 @@
 @import "utils";
+@import "hiding-menu";
 @import "announcement-editor";
 @import "components/bulletin-cover";
 @import "components/bulletin-navigator";
@@ -25,6 +26,7 @@
 
 body {
   background-color: $white;
+  padding-top: $nav-bar-height;
   @include body-font();
 }
 

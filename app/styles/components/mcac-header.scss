@@ -1,15 +1,17 @@
 .navbar {
-  background-color: transparent;
+  z-index: 100;
+  background-color: $white;
   border-style: none;
-  color: $white;
   width: 100%;
 
   .navbar-header {
     float: none;
-    padding: 6px 0 0 $padding-m;
+    height: $nav-bar-height;
+    margin-left: 0;
+    margin-right: 0;
 
     .navbar-brand {
-      color: $white;
+      color: $black;
       float: none;
       line-height: $nav-bar-height;
       padding: 0;
@@ -20,16 +22,20 @@
       font-size: 36px;
 
       &:before {
+        margin-left: 0;
       }
     }
 
     abbr[title] {
       border-style: none;
       position: absolute;
-      top: -8px;
+      cursor: pointer;
     }
   }
 
   @media only screen and (min-width: $small-device-break) {
+    .navbar-header .navbar-brand {
+      margin-left: 0;
+    }
   }
 }

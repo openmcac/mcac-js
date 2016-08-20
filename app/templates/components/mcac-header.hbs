@@ -1,4 +1,4 @@
-<nav class="navbar navbar-default navbar-fixed-top">
+{{#hiding-menu throttleTime=200 topTolerance=50 class="navbar navbar-default navbar-fixed-top"}}
   <div class="container">
     <div class="navbar-header">
       {{#link-to "index" class="navbar-brand"}}
@@ -7,5 +7,5 @@
       {{/link-to}}
     </div>
   </div>
-</nav>
-{{yield}}
+  {{yield}}
+{{/hiding-menu}}

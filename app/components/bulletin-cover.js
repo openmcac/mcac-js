@@ -20,5 +20,7 @@ export default Ember.Component.extend({
 });
 
 function suitableScreenHeight() {
-  return Math.max(Ember.$(window).height() - 40, 320);
+  const navBarHeightPx = 50;
+  const coverBorderWidthPx = 10;
+  return Math.max(Ember.$(window).height() - (navBarHeightPx + coverBorderWidthPx), 320);
 }

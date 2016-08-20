@@ -54,6 +54,8 @@
     "ember-data": "^2.7.0",
     "ember-disable-proxy-controllers": "^1.0.1",
     "ember-export-application-global": "^1.0.4",
+    "ember-hiding-menu": "0.0.3",
+    "ember-in-viewport": "2.0.8",
     "ember-load-initializers": "^0.5.0",
     "ember-marked": "0.0.4",
     "ember-metrics": "0.6.0",
