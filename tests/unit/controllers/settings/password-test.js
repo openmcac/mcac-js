@@ -2,7 +2,7 @@ import Ember from "ember";
 import { moduleFor, test } from 'ember-qunit';
 
 moduleFor('controller:settings/password', 'Unit | Controller | settings/password', {
-  needs: ['service:metrics']
+  needs: ['service:metrics', 'service:router-scroll']
 });
 
 test('it clears form after updating password', function(assert) {
