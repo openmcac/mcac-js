@@ -33,6 +33,10 @@
     }
   }
 
+  &.hiding-menu.hidden {
+    display: initial !important;
+  }
+
   @media only screen and (min-width: $small-device-break) {
     .navbar-header .navbar-brand {
       margin-left: 0;
