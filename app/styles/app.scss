@@ -1,8 +1,10 @@
 @import "utils";
+@import "hiding-menu";
 @import "announcement-editor";
 @import "components/bulletin-cover";
 @import "components/bulletin-navigator";
 @import "components/bulletin-view";
+@import "components/cover-page";
 @import "components/group-header";
 @import "components/image-preview";
 @import "components/mcac-header.scss";
@@ -15,6 +17,7 @@
 @import "pages/bulletin-form";
 @import "pages/dashboard-index";
 @import "pages/group-index";
+@import "pages/index";
 @import "pages/login";
 @import "pages/not-found";
 @import "pages/password-form";

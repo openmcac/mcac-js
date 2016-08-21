@@ -2,7 +2,7 @@ import { moduleFor, test } from "ember-qunit";
 import Ember from "ember";
 
 moduleFor("controller:post/index", {
-  needs: ['service:metrics']
+  needs: ['service:metrics', 'service:router-scroll']
 });
 
 test("displayPublishedAt: returns empty string when no date", function(assert) {

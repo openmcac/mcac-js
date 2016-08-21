@@ -1,7 +1,7 @@
 import { moduleFor, test } from 'ember-qunit';
 
 moduleFor('controller:group/edit', {
-  needs: ['service:metrics']
+  needs: ['service:metrics', 'service:router-scroll']
 });
 
 // Replace this with your real tests.

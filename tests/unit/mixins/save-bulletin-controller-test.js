@@ -3,7 +3,7 @@ import SaveBulletinControllerMixin from 'mcac/mixins/save-bulletin-controller';
 import { module, test } from 'qunit';
 
 module('Unit | Mixin | save bulletin controller', {
-  needs: ['service:metrics']
+  needs: ['service:metrics', 'service:router-scroll']
 });
 
 // Replace this with your real tests.

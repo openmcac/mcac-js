@@ -4,7 +4,7 @@ import {
 } from 'ember-qunit';
 
 moduleFor('route:bulletin', 'BulletinRoute', {
-  needs: ['service:metrics']
+  needs: ['service:metrics', 'service:router-scroll']
 });
 
 test('it exists', function(assert) {

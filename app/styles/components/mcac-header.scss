@@ -1,25 +1,45 @@
 .navbar {
+  z-index: 100;
   background-color: $white;
-  height: $nav-bar-height;
-  min-height: $nav-bar-height;
-  width: 100%;
   border-style: none;
-
-  > .container {
-    background-color: $white;
-  }
+  width: 100%;
 
   .navbar-header {
-    text-align: center;
     float: none;
+    height: $nav-bar-height;
+    margin-left: 0;
+    margin-right: 0;
 
     .navbar-brand {
-      color: $accent-color;
+      color: $black;
       float: none;
       line-height: $nav-bar-height;
+      padding: 0;
+      position: relative;
+    }
+
+    i.logo {
+      font-size: 36px;
+
+      &:before {
+        margin-left: 0;
+      }
+    }
+
+    abbr[title] {
+      border-style: none;
+      position: absolute;
+      cursor: pointer;
     }
   }
 
+  &.hiding-menu.hidden {
+    display: initial !important;
+  }
+
   @media only screen and (min-width: $small-device-break) {
+    .navbar-header .navbar-brand {
+      margin-left: 0;
+    }
   }
 }

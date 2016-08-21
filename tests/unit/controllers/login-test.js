@@ -4,7 +4,7 @@ import {
 } from 'ember-qunit';
 
 moduleFor('controller:login', 'LoginController', {
-  needs: ['service:metrics']
+  needs: ['service:metrics', 'service:router-scroll']
 });
 
 // Replace this with your real tests.
