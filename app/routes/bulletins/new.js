@@ -13,7 +13,8 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
       name: 'Sunday Worship Service',
       description: publishedAt.format('MMMM Do YYYY, h:mm a'),
       serviceOrder: '',
-      group: group
+      group: group,
+      sermon: this.store.createRecord("sermon")
     });
 
     const filter = { latest_for_group: group.get('id') };

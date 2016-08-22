@@ -38,12 +38,26 @@ test("it can create a new bulletin", assert => {
     serviceOrder: "New service order"
   };
 
+  const sermon = {
+    name: "My Sermon",
+    notes: "",
+    series: "Super series",
+    speaker: "Mr. Speaker"
+  };
+
   page.
     visit({ groupSlug: group.slug }).
     fillName(bulletin.name).
     fillPublishedAt(bulletin.publishedAt).
-    fillServiceOrder(bulletin.serviceOrder).
-    submit();
+    fillServiceOrder(bulletin.serviceOrder);
+
+  page.sermonEditor.
+    fillName(sermon.name).
+    fillNotes(sermon.notes).
+    fillSeries(sermon.series).
+    fillSpeaker(sermon.speaker);
+
+  page.submit();
 
   andThen(() => {
     const bulletins = server.db.bulletins;
