@@ -44,20 +44,18 @@
                               rows="10"}}
         </div>
       </div>
-      {{#if this.attrs.includesermon}}
-        <div class="panel panel-default">
-          <fieldset>
-            <div class="panel-heading">
-              <h3 class="panel-title">Sermon</h3>
-            </div>
-            <div class="panel-body">
-              {{sermon-editor sermon=bulletin.sermon
-                  diduploadaudio=(action this.attrs.diduploadaudio)
-                  clearaudio=(action this.attrs.clearaudio)}}
-            </div>
-          </fieldset>
-        </div>
-      {{/if}}
+      <div class="panel panel-default">
+        <fieldset>
+          <div class="panel-heading">
+            <h3 class="panel-title">Sermon</h3>
+          </div>
+          <div class="panel-body">
+            {{sermon-editor sermon=bulletin.sermon
+                diduploadaudio=(action this.attrs.diduploadaudio)
+                clearaudio=(action this.attrs.clearaudio)}}
+          </div>
+        </fieldset>
+      </div>
     </section>
     {{#if this.attrs.appendannouncement}}
       <section class="announcements col-md-6">

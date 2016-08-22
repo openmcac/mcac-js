@@ -1,13 +1,22 @@
+import Mirage from "ember-cli-mirage";
+
 export default function() {
+  this.post("/api/auth/sign_in", function(schema, request) {
+    const user = schema.users.find(1);
+    return new Mirage.Response(
+        200,
+        { "access-token": "adssafsdafsdsfd", "client": "asdfasdfasafs", "uid": "test@example.com" },
+        {"data":{"id":`${user.id}`,"type":"users","links":{"self":`/api/v1/users/${user.id}`},"attributes":{"name":user.name,"email":user.email}}}
+    );
+  });
+
   this.namespace = "/api/v1";
 
   this.delete("/announcements/:id");
-  this.get("/announcements");
   this.get("/announcements/:id");
   this.patch("/announcements/:id");
   this.post("/announcements");
 
-  this.get("/bulletins");
   this.get("/bulletins/:id");
   this.get("/bulletins/:id/sermon");
   this.patch("/bulletins/:id");
@@ -22,6 +31,24 @@ export default function() {
   this.get("/sermons/:id");
   this.patch("/sermons/:id");
   this.post("/sermons");
+
+  this.get("/bulletins", function(schema, request) {
+    if (schema.bulletins.all().models.length > 0 &&
+        request.queryParams["filter[latest_for_group]"]) {
+      return schema.bulletins.find([1]);
+    }
+
+    return schema.bulletins.all();
+  });
+
+  this.get("/announcements", function(schema, request) {
+    if (schema.announcements.all().models.length > 0 &&
+        request.queryParams["filter[latest_for_group]"]) {
+      return schema.announcements.find([1, 2, 3]);
+    }
+
+    return schema.announcements.all();
+  });
 
   this.get("/posts", function(schema, request) {
     const groupId = request.queryParams["filter[group]"];
