@@ -38,12 +38,26 @@ test("it can create a new bulletin", assert => {
     serviceOrder: "New service order"
   };
 
+  const sermon = {
+    name: "My Sermon",
+    notes: "",
+    series: "Super series",
+    speaker: "Mr. Speaker"
+  };
+
   page.
     visit({ groupSlug: group.slug }).
     fillName(bulletin.name).
     fillPublishedAt(bulletin.publishedAt).
-    fillServiceOrder(bulletin.serviceOrder).
-    submit();
+    fillServiceOrder(bulletin.serviceOrder);
+
+  page.sermonEditor.
+    fillName(sermon.name).
+    fillNotes(sermon.notes).
+    fillSeries(sermon.series).
+    fillSpeaker(sermon.speaker);
+
+  page.submit();
 
   andThen(() => {
     const bulletins = server.db.bulletins;
@@ -60,24 +74,13 @@ test("it populates default values", assert => {
   authenticateSession(application, sessionData);
 
   const group = server.create("group");
-  page.visit({ groupSlug: group.slug });
-
-  andThen(() => {
-    assert.equal(page.name, "Sunday Worship Service");
-    assert.equal(page.serviceOrder, "");
-    equalDate(assert, page.publishedAt, nextService());
-  });
-});
-
-test("it defaults to last week's service order when available", assert => {
-  authenticateSession(application, sessionData);
-
-  const group = server.create("group");
   const lastWeekBulletin = server.create("bulletin", { group });
 
   page.visit({ groupSlug: group.slug });
 
   andThen(() => {
+    assert.equal(page.name, "Sunday Worship Service");
+    equalDate(assert, page.publishedAt, nextService());
     assert.equal(page.serviceOrder, lastWeekBulletin.serviceOrder);
   });
 });
