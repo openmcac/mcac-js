@@ -60,24 +60,13 @@ test("it populates default values", assert => {
   authenticateSession(application, sessionData);
 
   const group = server.create("group");
-  page.visit({ groupSlug: group.slug });
-
-  andThen(() => {
-    assert.equal(page.name, "Sunday Worship Service");
-    assert.equal(page.serviceOrder, "");
-    equalDate(assert, page.publishedAt, nextService());
-  });
-});
-
-test("it defaults to last week's service order when available", assert => {
-  authenticateSession(application, sessionData);
-
-  const group = server.create("group");
   const lastWeekBulletin = server.create("bulletin", { group });
 
   page.visit({ groupSlug: group.slug });
 
   andThen(() => {
+    assert.equal(page.name, "Sunday Worship Service");
+    equalDate(assert, page.publishedAt, nextService());
     assert.equal(page.serviceOrder, lastWeekBulletin.serviceOrder);
   });
 });
