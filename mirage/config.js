@@ -32,6 +32,20 @@ export default function() {
   this.patch("/sermons/:id");
   this.post("/sermons");
 
+  this.get("/speakers", function(schema, request) {
+    if (schema.speakers.all().models.length > 0 &&
+        request.queryParams["filter[autocomplete]"]) {
+      const nameFilter = request.queryParams["filter[autocomplete]"];
+      return schema.speakers.where({ name: nameFilter });
+    }
+
+    return schema.speakers.all();
+  });
+
+  this.get("/speakers/:id");
+  this.patch("/speaker/:id");
+  this.post("/speakers");
+
   this.get("/bulletins", function(schema, request) {
     if (schema.bulletins.all().models.length > 0 &&
         request.queryParams["filter[latest_for_group]"]) {

@@ -1,12 +1,18 @@
 <div class="container bulletin-form">
   <h2>Add a bulletin</h2>
-  {{bulletin-editor bulletin=model
+  {{bulletin-editor
       appendannouncement=(action "appendAnnouncement")
+      bulletin=model
+      clearaudio=(action "clearAudio")
+      clearbanner=(action "clearBanner")
+      createspeaker=(action "createSpeaker")
+      defaultSpeakerOptions=defaultSpeakerOptions
       diduploadaudio=(action "didUploadAudio")
       diduploadbanner=(action "didUploadBanner")
-      clearbanner=(action "clearBanner")
-      clearaudio=(action "clearAudio")
       onsave=(action "saveBulletin")
       removeannouncement=(action "removeAnnouncement")
-      reorderannouncements=(action "reorderAnnouncements")}}
+      reorderannouncements=(action "reorderAnnouncements")
+      selectedSpeaker=selectedSpeaker
+      speakersearch=(action "speakerSearch")
+      updatespeaker=(action "updateSpeaker")}}
 </div>

@@ -8,5 +8,5 @@ export default DS.Model.extend({
   notes: DS.attr("string"),
   publishedAt: DS.attr('date'),
   series: DS.attr("string"),
-  speaker: DS.attr("string")
+  speakers: DS.hasMany("speaker")
 });

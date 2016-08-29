@@ -37,7 +37,38 @@ export default Ember.Mixin.create({
     },
     didUploadAudio(storageUrl) {
       this.set("model.sermon.audioUrl", storageUrl);
+    },
+    speakerSearch(term) {
+      return new Ember.RSVP.Promise((resolve, reject) => {
+        Ember.run.debounce(this, this._performSearch, term, resolve, reject, 400);
+      });
+    },
+    updateSpeaker(speaker) {
+      this.set("selectedSpeaker", speaker);
+    },
+    createSpeaker(speakerName) {
+      this.get("model.sermon").then((sermon) => {
+        this.set("selectedSpeaker", this.get("store").createRecord("speaker", {
+          sermon: sermon,
+          name: speakerName
+        }));
+      });
     }
+  },
+  defaultSpeakerOptions: Ember.computed(function() {
+    const filter = { custom: "defaultSpeakerOptions" };
+    return this.get("store").query("speaker", { filter: filter });
+  }),
+  selectedSpeaker: {},
+  _performSearch(term, resolve, reject) {
+    if (Ember.isBlank(term)) {
+      return resolve([]);
+    }
+
+    const filter = { autocomplete: term };
+    this.get("store").
+      query("speaker", { filter: filter }).
+      then(speakers => resolve(speakers), reject);
   }
 });
 

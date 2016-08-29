@@ -24,4 +24,8 @@ export default function(server) {
   server.createList("post", 10, { group: englishService });
 
   server.create("user", { email: "test@example.com", name: "Test User" });
+
+  server.create("speaker", { name: "Rev. Marshall Davis" });
+  server.create("speaker", { name: "Rev. Thomas Chan" });
+  server.create("speaker", { name: "Pastor Ryan Lee" });
 }

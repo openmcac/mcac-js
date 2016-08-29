@@ -13,9 +13,14 @@
   </div>
   <div class="form-group">
     <label for="speaker">Speaker</label>
-    {{input value=sermon.speaker
-            class="form-control"
-            data-auto-id="speaker"}}
+    {{#power-select-with-create
+        options=defaultSpeakerOptions
+        search=(action this.attrs.speakersearch)
+        selected=selectedSpeaker
+        onchange=(action this.attrs.updatespeaker)
+        oncreate=(action this.attrs.createspeaker) as |speaker term| }}
+      {{speaker.displayLabel}}
+    {{/power-select-with-create}}
   </div>
   <div class="form-group">
     <label for="audio">Audio</label>

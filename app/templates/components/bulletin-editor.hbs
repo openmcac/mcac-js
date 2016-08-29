@@ -50,7 +50,13 @@
             <h3 class="panel-title">Sermon</h3>
           </div>
           <div class="panel-body">
-            {{sermon-editor sermon=bulletin.sermon
+            {{sermon-editor
+                sermon=bulletin.sermon
+                speakersearch=(action this.attrs.speakersearch)
+                selectedSpeaker=selectedSpeaker
+                defaultSpeakerOptions=defaultSpeakerOptions
+                updatespeaker=(action this.attrs.updatespeaker)
+                createspeaker=(action this.attrs.createspeaker)
                 diduploadaudio=(action this.attrs.diduploadaudio)
                 clearaudio=(action this.attrs.clearaudio)}}
           </div>

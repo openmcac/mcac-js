@@ -49,7 +49,6 @@ function explicityDeleteAnnouncementsForMirageWorkaround(announcements) {
 function hasSermon(sermon) {
   return !(Ember.isEmpty(sermon) ||
       (Ember.isEmpty(sermon.get("series")) &&
-        Ember.isEmpty(sermon.get("speaker")) &&
         Ember.isEmpty(sermon.get("name")) &&
         Ember.isEmpty(sermon.get("audioUrl")) &&
         Ember.isEmpty(sermon.get("notes"))));
