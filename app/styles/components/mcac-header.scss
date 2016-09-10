@@ -16,6 +16,10 @@
       line-height: $nav-bar-height;
       padding: 0;
       position: relative;
+
+      &.word {
+        top: -5px;
+      }
     }
 
     i.logo {
