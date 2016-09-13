@@ -49,6 +49,8 @@ module.exports = function(defaults) {
     }
   });
 
+  app.import('bower_components/tether/dist/js/tether.js');
+  app.import('bower_components/tether/dist/css/tether.css');
   app.import('bower_components/bootstrap/dist/js/bootstrap.js');
   app.import('bower_components/bootstrap/dist/css/bootstrap.css');
   app.import('bower_components/moment/moment.js');
@@ -63,16 +65,11 @@ module.exports = function(defaults) {
 
   var mergeTrees = require('broccoli-merge-trees');
   var pickFiles = require('broccoli-static-compiler');
-  var bootstrapFonts = pickFiles('bower_components/bootstrap/dist/fonts', {
-    srcDir: '/',
-    files: ['**/*'],
-    destDir: '/fonts'
-  });
   var customFonts = pickFiles('vendor/fontello/font', {
     srcDir: '/',
     files: ['**/*'],
     destDir: '/font'
   });
 
-  return mergeTrees([app.toTree(), bootstrapFonts, customFonts]);
+  return mergeTrees([app.toTree(), customFonts]);
 };
