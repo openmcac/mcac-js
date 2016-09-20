@@ -43,7 +43,8 @@ test("it can create a new bulletin", assert => {
     name: "My Sermon",
     notes: "",
     series: "Super series",
-    speaker: "Mr. Speaker"
+    speaker: "Mr. Speaker",
+    tags: "humility,faith,temptation"
   };
 
   page.
@@ -56,7 +57,8 @@ test("it can create a new bulletin", assert => {
     fillName(sermon.name).
     fillNotes(sermon.notes).
     fillSeries(sermon.series).
-    fillSpeaker(sermon.speaker);
+    fillSpeaker(sermon.speaker).
+    fillTags(sermon.tags);
 
   page.submit();
 
@@ -64,9 +66,13 @@ test("it can create a new bulletin", assert => {
     const bulletins = server.db.bulletins;
     const createdBulletin = bulletins[bulletins.length - 1];
 
+    const sermons = server.db.sermons;
+    const createdSermon = sermons[sermons.length - 1];
+
     assert.equal(createdBulletin.name, bulletin.name);
     equalDate(assert, createdBulletin.publishedAt, bulletin.publishedAt);
     assert.equal(createdBulletin.serviceOrder, bulletin.serviceOrder);
+    assert.equal(createdSermon.tags, sermon.tags);
     assert.equal(currentURL(), "/dashboard");
   });
 });

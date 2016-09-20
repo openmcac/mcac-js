@@ -18,6 +18,10 @@
             data-auto-id="speaker"}}
   </div>
   <div class="form-group">
+    <label for="tags">Tags</label>
+    {{input value=sermon.tags class="form-control" data-auto-id="tags"}}
+  </div>
+  <div class="form-group">
     <label for="audio">Audio</label>
     <div class="form-control audio">
       {{s3-upload url="/api/v1/bulletins/sign"
