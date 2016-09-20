@@ -25,6 +25,9 @@ export default Factory.extend({
   },
   bannerUrl() {
     return null;
+  },
+  tags() {
+    return "test1,test2";
   }
 });
 
