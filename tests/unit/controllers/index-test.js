@@ -17,15 +17,15 @@ test("viewOnlineSermons: it redirects to sunday's bulletin", function(assert) {
   controller.send("viewOnlineSermons");
 });
 
-test("viewEnglishService: it redirects to english service hub", function(assert) {
+test("viewGroup: it redirects to group with group slug", function(assert) {
   const controller = this.subject();
 
   const done = assert.async();
   controller.transitionToRoute = function(name, model) {
     assert.equal(name, "group.index");
-    assert.equal(model, "english-service");
+    assert.equal(model, "random-slug");
     done();
   };
 
-  controller.send("viewEnglishService");
+  controller.send("viewGroup", "random-slug");
 });

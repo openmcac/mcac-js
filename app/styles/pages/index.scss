@@ -32,9 +32,14 @@
 
     .group {
       text-align: center;
+      margin-top: $padding-l;
 
       .description {
         margin-top: $padding-m;
+      }
+
+      &:first-of-type {
+        margin-top: 0
       }
     }
   }
@@ -55,6 +60,12 @@
 
     .theme {
       background-color: $gray-blue-light;
+    }
+
+    .around-church {
+      .group, .group:first-of-type {
+        margin-top: 0;
+      }
     }
 
     section {

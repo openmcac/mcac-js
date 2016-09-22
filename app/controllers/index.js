@@ -2,8 +2,8 @@ import Ember from 'ember';
 
 export default Ember.Controller.extend({
   actions: {
-    viewEnglishService() {
-      this.transitionToRoute("group.index", "english-service");
+    viewGroup(slug) {
+      this.transitionToRoute("group.index", slug);
     },
     viewOnlineSermons() {
       this.transitionToRoute("bulletin/sunday");
