@@ -36,6 +36,10 @@
 
       .description {
         margin-top: $padding-m;
+
+        a {
+          @include body-font();
+        }
       }
 
       &:first-of-type {
