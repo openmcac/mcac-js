@@ -24,22 +24,31 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-sm-offset-2 col-sm-4 group" {{action "viewGroup" "childrens-church"}}>
-        <img src={{cloudinary-fetch url="https://mcac.s3.amazonaws.com/groups/fabe359d-8611-4112-b675-842cd40ef57e.jpg"
-                                    width=200
-                                    radius="max"
-                                    height=200 crop="fill"}} />
+      <div class="col-sm-offset-2 col-sm-4 group">
+        {{#link-to "group.index" "childrens-church"}}
+          <img src={{cloudinary-fetch url="https://mcac.s3.amazonaws.com/groups/fabe359d-8611-4112-b675-842cd40ef57e.jpg"
+                                      width=200
+                                      radius="max"
+                                      height=200 crop="fill"}} />
+        {{/link-to}}
         <div class="description">
-          Children's Church
+          {{#link-to "group.index" "childrens-church"}}
+            Children's Church
+          {{/link-to}}
         </div>
       </div>
       <div class="col-sm-4 group" {{action "viewGroup" "english-service"}}>
-        <img src={{cloudinary-fetch url="https://mcac.s3.amazonaws.com/groups/5c7d76a8-d195-4907-951d-5b3fb00c438d.jpg"
-                                    width=200
-                                    radius="max"
-                                    height=200 crop="fill"}} />
+        {{#link-to "group.index" "english-service"}}
+          <img src={{cloudinary-fetch url="https://mcac.s3.amazonaws.com/groups/5c7d76a8-d195-4907-951d-5b3fb00c438d.jpg"
+                                      width=200
+                                      radius="max"
+                                      height=200 crop="fill"}} />
+
+        {{/link-to}}
         <div class="description">
-          English Service
+          {{#link-to "group.index" "english-service"}}
+            English Service
+          {{/link-to}}
         </div>
       </div>
     </div>
