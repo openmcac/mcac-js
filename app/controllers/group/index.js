@@ -3,6 +3,7 @@ import Pagination from 'ember-cli-jsonapi-pagination/mixins/controllers/jsonapi-
 
 export default Ember.Controller.extend(Pagination, {
   totalPages: Ember.computed('size', 'number', 'model.posts.[]', function() {
-    return this.get('posts.meta.total-pages');
+    const lastPage = new URL(this.get("posts.links.last"));
+    return parseInt(lastPage.searchParams.get("page[number]"));
   })
 });

@@ -59,9 +59,10 @@ export default function() {
       const group = schema.groups.find(groupId);
       const postIds = group.posts.models.map(model => model.id);
       const offset = (pageNumber - 1) * pageSize;
+      const lastPage = Math.ceil(group.posts.models.length / pageSize);
 
       let json = this.serialize(schema.posts.find(postIds.slice(offset, offset + pageSize)));
-      json.meta = { "total-pages": Math.ceil(group.posts.models.length / pageSize) };
+      json.links = { "last": `http://example.com/api/v1/posts?page%5Bnumber%5D=${lastPage}` };
       return json;
     }
 
