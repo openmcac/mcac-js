@@ -1,8 +1,7 @@
 import { moduleFor, test } from 'ember-qunit';
 
 moduleFor('controller:group/index', 'Unit | Controller | group/index', {
-  // Specify the other units that are required for this test.
-  // needs: ['controller:foo']
+  needs: ['service:metrics', 'service:router-scroll']
 });
 
 // Replace this with your real tests.
