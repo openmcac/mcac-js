@@ -1,9 +1,10 @@
 import Ember from 'ember';
+import Pagination from 'ember-cli-jsonapi-pagination/mixins/routes/jsonapi-pagination';
 
 const KIND_POST = 0;
 
-export default Ember.Route.extend({
-  model() {
+export default Ember.Route.extend(Pagination, {
+  model(params) {
     const group = this.modelFor("group");
 
     const filter = {
@@ -11,9 +12,10 @@ export default Ember.Route.extend({
       kind: KIND_POST
     };
 
-    const posts = this.store.query("post", {
+    const posts = this.queryPaginated("post", {
       filter: filter,
-      page: { size: 5 },
+      size: params.size,
+      number: params.number,
       sort: "-published_at"
     });
 

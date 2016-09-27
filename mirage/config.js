@@ -52,10 +52,17 @@ export default function() {
 
   this.get("/posts", function(schema, request) {
     const groupId = request.queryParams["filter[group]"];
+    const pageSize = parseInt(request.queryParams["page[size]"]);
+    const pageNumber = parseInt(request.queryParams["page[number]"]);
 
     if (groupId) {
       const group = schema.groups.find(groupId);
-      return group.posts;
+      const postIds = group.posts.models.map(model => model.id);
+      const offset = (pageNumber - 1) * pageSize;
+
+      let json = this.serialize(schema.posts.find(postIds.slice(offset, offset + pageSize)));
+      json.meta = { "total-pages": Math.ceil(group.posts.models.length / pageSize) };
+      return json;
     }
 
     return schema.posts.all();

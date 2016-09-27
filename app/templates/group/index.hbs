@@ -10,6 +10,7 @@
               {{post-view post=post snippets=true}}
             </div>
           {{/each}}
+          {{paginate-collection totalPages=totalPages currentPage=number setCurrentPage=(action "setCurrentPage")}}
         </div>
       </section>
     {{/if}}
