@@ -25,7 +25,8 @@ test("handles groups that do not exist", function(assert) {
 
 test("renders appropriate group details", function(assert) {
   const group = server.create("group", { slug: "random" });
-  const posts = server.createList("post", 3, { group });
+  const posts = server.createList("post", 15, { group });
+  server.createList("post", 5, { group });
 
   page.visit({ slug: group.slug });
 
@@ -36,6 +37,7 @@ test("renders appropriate group details", function(assert) {
     assert.equal(page.bannerUrl(), `https://res.cloudinary.com/${ENV['CLOUDINARY_CLOUD_NAME']}/image/fetch/w_1920/${group.bannerUrl}`);
     assert.equal(page.profilePictureUrl(), `https://res.cloudinary.com/${ENV['CLOUDINARY_CLOUD_NAME']}/image/fetch/w_200/${group.profilePictureUrl}`);
 
+    assert.equal(page.posts().count, 15);
     posts.forEach(function(post, i) {
       assert.equal(page.posts(i).title, posts[i].title);
     });

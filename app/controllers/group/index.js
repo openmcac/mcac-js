@@ -3,7 +3,9 @@ import Pagination from 'ember-cli-jsonapi-pagination/mixins/controllers/jsonapi-
 
 export default Ember.Controller.extend(Pagination, {
   totalPages: Ember.computed('size', 'number', 'model.posts.[]', function() {
-    return parseInt(getParameterByName("page[number]", this.get("posts.links.last")));
+    const pageParam =
+      getParameterByName("page[number]", this.get("posts.links.last"));
+    return parseInt(pageParam || 0);
   })
 });
 
@@ -12,8 +14,7 @@ function getParameterByName(name, url) {
   const regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)");
   const results = regex.exec(url);
 
-  if (!results) return null;
-  if (!results[2]) return "";
-
-  return decodeURIComponent(results[2].replace(/\+/g, " "));
+  if (results && results[2]) {
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+  }
 }
