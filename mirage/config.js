@@ -52,10 +52,18 @@ export default function() {
 
   this.get("/posts", function(schema, request) {
     const groupId = request.queryParams["filter[group]"];
+    const pageSize = parseInt(request.queryParams["page[size]"]);
+    const pageNumber = parseInt(request.queryParams["page[number]"]);
 
     if (groupId) {
       const group = schema.groups.find(groupId);
-      return group.posts;
+      const postIds = group.posts.models.map(model => model.id);
+      const offset = (pageNumber - 1) * pageSize;
+      const lastPage = Math.ceil(group.posts.models.length / pageSize);
+
+      let json = this.serialize(schema.posts.find(postIds.slice(offset, offset + pageSize)));
+      json.links = { "last": `http://example.com/api/v1/posts?page%5Bnumber%5D=${lastPage}` };
+      return json;
     }
 
     return schema.posts.all();
