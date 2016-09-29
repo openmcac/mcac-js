@@ -54,7 +54,7 @@
     padding-bottom: $padding-xl;
   }
 
-  @media only screen and (min-width: $small-device-break) {
+  @media only screen and (min-width: $medium-device-break) {
     .cover-page {
       h1 {
         font-size: 64px;
