@@ -1,10 +1,10 @@
 <form action="#">
   <div class="row">
-    <section class="service-information col-md-6" data-test-id="bulletin-form">
+    <section class="service-information col-lg-6" data-test-id="bulletin-form">
       <h3>Service Information</h3>
 
       <div class="row">
-        <div class="form-group col-md-10 {{if errors.bulletin.name "has-error" ""}}"
+        <div class="form-group col-lg-10 {{if errors.bulletin.name "has-error" ""}}"
           data-test-id="name">
           <label class="control-label">Name {{errors.bulletin.name}}</label>
           {{input value=bulletin.name
@@ -13,7 +13,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="form-group col-md-10 {{if errors.bulletin.publishedAt "has-error" ""}}"
+        <div class="form-group col-lg-10 {{if errors.bulletin.publishedAt "has-error" ""}}"
           data-test-id="published-at">
           <label class="control-label" for="publishedAt">Published at {{errors.bulletin.publishedAt}}</label>
           {{bs-datetimepicker class="published-at"
@@ -23,7 +23,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="form-group col-md-10">
+        <div class="form-group col-lg-10">
           <label for="banner">Banner</label>
           <div class="form-control banner">
             {{s3-upload url="/api/v1/bulletins/sign"
@@ -36,7 +36,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="form-group col-md-12" data-test-id="service-order">
+        <div class="form-group col-lg-12" data-test-id="service-order">
           <label for="serviceOrder">Order</label>
           {{markdown-textarea value=bulletin.serviceOrder
                               class="form-control service-order"
@@ -58,7 +58,7 @@
       </div>
     </section>
     {{#if this.attrs.appendannouncement}}
-      <section class="announcements col-md-6">
+      <section class="announcements col-lg-6">
         <h3>Announcements</h3>
         {{announcements-editor announcements=bulletin.sortedAnnouncements
             reorder=(action this.attrs.reorderannouncements)
@@ -68,7 +68,7 @@
     {{/if}}
   </div>
   <div class="row">
-    <div class="col-sm-12">
+    <div class="col-md-12">
       <button type="submit"
           {{action (action this.attrs.onsave bulletin)}}
           class="btn btn-primary save-bulletin"
