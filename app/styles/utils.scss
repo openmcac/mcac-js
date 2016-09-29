@@ -59,7 +59,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 @mixin margin-top-xl() {
   margin-top: $padding-l;
 
-  @media only screen and (min-width: $medium-device-break) {
+  @media only screen and (min-width: $large-device-break) {
     margin-top: $padding-xl;
   }
 }
@@ -67,7 +67,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 @mixin margin-top-l() {
   margin-top: $padding-m;
 
-  @media only screen and (min-width: $medium-device-break) {
+  @media only screen and (min-width: $large-device-break) {
     margin-top: $padding-l;
   }
 }
@@ -75,7 +75,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 @mixin padding-top-xl() {
   padding-top: $padding-l;
 
-  @media only screen and (min-width: $medium-device-break) {
+  @media only screen and (min-width: $large-device-break) {
     padding-top: $padding-xl;
   }
 }
@@ -83,7 +83,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 @mixin padding-bottom-xl() {
   padding-bottom: $padding-l;
 
-  @media only screen and (min-width: $medium-device-break) {
+  @media only screen and (min-width: $large-device-break) {
     padding-bottom: $padding-xl;
   }
 }
@@ -91,7 +91,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 @mixin padding-top-l() {
   padding-top: $padding-m;
 
-  @media only screen and (min-width: $medium-device-break) {
+  @media only screen and (min-width: $large-device-break) {
     padding-top: $padding-l;
   }
 }
@@ -99,7 +99,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 @mixin padding-top-m() {
   padding-top: $padding-s;
 
-  @media only screen and (min-width: $medium-device-break) {
+  @media only screen and (min-width: $large-device-break) {
     padding-top: $padding-m;
   }
 }
@@ -107,7 +107,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 @mixin padding-bottom-l() {
   padding-bottom: $padding-m;
 
-  @media only screen and (min-width: $medium-device-break) {
+  @media only screen and (min-width: $large-device-break) {
     padding-bottom: $padding-l;
   }
 }
@@ -115,7 +115,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 @mixin padding-bottom-m() {
   padding-bottom: $padding-s;
 
-  @media only screen and (min-width: $medium-device-break) {
+  @media only screen and (min-width: $large-device-break) {
     padding-bottom: $padding-m;
   }
 }
