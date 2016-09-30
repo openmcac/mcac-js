@@ -4,15 +4,15 @@
   position: absolute;
   z-index: 100;
 
+  a, a:hover, a:visited, a:not([href]) {
+    color: $white;
+    text-decoration: none;
+  }
+
   .nav-button {
     background: rgb(0, 0, 0); /* Fall-back for browsers that don't support rgba */
     background: rgba(0, 0, 0, .5);
     padding: $padding-m;
-
-    &, &:hover {
-      color: $white;
-      text-decoration: none;
-    }
   }
 
   @media only screen and (min-width: $large-device-break) {
