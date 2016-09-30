@@ -17,7 +17,14 @@
     }
 
     .view-bulletin {
+      border-color: $white;
+      color: $white;
       margin-top: $padding-m;
+
+      &:hover {
+        color: $gray-extradark;
+        background-color: $white;
+      }
     }
   }
 
