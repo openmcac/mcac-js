@@ -1,5 +1,3 @@
 <a href="{{fileUrl}}" data-auto-id="preview">{{url}}</a>
-<span class="glyphicon glyphicon-remove remove"
-    data-auto-id="remove"
-    {{action (action this.attrs.clearfile)}}></span>
+<i class="icon-cancel" data-auto-id="remove" {{action (action this.attrs.clearfile)}}></i>
 {{yield}}

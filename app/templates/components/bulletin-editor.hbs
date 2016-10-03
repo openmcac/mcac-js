@@ -38,23 +38,23 @@
       <div class="row">
         <div class="form-group col-lg-12" data-test-id="service-order">
           <label for="serviceOrder">Order</label>
-          {{markdown-textarea value=bulletin.serviceOrder
-                              class="form-control service-order"
-                              data-auto-id="bulletin-service-order"
-                              rows="10"}}
+          {{textarea value=bulletin.serviceOrder
+                     class="form-control service-order"
+                     data-auto-id="bulletin-service-order"
+                     rows="10"}}
         </div>
       </div>
-      <div class="panel panel-default">
-        <fieldset>
-          <div class="panel-heading">
-            <h3 class="panel-title">Sermon</h3>
+      <div class="card">
+        <h3 class="card-header">Sermon</h3>
+        <div class="card-block">
+          <div class="card-text">
+            <fieldset>
+                {{sermon-editor sermon=bulletin.sermon
+                    diduploadaudio=(action this.attrs.diduploadaudio)
+                    clearaudio=(action this.attrs.clearaudio)}}
+            </fieldset>
           </div>
-          <div class="panel-body">
-            {{sermon-editor sermon=bulletin.sermon
-                diduploadaudio=(action this.attrs.diduploadaudio)
-                clearaudio=(action this.attrs.clearaudio)}}
-          </div>
-        </fieldset>
+        </div>
       </div>
     </section>
     {{#if this.attrs.appendannouncement}}
