@@ -8,7 +8,7 @@ export default Factory.extend({
     return faker.helpers.slugify(this.name).toLowerCase();
   },
   about() {
-    return faker.lorem.paragraphs(2);
+    return faker.lorem.sentences(faker.random.number(4) + 1).replace(/\n/g, ' ');
   },
   "meetDetails"() {
     return faker.lorem.sentence();
