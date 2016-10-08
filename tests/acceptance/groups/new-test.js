@@ -3,11 +3,12 @@ import NewGroupPage from "mcac/tests/helpers/pages/groups/new";
 import sessionData from '../../helpers/payloads/sessionData';
 import startApp from "mcac/tests/helpers/start-app";
 import { authenticateSession } from 'mcac/tests/helpers/ember-simple-auth';
-import { module, test } from 'qunit';
+import { test } from 'qunit';
+import moduleForAcceptance from 'mcac/tests/helpers/module-for-acceptance'
 
 let application;
 
-module('Acceptance | groups/new', {
+moduleForAcceptance('Acceptance | groups/new', {
   beforeEach() {
     application = startApp();
   },

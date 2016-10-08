@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import startApp from '../../helpers/start-app';
-import { test, module } from 'qunit';
+import { test } from 'qunit';
+import moduleForAcceptance from 'mcac/tests/helpers/module-for-acceptance'
 import mockServer from '../../helpers/server';
 import BulletinPayload from '../../helpers/payloads/bulletin';
 import sessionData from '../../helpers/payloads/sessionData';
@@ -8,7 +9,7 @@ import { authenticateSession } from 'mcac/tests/helpers/ember-simple-auth';
 
 let application, fakeServer;
 
-module('Acceptance: BulletinsIndex', {
+moduleForAcceptance('Acceptance: BulletinsIndex', {
   beforeEach: function() {
     application = startApp();
     fakeServer = mockServer();

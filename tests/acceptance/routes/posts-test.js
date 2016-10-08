@@ -1,5 +1,6 @@
 import Ember from 'ember';
-import { module, test } from 'qunit';
+import { test } from 'qunit';
+import moduleForAcceptance from 'mcac/tests/helpers/module-for-acceptance'
 import startApp from 'mcac/tests/helpers/start-app';
 import mockServer from 'mcac/tests/helpers/server';
 import PostPayload from 'mcac/tests/helpers/payloads/post';
@@ -9,7 +10,7 @@ import { authenticateSession } from 'mcac/tests/helpers/ember-simple-auth';
 
 var application, fakeServer;
 
-module('Acceptance: Post Routes', {
+moduleForAcceptance('Acceptance: Post Routes', {
   beforeEach: function() {
     application = startApp();
     fakeServer = createServer();

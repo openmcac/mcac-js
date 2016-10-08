@@ -3,11 +3,12 @@ import BulletinPayload from "../helpers/payloads/bulletin";
 import Ember from "ember";
 import mockServer from "../helpers/server";
 import startApp from "../helpers/start-app";
-import { test, module } from "qunit";
+import { test } from 'qunit';
+import moduleForAcceptance from 'mcac/tests/helpers/module-for-acceptance'
 
 let application, fakeServer;
 
-module('Acceptance: Sunday', {
+moduleForAcceptance('Acceptance: Sunday', {
   beforeEach: function() {
     application = startApp();
     fakeServer = mockServer();

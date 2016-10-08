@@ -3,12 +3,13 @@ import Ember from "ember";
 import sessionData from '../../helpers/payloads/sessionData';
 import startApp from "mcac/tests/helpers/start-app";
 import { authenticateSession } from 'mcac/tests/helpers/ember-simple-auth';
-import { module, test } from 'qunit';
+import { test } from 'qunit';
+import moduleForAcceptance from 'mcac/tests/helpers/module-for-acceptance'
 import { faker } from "ember-cli-mirage";
 
 let application;
 
-module('Acceptance | bulletin/edit', {
+moduleForAcceptance('Acceptance | bulletin/edit', {
   beforeEach() {
     application = startApp();
   },

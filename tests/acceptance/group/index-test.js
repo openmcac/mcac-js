@@ -2,11 +2,12 @@ import ENV from "mcac/config/environment";
 import Ember from "ember";
 import page from "mcac/tests/pages/group-index";
 import startApp from "mcac/tests/helpers/start-app";
-import { module, test } from 'qunit';
+import { test } from 'qunit';
+import moduleForAcceptance from 'mcac/tests/helpers/module-for-acceptance'
 
 let application;
 
-module('Acceptance | group/index', {
+moduleForAcceptance('Acceptance | group/index', {
   beforeEach() {
     application = startApp();
   },
