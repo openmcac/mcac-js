@@ -8,7 +8,7 @@ export default PageObject.create({
   fillName: fillable(selector("name")),
   fillPublishedAt: fillable(`${selector("published-at")} input`),
   fillServiceOrder: fillable(selector("service-order")),
-  submit: clickable('button[type=submit]'),
+  submit: clickable(selector("submit-top")),
   sermon: sermonEditor,
   name: PageObject.value(selector("name")),
   publishedAt: PageObject.value(`${selector("published-at")} input`),

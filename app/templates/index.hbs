@@ -1,14 +1,14 @@
 <div class="main-index" data-auto-id="index">
   {{#cover-page}}
     <h1>Loved, Loving.</h1>
-    {{#link-to "bulletin/sunday" class="btn btn-default view-bulletin" data-auto-id="listen-sermons-button"}}
+    {{#link-to "bulletin/sunday" class="btn btn-outline-primary view-bulletin" data-auto-id="listen-sermons-button"}}
       View our latest bulletin
     {{/link-to}}
   {{/cover-page}}
   <section class="theme">
     <div class="container">
       <div class="row">
-        <div class="col-sm-offset-1 col-sm-10 col-md-offset-2 col-md-8">
+        <div class="offset-md-1 col-md-10 offset-lg-2 col-lg-8">
           As a congregation of the Montreal Chinese Alliance Church we believe
           <strong>because God loves us, we will love Jesus, love His people, and
           love the world, for Jesus' sake</strong>.
@@ -18,13 +18,13 @@
   </section>
   <section class="container around-church">
     <div class="row body">
-      <div class="col-sm-offset-1 col-sm-10 col-md-offset-2 col-md-8">
+      <div class="offset-md-1 col-md-10 offset-lg-2 col-lg-8">
         Want to know more about our church? Check out some of the groups within
         our church that may interest you.
       </div>
     </div>
     <div class="row">
-      <div class="col-sm-offset-2 col-sm-4 group">
+      <div class="offset-md-2 col-md-4 group">
         {{#link-to "group.index" "childrens-church"}}
           <img src={{cloudinary-fetch url="https://mcac.s3.amazonaws.com/groups/fabe359d-8611-4112-b675-842cd40ef57e.jpg"
                                       width=200
@@ -37,7 +37,7 @@
           {{/link-to}}
         </div>
       </div>
-      <div class="col-sm-4 group" {{action "viewGroup" "english-service"}}>
+      <div class="col-md-4 group" {{action "viewGroup" "english-service"}}>
         {{#link-to "group.index" "english-service"}}
           <img src={{cloudinary-fetch url="https://mcac.s3.amazonaws.com/groups/5c7d76a8-d195-4907-951d-5b3fb00c438d.jpg"
                                       width=200

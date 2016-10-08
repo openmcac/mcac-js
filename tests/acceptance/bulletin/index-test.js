@@ -1,11 +1,12 @@
 import Ember from "ember";
-import { test, module } from "qunit";
+import { test } from 'qunit';
+import moduleForAcceptance from 'mcac/tests/helpers/module-for-acceptance'
 import startApp from "../../helpers/start-app";
 import page from "mcac/tests/pages/bulletin-index";
 
 let application;
 
-module('Acceptance: View bulletin', {
+moduleForAcceptance('Acceptance: View bulletin', {
   beforeEach: () => application = startApp(),
   afterEach: () => Ember.run(application, 'destroy')
 });

@@ -2,66 +2,58 @@
   <h2>Welcome to Dashboard</h2>
 
   <div class="row">
-    <div class="col-sm-6">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h3 class="panel-title">Bulletins</h3>
-        </div>
-        <div class="panel-body">
-          {{#link-to 'bulletins.new' 'english-service'
-                     class='btn btn-default'
-                     data-auto-id="dashboard-bulletins-create"}}
-            Create
-          {{/link-to}}
-        </div>
-        <table class="table table-hover" data-auto-id="dashboard-bulletins">
-          <thead>
-            <tr>
-              <th>Bulletin</th>
-              <th class="bulletin-actions">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {{#each model.bulletins as |bulletin|}}
-              <tr data-auto-id="dashboard-bulletin">
-                <td>
-                  <div data-auto-id="dashboard-bulletin-name">
+    <div class="col-md-6">
+      <div class="card">
+        <h3 class="card-header">Bulletins</h3>
+        <div class="card-block">
+          <div class="card-text">
+            {{#link-to 'bulletins.new' 'english-service'
+                       class='btn btn-secondary create-bulletin'
+                       data-auto-id="dashboard-bulletins-create"}}
+              Create
+            {{/link-to}}
+            <div class="list-group" data-auto-id="dashboard-bulletins">
+              {{#each model.bulletins as |bulletin|}}
+                <div class="list-group-item list-group-item-action" data-auto-id="dashboard-bulletin">
+                  <div class="list-group-item-heading" data-auto-id="dashboard-bulletin-name">
                     {{bulletin.name}}
                   </div>
-                  <small data-auto-id="dashboard-bulletin-published-at">
-                    {{moment-format bulletin.publishedAt}}
-                  </small>
-                </td>
-                <td>
-                  {{#link-to 'bulletin.index' 'english-service' bulletin
-                             class='btn btn-default'
-                             data-auto-id="dashboard-bulletin-show"}}
-                    Show
-                  {{/link-to}}
+                  <div class="list-group-item-text">
+                    <small data-auto-id="dashboard-bulletin-published-at">
+                      {{moment-format bulletin.publishedAt}}
+                    </small>
+                    <div class="bulletin-actions">
+                      {{#link-to 'bulletin.index' 'english-service' bulletin
+                                 class='btn btn-secondary'
+                                 data-auto-id="dashboard-bulletin-show"}}
+                        <i class="icon-doc-text"></i>
+                      {{/link-to}}
 
-                  {{#link-to 'bulletin.edit' 'english-service' bulletin
-                             class='btn btn-default'
-                             data-auto-id="dashboard-bulletin-edit"}}
-                    Edit
-                  {{/link-to}}
-                </td>
-              </tr>
-            {{/each}}
-          </tbody>
-        </table>
+                      {{#link-to 'bulletin.edit' 'english-service' bulletin
+                                 class='btn btn-secondary'
+                                 data-auto-id="dashboard-bulletin-edit"}}
+                        <i class="icon-pencil"></i>
+                      {{/link-to}}
+                    </div>
+                  </div>
+                </div>
+              {{/each}}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="col-sm-6">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h3 class="panel-title">Settings</h3>
-        </div>
-        <div class="panel-body">
-           {{#link-to 'settings.password'
-               class='btn btn-default'
-               data-auto-id="dashboard-update-password"}}
-             Update your password
-           {{/link-to}}
+    <div class="col-md-6">
+      <div class="card">
+        <h3 class="card-header">Settings</h3>
+        <div class="card-block">
+          <div class="card-text">
+             {{#link-to 'settings.password'
+                 class='btn btn-secondary'
+                 data-auto-id="dashboard-update-password"}}
+               Update your password
+             {{/link-to}}
+           </div>
         </div>
       </div>
     </div>

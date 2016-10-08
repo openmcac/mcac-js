@@ -50,12 +50,13 @@ $announcement-height: 60px;
     }
 
     .url {
-      width: 100%;
-      border-style: none;
       border-bottom-style: solid;
       border-bottom-width: 1px;
       border-color: $gray-light;
+      border-style: none;
+      display: none;
       margin-bottom: $padding-m;
+      width: 100%;
     }
 
     .handle {

@@ -1,8 +1,6 @@
 import Ember from 'ember';
-import {
-  module,
-  test
-} from 'qunit';
+import { test } from 'qunit';
+import moduleForAcceptance from 'mcac/tests/helpers/module-for-acceptance'
 import startApp from 'mcac/tests/helpers/start-app';
 import mockServer from 'mcac/tests/helpers/server';
 import GroupPayload from 'mcac/tests/helpers/payloads/group';
@@ -56,7 +54,7 @@ function createServer() {
   return server;
 }
 
-module('Acceptance: PostsIndex', {
+moduleForAcceptance('Acceptance: PostsIndex', {
   beforeEach: function() {
     application = startApp();
     fakeServer = createServer();

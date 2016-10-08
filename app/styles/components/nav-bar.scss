@@ -35,7 +35,7 @@
     display: inline-block;
   }
 
-  @media only screen and (min-width: $small-device-break) {
+  @media only screen and (min-width: $medium-device-break) {
     .navbar-brand {
       padding-left: 15px;
       padding-right: 15px;

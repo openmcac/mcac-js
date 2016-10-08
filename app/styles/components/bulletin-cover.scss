@@ -63,7 +63,7 @@
     }
   }
 
-  @media only screen and (min-width: $small-device-break) {
+  @media only screen and (min-width: $medium-device-break) {
     .inner {
       audio {
         max-width: initial;
@@ -83,7 +83,7 @@
     }
   }
 
-  @media only screen and (min-width: $medium-device-break) {
+  @media only screen and (min-width: $large-device-break) {
     .inner {
       padding: 0 $padding-xl;
     }

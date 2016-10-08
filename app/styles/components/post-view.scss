@@ -130,7 +130,7 @@
     }
   }
 
-  @media only screen and (min-width: $small-device-break) {
+  @media only screen and (min-width: $medium-device-break) {
     border-width: $padding-xs;
 
     .banner {
@@ -147,7 +147,7 @@
     }
   }
 
-  @media only screen and (min-width: $medium-device-break) {
+  @media only screen and (min-width: $large-device-break) {
     h1 {
     }
 

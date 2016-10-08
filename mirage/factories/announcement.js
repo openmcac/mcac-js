@@ -5,7 +5,7 @@ export default Mirage.Factory.extend({
     return `${faker.internet.url()}`;
   },
   description() {
-    return faker.lorem.sentences(faker.random.number(4) + 1);
+    return faker.lorem.sentences(faker.random.number(4) + 1).replace(/\n/g, ' ');
   },
   position(i) {
     return i;

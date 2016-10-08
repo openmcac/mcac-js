@@ -11,7 +11,7 @@ export default PageObject.create({
   publishedAt: PageObject.value(`${selector("published-at")} input`),
   sermonEditor,
   serviceOrder: PageObject.value(selector("service-order")),
-  submit: clickable('button[type=submit]'),
+  submit: clickable(selector("submit-top")),
   visit: visitable("/:groupSlug/bulletins/new")
 });
 

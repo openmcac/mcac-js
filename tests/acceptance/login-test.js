@@ -1,13 +1,14 @@
 import Ember from 'ember';
 import startApp from '../helpers/start-app';
-import { module, test } from 'qunit';
+import { test } from 'qunit';
+import moduleForAcceptance from 'mcac/tests/helpers/module-for-acceptance'
 import sessionData from "../helpers/payloads/sessionData";
 import { authenticateSession } from 'mcac/tests/helpers/ember-simple-auth';
 import page from "mcac/tests/pages/login";
 
 var application;
 
-module('Acceptance: Login', {
+moduleForAcceptance('Acceptance: Login', {
   beforeEach: function() {
     application = startApp();
   },

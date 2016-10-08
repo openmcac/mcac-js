@@ -57,8 +57,8 @@
   }
 
   @media only screen and
-    (min-width: $small-device-break) and
-    (max-width: $medium-device-break) {
+    (min-width: $medium-device-break) and
+    (max-width: $large-device-break) {
     .container {
     }
 
@@ -80,7 +80,7 @@
     }
   }
 
-  @media only screen and (min-width: $medium-device-break) {
+  @media only screen and (min-width: $large-device-break) {
     .service-order {
       text-align: right;
 

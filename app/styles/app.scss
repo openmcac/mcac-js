@@ -10,6 +10,7 @@
 @import "components/mcac-header.scss";
 @import "components/pace";
 @import "components/page-view";
+@import "components/pagination";
 @import "components/post-composer";
 @import "components/post-form";
 @import "components/post-view";
@@ -27,6 +28,7 @@
 body {
   background-color: $white;
   padding-top: $nav-bar-height;
+  font-size: 14px;
   @include body-font();
 }
 

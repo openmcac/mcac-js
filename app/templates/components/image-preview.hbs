@@ -2,10 +2,6 @@
   <div class="preview"
       data-auto-id="canvas"
       style="background-image: url('{{url}}')"></div>
-  <div class="remove"
-      data-auto-id="remove"
-      {{action (action this.attrs.clearimage)}}>
-    <span class="glyphicon glyphicon-remove"></span>
-  </div>
+  <i class="icon-cancel" data-auto-id="remove" {{action (action this.attrs.clearimage)}}></i>
 </div>
 {{yield}}

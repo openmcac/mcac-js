@@ -1,11 +1,12 @@
 import Ember from 'ember';
-import { module, test } from 'qunit';
+import { test } from 'qunit';
+import moduleForAcceptance from 'mcac/tests/helpers/module-for-acceptance'
 import startApp from 'mcac/tests/helpers/start-app';
 import page from "mcac/tests/pages/post-index";
 
 var application;
 
-module('Acceptance: PostIndex', {
+moduleForAcceptance('Acceptance: PostIndex', {
   beforeEach: function() {
     application = startApp();
   },
