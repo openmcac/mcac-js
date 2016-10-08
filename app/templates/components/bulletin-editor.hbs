@@ -1,15 +1,14 @@
-<div class="row quick-save">
-  <div class="col-md-12">
-    <button type="submit"
-        {{action (action this.attrs.onsave bulletin)}}
-        class="btn btn-primary save-bulletin"
-        disabled={{disableSaveButton}}
-        data-auto-id="bulletin-submit">
-      Save
-    </button>
-  </div>
-</div>
 <form action="#">
+  <div class="row quick-save">
+    <div class="col-md-12">
+      <button {{action (action this.attrs.onsave bulletin)}}
+          class="btn btn-primary save-bulletin"
+          disabled={{disableSaveButton}}
+          data-auto-id="bulletin-submit-top">
+        Save
+      </button>
+    </div>
+  </div>
   <div class="row">
     <section class="service-information col-lg-6" data-test-id="bulletin-form">
       <div class="card">
@@ -91,11 +90,10 @@
   </div>
   <div class="row">
     <div class="col-md-12">
-      <button type="submit"
-          {{action (action this.attrs.onsave bulletin)}}
+      <button {{action (action this.attrs.onsave bulletin)}}
           class="btn btn-primary save-bulletin"
           disabled={{disableSaveButton}}
-          data-auto-id="bulletin-submit">
+          data-auto-id="bulletin-submit-bottom">
         Save
       </button>
     </div>
