@@ -12,41 +12,33 @@
                        data-auto-id="dashboard-bulletins-create"}}
               Create
             {{/link-to}}
-            <table class="table table-striped" data-auto-id="dashboard-bulletins">
-              <thead>
-                <tr>
-                  <th>Bulletin</th>
-                  <th class="bulletin-actions">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {{#each model.bulletins as |bulletin|}}
-                  <tr data-auto-id="dashboard-bulletin">
-                    <td>
-                      <div data-auto-id="dashboard-bulletin-name">
-                        {{bulletin.name}}
-                      </div>
-                      <small data-auto-id="dashboard-bulletin-published-at">
-                        {{moment-format bulletin.publishedAt}}
-                      </small>
-                    </td>
-                    <td>
+            <div class="list-group" data-auto-id="dashboard-bulletins">
+              {{#each model.bulletins as |bulletin|}}
+                <div class="list-group-item list-group-item-action" data-auto-id="dashboard-bulletin">
+                  <div class="list-group-item-heading" data-auto-id="dashboard-bulletin-name">
+                    {{bulletin.name}}
+                  </div>
+                  <div class="list-group-item-text">
+                    <small data-auto-id="dashboard-bulletin-published-at">
+                      {{moment-format bulletin.publishedAt}}
+                    </small>
+                    <div class="bulletin-actions">
                       {{#link-to 'bulletin.index' 'english-service' bulletin
-                                 class='btn btn-default'
+                                 class='btn btn-secondary'
                                  data-auto-id="dashboard-bulletin-show"}}
-                        Show
+                        <i class="icon-doc-text"></i>
                       {{/link-to}}
 
                       {{#link-to 'bulletin.edit' 'english-service' bulletin
-                                 class='btn btn-default'
+                                 class='btn btn-secondary'
                                  data-auto-id="dashboard-bulletin-edit"}}
-                        Edit
+                        <i class="icon-pencil"></i>
                       {{/link-to}}
-                    </td>
-                  </tr>
-                {{/each}}
-              </tbody>
-            </table>
+                    </div>
+                  </div>
+                </div>
+              {{/each}}
+            </div>
           </div>
         </div>
       </div>
