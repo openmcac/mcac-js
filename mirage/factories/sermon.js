@@ -25,6 +25,9 @@ export default Factory.extend({
   },
   bannerUrl() {
     return null;
+  },
+  tags() {
+    return faker.lorem.words(faker.random.number(4) + 1);
   }
 });
 

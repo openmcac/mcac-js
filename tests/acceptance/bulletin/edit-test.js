@@ -39,7 +39,8 @@ test("it displays the bulletin to be edited", assert => {
   const group = server.create("group");
   const sermon = server.create("sermon", {
     audioUrl: `${faker.internet.url()}/audio.mp3`,
-    notes: "these are shorter notes"
+    notes: "these are shorter notes",
+    tags: "faith,humility"
   });
   const bulletin = server.create("bulletin", {
     bannerUrl: `${faker.internet.url()}/banner.png`,
@@ -61,6 +62,7 @@ test("it displays the bulletin to be edited", assert => {
     assert.equal(page.sermon.speaker, sermon.speaker);
     assert.equal(page.sermon.series, sermon.series);
     assert.equal(page.sermon.name, sermon.name);
+    assert.equal(page.sermon.tags(), sermon.tags);
   });
 });
 
@@ -148,7 +150,9 @@ test("it updates the current bulletin", assert => {
     fillPublishedAt("05/27/1984 9:30 AM").
     fillServiceOrder("updated service order");
 
-  page.sermon.fillNotes("updated sermon notes");
+  page.sermon.
+    fillNotes("updated sermon notes").
+    fillTags("joy,prayer");
 
   page.announcements(0).
     fillUrl("http://updated.com").
@@ -171,6 +175,7 @@ test("it updates the current bulletin", assert => {
     equalDate(assert, updatedSermon.publishedAt, page.publishedAt);
     assert.equal(updatedSermon.audioUrl, page.sermon.audioUrl());
     assert.equal(updatedSermon.bannerUrl, page.bannerUrl());
+    assert.equal(updatedSermon.tags, page.sermon.tags());
 
     const updatedAnnouncement = server.db.announcements.find(announcement.id);
     const announcementEditor = page.announcements(0);
