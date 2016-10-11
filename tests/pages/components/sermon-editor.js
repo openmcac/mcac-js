@@ -12,7 +12,9 @@ export default {
   notes: PageObject.value(selector("notes")),
   series: PageObject.value(selector("series")),
   speaker: PageObject.value(selector("speaker")),
-  tags: PageObject.value(selector("tags")),
+  tags() {
+    return find(selector("tags")).val().split(",");
+  },
   audioUrl() {
     return find(`${selector("audio-preview")} *[data-auto-id='preview']`).
       attr("href");

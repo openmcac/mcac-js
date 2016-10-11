@@ -72,7 +72,7 @@ test("it can create a new bulletin", assert => {
     assert.equal(createdBulletin.name, bulletin.name);
     equalDate(assert, createdBulletin.publishedAt, bulletin.publishedAt);
     assert.equal(createdBulletin.serviceOrder, bulletin.serviceOrder);
-    assert.equal(createdSermon.tags, sermon.tags);
+    assert.equal(createdSermon.tags, sermon.tags.split(","));
     assert.equal(currentURL(), "/dashboard");
   });
 });

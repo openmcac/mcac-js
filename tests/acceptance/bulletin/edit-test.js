@@ -62,7 +62,7 @@ test("it displays the bulletin to be edited", assert => {
     assert.equal(page.sermon.speaker, sermon.speaker);
     assert.equal(page.sermon.series, sermon.series);
     assert.equal(page.sermon.name, sermon.name);
-    assert.equal(page.sermon.tags, sermon.tags);
+    assert.equal(page.sermon.tags(), sermon.tags);
   });
 });
 
@@ -175,7 +175,7 @@ test("it updates the current bulletin", assert => {
     equalDate(assert, updatedSermon.publishedAt, page.publishedAt);
     assert.equal(updatedSermon.audioUrl, page.sermon.audioUrl());
     assert.equal(updatedSermon.bannerUrl, page.bannerUrl());
-    assert.equal(updatedSermon.tags, page.sermon.tags);
+    assert.equal(updatedSermon.tags, page.sermon.tags());
 
     const updatedAnnouncement = server.db.announcements.find(announcement.id);
     const announcementEditor = page.announcements(0);

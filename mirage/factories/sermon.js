@@ -27,7 +27,7 @@ export default Factory.extend({
     return null;
   },
   tags() {
-    return "test1,test2";
+    return faker.lorem.words(faker.random.number(4) + 1);
   }
 });
 
