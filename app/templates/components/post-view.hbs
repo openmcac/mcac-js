@@ -11,8 +11,8 @@
   </div>
   {{#if post.bannerUrl}}
     <div class="banner"
-            style="background-image: url('{{post.bannerUrl}}')"
-            data-auto-id="post-view-banner">
+         style="background-image: url('{{cloudinary-fetch url=post.bannerUrl width=1920}}')"
+         data-auto-id="post-view-banner">
     </div>
   {{/if}}
   <div class="content" data-auto-id="content">
