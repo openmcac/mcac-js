@@ -21,6 +21,9 @@
       <div class="offset-md-1 col-md-10 offset-lg-2 col-lg-8">
         Want to know more about our church? Check out some of the groups within
         our church that may interest you.
+        {{#each g in model.group}}
+          <p>HELLO={{group.slug}}</p>
+        {{/each}}
       </div>
     </div>
     <div class="row">
