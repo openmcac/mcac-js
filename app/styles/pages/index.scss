@@ -40,6 +40,12 @@
     .group {
       text-align: center;
       margin-top: $padding-l;
+      margin-bottom: $padding-xl;
+
+      .profile-picture {
+        width: 200px;
+        height: 200px;
+      }
 
       .description {
         margin-top: $padding-m;

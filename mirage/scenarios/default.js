@@ -22,6 +22,7 @@ export default function(server) {
   }
 
   server.createList("post", 40, { group: englishService });
+  server.createList("group", 1);
 
   server.create("user", { email: "test@example.com", name: "Test User" });
 }
