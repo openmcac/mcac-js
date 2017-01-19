@@ -1,14 +1,12 @@
 import PageObject from '../../page-object';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import component from "mcac/tests/pages/components/bulletin-announcements";
-
-let page;
+import page from "mcac/tests/pages/components/bulletin-announcements";
 
 moduleForComponent('bulletin-announcements', 'Integration | Component | bulletin announcements', {
   integration: true,
-  beforeEach: () => { page = PageObject.create(component); },
-  afterEach: () => page.removeContext()
+  beforeEach() { page.setContext(this); },
+  afterEach() { page.removeContext() }
 });
 
 test('with announcements', function(assert) {
@@ -20,7 +18,7 @@ test('with announcements', function(assert) {
 
   this.set("announcements", announcements);
 
-  page.setContext(this).
+  page.
     render(hbs`{{bulletin-announcements announcements=announcements}}`);
 
   assert.equal(page.title, "Announcements");
@@ -31,7 +29,7 @@ test('with announcements', function(assert) {
 test('without announcements', function(assert) {
   this.set("announcements", []);
 
-  page.setContext(this).
+  page.
     render(hbs`{{bulletin-announcements announcements=announcements}}`);
 
   assert.ok(page.noAnnouncementsIndicatorShown());

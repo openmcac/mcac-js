@@ -1,6 +1,8 @@
-import { create, visitable, clickable } from 'ember-cli-page-object';
+import PageObject from '../page-object';
 
-export default create({
+const { visitable, clickable } = PageObject;
+
+export default PageObject.create({
   visit: visitable('/'),
   viewOnlineSermons: clickable(selector("listen-sermons-button"))
 });
