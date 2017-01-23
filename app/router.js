@@ -47,50 +47,12 @@ Ember.Route.reopen({
 });
 
 Router.map(function() {
-  // Workaround: https://github.com/emberjs/ember.js/issues/13921
-  // wildcard routes need to be at the top
-  this.route("dashboard", function() {});
-  this.route("bulletin/sunday", { path: "/sunday" }, function() {});
-  this.route("not-found", { path: "*path" });
-  // END WORKAROUND 13921
-
+  this.route("index", { path: "/" });
+  this.route("bulletin/sunday", { path: "sunday" });
+  this.route("dashboard");
   this.route("group", { path: ":group_slug" }, function() {
-    this.route("index", { path: "/" }, function() {});
-    this.route("edit", function() {});
-
-    this.route("bulletins", { resetNamespace: true, path: "bulletins" }, function() {
-      this.route("new", function() {
-        this.route("announcements");
-      });
+    this.route("post", { path: ":year/:month/:day/:post_id/:slug" }, function() {
     });
-
-    this.route("bulletin", { resetNamespace: true, path: "bulletins/:bulletin_id" }, function() {
-      this.route("edit");
-    });
-
-    this.route("post", { resetNamespace: true, path: "" }, function() {
-      this.route("index", { path: ":year/:month/:day/:post_id/:slug" }, function() {});
-      this.route("edit", { path: "post/:post_id/edit" }, function() {});
-    });
-
-    this.route("page", { resetNamespace: true, path: ":slug" }, function() {
-      this.route("index", { path: "/" }, function() {});
-    });
-
-    this.route('posts', { resetNamespace: true, path: 'posts' }, function() {
-      this.route('new', function() {});
-    });
-  });
-
-  this.route("login");
-  this.route("logout");
-
-  this.route('groups', function() {
-    this.route('new');
-  });
-
-  this.route('settings', function() {
-    this.route('password');
   });
 });
 
