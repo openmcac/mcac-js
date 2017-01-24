@@ -4,9 +4,7 @@ import Ember from 'ember';
 export default Ember.Route.extend(AuthenticatedRouteMixin, {
   defaultAnnouncementsService: Ember.inject.service("populate-default-announcements"),
   model: function() {
-    const bulletin = this.modelFor("bulletin");
-    bulletin.set("group", this.modelFor("group"));
-
+    const bulletin = this.modelFor("group.bulletin");
     const store = this.get("store");
 
     bulletin.get("sermon").then((sermon) => {
