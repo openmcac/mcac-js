@@ -47,16 +47,29 @@ Ember.Route.reopen({
 });
 
 Router.map(function() {
+  this.route("not-found", { path: "*path" });
   this.route("index", { path: "/" });
   this.route("bulletin/sunday", { path: "sunday" });
-  this.route("dashboard");
+  this.route("dashboard", function() {});
   this.route("group", { path: ":group_slug" }, function() {
     this.route("post", { path: ":year/:month/:day/:post_id/:slug" }, function() {
     });
 
     this.route("bulletin", { path: "bulletins/:bulletin_id" }, function() {
+      this.route("edit");
+    });
+
+    this.route("bulletins", { path: "bulletins" }, function() {
+      this.route("new");
     });
   });
+
+  this.route("settings", function() {
+    this.route("password");
+  });
+
+  this.route("login");
+  this.route("logout");
 });
 
 export default Router;
