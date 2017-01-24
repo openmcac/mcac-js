@@ -53,6 +53,9 @@ Router.map(function() {
   this.route("group", { path: ":group_slug" }, function() {
     this.route("post", { path: ":year/:month/:day/:post_id/:slug" }, function() {
     });
+
+    this.route("bulletin", { path: "bulletins/:bulletin_id" }, function() {
+    });
   });
 });
 
