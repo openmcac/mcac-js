@@ -12,7 +12,8 @@ export default Ember.Service.extend({
     try {
       const sermon = yield bulletin.get("sermon");
       if (hasSermon(sermon)) {
-        syncBulletinToSermon(bulletin, sermon);
+        const group = yield bulletin.get("group");
+        syncBulletinToSermon(bulletin, group, sermon);
         yield this.get("_saveResourceTask").perform(sermon);
         bulletin.set("sermon", sermon);
       }
@@ -55,8 +56,8 @@ function hasSermon(sermon) {
         Ember.isEmpty(sermon.get("notes"))));
 }
 
-function syncBulletinToSermon(bulletin, sermon) {
+function syncBulletinToSermon(bulletin, group, sermon) {
+  sermon.set("group", group);
   sermon.set("publishedAt", bulletin.get("publishedAt"));
   sermon.set("bannerUrl", bulletin.get("bannerUrl"));
-  sermon.set("group", bulletin.get("group"));
 }
