@@ -8,7 +8,7 @@ export default Ember.Controller.extend({
       Pace.restart();
       _this.get("model").save().then(function(post) {
         Pace.stop();
-        _this.transitionToRoute("post.edit", post);
+        _this.transitionToRoute("group.post.edit", post.group.slug, post);
       });
     }
   }

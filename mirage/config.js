@@ -69,6 +69,7 @@ export default function() {
     return schema.posts.all();
   });
 
+  this.post("/posts");
   this.patch("/posts/:id");
 
   this.get("/sunday", function(schema) {
