@@ -52,8 +52,8 @@ export default function() {
 
   this.get("/posts", function(schema, request) {
     const groupId = request.queryParams["filter[group]"];
-    const pageSize = parseInt(request.queryParams["page[size]"]);
-    const pageNumber = parseInt(request.queryParams["page[number]"]);
+    const pageSize = parseInt(request.queryParams["page[size]"] || 15);
+    const pageNumber = parseInt(request.queryParams["page[number]"] || 1);
 
     if (groupId) {
       const group = schema.groups.find(groupId);
@@ -68,6 +68,8 @@ export default function() {
 
     return schema.posts.all();
   });
+
+  this.patch("/posts/:id");
 
   this.get("/sunday", function(schema) {
     return schema.bulletins.find(3);
