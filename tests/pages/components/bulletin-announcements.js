@@ -5,7 +5,7 @@ const { text, collection } = PageObject;
 const ANNOUNCEMENT_LIST_SCOPE =
   "*[data-auto-id='bulletin-announcements'] *[data-auto-id='announcement']";
 
-export default PageObject.create({
+export default {
   title: text(selector("title")),
   announcements: collection({
     itemScope: ANNOUNCEMENT_LIST_SCOPE,
@@ -16,7 +16,7 @@ export default PageObject.create({
   noAnnouncementsIndicatorShown() {
     return $.find(selector("no-announcements")).length > 0;
   },
-});
+};
 
 function selector(s) {
   return `*[data-auto-id="bulletin-announcements"] *[data-auto-id="${s}"]`;
