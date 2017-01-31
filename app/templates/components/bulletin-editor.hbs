@@ -21,7 +21,7 @@
                 <label class="control-label">Name {{errors.bulletin.name}}</label>
                 {{input value=bulletin.name
                         class="form-control bulletin-name"
-                        data-auto-id="bulletin-name"}}
+                        data-auto-id="name"}}
               </div>
             </div>
             <div class="row">
@@ -31,7 +31,7 @@
                 {{bs-datetimepicker class="published-at"
                                     date=bulletin.publishedAt
                                     updateDate=(action (mut bulletin.publishedAt))
-                                    data-auto-id="bulletin-published-at"}}
+                                    data-auto-id="published-at"}}
               </div>
             </div>
             <div class="row">
@@ -52,7 +52,7 @@
                 <label for="serviceOrder">Order</label>
                 {{textarea value=bulletin.serviceOrder
                            class="form-control service-order"
-                           data-auto-id="bulletin-service-order"
+                           data-auto-id="service-order"
                            rows="10"}}
               </div>
             </div>
@@ -93,7 +93,7 @@
       <button {{action (action this.attrs.onsave bulletin)}}
           class="btn btn-primary save-bulletin"
           disabled={{disableSaveButton}}
-          data-auto-id="bulletin-submit-bottom">
+          data-auto-id="submit">
         Save
       </button>
     </div>
