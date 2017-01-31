@@ -60,7 +60,7 @@ Router.map(function() {
       this.route("new");
     });
 
-    this.route("bulletin", { path: "bulletins/:bulletin_id" }, function() {
+    this.route("bulletin", { path: "bulletin/:bulletin_id" }, function() {
       this.route("edit");
     });
 

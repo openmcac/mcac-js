@@ -1,5 +1,6 @@
 import { authenticateSession } from 'mcac/tests/helpers/ember-simple-auth';
 import { test } from 'qunit';
+import Ember from 'ember';
 import moduleForAcceptance from 'mcac/tests/helpers/module-for-acceptance';
 import page from "mcac/tests/pages/group/bulletins/new";
 import sessionData from 'mcac/tests/helpers/payloads/sessionData';
@@ -10,6 +11,9 @@ let application;
 moduleForAcceptance('Acceptance | group/bulletins/new', {
   beforeEach() {
     application = startApp();
+  },
+  afterEach() {
+    Ember.run(application, 'destroy');
   }
 });
 
