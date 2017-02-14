@@ -10,6 +10,8 @@ export default function() {
     );
   });
 
+  this.passthrough('/write-coverage');
+
   this.namespace = "/api/v1";
 
   this.delete("/announcements/:id");
@@ -21,8 +23,18 @@ export default function() {
   this.get("/bulletins/:id/sermon");
   this.patch("/bulletins/:id");
   this.post("/bulletins");
+  this.delete("/bulletins/:id");
 
-  this.get("/groups");
+  this.get("/groups", function(schema, request) {
+    if (schema.groups.all().models.length > 0 &&
+        request.queryParams["filter[slug]"]) {
+      return schema.groups.
+        where({ slug: request.queryParams["filter[slug]"] });
+    }
+
+    return schema.groups.all();
+  });
+
   this.get("/groups/:id");
   this.post("/groups");
 
