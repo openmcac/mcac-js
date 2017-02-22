@@ -5,15 +5,14 @@ export default Ember.Route.extend({
     return model.get("title");
   },
   model(params) {
-    return this.store.findRecord("post", params.post_id).then((post) => {
-      if (post.get("isPage")) {
-        this.transitionTo("page", post.get("slug"));
-      } else if (invalidUrl(post, params)) {
-        this.transitionTo("post", post);
-      }
+    const post = this.modelFor("group.post");
+    if (post.get("isPage")) {
+      this.transitionTo("group.page", post.get("slug"));
+    } else if (invalidUrl(post, params)) {
+      this.transitionTo("group.post", post);
+    }
 
-      return post;
-    });
+    return post;
   },
   serialize(model) {
     var publishedAt = model.get("publishedAt");

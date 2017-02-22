@@ -1,6 +1,4 @@
-import PageObject from '../../page-object';
-
-const { text } = PageObject;
+import { text } from 'ember-cli-page-object';
 
 export default {
   title: text(selector("title")),
