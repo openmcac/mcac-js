@@ -5,7 +5,7 @@
     </h1>
   {{/if}}
   <div class="details">
-    {{#link-to "group.post.index" group.slug post}}
+    {{#link-to "group.post.index" post}}
       <span data-auto-id="published-at">{{displayPublishedAt}}</span>
     {{/link-to}}
   </div>
@@ -22,7 +22,7 @@
       {{#if post.showReadMoreLink}}
         <div class="read-more">
           <div class="read-more-handle">
-            {{#link-to "group.post.index" group.slug post}}
+            {{#link-to "group.post.index" post}}
               <i class="icon icon-angle-right"></i>
               Read more
             {{/link-to}}

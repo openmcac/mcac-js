@@ -20,20 +20,27 @@ test('visiting /group/post/index', function(assert) {
   server.create("post", {
     id: 22,
     group,
-    publishedAt: new Date(2000, 10, 9, 8, 7),
-    slug: "my-test-post"
+    publishedAt: Date.parse("2015-03-06T04:01:33+00:00"),
+    slug: "my-test-post",
+    title: "My Test Post",
+    content: "My Test Content",
+    bannerUrl: "http://image.com/banner.png"
   });
 
   page.visit({
     groupSlug: group.slug,
-    year: 2000,
-    month: 11,
-    day: "09",
+    year: 2015,
+    month: "03",
+    day: "06",
     slug: "my-test-post",
     id: 22
   });
 
   andThen(function() {
-    assert.equal(currentURL(), '/english-service/2000/11/09/22/my-test-post');
+    assert.equal(currentURL(), '/english-service/2015/03/06/22/my-test-post');
+    assert.equal(page.post.publishedAt, "March 5 at 11:01pm");
+    assert.equal(page.post.title, "My Test Post");
+    assert.equal(page.post.content, "My Test Content");
+    assert.equal(page.post.bannerUrl(), "http://image.com/banner.png");
   });
 });

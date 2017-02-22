@@ -13,18 +13,18 @@
         <td>{{post.publishedAt}}</td>
         <td>
           {{#if post.isPost}}
-            {{#link-to "group.post.index" post.group.slug post class='btn btn-default show-post'}}
+            {{#link-to "group.post.index" post class='btn btn-default show-post'}}
               Show
             {{/link-to}}
           {{/if}}
 
           {{#if post.isPage}}
-            {{#link-to "group.page.index" post.group.slug post class='btn btn-default show-post'}}
+            {{#link-to "group.page.index" post class='btn btn-default show-post'}}
               Show
             {{/link-to}}
           {{/if}}
 
-          {{#link-to 'group.post.edit' post.group.slug post class='btn btn-primary edit-post'}}
+          {{#link-to 'group.post.edit' post class='btn btn-primary edit-post'}}
             Edit
           {{/link-to}}
 

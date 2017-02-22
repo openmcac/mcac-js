@@ -7,23 +7,12 @@ export default Ember.Route.extend({
   model(params) {
     const post = this.modelFor("group.post");
     if (post.get("isPage")) {
-      this.transitionTo("group.page", post.get("slug"));
+      this.transitionTo("group.page.index", post);
     } else if (invalidUrl(post, params)) {
-      this.transitionTo("group.post", post);
+      this.transitionTo("group.post.index", post);
     }
 
     return post;
-  },
-  serialize(model) {
-    var publishedAt = model.get("publishedAt");
-
-    return {
-      day: pad(publishedAt.getUTCDate(), 2),
-      month: pad(publishedAt.getUTCMonth() + 1, 2),
-      post_id: model.get("id"),
-      slug: model.get("slug"),
-      year: publishedAt.getUTCFullYear()
-    };
   }
 });
 
@@ -34,10 +23,4 @@ function invalidUrl(post, params) {
          parseInt(publishedAt.getUTCFullYear()) !== params.year ||
          parseInt(publishedAt.getUTCMonth() + 1) !== params.month ||
          parseInt(publishedAt.getUTCDate()) !== params.day;
-}
-
-function pad(n, width, z) {
-  z = z || "0";
-  n = n + "";
-  return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
 }
