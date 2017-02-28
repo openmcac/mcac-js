@@ -1,10 +1,10 @@
-<form class="post-form" action="#">
+<form class="post-form" action="#" data-auto-id="post-form">
   <div class="row">
     <section class="service-information col-lg-6">
       <div class="row">
         <div class="form-group col-lg-10">
           <label for="postTitle">Title</label>
-          {{input value=post.title class="form-control post-title"}}
+          {{input value=post.title class="form-control post-title posttitle" data-auto-id="title"}}
         </div>
       </div>
       <div class="row">
@@ -19,7 +19,7 @@
       <div class="row">
         <div class="form-group col-lg-10">
           <label for="tagList">Tags</label>
-          {{input value=post.tagList class="form-control tags"}}
+          {{input value=post.tagList class="form-control tags" data-auto-id="tags"}}
         </div>
       </div>
       <div class="row">
@@ -27,13 +27,13 @@
           <label for="content">Content</label>
           {{markdown-textarea value=post.content
                               class="form-control content"
-                              rows="10"}}
+                              rows="10" data-auto-id="content"}}
         </div>
       </div>
       <div class="row">
-        <div class="form-group col-lg-10" data-auto-id="kind">
+        <div class="form-group col-lg-10">
           <label>Kind</label>
-          {{#x-select value=post.kind class="form-control"}}
+          {{#x-select value=post.kind class="form-control" data-auto-id="kind"}}
             {{#x-option value="post"}}Post{{/x-option}}
             {{#x-option value="page"}}Page{{/x-option}}
           {{/x-select}}

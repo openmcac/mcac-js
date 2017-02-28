@@ -17,7 +17,7 @@ moduleForAcceptance('Acceptance | group/bulletins/edit', {
   }
 });
 
-test('creating a new bulletin', function(assert) {
+test('updating an existing bulletin', function(assert) {
   const group = server.create("group");
   const bulletin = server.create("bulletin", { group });
   const announcements = server.createList("announcement", 3, { bulletin });
