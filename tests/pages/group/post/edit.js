@@ -1,8 +1,11 @@
-import { create, visitable, fillable, value } from 'ember-cli-page-object';
+import { create, visitable, fillable, value, selectable, clickable } from 'ember-cli-page-object';
 
 export default create({
   visit: visitable('/:groupSlug/:year/:month/:day/:postId/:slug/edit'),
   fillInTitle: fillable(selector("title")),
+  fillInContent: fillable(selector("content")),
+  fillInTags: fillable(selector("tags")),
+  selectKind: selectable(selector("kind")),
   title: value(selector("title")),
   content: value(selector("content")),
   kind: value(selector("kind")),
@@ -11,7 +14,8 @@ export default create({
   },
   tags() {
     return find(`${selector("tags")}`).val().split(",").map(s => s.trim());
-  }
+  },
+  save: clickable(selector("save"))
 });
 
 function selector(s) {

@@ -49,3 +49,43 @@ test('visiting /group/post/edit', function(assert) {
     assert.equal(page.kind, "post");
   });
 });
+
+test('Editing a post', function(assert) {
+  server.create("post", {
+    id: 2,
+    group: server.create("group", { slug: "english-service" }),
+    bannerUrl: "http://example.com/banner.jpg",
+    title: "My Test Post",
+    slug: "my-test-post",
+    content: "My content",
+    kind: "post",
+    tags: ["tag1, tag2, tag3"]
+  });
+
+  authenticateSession(application, sessionData);
+
+  page.visit({
+    groupSlug: "english-service",
+    year: "2000",
+    month: "11",
+    day: "24",
+    postId: "2",
+    slug: "my-test-post"
+  });
+
+  page.
+    fillInTitle("Updated title").
+    fillInContent("Updated content").
+    selectKind("post").
+    fillInTags("tag2, tag3, tag4").
+    save();
+
+  andThen(function() {
+    const updatedPost = server.db.posts.find(2);
+    assert.equal(updatedPost.title, "Updated title");
+    assert.equal(updatedPost.content, "Updated content");
+    assert.equal(updatedPost.bannerUrl, "http://example.com/banner.jpg");
+    assert.deepEqual(updatedPost.tags, ["tag2", "tag3", "tag4"]);
+    assert.equal(updatedPost.kind, "post");
+  });
+});
