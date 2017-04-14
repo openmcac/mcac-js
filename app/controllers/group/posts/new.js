@@ -2,13 +2,11 @@ import Ember from "ember";
 
 export default Ember.Controller.extend({
   actions: {
-    save: function () {
-      var _this = this;
-
+    save() {
       Pace.restart();
-      _this.get("model").save().then(function(post) {
+      this.get("model").save().then((post) => {
         Pace.stop();
-        _this.transitionToRoute("group.post.edit", post.group.slug, post);
+        this.transitionToRoute("group.post.edit", post.group.slug, post);
       });
     }
   }

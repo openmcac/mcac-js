@@ -81,7 +81,13 @@ export default function() {
     return schema.posts.all();
   });
 
-  this.post("/posts");
+  this.post("/posts", function(schema, request) {
+    const params = JSON.parse(request.requestBody)
+    params.data.attributes["published-at"] = new Date().toISOString();
+    params.data.attributes["slug"] = Math.random().toString(36).substring(7);
+    return schema.posts.create(params.data.attributes);
+  });
+
   this.patch("/posts/:id");
 
   this.get("/sunday", function(schema) {
