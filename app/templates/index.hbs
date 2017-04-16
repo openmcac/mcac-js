@@ -24,7 +24,20 @@
       </div>
     </div>
     <div class="row">
-      <div class="offset-md-2 col-md-4 group">
+      <div class="col-md-4 group">
+        {{#link-to "group.index" "45th-anniversary"}}
+          <img src={{cloudinary-fetch url="https://mcac.s3.amazonaws.com/groups/90dbc5af-c2b0-459e-bc58-898c2d1defee.jpg"
+                                      width=200
+                                      radius="max"
+                                      height=200 crop="fill"}} />
+        {{/link-to}}
+        <div class="description">
+          {{#link-to "group.index" "45th-anniversary"}}
+            45th Anniversary
+          {{/link-to}}
+        </div>
+      </div>
+      <div class="col-md-4 group">
         {{#link-to "group.index" "childrens-church"}}
           <img src={{cloudinary-fetch url="https://mcac.s3.amazonaws.com/groups/fabe359d-8611-4112-b675-842cd40ef57e.jpg"
                                       width=200
