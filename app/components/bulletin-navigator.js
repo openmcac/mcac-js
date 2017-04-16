@@ -36,6 +36,6 @@ function transitionToBulletinFromResponse(store, router, data) {
   store.pushPayload("bulletin", data);
   let bulletin = store.peekRecord('bulletin', data.data.id);
   bulletin.get("group").then((group) => {
-    router.transitionTo("bulletin.index", group.get("slug"), bulletin);
+    router.transitionTo("group.bulletin.index", group.get("slug"), bulletin);
   });
 }

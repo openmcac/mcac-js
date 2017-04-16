@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import BSDatetimePickerComponent from 'ember-bootstrap-datetimepicker/components/bs-datetimepicker';
+import XSelect from 'emberx-select/components/x-select';
 
 export default {
   name: "data-attribute",
@@ -19,6 +20,10 @@ export default {
     });
 
     BSDatetimePickerComponent.reopen({
+      attributeBindings: [attributeName]
+    });
+
+    XSelect.reopen({
       attributeBindings: [attributeName]
     });
   }

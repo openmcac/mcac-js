@@ -10,6 +10,8 @@ export default function() {
     );
   });
 
+  this.passthrough('/write-coverage');
+
   this.namespace = "/api/v1";
 
   this.delete("/announcements/:id");
@@ -21,8 +23,18 @@ export default function() {
   this.get("/bulletins/:id/sermon");
   this.patch("/bulletins/:id");
   this.post("/bulletins");
+  this.delete("/bulletins/:id");
 
-  this.get("/groups");
+  this.get("/groups", function(schema, request) {
+    if (schema.groups.all().models.length > 0 &&
+        request.queryParams["filter[slug]"]) {
+      return schema.groups.
+        where({ slug: request.queryParams["filter[slug]"] });
+    }
+
+    return schema.groups.all();
+  });
+
   this.get("/groups/:id");
   this.post("/groups");
 
@@ -52,8 +64,8 @@ export default function() {
 
   this.get("/posts", function(schema, request) {
     const groupId = request.queryParams["filter[group]"];
-    const pageSize = parseInt(request.queryParams["page[size]"]);
-    const pageNumber = parseInt(request.queryParams["page[number]"]);
+    const pageSize = parseInt(request.queryParams["page[size]"] || 15);
+    const pageNumber = parseInt(request.queryParams["page[number]"] || 1);
 
     if (groupId) {
       const group = schema.groups.find(groupId);
@@ -68,6 +80,15 @@ export default function() {
 
     return schema.posts.all();
   });
+
+  this.post("/posts", function(schema, request) {
+    const params = JSON.parse(request.requestBody)
+    params.data.attributes["published-at"] = new Date().toISOString();
+    params.data.attributes["slug"] = Math.random().toString(36).substring(7);
+    return schema.posts.create(params.data.attributes);
+  });
+
+  this.patch("/posts/:id");
 
   this.get("/sunday", function(schema) {
     return schema.bulletins.find(3);

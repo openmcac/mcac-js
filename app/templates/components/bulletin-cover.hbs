@@ -8,7 +8,7 @@
         {{bulletin.sermonName}}
       </div>
       <div data-auto-id="name" class="name">
-        {{#link-to "bulletin.index" bulletin.group.slug bulletin}}{{bulletin.name}}{{/link-to}}
+        {{#link-to "group.bulletin.index" bulletin.group.slug bulletin}}{{bulletin.name}}{{/link-to}}
       </div>
     </h1>
     {{#with bulletin.sermonAudioUrl as |url|}}

@@ -25,6 +25,5 @@ function imageUrl(elementSelector) {
 
   const cloudinaryUrl = backgroundImageStyle.substring(4, backgroundImageStyle.length - 1);
 
-  debugger;
   return cloudinaryUrl.replace("https://res.cloudinary.com/cloudinary-test/image/fetch/w_1920/", "");
 }

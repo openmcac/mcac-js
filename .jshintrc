@@ -1,11 +1,11 @@
 {
   "predef": [
-    "server",
     "-Promise",
     "Pace",
     "document",
     "marked",
     "moment",
+    "server",
     "window"
   ],
   "boss": true,

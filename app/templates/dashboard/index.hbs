@@ -7,7 +7,7 @@
         <h3 class="card-header">Bulletins</h3>
         <div class="card-block">
           <div class="card-text">
-            {{#link-to 'bulletins.new' 'english-service'
+            {{#link-to 'group.bulletins.new' 'english-service'
                        class='btn btn-secondary create-bulletin'
                        data-auto-id="dashboard-bulletins-create"}}
               Create
@@ -23,13 +23,13 @@
                       {{moment-format bulletin.publishedAt}}
                     </small>
                     <div class="bulletin-actions">
-                      {{#link-to 'bulletin.index' 'english-service' bulletin
+                      {{#link-to 'group.bulletin.index' 'english-service' bulletin
                                  class='btn btn-secondary'
                                  data-auto-id="dashboard-bulletin-show"}}
                         <i class="icon-doc-text"></i>
                       {{/link-to}}
 
-                      {{#link-to 'bulletin.edit' 'english-service' bulletin
+                      {{#link-to 'group.bulletin.edit' 'english-service' bulletin
                                  class='btn btn-secondary'
                                  data-auto-id="dashboard-bulletin-edit"}}
                         <i class="icon-pencil"></i>
@@ -59,4 +59,4 @@
     </div>
   </div>
 </div>
-{{liquid-outlet}}
+{{outlet}}

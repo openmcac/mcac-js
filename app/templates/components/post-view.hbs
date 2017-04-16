@@ -1,11 +1,11 @@
 <article class="post" data-auto-id="post-view">
   {{#if post.title}}
     <h1 data-auto-id="title">
-      {{#link-to "post.index" post}}{{post.title}}{{/link-to}}
+      {{#link-to "group.post.index" post}}{{post.title}}{{/link-to}}
     </h1>
   {{/if}}
   <div class="details">
-    {{#link-to "post.index" post}}
+    {{#link-to "group.post.index" post}}
       <span data-auto-id="published-at">{{displayPublishedAt}}</span>
     {{/link-to}}
   </div>
@@ -22,7 +22,7 @@
       {{#if post.showReadMoreLink}}
         <div class="read-more">
           <div class="read-more-handle">
-            {{#link-to "post.index" post}}
+            {{#link-to "group.post.index" post}}
               <i class="icon icon-angle-right"></i>
               Read more
             {{/link-to}}

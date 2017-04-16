@@ -1,0 +1,12 @@
+<div class="container bulletin-form" data-auto-id="bulletin-form">
+  <h2>Add a bulletin</h2>
+  {{bulletin-editor bulletin=model
+      appendannouncement=(action "appendAnnouncement")
+      diduploadaudio=(action "didUploadAudio")
+      diduploadbanner=(action "didUploadBanner")
+      clearbanner=(action "clearBanner")
+      clearaudio=(action "clearAudio")
+      onsave=(action "saveBulletin")
+      removeannouncement=(action "removeAnnouncement")
+      reorderannouncements=(action "reorderAnnouncements")}}
+</div>

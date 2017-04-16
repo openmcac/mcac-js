@@ -1,6 +1,4 @@
-import PageObject from '../../page-object';
-
-const { text } = PageObject;
+import { text } from 'ember-cli-page-object';
 
 export default {
   title: text(selector("title")),
@@ -23,7 +21,8 @@ function imageUrl(elementSelector) {
     css("background-image").
     replace(/['"]+/g, '');
 
-  const cloudinaryUrl = backgroundImageStyle.substring(4, backgroundImageStyle.length - 1);
+  const cloudinaryUrl = backgroundImageStyle.
+    substring(4, backgroundImageStyle.length - 1);
 
-  return cloudinaryUrl.replace("https://res.cloudinary.com/cloudinary-test/image/fetch/w_1920/", "");
+  return cloudinaryUrl.substring(cloudinaryUrl.lastIndexOf("http"));
 }
