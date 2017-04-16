@@ -54,7 +54,7 @@ footer {
     font-style: italic;
   }
 
-  @media only screen and (min-width: $medium-device-break) {
+  @media only screen and (min-width: $small-device-break) {
     border-width: 0 1px;
     border-style: solid;
     border-color: $gray-extralight;
