@@ -15,7 +15,7 @@
     background-size: cover;
     color: $white;
     margin: $padding-m -15px 0 -15px;
-    padding: 110px $padding-l $padding-l $padding-l;
+    padding: $banner-ratio $padding-l $padding-l $padding-l;
     position: relative;
   }
 
@@ -82,8 +82,6 @@
   }
 
   .banner {
-    padding-top: 200px;
-
     img {
       width: 100%;
     }
@@ -134,7 +132,6 @@
     border-width: $padding-xs;
 
     .banner {
-      padding-top: 200px;
       margin-left: -10px;
       margin-right: -10px;
     }
