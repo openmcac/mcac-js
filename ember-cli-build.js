@@ -40,7 +40,10 @@ module.exports = function(defaults) {
       enabled: isProductionLikeBuild
     },
     dotEnv: {
-      clientAllowedKeys: ["CLOUDINARY_CLOUD_NAME"],
+      clientAllowedKeys: [
+        "CLOUDINARY_CLOUD_NAME",
+        "DOMAIN"
+      ],
       path: {
         development: ".env",
         test: ".env.test",
