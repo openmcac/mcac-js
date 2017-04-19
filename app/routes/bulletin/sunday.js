@@ -1,7 +1,11 @@
 import Ember from 'ember';
+import headTags from "mcac/utils/head-tags/bulletin/sunday";
 
 export default Ember.Route.extend({
   ajax: Ember.inject.service(),
+  headTags: function() {
+    return headTags(this.modelFor(this.routeName));
+  },
   titleToken(model) {
     return model.get("name");
   },
