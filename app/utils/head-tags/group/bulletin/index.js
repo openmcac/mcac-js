@@ -1,7 +1,8 @@
 import ENV from "mcac/config/environment";
 
-export default function(bulletin) {
-  const canonicalUrl = `${ENV["DOMAIN"]}/english-service/bulletins/${bulletin.get("id")}`;
+export default function(group, bulletin) {
+  const canonicalUrl =
+    `${ENV["DOMAIN"]}/${group.get("slug")}/bulletins/${bulletin.get("id")}`;
 
   return [{
     type: 'meta',
@@ -39,4 +40,4 @@ export default function(bulletin) {
       href: canonicalUrl
     }
   }];
-};
+}

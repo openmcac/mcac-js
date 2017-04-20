@@ -1,10 +1,9 @@
-import headTagsBulletinSunday from 'mcac/utils/head-tags/bulletin/sunday';
 import { module, test } from 'qunit';
-import headTags from 'mcac/utils/head-tags/bulletin/sunday';
+import headTags from 'mcac/utils/head-tags/group/bulletin/index';
 import Ember from 'ember';
 import ENV from "mcac/config/environment";
 
-module('Unit | Utility | head tags/bulletin/sunday');
+module('Unit | Utility | head tags/group/bulletin/index');
 
 test("it populates opengraph tags", function(assert) {
   const bulletin = Ember.Object.create({
@@ -13,7 +12,11 @@ test("it populates opengraph tags", function(assert) {
     bannerUrl: "https://example.com/banner.jpg"
   });
 
-  const actualTags = headTags(bulletin);
+  const group = Ember.Object.create({
+    slug: "random-group"
+  });
+
+  const actualTags = headTags(group, bulletin);
 
   const expectedTags = [{
     type: 'meta',
@@ -41,14 +44,14 @@ test("it populates opengraph tags", function(assert) {
     tagId: 'meta-og-url',
     attrs: {
       property: 'og:url',
-      content: `${ENV["DOMAIN"]}/english-service/bulletins/123`
+      content: `${ENV["DOMAIN"]}/random-group/bulletins/123`
     }
   }, {
     type: 'link',
     tagId: 'link-canonical',
     attrs: {
       rel: 'canonical',
-      href: `${ENV["DOMAIN"]}/english-service/bulletins/123`
+      href: `${ENV["DOMAIN"]}/random-group/bulletins/123`
     }
   }];
 
