@@ -5,7 +5,7 @@
     "bootstrap": "4.0.0-alpha.4",
     "bootstrap-markdown": "2.8.0",
     "ceibo": "1.1.0",
-    "ember": "2.10.0",
+    "ember": "2.12.1",
     "ember-load-initializers": "ember-cli/ember-load-initializers#0.1.5",
     "ember-qunit-notifications": "0.1.0",
     "ember-resolver": "0.1.15",
@@ -26,6 +26,6 @@
   "resolutions": {
     "bootstrap": "4.0.0-alpha.4",
     "moment": "2.8.0",
-    "ember": "2.10.0"
+    "ember": "2.12.1"
   }
 }
