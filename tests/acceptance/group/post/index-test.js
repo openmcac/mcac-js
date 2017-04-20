@@ -1,3 +1,5 @@
+/* global server:false */
+
 import Ember from 'ember';
 import { test } from 'qunit';
 import moduleForAcceptance from 'mcac/tests/helpers/module-for-acceptance';

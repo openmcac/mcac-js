@@ -1,3 +1,5 @@
+/* global server:false */
+
 import Ember from 'ember';
 import { authenticateSession } from 'mcac/tests/helpers/ember-simple-auth';
 import { test } from 'qunit';

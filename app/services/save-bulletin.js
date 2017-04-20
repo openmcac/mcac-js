@@ -1,3 +1,5 @@
+/* global moment:false */
+
 import Ember from 'ember';
 import { task } from 'ember-concurrency';
 
@@ -27,6 +29,7 @@ export default Ember.Service.extend({
 
       success = true;
     } catch (e) {
+      // no-op
     }
 
     return success;

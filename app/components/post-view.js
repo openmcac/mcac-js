@@ -1,3 +1,5 @@
+/* global moment:false */
+
 import Ember from 'ember';
 
 const TIMEZONE = "America/Montreal";
