@@ -1,10 +1,11 @@
 import ENV from "mcac/config/environment";
+import Ember from "ember";
 
 export default function(group, bulletin) {
   const canonicalUrl =
-    `${ENV["DOMAIN"]}/${group.get("slug")}/bulletins/${bulletin.get("id")}`;
+    `${ENV["DOMAIN"]}/${group.get("slug")}/bulletin/${bulletin.get("id")}`;
 
-  return [{
+  const tags = [{
     type: 'meta',
     tagId: 'meta-og-title',
     attrs: {
@@ -17,13 +18,6 @@ export default function(group, bulletin) {
     attrs: {
       property: 'og:description',
       content: "Join us every Sunday at 9:30am!"
-    }
-  }, {
-    type: 'meta',
-    tagId: 'meta-og-image',
-    attrs: {
-      property: 'og:image',
-      content: `https://res.cloudinary.com/${ENV["CLOUDINARY_CLOUD_NAME"]}/image/fetch/w_1200/${bulletin.get("bannerUrl")}`
     }
   }, {
     type: 'meta',
@@ -40,4 +34,19 @@ export default function(group, bulletin) {
       href: canonicalUrl
     }
   }];
+
+  const bannerUrl = Ember.isEmpty(bulletin.get("bannerUrl")) ?
+    "https://mcac.s3.amazonaws.com/bulletins/3e22317c-3b06-40d1-82c9-3c8a0ef2c41c." :
+    `https://res.cloudinary.com/${ENV["CLOUDINARY_CLOUD_NAME"]}/image/fetch/w_1200/${bulletin.get("bannerUrl")}`;
+
+  tags.push({
+    type: 'meta',
+    tagId: 'meta-og-image',
+    attrs: {
+      property: 'og:image',
+      content: bannerUrl
+    }
+  });
+
+  return tags;
 }
