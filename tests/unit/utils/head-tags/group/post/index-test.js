@@ -17,7 +17,7 @@ test("it populates opengraph tags", function(assert) {
     name: "Random Group"
   });
 
-  const actualTags = headTags(group, post);
+  const actualTags = headTags(group, post, stubRouter(assert));
 
   const expectedTags = [{
     type: 'meta',
@@ -32,6 +32,20 @@ test("it populates opengraph tags", function(assert) {
     attrs: {
       property: 'og:image',
       content: `https://res.cloudinary.com/${ENV["CLOUDINARY_CLOUD_NAME"]}/image/fetch/w_1200/https://example.com/banner.jpg`
+    }
+  }, {
+    type: 'meta',
+    tagId: 'meta-og-url',
+    attrs: {
+      property: 'og:url',
+      content: `${ENV["DOMAIN"]}/stubbed-post-route`
+    }
+  }, {
+    type: 'link',
+    tagId: 'link-canonical',
+    attrs: {
+      rel: 'canonical',
+      href: `${ENV["DOMAIN"]}/stubbed-post-route`
     }
   }];
 
@@ -49,10 +63,22 @@ test("without a banner", function(assert) {
     name: "Random Group"
   });
 
-  const ogImage = headTags(group, post).filter(t => t.tagId === "meta-og-image")[0];
+  const ogImage = headTags(group, post, stubRouter(assert))
+    .filter(t => t.tagId === "meta-og-image")[0];
 
   assert.equal(
     ogImage.attrs.content,
     "https://mcac.s3.amazonaws.com/bulletins/3e22317c-3b06-40d1-82c9-3c8a0ef2c41c."
   );
 });
+
+function stubRouter(assert) {
+  return {
+    generate(route, post) {
+      assert.equal(route, "group.post.index");
+      assert.equal(post.get("id"), 123);
+
+      return "/stubbed-post-route";
+    }
+  }
+}

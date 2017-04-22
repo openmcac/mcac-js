@@ -17,6 +17,6 @@ export default Ember.Route.extend({
   },
   headTags() {
     const bulletin = this.modelFor(this.routeName);
-    return headTags(bulletin.get("group"), bulletin);
+    return headTags(bulletin.get("group"), bulletin, this.router);
   }
 });

@@ -6,7 +6,7 @@ const KIND_POST = 0;
 
 export default Ember.Route.extend(Pagination, {
   headTags: function() {
-    return headTags(this.modelFor(this.routeName).group);
+    return headTags(this.modelFor(this.routeName).group, this.router);
   },
   model(params) {
     const group = this.modelFor("group");

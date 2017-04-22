@@ -1,3 +1,4 @@
+import ENV from "mcac/config/environment";
 export default [
   {
     type: 'meta',
@@ -25,14 +26,14 @@ export default [
     tagId: 'meta-og-url',
     attrs: {
       property: 'og:url',
-      content: "https://mcac.church"
+      content: ENV["DOMAIN"]
     }
   }, {
     type: 'link',
     tagId: 'canonical-link',
     attrs: {
       rel: 'canonical',
-      content: 'https://mcac.church'
+      content: ENV["DOMAIN"]
     }
   }
 ];

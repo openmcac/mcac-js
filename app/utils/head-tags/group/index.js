@@ -1,7 +1,8 @@
 import ENV from "mcac/config/environment";
 
-export default function(group) {
-  const canonicalUrl = `${ENV["DOMAIN"]}/${group.get("slug")}`;
+export default function(group, router) {
+  const path = router.generate("group.index", group.get("slug"));
+  const canonicalUrl = `${ENV["DOMAIN"]}${path}`;
 
   return [{
     type: 'meta',

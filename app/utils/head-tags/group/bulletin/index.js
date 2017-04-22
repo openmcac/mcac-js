@@ -1,15 +1,14 @@
 import ENV from "mcac/config/environment";
 import Ember from "ember";
 
-export default function(group, bulletin) {
-  const canonicalUrl =
-    `${ENV["DOMAIN"]}/${group.get("slug")}/bulletin/${bulletin.get("id")}`;
-
+export default function(group, bulletin, router) {
+  const path = router.generate("group.bulletin.index", group.get("slug"), bulletin);
+  const canonicalUrl = `${ENV["DOMAIN"]}${path}`;
   const bannerUrl = Ember.isEmpty(bulletin.get("bannerUrl")) ?
     "https://mcac.s3.amazonaws.com/bulletins/3e22317c-3b06-40d1-82c9-3c8a0ef2c41c." :
     `https://res.cloudinary.com/${ENV["CLOUDINARY_CLOUD_NAME"]}/image/fetch/w_1200/${bulletin.get("bannerUrl")}`;
 
-  const tags = [{
+  return [{
     type: 'meta',
     tagId: 'meta-og-title',
     attrs: {
@@ -45,6 +44,4 @@ export default function(group, bulletin) {
       content: bannerUrl
     }
   }];
-
-  return tags;
 }
