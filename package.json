@@ -81,7 +81,7 @@
     "loader.js": "4.2.3",
     "moment": "2.17.1",
     "moment-timezone": "0.5.11",
-    "node-sass": "3.4.2",
+    "node-sass": "4.5.2",
     "rsvp": "3.5.0"
   },
   "private": true
