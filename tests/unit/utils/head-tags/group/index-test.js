@@ -5,6 +5,17 @@ import ENV from "mcac/config/environment";
 
 module('Unit | Utility | head tags/group/index');
 
+function stubRouter(assert) {
+  return {
+    generate(route, groupSlug) {
+      assert.equal(route, "group.index");
+      assert.equal(groupSlug, "test-group");
+
+      return `/${groupSlug}`;
+    }
+  }
+}
+
 test("it populates opengraph tags", function(assert) {
   const group = Ember.Object.create({
     name: "My Group",
@@ -13,7 +24,7 @@ test("it populates opengraph tags", function(assert) {
     slug: "test-group"
   });
 
-  const actualTags = headTags(group);
+  const actualTags = headTags(group, stubRouter(assert));
 
   const expectedTags = [{
     type: 'meta',
