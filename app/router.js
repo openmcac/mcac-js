@@ -1,3 +1,5 @@
+/* global Pace:false */
+
 import Ember from "ember";
 import config from "./config/environment";
 import RouterScroll from 'ember-router-scroll'; 

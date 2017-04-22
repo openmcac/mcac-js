@@ -1,3 +1,5 @@
+/* global moment:false */
+
 function upcomingSunday(now) {
   var montrealMoment = moment(now).tz('America/Montreal');
 

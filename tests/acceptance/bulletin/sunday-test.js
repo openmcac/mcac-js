@@ -1,3 +1,5 @@
+/* global server:false */
+
 import { test } from 'qunit';
 import moduleForAcceptance from 'mcac/tests/helpers/module-for-acceptance';
 import page from "mcac/tests/pages/bulletin/sunday";

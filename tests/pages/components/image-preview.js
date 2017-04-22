@@ -1,3 +1,5 @@
+/* global $:false */
+
 import PageObject from '../../page-object';
 
 const { clickable } = PageObject;
