@@ -5,7 +5,7 @@ export default Ember.Route.extend({
   headTags() {
     const post = this.modelFor("group.post");
     const group = this.modelFor("group");
-    return headTags(group, post);
+    return headTags(group, post, this.router);
   },
   titleToken(model) {
     return model.get("title");
