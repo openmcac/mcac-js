@@ -5,7 +5,20 @@ import ENV from "mcac/config/environment";
 
 module('Unit | Utility | head tags/group/bulletin/index');
 
-test("it populates opengraph tags", function(assert) { const bulletin = Ember.Object.create({
+function stubRouter(assert) {
+  return {
+    generate(route, groupSlug, bulletin) {
+      assert.equal(route, "group.bulletin.index");
+      assert.equal(groupSlug, "random-group");
+      assert.equal(bulletin.get("id"), 123);
+
+      return `/${groupSlug}/bulletin/${bulletin.get("id")}`;
+    }
+  }
+}
+
+test("it populates opengraph tags", function(assert) {
+  const bulletin = Ember.Object.create({
     id: 123,
     name: "My Bulletin",
     bannerUrl: "https://example.com/banner.jpg"
@@ -15,7 +28,7 @@ test("it populates opengraph tags", function(assert) { const bulletin = Ember.Ob
     slug: "random-group"
   });
 
-  const actualTags = headTags(group, bulletin);
+  const actualTags = headTags(group, bulletin, stubRouter(assert));
 
   const expectedTags = [{
     type: 'meta',
@@ -67,7 +80,8 @@ test("without a banner", function(assert) {
     slug: "random-group"
   });
 
-  const ogImage = headTags(group, bulletin).filter(t => t.tagId === "meta-og-image")[0];
+  const ogImage = headTags(group, bulletin, stubRouter(assert))
+    .filter(t => t.tagId === "meta-og-image")[0];
 
   assert.equal(
     ogImage.attrs.content,
