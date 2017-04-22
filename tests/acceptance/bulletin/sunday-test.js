@@ -9,10 +9,12 @@ moduleForAcceptance('Acceptance | bulletin/sunday');
 test('visiting /sunday', function(assert) {
   const hardcodedSundayBulletinId = 3;
   const sermon = server.create("sermon");
+  const group = server.create("group");
   const bulletin = server.create("bulletin", {
     id: hardcodedSundayBulletinId,
     publishedAt: new Date(2000, 11, 10, 9, 30),
-    sermon: sermon
+    sermon,
+    group
   });
   const announcements = server.createList("announcement", 3, { bulletin });
 
