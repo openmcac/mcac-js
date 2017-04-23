@@ -1,7 +1,7 @@
 import Mirage from "ember-cli-mirage";
 
 export default function() {
-  this.post("/api/auth/sign_in", function(schema, request) {
+  this.post("/api/auth/sign_in", function(schema) {
     const user = schema.db.users.find(1);
     return new Mirage.Response(
         200,
