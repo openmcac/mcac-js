@@ -8,7 +8,7 @@ export default Ember.Route.extend({
   },
   model: function() {
     var _this = this;
-    return this.get("ajax").request('/api/v1/sunday?include=group').then(function(data) {
+    return this.get("ajax").request('/api/v1/sunday?include=group,announcements,sermon').then(function(data) {
       var store = _this.get('store');
       store.pushPayload("bulletin", data);
       var results = store.peekRecord('bulletin', data.data.id);
