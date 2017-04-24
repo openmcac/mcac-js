@@ -13,7 +13,6 @@
     "jquery": "1.11.3",
     "loader.js": "ember-cli/loader.js#3.2.0",
     "lodash": "3.7.0",
-    "marked": "0.3.2",
     "moment": "2.8.0",
     "moment-timezone": "0.1.0",
     "pace": "1.0.2",

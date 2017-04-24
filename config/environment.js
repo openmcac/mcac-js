@@ -23,10 +23,6 @@ module.exports = function(environment) {
     cloudinary: {
       cloudName: process.env.CLOUDINARY_CLOUD_NAME
     },
-    marked: {
-      js: false,
-      highlightjs: false
-    },
     resizeServiceDefaults: {
       debounceTimeout: 100,
       heightSensitive: true,

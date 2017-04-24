@@ -1,5 +1,3 @@
-/* global marked:false */
-
 import Ember from "ember";
 import DS from "ember-data";
 
@@ -22,9 +20,6 @@ export default DS.Model.extend({
       return value;
     }
   }),
-  contentHtml: Ember.computed("content", function() {
-    return markedOrEmptyString(this.get("content"));
-  }),
   isPost: Ember.computed("kind", function() {
     return this.get("kind") === "post";
   }),
@@ -34,8 +29,8 @@ export default DS.Model.extend({
   showReadMoreLink: Ember.computed("content", function() {
     return this.get("content").length > 650;
   }),
-  snippetHtml: Ember.computed("content", function() {
-    return marked(this.get("content").substring(0, 600));
+  snippet: Ember.computed("content", function() {    
+    return this.get("content").substring(0, 600);
   })
 });
 
@@ -46,12 +41,4 @@ function getTags(context) {
 
 function tagListToArray(tagList) {
   return tagList.split(/\s*,\s*/);
-}
-
-function markedOrEmptyString(markdown) {
-  if (Ember.isEmpty(markdown)) {
-    return "";
-  }
-
-  return marked(markdown);
 }
