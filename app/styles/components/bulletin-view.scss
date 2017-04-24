@@ -36,12 +36,15 @@
         margin-bottom: 0;
       }
 
-      strong:first-child.legacy-hack {
+      strong:first-child {
         font-family: 'Arapey', serif;
         font-size: 36px;
         font-style: italic;
         font-weight: 400;
-        display: block;
+
+        &.legacy-hack {
+          display: block
+        }
       }
     }
   }

@@ -15,7 +15,7 @@ export default function(server) {
     const sermon = server.create("sermon");
     const bulletin = server.create("bulletin", {
       group: englishService,
-      serviceOrder: "- **Call to Worship**\n- **Praise & Worship**\n- **<a href='#announcements'>Announcements</a>**\n- **Offering**\n- <strong class='legacy-hack'>Sermon</strong>\n  Rev. Ryan Lee  \nJob 1\n- **Doxology**\n- **Benediction**",
+      serviceOrder: "- **Call to Worship**\n- **Praise & Worship**\n- <a href='#announcements'>**Announcements**</a>\n- **Offering**\n- <strong class='legacy-hack'>Sermon</strong>\n  Rev. Ryan Lee  \nJob 1\n- **Doxology**\n- **Benediction**",
       sermon
     });
     server.createList("announcement", 5, { bulletin });
