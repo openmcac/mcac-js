@@ -3,7 +3,7 @@
   <ol>
     {{#each announcements as |announcement|}}
     <li data-auto-id="announcement">
-      <div data-auto-id="description">{{{announcement.descriptionHtml}}}</div>
+      <div data-auto-id="description">{{markdown-to-html announcement.description}}</div>
     </li>
     {{else}}
     <li data-auto-id="no-announcements">No announcements yet.</li>

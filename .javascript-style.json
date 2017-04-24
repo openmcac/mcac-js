@@ -3,7 +3,6 @@
     "-Promise",
     "Pace",
     "document",
-    "marked",
     "moment",
     "window",
     "fillIn",

@@ -1,6 +1,3 @@
-/* global marked:false */
-
-import Ember from 'ember';
 import DS from 'ember-data';
 
 export default DS.Model.extend({
@@ -12,8 +9,5 @@ export default DS.Model.extend({
   post: DS.belongsTo('post', {
     async: false
   }),
-  url: DS.attr('string'),
-  descriptionHtml: Ember.computed('description', function() {
-    return marked(this.get('description') || '');
-  })
+  url: DS.attr('string')
 });

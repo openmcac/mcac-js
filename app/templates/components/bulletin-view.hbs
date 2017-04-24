@@ -8,7 +8,7 @@
     <div class="container">
       <div class="row">
         <section data-auto-id="service-order" class="col-md-12 col-lg-3 service-order">
-          {{{bulletin.serviceOrderHtml}}}
+          {{markdown-to-html bulletin.serviceOrder}}
         </section>
         <div class="col-md-12 col-lg-9 secondary-info">
           <section class="col-md-6 col-lg-7 announcements">
@@ -17,7 +17,7 @@
           </section>
           <section class="col-md-6 col-lg-5 sermon-notes">
             <a name="sermon-notes"></a>
-            {{sermon-notes notes=bulletin.sermonNotesHtml}}
+            {{sermon-notes notes=bulletin.sermonNotes}}
           </section>
         </div>
       </div>

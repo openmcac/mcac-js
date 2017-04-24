@@ -20,8 +20,8 @@ export default DS.Model.extend({
   sermonName: Ember.computed("sermon.name", function() {
     return this.get("sermon.name");
   }),
-  sermonNotesHtml: Ember.computed("sermon.notes", function() {
-    return markedOrEmptyString(this.get("sermon.notes"));
+  sermonNotes: Ember.computed("sermon.notes", function() {
+    return this.get("sermon.notes");
   }),
   sortedAnnouncements: Ember.computed('announcements.@each.position',
                                       function() {

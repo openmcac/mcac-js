@@ -17,7 +17,7 @@
   {{/if}}
   <div class="content" data-auto-id="content">
     {{#if snippets}}
-      {{{page.snippetHtml}}}
+      {{markdown-to-html page.snippet}}
 
       {{#if page.showReadMoreLink}}
         <div class="read-more">
@@ -30,7 +30,7 @@
         </div>
       {{/if}}
     {{else}}
-      {{{page.contentHtml}}}
+      {{markdown-to-html page.content}}
     {{/if}}
   </div>
 </article>

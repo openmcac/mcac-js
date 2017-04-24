@@ -35,13 +35,14 @@
       &:last-child {
         margin-bottom: 0;
       }
-    }
 
-    h2 {
-      font-family: 'Arapey', serif;
-      font-size: 36px;
-      font-style: italic;
-      font-weight: 400;
+      strong:first-child.legacy-hack {
+        font-family: 'Arapey', serif;
+        font-size: 36px;
+        font-style: italic;
+        font-weight: 400;
+        display: block;
+      }
     }
   }
 
