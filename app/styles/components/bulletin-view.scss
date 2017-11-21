@@ -60,6 +60,15 @@
     }
   }
 
+  .sermon-notes {
+    blockquote {
+      border-color: $gray-light;
+      border-left-style: solid;
+      border-left-width: 1px;
+      padding-left: $padding-m;
+    }
+  }
+
   @media only screen and
     (min-width: $medium-device-break) and
     (max-width: $large-device-break) {
