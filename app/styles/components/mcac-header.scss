@@ -22,6 +22,11 @@
       &.word {
         top: -5px;
       }
+
+      &.clinks {
+        a { color: $black; }
+        float: right;
+      }
     }
 
     i.logo {
