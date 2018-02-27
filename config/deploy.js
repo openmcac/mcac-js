@@ -21,7 +21,7 @@ module.exports = function(deployTarget) {
 
   if (deployTarget === 'staging') {
     ENV.build.environment = "staging";
-    ENV.redis.host = "localhost"
+    ENV.redis.url = process.env.redisUrl;
     ENV.s3.accessKeyId = process.env.aws_access_key_id;
     ENV.s3.secretAccessKey = process.env.aws_secret_access_key;
     ENV.s3.bucket = "mcac-staging";
@@ -32,7 +32,7 @@ module.exports = function(deployTarget) {
       host: process.env.sshHost
     }
 
-    ENV.plugins = ["build", "revision-data", "s3", "ssh-tunnel", "redis"];
+    ENV.plugins = ["build", "revision-data", "s3", "redis"];
   }
 
   if (deployTarget === 'production') {
